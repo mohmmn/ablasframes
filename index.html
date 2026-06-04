@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ablas Frames — Portfolio</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <nav class="navbar" id="main-nav">
+    <span class="serif logo" data-target="homepage">ablas frames</span>
+    <div class="sans nav-links">
+      <span class="nav-drop" data-target="chapters-page">Chapitres ▾</span>
+      <span data-target="about-page">À propos</span>
+      <span data-target="contact-page">Contact</span>
+    </div>
+  </nav>
+
+  <main class="content-wrapper">
+
+    <section id="homepage" class="page active">
+      <div class="hero">
+        <div class="texture-overlay"></div>
+        <div class="gradient-overlay"></div>
+        <div class="hero-text">
+          <p class="sans subtitle">Portfolio</p>
+          <h1 class="serif title">Fragments of my reality</h1>
+          <div class="divider"></div>
+          <p class="sans category">Photographie</p>
+        </div>
+        <a class="cta-scroll" data-target="chapters-page">
+          Explorer les chapitres
+          <i class="ti ti-chevron-down"></i>
+        </a>
+      </div>
+
+      <div class="container sections-padding">
+        <p class="serif section-title">Chapitres récents</p>
+        <div class="grid-3">
+          <div class="card-chapter" data-chapter="thailand">
+            <div class="card-bg thumb-thailand">
+              <div class="card-overlay"></div>
+              <div class="card-content">
+                <p class="sans tag">Travel</p>
+                <p class="serif chapter-name">Thailand on Film</p>
+              </div>
+              <div class="badge-dot dot-orange"></div>
+            </div>
+          </div>
+          <div class="card-chapter" data-chapter="highlands">
+            <div class="card-bg thumb-highlands">
+              <div class="card-overlay"></div>
+              <div class="card-content">
+                <p class="sans tag">Travel</p>
+                <p class="serif chapter-name">Walking in the Highlands</p>
+              </div>
+              <div class="badge-dot dot-pink"></div>
+            </div>
+          </div>
+          <div class="card-chapter" data-chapter="amsterdam">
+            <div class="card-bg thumb-amsterdam">
+              <div class="card-overlay"></div>
+              <div class="card-content">
+                <p class="sans tag">Travel</p>
+                <p class="serif chapter-name">A Weekend in Amsterdam</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chapter-thailand" class="page theme-thailand">
+      <div class="chapter-header">
+        <div class="chapter-meta">
+          <div class="badge-dot dot-orange"></div>
+          <span class="sans tag-text">Travel</span>
+        </div>
+        <h1 class="serif page-title">Thailand on Film</h1>
+        <p class="sans lead-text">Au cœur du tumulte de Bangkok et du silence des rizières, j'ai laissé l'argentique décider. Ces images sont des fragments — imparfaits, vivants, vrais. Un voyage qui ne ressemble à aucun autre.</p>
+      </div>
+
+      <div class="chapter-hero thumb-thailand-wide">
+        <div class="stripe-overlay"></div>
+        <span class="sans hero-caption">Photo principale</span>
+      </div>
+
+      <div class="container sections-padding">
+        <p class="sans gallery-title">Galerie · 8 photos</p>
+        <div class="gallery-grid" data-gallery="thailand">
+          <div class="gallery-item item-1" data-index="0"><div class="hover-overlay"><i class="ti ti-zoom-in"></i></div></div>
+          <div class="gallery-item item-2" data-index="1"></div>
+          <div class="gallery-item item-3" data-index="2"></div>
+          <div class="gallery-item item-4" data-index="3"></div>
+          <div class="gallery-item item-5" data-index="4"></div>
+          <div class="gallery-item item-6" data-index="5"></div>
+          <div class="gallery-item item-7" data-index="6"></div>
+          <div class="gallery-item item-8" data-index="7"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chapter-highlands" class="page theme-highlands">
+      <div class="chapter-header">
+        <div class="chapter-meta">
+          <div class="badge-dot dot-pink"></div>
+          <span class="sans tag-text">Travel</span>
+        </div>
+        <h1 class="serif page-title">Walking in the Highlands</h1>
+        <p class="sans lead-text">Une brume persistante, l'odeur de la tourbe et des kilomètres de lande silencieuse. Écosse, automne. Le temps ralenti.</p>
+      </div>
+
+      <div class="chapter-hero thumb-highlands-wide">
+        <div class="stripe-overlay"></div>
+      </div>
+
+      <div class="container sections-padding">
+        <p class="sans gallery-title">Galerie · 6 photos</p>
+        <div class="gallery-grid" data-gallery="highlands">
+          <div class="gallery-item item-1" data-index="0"><div class="hover-overlay"><i class="ti ti-zoom-in"></i></div></div>
+          <div class="gallery-item item-2" data-index="1"></div>
+          <div class="gallery-item item-3" data-index="2"></div>
+          <div class="gallery-item item-4" data-index="3"></div>
+          <div class="gallery-item item-5" data-index="4"></div>
+          <div class="gallery-item item-6" data-index="5"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="chapters-page" class="page">
+      <div class="container sections-padding">
+        <h1 class="serif page-title mb-24">Chapitres</h1>
+        
+        <div class="filters-group">
+          <button class="sans filter-btn active" data-filter="all">Tous</button>
+          <button class="sans filter-btn" data-filter="wildlife">Wildlife</button>
+          <button class="sans filter-btn" data-filter="travel">Travel</button>
+          <button class="sans filter-btn" data-filter="portraits">Portraits</button>
+          <button class="sans filter-btn" data-filter="events">Events</button>
+        </div>
+
+        <div class="grid-3" id="filterable-grid">
+          <div class="filterable-item grid-card-chapter" data-category="travel" data-chapter="thailand">
+            <div class="grid-card-thumb thumb-thailand"></div>
+            <div class="grid-card-meta">
+              <p class="serif grid-card-title">Thailand on Film</p>
+              <p class="sans grid-card-tag tag-orange">Travel</p>
+            </div>
+          </div>
+          <div class="filterable-item grid-card-chapter" data-category="travel" data-chapter="highlands">
+            <div class="grid-card-thumb thumb-highlands"></div>
+            <div class="grid-card-meta">
+              <p class="serif grid-card-title">Walking in the Highlands</p>
+              <p class="sans grid-card-tag tag-green">Travel</p>
+            </div>
+          </div>
+          <div class="filterable-item grid-card-chapter" data-category="travel" data-chapter="amsterdam">
+            <div class="grid-card-thumb thumb-amsterdam"></div>
+            <div class="grid-card-meta">
+              <p class="serif grid-card-title">A Weekend in Amsterdam</p>
+              <p class="sans grid-card-tag tag-gold">Travel</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about-page" class="page">
+      <div class="container-sm text-center sections-padding">
+        <p class="serif section-title text-center mb-32">À propos</p>
+        <h1 class="serif page-title text-center mb-28">Je capture ce que l'œil oublie d'ordinaire.</h1>
+        <div class="mini-divider"></div>
+        <p class="sans text-body">Photographe indépendante basée à Paris. Je travaille à l'argentique et au numérique, avec une obsession commune : la lumière naturelle, l'instant non posé, l'imperfection qui dit vrai. Mon travail tourne autour du voyage, du vivant et des gens.</p>
+      </div>
+    </section>
+
+    <section id="contact-page" class="page">
+      <div class="container-sm sections-padding">
+        <p class="serif section-title mb-32">Contact</p>
+        <h1 class="serif page-title mb-32">Dites bonjour.</h1>
+        <form class="contact-form" onsubmit="event.preventDefault();">
+          <input type="text" class="sans form-input" placeholder="Nom" />
+          <input type="email" class="sans form-input" placeholder="Email" />
+          <textarea class="sans form-input form-textarea" placeholder="Message" rows="4"></textarea>
+          <button type="submit" class="sans btn-submit">Envoyer</button>
+        </form>
+        <div class="contact-footer">
+          <a href="#" class="sans contact-link">
+            <i class="ti ti-brand-instagram" aria-hidden="true"></i> @ablasframes
+          </a>
+          <a href="#" class="sans contact-link">
+            <i class="ti ti-mail" aria-hidden="true"></i> hello@ablasframes.com
+          </a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-close" id="lightbox-close">
+      <i class="ti ti-x"></i>
+    </div>
+    <div class="lightbox-arrow arrow-left" id="lightbox-prev">
+      <i class="ti ti-arrow-left"></i>
+    </div>
+    <div class="lightbox-arrow arrow-right" id="lightbox-next">
+      <i class="ti ti-arrow-right"></i>
+    </div>
+    <div class="lightbox-viewer">
+      <div class="lightbox-display" id="lightbox-display"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
