@@ -12,3 +12,12 @@ On aimerais pouvoir cliquer sur les photos du chapitre afin de les ouvrir dans u
 
 Les photos vont devoir être adaptés pour charger le plus vite possible sans perdre de la qualité et améliorer la vitesse du site. 
 la palette doit etre neutre colorée feminine 
+
+
+
+GARDER QUAND MEME UNE BANNIERE, avec une fleche qui scroll vers le livre (découvrez mon histoire) , 
+
+avoir un livre beaucoup plus personnel pas juste un simple livre, un truc avec un effet ancien ... , quelque chose de plus fourni, être capable de savoir si on clique sur la page droite ou bien a gauche (sur le livre) pour pouvoir tourner les pages intuitivement. Avant d'être sur le livre, le titre doit vraiment être en gros dans la bannière. 
+
+les etoiles plus grosses et plus apparentes, je veux que les étoiles dans le light mode soient roses.
+

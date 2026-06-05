@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragments of my reality — ablas frames · Maquette 3 (Carnet ancien)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ============================================================
+   MAQUETTE 3 — Carnet ANCIEN · sépia/doré (aucun rose)
+   ============================================================ */
+:root{
+  --bg:#F4E9D8;            /* crème vieilli (= fond du site ET du livre) */
+  --bg-soft:#EADBC2;
+  --paper:#F4E9D8;         /* le livre garde la couleur de fond du site */
+  --text:#473726;          /* encre sépia */
+  --muted:#8A7456;
+  --faint:#B3997A;
+  --line:rgba(71,55,38,.12);
+  --line-strong:rgba(71,55,38,.26);
+  --gold:#B08D57;          /* dorure ancienne */
+  --sage:#9DAA78;
+  --accent:#9A6B3F;        /* cognac (accent principal, remplace le rose) */
+  --accent-d:#7E5430;
+  --star:#D9B36A;          /* étoiles ambre/doré (aucun rose) */
+  --star-glow:rgba(217,179,106,.65);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --maxw:1200px;
+}
+[data-theme="night"]{
+  --bg:#2A2620;
+  --bg-soft:#332E26;
+  --paper:#2A2620;
+  --text:#F0E7D8;
+  --muted:#C3B49A;
+  --faint:#8E8068;
+  --line:rgba(255,255,255,.09);
+  --line-strong:rgba(255,255,255,.2);
+  --gold:#E7C16B;
+  --sage:#C3CD96;
+  --accent:#C99A5E;
+  --accent-d:#B5854A;
+  --star:#F0D38A;
+  --star-glow:rgba(240,211,138,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);}
+.serif{font-family:'Cormorant Garamond',serif;}
+.hw{font-family:'Petit Formal Script',cursive;}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px;position:relative;z-index:2;}
+.wrap-sm{max-width:640px;margin:0 auto;padding:0 48px;position:relative;z-index:2;}
+section.pad{padding:104px 0;}
+
+/* ===================== STARFIELD (modéré, doré/ambre) ===================== */
+#sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:var(--star);box-shadow:0 0 8px 1px var(--star-glow);animation:tw ease-in-out infinite;}
+.sparkle-svg{position:absolute;animation:tw ease-in-out infinite;filter:drop-shadow(0 0 4px var(--star-glow));}
+@keyframes tw{0%,100%{opacity:.35;transform:scale(.85);}50%{opacity:.95;transform:scale(1.12);}}
+
+#progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:300;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .15s linear;}
+
+/* ===================== NAVBAR (logo centré, espacé) ===================== */
+.nav{position:sticky;top:0;z-index:200;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 64px;gap:48px;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:.5px solid var(--line);
+  transition:background .6s var(--ease),border-color .6s;}
+.nav-left{display:flex;gap:52px;justify-self:start;}
+.nav-right{display:flex;gap:52px;align-items:center;justify-self:end;}
+.nav a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;cursor:pointer;position:relative;padding:6px 0;transition:color .35s;white-space:nowrap;}
+.nav a::after{content:"";position:absolute;left:50%;bottom:0;width:0;height:.5px;background:var(--accent);transition:.45s var(--ease);transform:translateX(-50%);}
+.nav a:hover,.nav a.current{color:var(--text);}.nav a:hover::after,.nav a.current::after{width:100%;}
+.nav-logo{justify-self:center;text-align:center;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.nav-logo .crown{display:flex;align-items:center;gap:7px;}.nav-logo .crown .ln{width:22px;height:.5px;background:var(--line-strong);}
+.nav-logo .name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:25px;letter-spacing:.04em;line-height:1;color:var(--text);}
+.nav-logo .role{font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--faint);}
+.toggle{width:46px;height:24px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;cursor:pointer;position:relative;flex-shrink:0;}
+.toggle .knob{position:absolute;top:2.5px;left:2.5px;width:18px;height:18px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:11px;transition:transform .45s var(--ease);}
+[data-theme="night"] .toggle .knob{transform:translateX(22px);}
+.navchip{display:none;align-items:center;gap:7px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.navchip .dot{width:7px;height:7px;border-radius:50%;}.navchip.show{display:flex;}
+
+.page{display:none;}.page.active{display:block;animation:pin .7s var(--ease);}
+@keyframes pin{from{opacity:0;transform:translateY(10px) scale(1.006);}to{opacity:1;transform:none;}}
+.reveal{opacity:0;transform:translateY(22px);transition:.9s var(--ease);}.reveal.in{opacity:1;transform:none;}
+
+/* ===================== BANNIÈRE (photo en fond + titre TRÈS grand) ===================== */
+.banner{position:relative;min-height:calc(100vh - 76px);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:80px 24px;overflow:hidden;}
+/* >>> Pour une vraie photo : remplacez `background` ci-dessous par
+       background:url('mon-image.jpg') center/cover no-repeat;  <<< */
+.banner .bg{position:absolute;inset:0;z-index:0;
+  background:linear-gradient(150deg,#4a3a26 0%,#7c5e36 38%,#b78f4e 72%,#e3c585 100%);background-size:cover;background-position:center;}
+.banner .grain{position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.5'/></svg>");}
+.banner .veil{position:absolute;inset:0;z-index:1;background:
+   linear-gradient(180deg,rgba(28,20,12,.42),rgba(28,20,12,.30) 45%,rgba(28,20,12,.55)),
+   radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(20,14,8,.4) 100%);}
+.banner-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;}
+.banner .kicker{font-size:13px;letter-spacing:.5em;text-transform:uppercase;color:#ECCF92;margin-bottom:30px;text-shadow:0 1px 12px rgba(0,0,0,.4);opacity:0;animation:rise 1.1s var(--ease) .2s forwards;}
+.banner h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;line-height:.92;color:#FBF3E6;
+  font-size:clamp(58px,12.5vw,176px);letter-spacing:.005em;text-shadow:0 4px 40px rgba(0,0,0,.4);opacity:0;animation:rise 1.3s var(--ease) .4s forwards;}
+.banner h1 .of{display:block;font-size:.42em;font-style:normal;color:#ECCF92;letter-spacing:.06em;margin-top:.12em;text-shadow:0 2px 20px rgba(0,0,0,.4);}
+.banner .ornz{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:38px;opacity:0;animation:rise 1.3s var(--ease) .7s forwards;}
+.banner .ornz .ln{width:80px;height:.5px;background:rgba(251,243,230,.45);}
+.banner .tagline{margin-top:22px;font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:rgba(251,243,230,.72);text-shadow:0 1px 10px rgba(0,0,0,.4);opacity:0;animation:rise 1.3s var(--ease) .9s forwards;}
+@keyframes rise{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;}}
+/* flèche centrée (pleine largeur, donc parfaitement centrée) */
+.discover{position:absolute;bottom:30px;left:0;right:0;z-index:3;display:flex;flex-direction:column;align-items:center;gap:12px;
+  cursor:pointer;color:rgba(251,243,230,.82);font-size:11px;letter-spacing:.28em;text-transform:uppercase;transition:color .3s;
+  opacity:0;animation:rise 1.2s var(--ease) 1.2s forwards;}
+.discover:hover{color:#fff;}
+.discover .ring{width:46px;height:46px;border-radius:50%;border:.5px solid rgba(251,243,230,.5);display:flex;align-items:center;justify-content:center;}
+.discover .ring i{font-size:18px;animation:bob 2.2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(-3px);}50%{transform:translateY(4px);}}
+
+/* ===================== LE CARNET ANCIEN ===================== */
+.book-section{padding:80px 0 120px;position:relative;z-index:2;}
+.book-section .lead{text-align:center;margin-bottom:48px;}
+.book-section .lead .e{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.book-section .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);}
+
+.book-outer{display:flex;flex-direction:column;align-items:center;}
+.book-wrap{perspective:3000px;perspective-origin:50% 42%;}
+/* le livre : couleur de fond du site, effet ancien par texture + ombres */
+.book{position:relative;padding:16px;border-radius:12px;background:var(--bg-soft);
+  box-shadow:0 50px 80px -22px rgba(60,40,20,.4),inset 0 0 0 1px var(--line);}
+.book::after{content:"";position:absolute;inset:8px;border-radius:7px;border:1px solid var(--gold);opacity:.4;pointer-events:none;}
+.book-inner{position:relative;width:min(980px,88vw);height:min(610px,56vw);transform-style:preserve-3d;}
+.book-inner::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:24px;transform:translateX(-50%);z-index:6;pointer-events:none;
+  background:linear-gradient(90deg,rgba(60,40,20,.22),rgba(60,40,20,.04) 45%,rgba(60,40,20,.04) 55%,rgba(60,40,20,.22));}
+/* épaisseur du livre : piles de tranches de pages aux fore-edges, variables selon la progression */
+.stack{position:absolute;top:7px;bottom:7px;width:0;z-index:1;pointer-events:none;background:var(--paper);
+  background-image:repeating-linear-gradient(to bottom,rgba(90,60,30,.20) 0 1px,transparent 1px 4px);
+  transition:width .55s var(--ease);}
+.stack-r{left:100%;border-radius:0 4px 4px 0;box-shadow:3px 0 9px rgba(60,40,18,.28),inset -1px 0 0 rgba(90,60,30,.25);}
+.stack-l{right:100%;border-radius:4px 0 0 4px;box-shadow:-3px 0 9px rgba(60,40,18,.28),inset 1px 0 0 rgba(90,60,30,.25);}
+.leftbase{position:absolute;top:0;left:0;width:50%;height:100%;border-radius:5px 0 0 5px;overflow:hidden;
+  background:var(--paper);box-shadow:inset -16px 0 30px -18px rgba(60,40,15,.4);}
+.pages{position:absolute;top:0;left:50%;width:50%;height:100%;transform-style:preserve-3d;}
+.leaf{position:absolute;top:0;left:0;width:100%;height:100%;transform-origin:left center;transform-style:preserve-3d;transition:transform 1.15s var(--ease);}
+.leaf.flipped{transform:rotateY(-180deg);}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--paper);}
+.face.front{border-radius:0 5px 5px 0;box-shadow:inset 16px 0 30px -18px rgba(60,40,15,.4);}
+.face.back{transform:rotateY(180deg);border-radius:5px 0 0 5px;box-shadow:inset -16px 0 30px -18px rgba(60,40,15,.4);}
+/* papier vieilli */
+.face::before,.leftbase::before{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.45;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.5'/></svg>");}
+.face::after,.leftbase::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(80,50,18,.14) 100%),
+             radial-gradient(circle at 18% 22%,rgba(110,72,28,.08),transparent 16%),
+             radial-gradient(circle at 84% 80%,rgba(110,72,28,.07),transparent 14%);}
+
+.pg{position:relative;z-index:2;width:100%;height:100%;display:flex;flex-direction:column;}
+.pg .pnum{position:absolute;bottom:14px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:13px;color:var(--faint);z-index:3;}
+.face.front .pnum{right:24px;}.face.back .pnum,.leftbase .pnum{left:24px;}
+.corner{position:absolute;width:30px;height:30px;border:1px solid var(--gold);opacity:.5;z-index:3;}
+.corner.tl{top:16px;left:16px;border-right:none;border-bottom:none;}
+.corner.tr{top:16px;right:16px;border-left:none;border-bottom:none;}
+.corner.bl{bottom:16px;left:16px;border-right:none;border-top:none;}
+.corner.br{bottom:16px;right:16px;border-left:none;border-top:none;}
+
+/* —— page de titre (ouverture) —— */
+.pg-cover{align-items:center;justify-content:center;text-align:center;padding:46px 40px;}
+.pg-cover .seal{margin-bottom:20px;}
+.pg-cover h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(28px,3.4vw,46px);line-height:1.02;color:var(--text);}
+.pg-cover h2 .of{display:block;font-size:.46em;color:var(--accent);letter-spacing:.05em;margin-top:.18em;}
+.pg-cover .hwnote{margin-top:18px;font-family:'Petit Formal Script',cursive;font-size:22px;color:var(--accent);}
+.pg-cover .meta{margin-top:22px;font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--faint);}
+
+/* —— inside cover (dédicace) —— */
+.pg-dedic{align-items:center;justify-content:center;text-align:center;padding:46px 40px;color:var(--faint);}
+.pg-dedic .bot{opacity:.55;margin-bottom:18px;}
+.pg-dedic .q{font-family:'Petit Formal Script',cursive;font-size:21px;color:var(--muted);line-height:1.5;max-width:80%;}
+
+/* —— PAGE GAUCHE chapitre : titre en haut + photo descriptive —— */
+.pg-cl{padding:38px 36px 30px;align-items:stretch;}
+.pg-cl .ctag{font-family:'Petit Formal Script',cursive;font-size:19px;color:var(--accent);line-height:1;}
+.pg-cl h3{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(26px,2.8vw,34px);line-height:1.02;color:var(--text);margin:4px 0 18px;}
+.pg-cl .photo{flex:1;position:relative;background:#fffdf7;padding:12px 12px 40px;box-shadow:0 14px 28px rgba(60,40,18,.28);transform:rotate(-1.4deg);}
+[data-theme="night"] .pg-cl .photo{background:#f2ead9;}
+.pg-cl .photo .pic{position:absolute;top:12px;left:12px;right:12px;bottom:40px;}
+.pg-cl .photo .pcap{position:absolute;left:0;right:0;bottom:12px;text-align:center;font-family:'Petit Formal Script',cursive;font-size:16px;color:#6a5238;}
+.pg-cl .photo{cursor:pointer;}
+.pg-cl .photo .pic{transition:transform 1s var(--ease);}
+.pg-cl .photo:hover .pic{transform:scale(1.05);}
+.pg-cl .photo .seehint{position:absolute;top:50%;left:50%;width:56px;height:56px;border-radius:50%;background:rgba(255,253,247,.92);
+  display:flex;align-items:center;justify-content:center;color:#6a5238;font-size:23px;z-index:4;opacity:0;
+  transform:translate(-50%,-50%) scale(.7);transition:opacity .4s var(--ease),transform .4s var(--ease);box-shadow:0 8px 20px rgba(60,40,18,.32);}
+/* survol piloté en JS (.hot) : :hover ne se déclenche pas sur une page retournée en 3D */
+.pg-cl .photo.hot .seehint{opacity:1;transform:translate(-50%,-50%) scale(1);}
+.pg-cl .photo.hot .pic{transform:scale(1.05);}
+/* couche d'animation immersive (photo → plein écran → bannière du chapitre) */
+.immersive{position:fixed;z-index:600;overflow:hidden;border-radius:6px;box-shadow:0 30px 90px rgba(0,0,0,.45);
+  transition:top .62s var(--ease),left .62s var(--ease),width .62s var(--ease),height .62s var(--ease),border-radius .62s var(--ease),opacity .45s ease;}
+
+/* —— PAGE DROITE chapitre : post-its SANS texte —— */
+.pg-cr{padding:30px 32px;}
+.pg-cr .pad{position:relative;flex:1;}
+.postit{position:absolute;box-shadow:0 9px 20px rgba(60,40,18,.22);transform:rotate(var(--rot,0deg));
+  transition:transform .4s var(--ease),box-shadow .4s var(--ease);will-change:transform;}
+.postit::after{content:"";position:absolute;inset:14px 12px;background:repeating-linear-gradient(transparent 0 15px,rgba(71,55,38,.11) 15px 16px);opacity:.7;transition:opacity .4s;}
+.postit .tape{position:absolute;top:-9px;left:50%;transform:translateX(-50%) rotate(-3deg);width:58px;height:18px;background:rgba(176,141,87,.4);box-shadow:0 1px 3px rgba(0,0,0,.12);transition:width .4s var(--ease);}
+/* survol : le post-it se soulève, se redresse un peu et projette une ombre */
+.postit:hover{transform:rotate(calc(var(--rot,0deg) * .35)) translateY(-12px) scale(1.06);
+  box-shadow:0 22px 40px rgba(60,40,18,.34);z-index:7;}
+.postit:hover::after{opacity:1;}
+.postit:hover .tape{width:66px;}
+.pi-a{--rot:-4deg;width:50%;height:42%;top:4%;left:6%;background:#EEE2BE;}
+.pi-b{--rot:5deg;width:46%;height:38%;top:36%;right:4%;background:#E7DBBC;}
+.pi-c{--rot:-2deg;width:42%;height:34%;bottom:4%;left:18%;background:#EBDDB6;}
+[data-theme="night"] .pi-a{background:#4a4334;}[data-theme="night"] .pi-b{background:#443d30;}[data-theme="night"] .pi-c{background:#4e4636;}
+
+/* —— bouton « Voir le chapitre » AU MILIEU du livre —— */
+.book-cta{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:8;display:none;align-items:center;gap:9px;
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--accent);border:none;border-radius:30px;
+  padding:13px 26px;cursor:pointer;box-shadow:0 12px 26px rgba(60,40,18,.4);transition:transform .35s var(--ease),background .3s;white-space:nowrap;}
+.book-cta:hover{transform:translateX(-50%) translateY(-2px);background:var(--accent-d);}
+.book-cta.show{display:inline-flex;animation:ctaIn .5s var(--ease);}
+.book-cta.soon{background:transparent;color:var(--accent);border:.5px solid var(--accent);box-shadow:none;}
+@keyframes ctaIn{from{opacity:0;transform:translateX(-50%) translateY(8px);}to{opacity:1;transform:translateX(-50%);}}
+
+/* —— verso vieilli —— */
+.pg-verso{align-items:center;justify-content:center;text-align:center;color:var(--faint);padding:40px;}
+.pg-verso .bot{opacity:.45;margin-bottom:14px;}
+.pg-verso .q{font-family:'Petit Formal Script',cursive;font-size:18px;color:var(--muted);max-width:75%;line-height:1.5;}
+
+/* commandes */
+.book-ctrl{display:flex;align-items:center;gap:24px;margin-top:42px;}
+.book-ctrl button{width:54px;height:54px;border-radius:50%;border:.5px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;font-size:18px;display:flex;align-items:center;justify-content:center;transition:.35s var(--ease);}
+.book-ctrl button:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:scale(1.06);}
+.book-ctrl button:disabled{opacity:.3;cursor:default;transform:none;background:transparent;color:var(--text);border-color:var(--line-strong);}
+.book-dots{display:flex;gap:9px;}
+.book-dots .d{width:8px;height:8px;border-radius:50%;background:var(--line-strong);cursor:pointer;transition:.35s;}
+.book-dots .d.on{background:var(--accent);transform:scale(1.3);}
+.book-hint{margin-top:18px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);display:flex;gap:10px;align-items:center;text-align:center;}
+.book-hint b{color:var(--accent);font-weight:500;}
+
+/* navigation chapitre précédent / suivant */
+.chap-nav{display:flex;justify-content:space-between;gap:24px;border-top:.5px solid var(--line);margin-top:40px;padding:46px 0 0;}
+.chap-nav a{display:flex;align-items:center;gap:16px;cursor:pointer;color:var(--muted);text-decoration:none;transition:color .3s,transform .35s var(--ease);max-width:48%;}
+.chap-nav a:hover{color:var(--accent);}
+.chap-nav a.prev:hover{transform:translateX(-5px);}.chap-nav a.next:hover{transform:translateX(5px);}
+.chap-nav a.next{flex-direction:row-reverse;text-align:right;}
+.chap-nav a i{font-size:26px;color:var(--accent);flex:none;}
+.chap-nav .lbl{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;}
+.chap-nav .ttl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;line-height:1.05;}
+
+/* ===================== reste du site ===================== */
+.eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.sec-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.08;color:var(--text);}
+.embro{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto;}.embro .ln{height:.5px;width:50px;background:var(--line-strong);}
+
+.chap-hero{position:relative;height:60vh;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;border-radius:0 0 30px 30px;}
+.chap-hero .img{position:absolute;inset:0;}
+.chap-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(50,34,20,.66),transparent 60%);}
+.chap-hero .inner{position:relative;z-index:2;width:100%;}
+.chap-hero .meta{display:flex;align-items:center;gap:12px;margin-bottom:14px;}.chap-hero .meta .dot{width:8px;height:8px;border-radius:50%;}
+.chap-hero .meta .t{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;}.chap-hero .meta .ln{flex:1;max-width:140px;height:.5px;background:rgba(255,245,235,.4);}.chap-hero .meta .num{font-size:11px;letter-spacing:.12em;color:rgba(255,245,235,.7);}
+.chap-hero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(36px,5.5vw,64px);line-height:1.02;margin-bottom:24px;}
+.chap-intro{padding:56px 0 14px;}.chap-intro .lt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;}
+.chap-intro p{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,28px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;}
+
+.gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;grid-auto-flow:dense;}
+.gitem{position:relative;overflow:hidden;border-radius:8px;cursor:pointer;background:var(--bg-soft);}
+.gitem .img{position:absolute;inset:0;transition:transform 1.2s var(--ease);}.gitem:hover .img{transform:scale(1.05);}
+.gitem .glow{position:absolute;inset:0;opacity:0;transition:.5s;box-shadow:inset 0 0 70px var(--cglow);}.gitem:hover .glow{opacity:1;}
+.gitem .zoom{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:.4s;color:#fff;font-size:22px;z-index:2;}.gitem:hover .zoom{opacity:.95;}
+.gitem .cap{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,250,245,.92);opacity:0;transform:translateY(6px);transition:.5s var(--ease);text-shadow:0 1px 6px rgba(0,0,0,.4);}.gitem:hover .cap{opacity:1;transform:none;}
+.s-wide{grid-column:span 8;aspect-ratio:16/9;}.s-tall{grid-column:span 4;aspect-ratio:3/4;}.s-sq{grid-column:span 4;aspect-ratio:1;}.s-half{grid-column:span 6;aspect-ratio:3/2;}.s-port{grid-column:span 5;aspect-ratio:4/5;}.s-pan{grid-column:span 12;aspect-ratio:21/9;}
+
+.breath{text-align:center;padding:80px 0;}.breath .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(22px,3vw,34px);line-height:1.5;color:var(--text);max-width:680px;margin:0 auto;}.breath .who{margin-top:18px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);}
+
+.film{background-blend-mode:multiply;}
+.f-thailand{background:linear-gradient(135deg,#e8d5a4,#cf9f4e 45%,#8f9d48 100%);}
+.f-highlands{background:linear-gradient(135deg,#d4dad6,#aeb6a4 55%,#84907a 100%);}
+.f-amsterdam{background:linear-gradient(135deg,#e6d9bd,#c9b98f 55%,#a6936e 100%);}
+
+.pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:42px;}
+.pill{font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:10px 22px;border-radius:30px;border:.5px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer;transition:.35s var(--ease);}
+.pill:hover{border-color:var(--accent);color:var(--accent);}.pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.list-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;}
+.list-card{border-radius:14px;overflow:hidden;border:.5px solid var(--line);cursor:pointer;background:var(--bg);transition:transform .5s var(--ease),opacity .45s,box-shadow .5s;box-shadow:0 8px 24px rgba(80,52,26,.08);}
+.list-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(80,52,26,.16);}
+.list-card.hide{opacity:0;transform:scale(.95);pointer-events:none;position:absolute;}
+.list-card .thumb{height:230px;position:relative;overflow:hidden;}.list-card .thumb .img{position:absolute;inset:0;transition:transform 1s var(--ease);}.list-card:hover .thumb .img{transform:scale(1.06);}
+.list-card .narr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;opacity:0;transition:.5s;background:linear-gradient(to top,rgba(60,40,22,.76),rgba(60,40,22,.44));}.list-card:hover .narr{opacity:1;}
+.list-card .narr p{font-family:'Petit Formal Script',cursive;font-size:21px;line-height:1.45;color:#FFF6EE;}
+.list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:19px;}.list-card .meta .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
+
+.about{min-height:70vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 24px;}
+.about h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(30px,5vw,56px);line-height:1.25;max-width:780px;margin:34px 0;}
+.about p{font-size:15px;line-height:1.95;color:var(--muted);max-width:540px;}
+.about .sig{margin-top:30px;font-family:'Petit Formal Script',cursive;font-size:30px;color:var(--accent);}
+
+.contact{padding:110px 0;}
+.contact h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(34px,5vw,56px);margin-bottom:46px;}
+.field{position:relative;margin-bottom:30px;}
+.field input,.field textarea{width:100%;background:transparent;border:none;border-bottom:.5px solid var(--line-strong);padding:12px 0;font-family:'DM Sans',sans-serif;font-size:15px;color:var(--text);outline:none;resize:none;transition:border-color .4s;}
+.field label{position:absolute;left:0;top:12px;font-size:15px;color:var(--faint);pointer-events:none;transition:.35s var(--ease);}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--accent);}
+.field input:focus~label,.field textarea:focus~label,.field input:not(:placeholder-shown)~label,.field textarea:not(:placeholder-shown)~label{top:-12px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);}
+.btn{margin-top:8px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;padding:15px 40px;background:var(--accent);color:#fff;border:none;border-radius:30px;cursor:pointer;transition:transform .3s var(--ease);box-shadow:0 8px 20px rgba(80,52,26,.3);}
+.btn:hover{transform:translateY(-2px);}
+.contact-foot{display:flex;gap:30px;margin-top:54px;padding-top:30px;border-top:.5px solid var(--line);}
+.contact-foot a{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);text-decoration:none;transition:color .3s;}.contact-foot a:hover{color:var(--accent);}
+
+.foot{padding:50px 0;text-align:center;border-top:.5px solid var(--line);position:relative;z-index:2;}.foot p{font-size:11px;letter-spacing:.12em;color:var(--faint);}
+
+.lb{position:fixed;inset:0;z-index:500;background:rgba(46,30,18,.93);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:60px;opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;}
+.lb.open{opacity:1;visibility:visible;}
+.lb .stage{position:relative;width:min(900px,90vw);max-height:84vh;aspect-ratio:3/2;border-radius:8px;overflow:hidden;transform:scale(.94);opacity:0;transition:transform .5s var(--ease),opacity .4s;}.lb.open .stage{transform:scale(1);opacity:1;}.lb .stage .img{position:absolute;inset:0;}
+.lb .cap{position:absolute;left:0;right:0;bottom:-34px;text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,245,235,.7);}
+.lb-close{position:absolute;top:28px;right:32px;width:44px;height:44px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:none;transition:background .3s;}.lb-close:hover{background:rgba(255,255,255,.14);}
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:none;opacity:0;transition:opacity .3s,background .3s;}.lb:hover .lb-arrow{opacity:1;}.lb-arrow:hover{background:rgba(255,255,255,.14);}.lb-prev{left:34px;}.lb-next{right:34px;}
+.lb-count{position:absolute;top:32px;left:34px;font-size:11px;letter-spacing:.14em;color:rgba(255,245,235,.6);}
+
+@media(max-width:980px){.nav{padding:18px 28px;gap:20px;}.nav-left,.nav-right{gap:26px;}.list-grid{grid-template-columns:repeat(2,1fr);}.s-wide,.s-half,.s-port,.s-tall,.s-sq{grid-column:span 6;}.s-pan{grid-column:span 12;}}
+@media(max-width:760px){.wrap,.wrap-sm{padding:0 22px;}.nav{grid-template-columns:auto 1fr auto;}.nav-left{display:none;}.book-inner{width:92vw;height:132vw;}.leftbase{display:none;}.pages{left:0;width:100%;}.leaf{transform-origin:center;}.face.front{border-radius:6px;}.list-grid,.gallery{grid-template-columns:1fr;}.gitem{grid-column:1/-1!important;}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.12s!important;}.star,.sparkle-svg{animation:none;opacity:.7;}html{scroll-behavior:auto;}}
+</style>
+</head>
+<body>
+
+<div id="sky"></div>
+<div id="progress"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-left"><a data-nav="home" class="current">Accueil</a><a data-nav="chapters">Chapitres</a></div>
+  <div class="nav-logo" data-nav="home">
+    <span class="crown"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></span>
+    <span class="name serif">ablas frames</span><span class="role">Photographe</span>
+  </div>
+  <div class="nav-right"><span class="navchip" id="navchip"><span class="dot"></span><span id="navchip-t"></span></span>
+    <a data-nav="about">À propos</a><a data-nav="contact">Contact</a>
+    <button class="toggle" id="toggle" aria-label="jour/nuit"><span class="knob"><i class="ti ti-sun" id="ticon"></i></span></button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===================== HOME : bannière (photo) + carnet ===================== -->
+<section class="page active" id="page-home">
+
+  <header class="banner">
+    <div class="bg"></div>
+    <div class="grain"></div>
+    <div class="veil"></div>
+    <div class="banner-content">
+      <p class="kicker">Carnet de voyage · Argentique</p>
+      <h1 class="serif">Fragments<span class="of">of my reality</span></h1>
+      <div class="ornz"><span class="ln"></span>
+        <svg width="18" height="18" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#ECCF92"/></svg>
+        <span class="ln"></span></div>
+      <p class="tagline">Voyage · Contemplation · Lumière</p>
+    </div>
+    <div class="discover" id="discover">Découvrez mon histoire<span class="ring"><i class="ti ti-chevron-down"></i></span></div>
+  </header>
+
+  <section class="book-section" id="book-section">
+    <div class="lead"><p class="e">Ouvrez le carnet</p><h2 class="serif">Tournez les pages de mes voyages</h2></div>
+
+    <div class="book-outer">
+      <div class="book-wrap">
+        <div class="book">
+          <div class="book-inner" id="book">
+            <div class="leftbase">
+              <div class="pg pg-dedic">
+                <span class="corner tl"></span><span class="corner bl"></span>
+                <svg class="bot" width="58" height="70" viewBox="0 0 60 72"><g fill="none" stroke="var(--gold)" stroke-width=".8">
+                  <path d="M30,68 C30,40 30,30 30,14"/><path d="M30,40 C18,36 10,26 10,14 C24,16 30,28 30,40"/>
+                  <path d="M30,32 C42,28 50,20 50,10 C36,12 30,22 30,32"/></g><circle cx="30" cy="68" r="2" fill="var(--gold)"/></svg>
+                <p class="q">« Ce carnet n'est pas un album.<br>C'est une mémoire qui respire. »</p>
+              </div>
+            </div>
+            <div class="stack stack-l" id="stackL"></div>
+            <div class="stack stack-r" id="stackR"></div>
+            <div class="pages" id="pages"></div>
+            <!-- bouton centré, contextuel au chapitre ouvert -->
+            <button class="book-cta" id="bookcta"><span id="bookcta-t">Voir le chapitre</span> <i class="ti ti-arrow-right"></i></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="book-ctrl">
+        <button id="prev" aria-label="page précédente"><i class="ti ti-chevron-left"></i></button>
+        <div class="book-dots" id="dots"></div>
+        <button id="next" aria-label="page suivante"><i class="ti ti-chevron-right"></i></button>
+      </div>
+      <p class="book-hint"><i class="ti ti-click"></i> Cliquez la <b>page droite</b> pour avancer · la <b>page gauche</b> pour revenir</p>
+    </div>
+  </section>
+</section>
+
+<!-- gabarit des FACES du carnet (ordre de lecture) -->
+<template id="faces">
+  <!-- F0 : page de titre (droite de l'ouverture) -->
+  <div class="pg pg-cover">
+    <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+    <div class="seal"><svg width="58" height="58" viewBox="0 0 60 60"><g fill="none" stroke="var(--gold)" stroke-width="1"><circle cx="30" cy="30" r="26"/><circle cx="30" cy="30" r="20"/></g><path d="M30,12 L31,26 L44,30 L31,34 L30,48 L29,34 L16,30 L29,26 Z" fill="var(--accent)"/></svg></div>
+    <h2 class="serif">Fragments<span class="of">of my reality</span></h2>
+    <p class="hwnote">~ mon carnet de route ~</p>
+    <p class="meta">ablas frames · 2024–2026</p>
+  </div>
+  <!-- F1 : Thailand GAUCHE (titre + photo) -->
+  <div class="pg pg-cl" data-ch="thailand">
+    <span class="corner tl"></span>
+    <p class="ctag">~ chapitre premier ~</p>
+    <h3 class="serif">Thailand on Film</h3>
+    <div class="photo"><div class="pic film f-thailand"></div><span class="seehint"><i class="ti ti-zoom-in"></i></span><span class="pcap">Bangkok, à l'aube</span></div>
+  </div>
+  <!-- F2 : Thailand DROITE (post-its sans texte) -->
+  <div class="pg pg-cr">
+    <span class="corner tr"></span><span class="corner br"></span>
+    <div class="pad">
+      <div class="postit pi-a"><span class="tape"></span></div>
+      <div class="postit pi-b"><span class="tape"></span></div>
+      <div class="postit pi-c"><span class="tape"></span></div>
+    </div>
+  </div>
+  <!-- F3 : Highlands GAUCHE -->
+  <div class="pg pg-cl" data-ch="highlands">
+    <span class="corner tl"></span>
+    <p class="ctag">~ chapitre second ~</p>
+    <h3 class="serif">Walking in the Highlands</h3>
+    <div class="photo" style="transform:rotate(1.2deg)"><div class="pic film f-highlands"></div><span class="seehint"><i class="ti ti-zoom-in"></i></span><span class="pcap">Glen Coe, brume</span></div>
+  </div>
+  <!-- F4 : Highlands DROITE -->
+  <div class="pg pg-cr">
+    <span class="corner tr"></span><span class="corner br"></span>
+    <div class="pad">
+      <div class="postit pi-a" style="--rot:3deg"><span class="tape"></span></div>
+      <div class="postit pi-b" style="--rot:-4deg"><span class="tape"></span></div>
+      <div class="postit pi-c" style="--rot:2deg"><span class="tape"></span></div>
+    </div>
+  </div>
+  <!-- F5 : Amsterdam GAUCHE -->
+  <div class="pg pg-cl" data-ch="amsterdam" data-soon="1">
+    <span class="corner tl"></span>
+    <p class="ctag">~ chapitre troisième ~</p>
+    <h3 class="serif">A Weekend in Amsterdam</h3>
+    <div class="photo" style="transform:rotate(-1deg)"><div class="pic film f-amsterdam"></div><span class="pcap">les canaux · bientôt</span></div>
+  </div>
+  <!-- F6 : Amsterdam DROITE -->
+  <div class="pg pg-cr">
+    <span class="corner tr"></span><span class="corner br"></span>
+    <div class="pad">
+      <div class="postit pi-a" style="--rot:-3deg"><span class="tape"></span></div>
+      <div class="postit pi-b" style="--rot:4deg"><span class="tape"></span></div>
+    </div>
+  </div>
+  <!-- F7 : page de fin -->
+  <div class="pg pg-verso">
+    <span class="corner tl"></span><span class="corner br"></span>
+    <svg class="bot" width="60" height="60" viewBox="0 0 60 60"><g fill="none" stroke="var(--gold)" stroke-width=".8"><circle cx="30" cy="30" r="22"/><circle cx="30" cy="30" r="12"/></g><path d="M30,14 L31,26 L43,30 L31,34 L30,46 L29,34 L17,30 L29,26 Z" fill="var(--accent)" opacity=".6"/></svg>
+    <p class="q">à suivre, au prochain voyage…</p>
+  </div>
+</template>
+
+<!-- ===================== CHAPITRES ===================== -->
+<section class="page" id="page-thailand" data-chap="thailand">
+  <div class="chap-hero"><div class="img film f-thailand"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
+    <div class="meta"><span class="dot" style="background:#F95738"></span><span class="t" style="color:#e9d28f">Travel</span><span class="ln"></span><span class="num">Chapitre I · Thaïlande</span></div>
+    <h1 class="serif">Thailand on Film</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">L'histoire</p><p>Au cœur du tumulte de Bangkok et du silence des rizières, j'ai laissé l'argentique décider. Ces images sont des fragments — imparfaits, vivants, vrais.</p></div>
+  <section class="pad" style="padding-top:48px"><div class="wrap">
+    <p class="eyebrow reveal">Galerie · 9 instants</p>
+    <div class="gallery" style="--cglow:rgba(176,141,87,.5)">
+      <div class="gitem s-wide reveal"><div class="img film f-thailand"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Bangkok · 5h12</span></div>
+      <div class="gitem s-tall reveal"><div class="img" style="background:linear-gradient(160deg,#F08c6a,#c8401a)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Marché flottant</span></div>
+      <div class="gitem s-sq reveal"><div class="img" style="background:linear-gradient(135deg,#f4e6b8,#d4c060)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Temple d'or</span></div>
+      <div class="gitem s-port reveal"><div class="img" style="background:linear-gradient(135deg,#9aa84a,#c0cf78)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Rizières</span></div>
+      <div class="gitem s-half reveal"><div class="img" style="background:linear-gradient(135deg,#ecdcae,#cf9f4e)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Tuk-tuk, mousson</span></div>
+    </div>
+    <div class="breath reveal"><div class="embro" style="margin-bottom:26px"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--accent)"/></svg><span class="ln"></span></div>
+      <p class="q">« La pellicule ne ment pas. Elle garde la chaleur de l'instant. »</p><p class="who">Carnet — Bangkok</p></div>
+    <div class="gallery" style="--cglow:rgba(176,141,87,.5)">
+      <div class="gitem s-pan reveal"><div class="img film f-thailand" style="filter:hue-rotate(-6deg)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Côte d'Andaman</span></div>
+      <div class="gitem s-sq reveal"><div class="img" style="background:linear-gradient(135deg,#d4a85a,#F08c6a)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Épices</span></div>
+      <div class="gitem s-sq reveal"><div class="img" style="background:linear-gradient(135deg,#9aa84a,#5a6618)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Jungle</span></div>
+      <div class="gitem s-half reveal"><div class="img" style="background:linear-gradient(135deg,#f4e6b8,#9aa84a)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Krabi, fin du jour</span></div>
+    </div>
+  </div></section>
+</section>
+
+<section class="page" id="page-highlands" data-chap="highlands">
+  <div class="chap-hero"><div class="img film f-highlands"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
+    <div class="meta"><span class="dot" style="background:#B5BF8C"></span><span class="t" style="color:#dfeada">Travel</span><span class="ln"></span><span class="num">Chapitre II · Écosse</span></div>
+    <h1 class="serif">Walking in the Highlands</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">L'histoire</p><p>Une brume persistante, l'odeur de la tourbe et des kilomètres de lande silencieuse. Le temps ralenti, le pas qui devient méditation.</p></div>
+  <section class="pad" style="padding-top:60px"><div class="wrap">
+    <p class="eyebrow reveal">Galerie · 7 silences</p>
+    <div class="gallery" style="--cglow:rgba(157,170,120,.5);gap:26px">
+      <div class="gitem s-pan reveal"><div class="img film f-highlands"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Glen Coe, brume basse</span></div>
+      <div class="gitem s-half reveal"><div class="img" style="background:linear-gradient(135deg,#d4dad6,#aab8c0)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Loch silencieux</span></div>
+      <div class="gitem s-port reveal"><div class="img" style="background:linear-gradient(135deg,#cdd3cb,#9aa890)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Bruyère</span></div>
+    </div>
+    <div class="breath reveal" style="padding:96px 0"><div class="embro" style="margin-bottom:26px"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--sage)"/></svg><span class="ln"></span></div>
+      <p class="q">« Ici, le silence a une texture. On marche dedans comme dans une étoffe. »</p><p class="who">Carnet — Glen Coe</p></div>
+    <div class="gallery" style="--cglow:rgba(157,170,120,.5);gap:26px">
+      <div class="gitem s-half reveal"><div class="img" style="background:linear-gradient(135deg,#B5BF8C,#8a9070)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Lande, midi gris</span></div>
+      <div class="gitem s-half reveal"><div class="img" style="background:linear-gradient(135deg,#aab8c0,#d4dad6)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Pluie qui passe</span></div>
+      <div class="gitem s-wide reveal"><div class="img film f-highlands" style="filter:brightness(1.04)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Vallée au nord</span></div>
+      <div class="gitem s-tall reveal"><div class="img" style="background:linear-gradient(160deg,#cdd3cb,#aab8c0)"></div><div class="glow"></div><i class="ti ti-zoom-in zoom"></i><span class="cap">Pierre levée</span></div>
+    </div>
+  </div></section>
+</section>
+
+<!-- ===================== LISTING ===================== -->
+<section class="page" id="page-chapters">
+  <section class="pad"><div class="wrap">
+    <p class="eyebrow reveal">La bibliothèque</p><h1 class="sec-h reveal" style="margin-bottom:38px">Chapitres</h1>
+    <div class="pills reveal"><button class="pill active" data-filter="all">Tous</button><button class="pill" data-filter="travel">Travel</button><button class="pill" data-filter="wildlife">Wildlife</button><button class="pill" data-filter="portraits">Portraits</button><button class="pill" data-filter="events">Events</button></div>
+    <div class="list-grid" id="listgrid">
+      <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img film f-thailand"></div><div class="narr"><p>« J'ai laissé l'argentique décider. »</p></div></div><div class="meta"><h4>Thailand on Film</h4><span class="tag" style="color:#C2702F">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="highlands"><div class="thumb"><div class="img film f-highlands"></div><div class="narr"><p>« Le silence a une texture. »</p></div></div><div class="meta"><h4>Walking in the Highlands</h4><span class="tag" style="color:#7E9070">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-soon="1"><div class="thumb"><div class="img film f-amsterdam"></div><div class="narr"><p>« Un week-end suspendu. » — bientôt</p></div></div><div class="meta"><h4>A Weekend in Amsterdam</h4><span class="tag" style="color:#9c8f6f">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="wildlife" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#cbbd86,#6a7340)"></div><div class="narr"><p>Faune — bientôt</p></div></div><div class="meta"><h4>Creatures of Dawn</h4><span class="tag" style="color:#8D9B30">Wildlife</span></div></article>
+      <article class="list-card reveal" data-cat="portraits" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#d8c4ae,#9c7e63)"></div><div class="narr"><p>Visages — bientôt</p></div></div><div class="meta"><h4>Faces I Met</h4><span class="tag" style="color:#9A6B3F">Portraits</span></div></article>
+      <article class="list-card reveal" data-cat="events" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#d6ccb2,#8f8466)"></div><div class="narr"><p>Instants — bientôt</p></div></div><div class="meta"><h4>One Night</h4><span class="tag" style="color:#8f8466">Events</span></div></article>
+    </div>
+  </div></section>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="page" id="page-about">
+  <div class="about">
+    <p class="eyebrow">À propos</p>
+    <h1 class="serif reveal">Je capture ce que l'œil<br>oublie d'ordinaire.</h1>
+    <div class="embro reveal" style="margin-bottom:34px"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--accent)"/></svg><span class="ln"></span></div>
+    <p class="reveal">Photographe indépendante. Je travaille à l'argentique et au numérique, avec une obsession commune : la lumière naturelle, l'instant non posé, l'imperfection qui dit vrai. Des fragments d'une réalité qui m'appartient et que je vous tends.</p>
+    <p class="sig reveal">ablas</p>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="page" id="page-contact">
+  <section class="contact"><div class="wrap-sm">
+    <p class="eyebrow reveal">Contact</p><h1 class="serif reveal">Dites bonjour.</h1>
+    <form class="reveal" onsubmit="event.preventDefault();this.querySelector('.btn').textContent='Merci — message envoyé';">
+      <div class="field"><input placeholder=" " required><label>Nom</label></div>
+      <div class="field"><input type="email" placeholder=" " required><label>Email</label></div>
+      <div class="field"><textarea rows="4" placeholder=" " required></textarea><label>Message</label></div>
+      <button type="submit" class="btn">Envoyer</button>
+    </form>
+    <div class="contact-foot reveal"><a href="#"><i class="ti ti-brand-instagram"></i> @ablasframes</a><a href="#"><i class="ti ti-mail"></i> hello@ablasframes.com</a></div>
+  </div></section>
+</section>
+
+</main>
+
+<footer class="foot"><p>© ablas frames — Fragments of my reality · Maquette 3</p></footer>
+
+<div class="lb" id="lb">
+  <span class="lb-count" id="lb-count"></span>
+  <button class="lb-close" id="lb-close"><i class="ti ti-x"></i></button>
+  <button class="lb-arrow lb-prev" id="lb-prev"><i class="ti ti-arrow-left"></i></button>
+  <button class="lb-arrow lb-next" id="lb-next"><i class="ti ti-arrow-right"></i></button>
+  <div class="stage"><div class="img" id="lb-img"></div><span class="cap" id="lb-cap"></span></div>
+</div>
+
+<script>
+/* ===================== STARFIELD (modéré, doré) ===================== */
+(function sky(){
+  const s=document.getElementById('sky');const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N=reduce?40:78;const NS='http://www.w3.org/2000/svg';
+  for(let i=0;i<N;i++){
+    const left=Math.random()*100+'%',top=Math.random()*100+'%',dur=(2.8+Math.random()*3.6)+'s',delay=(Math.random()*5)+'s';
+    if(Math.random()>0.62){                        // étoile à 4 branches (taille modérée)
+      const sz=Math.random()*9+7;
+      const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 10 10');svg.setAttribute('class','sparkle-svg');
+      svg.setAttribute('width',sz);svg.setAttribute('height',sz);svg.style.left=left;svg.style.top=top;svg.style.animationDuration=dur;svg.style.animationDelay=delay;
+      svg.innerHTML='<path d="M5,0 L5.8,3.3 L9,5 L5.8,6.7 L5,10 L4.2,6.7 L1,5 L4.2,3.3 Z" fill="var(--star)"/>';
+      s.appendChild(svg);
+    }else{
+      const sz=Math.random()*2.4+1.4;
+      const el=document.createElement('span');el.className='star';
+      el.style.cssText=`width:${sz}px;height:${sz}px;left:${left};top:${top};animation-duration:${dur};animation-delay:${delay}`;
+      s.appendChild(el);
+    }
+  }
+})();
+
+/* ===================== LE CARNET (spreads gauche/droite) ===================== */
+const pagesHost=document.getElementById('pages');
+const faces=Array.from(document.getElementById('faces').content.querySelectorAll('.pg'));
+/* on assemble les feuilles : leaf i = {front: face[2i], back: face[2i+1]} */
+const leaves=[];const NF=faces.length;const NL=Math.ceil(NF/2);
+for(let i=0;i<NL;i++){
+  const leaf=document.createElement('div');leaf.className='leaf';
+  const front=document.createElement('div');front.className='face front';
+  if(faces[2*i])front.appendChild(faces[2*i].cloneNode(true));
+  front.insertAdjacentHTML('beforeend','<span class="pnum">'+(2*i+1).toString().padStart(2,'0')+'</span>');
+  const back=document.createElement('div');back.className='face back';
+  if(faces[2*i+1])back.appendChild(faces[2*i+1].cloneNode(true));
+  back.insertAdjacentHTML('beforeend','<span class="pnum">'+(2*i+2).toString().padStart(2,'0')+'</span>');
+  leaf.appendChild(front);leaf.appendChild(back);pagesHost.appendChild(leaf);leaves.push(leaf);
+}
+let current=0;const N=NL;
+/* bouton « Voir le chapitre » selon le spread ouvert
+   current=1 → Thailand · 2 → Highlands · 3 → Amsterdam(bientôt) */
+const SPREAD_CTA={1:{label:'Voir le chapitre',chapter:'thailand'},2:{label:'Voir le chapitre',chapter:'highlands'},3:{label:'Bientôt disponible',soon:true}};
+const cta=document.getElementById('bookcta'),ctaT=document.getElementById('bookcta-t');
+let ctaToken=0;
+function updateCTA(){
+  const c=SPREAD_CTA[current];
+  if(c){cta.classList.toggle('soon',!!c.soon);ctaT.textContent=c.label;cta.dataset.target=c.chapter||'';cta.dataset.soon=c.soon?'1':'';cta.classList.add('show');}
+  else cta.classList.remove('show');
+}
+const stackL=document.getElementById('stackL'),stackR=document.getElementById('stackR');
+const leftbaseEl=document.querySelector('.leftbase');
+function updateThickness(){
+  const unit=3.2,base=2;                          // épaisseur par feuille + socle
+  stackR.style.width=(base+(N-current)*unit)+'px';// pages restantes à droite
+  stackL.style.width=(base+current*unit)+'px';    // pages déjà tournées à gauche
+}
+function updateBook(){
+  leaves.forEach((lf,i)=>{if(i<current){lf.classList.add('flipped');lf.style.zIndex=i+1;}else{lf.classList.remove('flipped');lf.style.zIndex=2*N-i;}});
+  document.getElementById('prev').disabled=current<=0;document.getElementById('next').disabled=current>=N;
+  document.querySelectorAll('#dots .d').forEach((d,i)=>d.classList.toggle('on',i===current));
+  updateThickness();
+  // la dédicace n'apparaît que sur la 1ʳᵉ page (sinon elle se voit pendant chaque rotation)
+  leftbaseEl.style.visibility=current===0?'visible':'hidden';
+  // le bouton est masqué pendant la rotation, puis révélé une fois la page posée
+  cta.classList.remove('show');
+  const tok=++ctaToken;
+  setTimeout(()=>{if(tok===ctaToken)updateCTA();},1180);
+}
+function flip(d){const nc=Math.min(Math.max(current+d,0),N);if(nc!==current){current=nc;updateBook();}}
+document.getElementById('next').addEventListener('click',()=>flip(1));
+document.getElementById('prev').addEventListener('click',()=>flip(-1));
+const dotsHost=document.getElementById('dots');for(let i=0;i<=N;i++){const d=document.createElement('span');d.className='d';d.addEventListener('click',()=>{current=i;updateBook();});dotsHost.appendChild(d);}
+
+/* CLIC INTELLIGENT gauche / droite + clic sur la photo = entrée immersive */
+const bookInner=document.getElementById('book');
+/* la photo actuellement visible sur la PAGE GAUCHE (= dos de la feuille précédente) */
+function leftPhoto(){
+  if(current<1)return null;
+  const leaf=leaves[current-1];
+  return leaf?leaf.querySelector('.face.back .pg-cl .photo'):null;
+}
+/* le point (x,y) est-il à l'intérieur du rectangle écran de la photo ? (robuste en 3D) */
+function inRect(el,x,y){const r=el.getBoundingClientRect();return x>=r.left&&x<=r.right&&y>=r.top&&y<=r.bottom;}
+
+bookInner.addEventListener('click',e=>{
+  if(e.target.closest('#bookcta'))return;
+  const r=bookInner.getBoundingClientRect();
+  const onRight=(e.clientX-r.left)>r.width/2;
+  if(!onRight){
+    const ph=leftPhoto();
+    if(ph && inRect(ph,e.clientX,e.clientY)){
+      const cell=ph.closest('.pg-cl');
+      if(cell&&cell.dataset.soon)return;          // Amsterdam : à venir → on ne fait rien
+      if(cell){immersiveEnter(cell.dataset.ch,ph.querySelector('.pic'));return;}
+    }
+  }
+  flip(onRight?1:-1);
+});
+let hotPhoto=null;
+function setHot(ph){if(hotPhoto===ph)return;if(hotPhoto)hotPhoto.classList.remove('hot');hotPhoto=ph;if(ph)ph.classList.add('hot');}
+bookInner.addEventListener('mousemove',e=>{
+  const r=bookInner.getBoundingClientRect();
+  const onRight=(e.clientX-r.left)>r.width/2;
+  let zoom=false,ph=null;
+  if(!onRight){ph=leftPhoto();if(ph&&inRect(ph,e.clientX,e.clientY)){const c=ph.closest('.pg-cl');if(c&&!c.dataset.soon)zoom=true;}}
+  setHot(zoom?ph:null);                            // affiche la loupe sur la photo survolée
+  bookInner.style.cursor=zoom?'zoom-in':(onRight?'e-resize':'w-resize');
+});
+bookInner.addEventListener('mouseleave',()=>setHot(null));
+
+/* ===================== ENTRÉE IMMERSIVE (photo → plein écran → bannière) ===================== */
+function immersiveEnter(ch,picEl){
+  const pg=PAGES[ch];if(!pg||!pg.el)return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches){go(ch);return;}
+  const r=picEl.getBoundingClientRect();
+  const ov=document.createElement('div');
+  ov.className='immersive '+picEl.classList.value.replace('pic','').trim();   // reprend le dégradé (.film .f-…)
+  ov.style.top=r.top+'px';ov.style.left=r.left+'px';ov.style.width=r.width+'px';ov.style.height=r.height+'px';
+  ov.style.transition='none';
+  document.body.appendChild(ov);
+  document.body.style.overflow='hidden';
+  // Phase A : la photo prend toute la taille du site
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    ov.style.transition='';
+    ov.style.top='0px';ov.style.left='0px';ov.style.width=window.innerWidth+'px';ov.style.height=window.innerHeight+'px';ov.style.borderRadius='0px';
+  }));
+  // Phase B : on bascule vers le chapitre puis l'image se réduit vers sa place en haut
+  setTimeout(()=>{
+    go(ch,true);                                  // chapitre actif, sans révéler les éléments tout de suite
+    const hero=document.querySelector('#'+pg.el+' .chap-hero');
+    const hr=hero?hero.getBoundingClientRect():{top:76,left:0,width:window.innerWidth,height:window.innerHeight*0.6};
+    requestAnimationFrame(()=>{
+      ov.style.top=hr.top+'px';ov.style.left=hr.left+'px';ov.style.width=hr.width+'px';ov.style.height=hr.height+'px';ov.style.borderRadius='0 0 30px 30px';
+    });
+  },640);
+  // Phase C : l'image fond sur la bannière et les éléments de la page apparaissent
+  setTimeout(()=>{
+    ov.style.opacity='0';
+    document.body.style.overflow='';
+    runReveal();
+    setTimeout(()=>ov.remove(),480);
+  },1360);
+}
+/* bouton central */
+cta.addEventListener('click',e=>{e.stopPropagation();if(cta.dataset.soon==='1'){ctaT.textContent='Bientôt disponible';return;}if(cta.dataset.target)go(cta.dataset.target);});
+/* clavier + swipe (sur la home) */
+document.addEventListener('keydown',e=>{if(document.getElementById('page-home').classList.contains('active')&&!lb.classList.contains('open')){if(e.key==='ArrowRight')flip(1);if(e.key==='ArrowLeft')flip(-1);}});
+let bx=0;bookInner.addEventListener('touchstart',e=>bx=e.touches[0].clientX,{passive:true});
+bookInner.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-bx;if(Math.abs(dx)>50)flip(dx<0?1:-1);});
+updateBook();
+
+document.getElementById('discover').addEventListener('click',()=>document.getElementById('book-section').scrollIntoView({behavior:'smooth'}));
+
+/* ===================== ROUTING ===================== */
+const PAGES={
+  home:{el:'page-home'},chapters:{el:'page-chapters'},about:{el:'page-about'},contact:{el:'page-contact'},
+  thailand:{el:'page-thailand',label:'Thailand on Film',tint:'#FAF0CA',tintN:'#3a3320',line:'rgba(140,115,30,.18)',dot:'#F95738'},
+  highlands:{el:'page-highlands',label:'Walking in the Highlands',tint:'#dde3e7',tintN:'#2a3236',line:'rgba(100,120,130,.2)',dot:'#B5BF8C'},
+};
+const nav=document.getElementById('nav'),navchip=document.getElementById('navchip'),navchipT=document.getElementById('navchip-t');
+function go(key,skipReveal){
+  const p=PAGES[key];if(!p)return;
+  document.querySelectorAll('.page').forEach(s=>s.classList.remove('active'));
+  document.getElementById(p.el).classList.add('active');
+  const night=document.documentElement.dataset.theme==='night';
+  if(p.tint){nav.style.background=night?p.tintN:p.tint;nav.style.borderColor=p.line;navchip.classList.add('show');navchipT.textContent=p.label;navchip.querySelector('.dot').style.background=p.dot;}
+  else{nav.style.background='';nav.style.borderColor='';navchip.classList.remove('show');}
+  document.querySelectorAll('.nav a[data-nav]').forEach(a=>a.classList.toggle('current',a.dataset.nav===key));
+  if(location.hash!=='#'+key)history.pushState({key},'','#'+key);
+  window.scrollTo({top:0});if(!skipReveal)runReveal();
+}
+document.querySelectorAll('[data-nav]').forEach(e=>e.addEventListener('click',()=>go(e.dataset.nav)));
+document.body.addEventListener('click',e=>{
+  const c=e.target.closest('.list-card[data-chapter]');if(c){go(c.dataset.chapter);return;}
+  const s=e.target.closest('.list-card[data-soon]');if(s){/* aperçu seulement */}
+});
+window.addEventListener('popstate',()=>go((location.hash||'#home').slice(1)));
+
+/* ===================== NAV CHAPITRE PRÉCÉDENT / SUIVANT ===================== */
+const CHAP_ORDER=['thailand','highlands'];           // Amsterdam : à venir
+function navLink(key,label,dir){
+  const a=document.createElement('a');a.className=dir;
+  const ttl=(key==='home')?'Le carnet':PAGES[key].label;
+  a.innerHTML='<i class="ti ti-arrow-'+(dir==='prev'?'left':'right')+'"></i><span><span class="lbl">'+label+'</span><span class="ttl serif">'+ttl+'</span></span>';
+  a.addEventListener('click',()=>go(key));
+  return a;
+}
+CHAP_ORDER.forEach((ch,i)=>{
+  const wrap=document.querySelector('#'+PAGES[ch].el+' .pad .wrap');
+  if(!wrap)return;
+  const prev=CHAP_ORDER[i-1],next=CHAP_ORDER[i+1];
+  const box=document.createElement('div');box.className='chap-nav reveal';
+  box.appendChild(prev?navLink(prev,'Chapitre précédent','prev'):navLink('home','Retour','prev'));
+  box.appendChild(next?navLink(next,'Chapitre suivant','next'):navLink('home','Retour','next'));
+  wrap.appendChild(box);
+});
+
+/* ===================== THEME ===================== */
+const toggle=document.getElementById('toggle'),ticon=document.getElementById('ticon');
+function applyTheme(t){
+  document.documentElement.dataset.theme=t;ticon.className=t==='night'?'ti ti-moon':'ti ti-sun';
+  try{localStorage.setItem('ff3-theme',t);}catch(e){}
+  const cur=(location.hash||'#home').slice(1);if(PAGES[cur]&&PAGES[cur].tint)go(cur);
+}
+toggle.addEventListener('click',()=>applyTheme(document.documentElement.dataset.theme==='night'?'day':'night'));
+(function(){let t;try{t=localStorage.getItem('ff3-theme');}catch(e){}if(!t){const h=new Date().getHours();t=(h<7||h>=19)?'night':'day';}applyTheme(t);})();
+
+/* ===================== FILTRES ===================== */
+document.querySelectorAll('.pills .pill').forEach(b=>b.addEventListener('click',()=>{
+  const grp=b.closest('.pills');grp.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  const f=b.dataset.filter;if(!f)return;
+  document.querySelectorAll('#listgrid .list-card').forEach(c=>c.classList.toggle('hide',!(f==='all'||c.dataset.cat===f)));
+}));
+
+/* ===================== REVEAL + PROGRESS ===================== */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+function runReveal(){document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el=>io.observe(el));}
+const prog=document.getElementById('progress');
+window.addEventListener('scroll',()=>{const h=document.documentElement.scrollHeight-window.innerHeight;prog.style.width=(h>0?window.scrollY/h*100:0)+'%';},{passive:true});
+
+/* ===================== LIGHTBOX ===================== */
+const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),lbCap=document.getElementById('lb-cap'),lbCount=document.getElementById('lb-count');
+let items=[],idx=0,scrollMem=0;
+function render(){const it=items[idx],img=it.querySelector('.img');lbImg.className=img.className;lbImg.style.cssText=img.getAttribute('style')||'';lbImg.style.position='absolute';lbImg.style.inset='0';const c=it.querySelector('.cap');lbCap.textContent=c?c.textContent:'';lbCount.textContent=(idx+1)+' / '+items.length;}
+function move(d){idx=(idx+d+items.length)%items.length;render();}
+function closeLB(){lb.classList.remove('open');document.body.style.overflow='';window.scrollTo({top:scrollMem});}
+document.addEventListener('click',e=>{const it=e.target.closest('.gitem');if(!it)return;const set=Array.from(document.querySelectorAll('.page.active .gitem'));items=set;idx=set.indexOf(it);scrollMem=window.scrollY;render();lb.classList.add('open');document.body.style.overflow='hidden';});
+document.getElementById('lb-next').addEventListener('click',e=>{e.stopPropagation();move(1);});
+document.getElementById('lb-prev').addEventListener('click',e=>{e.stopPropagation();move(-1);});
+document.getElementById('lb-close').addEventListener('click',closeLB);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>50)move(dx<0?1:-1);});
+
+go((location.hash||'#home').slice(1));runReveal();
+</script>
+</body>
+</html>
