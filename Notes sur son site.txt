@@ -1,0 +1,14 @@
+Site qui présente le travaille d'une photographe, la partie qui parle d'elle doit être très minimaliste, une partie qui suis-je avec une description mais de photo d'elle.
+Dans la partie qui présente son travail, l'idée c'est de pouvoir présenter les photographies comme une "histoire". Chaque collection de photo est racontée comme un chapitre, et chaque chapitre a un "thème" qui le représente de façon unique des autres chapitres et s'accorde avec les photographies de ce dernier. On aimerais éviter d'être trop enfantin quand même et garder ça pro/clean. donc on évite de mettre trop d'animations brillantes etc...  
+
+On aimerais avoir un formulaire de contact minimaliste avec un compte instagram et un mail associé pour envoyer un message. 
+
+Pour la homepage : Une bannière dans laquelle on voit une photographie avec un titre "Fragments of my reality". 
+On aimerais pouvoir accéder facilement aux chapitres à partir de la homepage à l'aide d'un bouton dans la navbar ou bien en défilant la page, dans les différents chapitres on aimerais pouvoir filtrer par catégories, les catégories que je connais pour l'instant c'est Wildlife, Travel, portraits, Events.
+
+Dans chaque chapitre il devrait y'avoir une photo principale qui represente le chapitre ainsi que sa description.
+
+On aimerais pouvoir cliquer sur les photos du chapitre afin de les ouvrir dans une sorte de box qui mets un filtre sur l'arrière plan.
+
+Les photos vont devoir être adaptés pour charger le plus vite possible sans perdre de la qualité et améliorer la vitesse du site. 
+la palette doit etre neutre colorée feminine 

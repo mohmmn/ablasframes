@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragments of my reality — ablas frames · Maquette 2 Mobile (Livre)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ============================================================
+   MAQUETTE 2 — MOBILE · clair, féminin, étoilé, livre qui se tourne
+   ============================================================ */
+:root{
+  --bg:#FBF3EE;--bg-soft:#F4E6DE;--paper:#FDF8F2;--paper-edge:#EAD9CC;
+  --text:#4F3F3A;--muted:#8A776F;--faint:#B6A096;
+  --line:rgba(90,60,50,.10);--line-strong:rgba(90,60,50,.22);
+  --rose:#D6A096;--rose-deep:#C07F77;--gold:#CBA15A;--sage:#B5BF8C;--star:#E7C16B;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+.app[data-theme="night"]{
+  --bg:#322A33;--bg-soft:#3C3340;--paper:#41394A;--paper-edge:#564a5e;
+  --text:#F0E6E2;--muted:#C5B3B8;--faint:#8E7E86;
+  --line:rgba(255,255,255,.08);--line-strong:rgba(255,255,255,.18);
+  --rose:#E4AEA4;--rose-deep:#E9B7AE;--gold:#E7C16B;--sage:#C3CD96;--star:#FBE39A;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  background:radial-gradient(ellipse at 50% 0%,#f0ddd2,#e7cabf 70%);padding:38px 16px 56px;color:#5a4742;}
+.serif{font-family:'Cormorant Garamond',serif;}
+
+/* en-tête présentation */
+.stage-head{text-align:center;margin-bottom:30px;max-width:520px;}
+.stage-head .em{display:inline-flex;gap:10px;align-items:center;color:#b08c80;font-size:10px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:12px;}
+.stage-head h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:32px;color:#6a514a;line-height:1.1;}
+.stage-head p{font-size:12px;color:#9a7d72;margin-top:10px;line-height:1.6;}
+
+/* cadre téléphone */
+.phone{width:392px;max-width:94vw;height:824px;max-height:86vh;background:#efe2da;border-radius:52px;padding:13px;
+  box-shadow:0 40px 90px rgba(120,80,70,.35),0 0 0 2px rgba(255,255,255,.5);position:relative;}
+.phone::before{content:"";position:absolute;top:26px;left:50%;transform:translateX(-50%);width:118px;height:30px;background:#1a1418;border-radius:18px;z-index:60;}
+.screen{width:100%;height:100%;border-radius:40px;overflow:hidden;position:relative;background:var(--bg);}
+.app{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);
+  transition:background .6s var(--ease),color .6s var(--ease);}
+
+/* starfield dans l'écran */
+#msky{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:var(--star);box-shadow:0 0 5px var(--star);animation:tw ease-in-out infinite;}
+.sparkle{position:absolute;animation:tw ease-in-out infinite;}
+@keyframes tw{0%,100%{opacity:.25;transform:scale(.8);}50%{opacity:1;transform:scale(1.15);}}
+
+.scroller{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;position:relative;z-index:1;}
+.scroller::-webkit-scrollbar{display:none;}
+
+/* statut + navbar (logo centré) */
+.statusbar{height:40px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 4px;font-size:11px;font-weight:500;color:var(--text);position:relative;z-index:3;}
+.statusbar .r{display:flex;gap:6px;align-items:center;}
+.topnav{display:grid;grid-template-columns:32px 1fr 32px;align-items:center;padding:6px 18px 12px;position:relative;z-index:3;
+  border-bottom:.5px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(6px);transition:background .6s var(--ease),border-color .6s;}
+.topnav .back{font-size:18px;color:var(--text);cursor:pointer;visibility:hidden;justify-self:start;}
+.topnav .back.show{visibility:visible;}
+.topnav .logo{justify-self:center;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;}
+.topnav .logo .crown{display:flex;align-items:center;gap:6px;}
+.topnav .logo .crown .ln{width:16px;height:.5px;background:var(--line-strong);}
+.topnav .logo .name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;letter-spacing:.03em;line-height:1;color:var(--text);}
+.topnav .logo .role{font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);}
+.toggle{width:40px;height:21px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;cursor:pointer;position:relative;justify-self:end;}
+.toggle .knob{position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:9px;transition:transform .45s var(--ease);}
+.app[data-theme="night"] .toggle .knob{transform:translateX(19px);}
+
+.prog{height:2px;background:var(--line);position:relative;z-index:3;}
+.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--rose),var(--gold));transition:width .15s linear;}
+.chiprow{display:none;align-items:center;gap:8px;padding:10px 20px 0;position:relative;z-index:2;}
+.chiprow.show{display:flex;}.chiprow .dot{width:7px;height:7px;border-radius:50%;}.chiprow .t{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+/* pages */
+.page{display:none;position:relative;z-index:1;padding-bottom:26px;}
+.page.active{display:block;animation:pin .6s var(--ease);}
+@keyframes pin{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.reveal{opacity:0;transform:translateY(16px);transition:.7s var(--ease);}.reveal.in{opacity:1;transform:none;}
+
+/* HOME hero + livre */
+.hhero{text-align:center;padding:26px 22px 6px;position:relative;z-index:2;}
+.hhero .k{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:10px;}
+.hhero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:34px;line-height:1.05;color:var(--text);}
+.hhero h1 .of{color:var(--rose-deep);}
+.hhero .sub{margin-top:8px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);}
+
+.bookstage{display:flex;flex-direction:column;align-items:center;padding:14px 0 24px;position:relative;z-index:2;}
+.bookwrap{perspective:1600px;perspective-origin:50% 45%;}
+.book{position:relative;width:280px;height:404px;transform-style:preserve-3d;filter:drop-shadow(0 24px 36px rgba(120,80,70,.22));}
+.book::before{content:"";position:absolute;top:-6px;bottom:-6px;left:-9px;width:9px;background:linear-gradient(90deg,rgba(120,80,70,.22),rgba(120,80,70,.05));border-radius:3px 0 0 3px;}
+.pages{position:absolute;inset:0;transform-style:preserve-3d;}
+.leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1s var(--ease);cursor:pointer;}
+.leaf.flipped{transform:rotateY(-172deg);}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--paper);border:1px solid var(--paper-edge);border-radius:4px 8px 8px 4px;}
+.face.front{box-shadow:inset 12px 0 22px -14px rgba(120,80,70,.25);}
+.face.back{transform:rotateY(180deg);box-shadow:inset -12px 0 22px -14px rgba(120,80,70,.25);}
+
+.pg{position:relative;width:100%;height:100%;padding:26px 24px;display:flex;flex-direction:column;}
+.pg .pnum{position:absolute;bottom:12px;right:18px;font-size:8px;letter-spacing:.2em;color:var(--faint);}
+.face.back .pg .pnum{right:auto;left:18px;}
+.pg-corner{position:absolute;top:0;right:0;width:36px;height:36px;background:linear-gradient(225deg,rgba(120,80,70,.1),transparent 60%);}
+.pg-title{align-items:center;justify-content:center;text-align:center;}
+.pg-title h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:30px;line-height:1.04;color:var(--text);}
+.pg-title h2 .of{display:block;font-size:.5em;color:var(--rose-deep);letter-spacing:.05em;margin-top:.2em;}
+.pg-title .deco{display:flex;align-items:center;gap:10px;margin:18px 0 14px;}
+.pg-title .deco .ln{width:34px;height:.5px;background:var(--line-strong);}
+.pg-title p{font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);}
+.pg .cap-sub{font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:6px;}
+.pg h3.cap{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:26px;margin-bottom:20px;color:var(--text);}
+.toc{display:flex;flex-direction:column;gap:16px;}
+.toc .row{cursor:pointer;}
+.toc .row .t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--text);display:block;}
+.toc .row .n{font-size:9px;color:var(--faint);letter-spacing:.1em;}
+.toc .row:active .t{color:var(--rose-deep);}
+.pg-chapter .ph{height:42%;border-radius:5px;overflow:hidden;position:relative;margin-bottom:14px;}
+.pg-chapter .ph .img{position:absolute;inset:0;}
+.pg-chapter .ph .dot{position:absolute;top:10px;right:10px;width:7px;height:7px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.25);}
+.pg-chapter .tg{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:5px;}
+.pg-chapter h3{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:22px;line-height:1.05;margin-bottom:8px;color:var(--text);}
+.pg-chapter p{font-size:11px;line-height:1.65;color:var(--muted);flex:1;}
+.pg-chapter .enter{align-self:flex-start;margin-top:8px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--rose-deep);border:none;border-radius:24px;padding:9px 18px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;box-shadow:0 5px 14px rgba(192,127,119,.3);}
+.pg-verso{align-items:center;justify-content:center;text-align:center;color:var(--faint);}
+.pg-verso .mark{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:14px;color:var(--faint);opacity:.7;margin-top:12px;}
+
+.bookctrl{display:flex;align-items:center;gap:18px;margin-top:24px;}
+.bookctrl button{width:44px;height:44px;border-radius:50%;border:.5px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.35s var(--ease);}
+.bookctrl button:active{background:var(--rose-deep);color:#fff;border-color:var(--rose-deep);}
+.bookctrl button:disabled{opacity:.3;}
+.bookdots{display:flex;gap:8px;}
+.bookdots .d{width:6px;height:6px;border-radius:50%;background:var(--line-strong);transition:.35s;}
+.bookdots .d.on{background:var(--rose-deep);transform:scale(1.3);}
+.bookhint{margin-top:14px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);display:flex;gap:7px;align-items:center;}
+
+/* sections génériques */
+.sec{padding:28px 20px;}
+.eyebrow{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--rose-deep);margin-bottom:10px;}
+.sec-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;line-height:1.1;color:var(--text);}
+.embro{display:flex;align-items:center;justify-content:center;gap:10px;}.embro .ln{height:.5px;width:32px;background:var(--line-strong);}
+
+/* visuels */
+.film{background-blend-mode:multiply;}
+.f-thailand{background:linear-gradient(135deg,#f0e3b6,#dcae6a 45%,#9aa84a 100%);}
+.f-highlands{background:linear-gradient(135deg,#dfe6ea,#c2cdbf 55%,#9aa890 100%);}
+.f-amsterdam{background:linear-gradient(135deg,#efe7d4,#d6c9ac 55%,#b3a486 100%);}
+
+/* chapitre */
+.chero{position:relative;height:218px;display:flex;align-items:flex-end;overflow:hidden;border-radius:0 0 24px 24px;}
+.chero .img{position:absolute;inset:0;}
+.chero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(60,40,40,.62),transparent 60%);}
+.chero .in{position:relative;z-index:2;padding:16px;width:100%;}
+.chero .meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.chero .meta .dot{width:6px;height:6px;border-radius:50%;}.chero .meta .tt{font-size:8px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;}
+.chero .meta .ln{flex:1;height:.5px;background:rgba(255,245,240,.45);}.chero .meta .n{font-size:8px;letter-spacing:.1em;color:rgba(255,245,240,.75);}
+.chero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#FFF6F1;font-size:28px;line-height:1.04;}
+.cintro{padding:20px 20px 4px;}.cintro .lt{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:10px;}
+.cintro p{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;font-weight:300;color:var(--text);}
+
+.pills{display:flex;gap:7px;padding:0 20px 6px;overflow-x:auto;}.pills::-webkit-scrollbar{display:none;}
+.pill{flex:none;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:.3s var(--ease);}
+.pill.active{background:var(--rose-deep);color:#fff;border-color:var(--rose-deep);}
+
+.gal{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:18px 20px;}
+.git{position:relative;overflow:hidden;border-radius:6px;cursor:pointer;background:var(--bg-soft);}
+.git .img{position:absolute;inset:0;}
+.git .cap{position:absolute;left:10px;bottom:9px;z-index:2;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,250,245,.92);text-shadow:0 1px 4px rgba(0,0,0,.5);}
+.git .zz{position:absolute;top:9px;right:9px;z-index:2;color:rgba(255,250,245,.85);font-size:13px;}
+.g-full{grid-column:span 2;aspect-ratio:16/10;}.g-tall{aspect-ratio:3/4;}.g-sq{aspect-ratio:1;}.g-wide{grid-column:span 2;aspect-ratio:2/1;}
+
+.breath{text-align:center;padding:34px 26px;}
+.breath .emb{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;}.breath .emb .ln{height:.5px;width:28px;background:var(--line-strong);}
+.breath .q{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:18px;line-height:1.5;color:var(--text);}
+.breath .who{margin-top:10px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+
+/* listing */
+.lcard{border-radius:12px;overflow:hidden;border:.5px solid var(--line);margin-bottom:14px;background:var(--bg);box-shadow:0 6px 18px rgba(120,80,70,.06);}
+.lcard.hide{display:none;}
+.lcard .thumb{height:128px;position:relative;overflow:hidden;}.lcard .thumb .img{position:absolute;inset:0;}
+.lcard .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(70,45,45,.4),transparent 60%);}
+.lcard .meta{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
+.lcard .meta h4{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:17px;}
+.lcard .meta .tg{font-size:9px;letter-spacing:.12em;text-transform:uppercase;}
+
+/* about / contact */
+.about{padding:56px 26px;text-align:center;}
+.about h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:27px;line-height:1.25;margin:20px 0;}
+.about .emb{margin:0 auto 20px;}
+.about p{font-size:13px;line-height:1.9;color:var(--muted);}
+.contact{padding:38px 24px;}
+.contact h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:32px;margin-bottom:28px;}
+.field{position:relative;margin-bottom:24px;}
+.field input,.field textarea{width:100%;background:transparent;border:none;border-bottom:.5px solid var(--line-strong);padding:10px 0;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;resize:none;transition:border-color .4s;}
+.field label{position:absolute;left:0;top:10px;font-size:14px;color:var(--faint);pointer-events:none;transition:.35s var(--ease);}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--rose-deep);}
+.field input:focus~label,.field textarea:focus~label,.field input:not(:placeholder-shown)~label,.field textarea:not(:placeholder-shown)~label{top:-11px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--rose-deep);}
+.btn{font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;background:var(--rose-deep);color:#fff;border:none;border-radius:24px;cursor:pointer;width:100%;box-shadow:0 6px 16px rgba(192,127,119,.3);}
+.cfoot{display:flex;flex-direction:column;gap:14px;margin-top:34px;padding-top:22px;border-top:.5px solid var(--line);}
+.cfoot a{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);text-decoration:none;}
+
+/* bottom nav */
+.bottomnav{display:flex;justify-content:space-around;align-items:center;padding:12px 0 18px;border-top:.5px solid var(--line);background:var(--bg);position:relative;z-index:5;transition:background .6s var(--ease);}
+.bottomnav .it{display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;color:var(--faint);transition:color .3s;}
+.bottomnav .it i{font-size:18px;}.bottomnav .it span{font-size:7.5px;letter-spacing:.1em;text-transform:uppercase;}
+.bottomnav .it.active{color:var(--rose-deep);}
+
+/* lightbox */
+.lb{position:absolute;inset:0;z-index:100;background:rgba(70,45,45,.93);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;border-radius:40px;}
+.lb.open{opacity:1;visibility:visible;}
+.lb .stage{position:relative;width:88%;aspect-ratio:3/4;border-radius:8px;overflow:hidden;transform:scale(.92);transition:transform .45s var(--ease);}
+.lb.open .stage{transform:scale(1);}.lb .stage .img{position:absolute;inset:0;}
+.lb .cap{position:absolute;left:0;right:0;bottom:-28px;text-align:center;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,245,240,.65);}
+.lb .close{position:absolute;top:22px;right:22px;width:34px;height:34px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;background:none;cursor:pointer;}
+.lb .count{position:absolute;top:28px;left:22px;font-size:10px;letter-spacing:.12em;color:rgba(255,245,240,.6);}
+.lb .hint{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,245,240,.4);}
+
+.foot-note{margin-top:28px;font-size:11px;color:#a07f73;letter-spacing:.05em;text-align:center;}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.1s!important;}.star,.sparkle{animation:none;opacity:.6;}}
+@media(max-width:440px){body{padding:14px 0 28px;}.phone{border-radius:0;padding:0;width:100%;max-width:100%;height:100vh;max-height:100vh;}.phone::before{display:none;}.screen{border-radius:0;}.lb{border-radius:0;}.stage-head{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="stage-head">
+  <span class="em"><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#cba15a"/></svg> Maquette 2 · mobile <svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#cba15a"/></svg></span>
+  <h1>Fragments of my reality</h1>
+  <p>Le livre se feuillette au glissement (swipe) ou aux flèches. Touchez un chapitre pour y entrer.</p>
+</div>
+
+<div class="phone">
+  <div class="screen">
+    <div class="app" id="app" data-theme="day">
+      <div id="msky"></div>
+
+      <div class="statusbar"><span>9:41</span><span class="r"><i class="ti ti-signal-4g"></i> <i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i></span></div>
+      <div class="topnav" id="topnav">
+        <i class="ti ti-arrow-left back" id="back"></i>
+        <div class="logo" data-nav="home">
+          <span class="crown"><span class="ln"></span><svg width="9" height="9" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></span>
+          <span class="name serif">ablas frames</span>
+          <span class="role">Photographe</span>
+        </div>
+        <button class="toggle" id="toggle"><span class="knob"><i class="ti ti-sun" id="ticon"></i></span></button>
+      </div>
+      <div class="prog"><span id="prog"></span></div>
+      <div class="chiprow" id="chiprow"><span class="dot"></span><span class="t" id="chipt"></span></div>
+
+      <div class="scroller" id="scroller">
+
+        <!-- HOME : LE LIVRE -->
+        <section class="page active" id="p-home">
+          <div class="hhero">
+            <p class="k">Carnet de voyage</p>
+            <h1 class="serif">Fragments <span class="of">of my reality</span></h1>
+            <p class="sub">Tournez les pages</p>
+          </div>
+          <div class="bookstage">
+            <div class="bookwrap"><div class="book" id="book"><div class="pages" id="pages"></div></div></div>
+            <div class="bookctrl">
+              <button id="prev"><i class="ti ti-chevron-left"></i></button>
+              <div class="bookdots" id="dots"></div>
+              <button id="next"><i class="ti ti-chevron-right"></i></button>
+            </div>
+            <p class="bookhint"><i class="ti ti-hand-finger"></i> Glissez ou touchez la page</p>
+          </div>
+        </section>
+
+        <!-- THAILAND -->
+        <section class="page" id="p-thailand" data-chap="thailand">
+          <div class="chero"><div class="img film f-thailand"></div>
+            <div class="in"><div class="meta"><span class="dot" style="background:#F95738"></span><span class="tt" style="color:#e9d28f">Travel</span><span class="ln"></span><span class="n">Chapitre I</span></div><h1>Thailand on Film</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>J'ai laissé l'argentique décider. Ces images sont des fragments — imparfaits, vivants, vrais.</p></div>
+          <div class="pills"><button class="pill active">Tous</button><button class="pill">Bangkok</button><button class="pill">Nature</button><button class="pill">Mer</button></div>
+          <div class="gal" data-gallery>
+            <div class="git g-full reveal"><div class="img film f-thailand"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Bangkok · 5h12</span></div>
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(160deg,#F08c6a,#c8401a)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Marché flottant</span></div>
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(135deg,#9aa84a,#c0cf78)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Rizières</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#f4e6b8,#d4c060)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Temple</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#d4a85a,#F08c6a)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Épices</span></div>
+          </div>
+          <div class="breath reveal"><div class="emb"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--rose)"/></svg><span class="ln"></span></div><span class="q">« La pellicule garde la chaleur de l'instant. »</span><p class="who">Carnet — Bangkok</p></div>
+          <div class="gal" data-gallery>
+            <div class="git g-wide reveal"><div class="img film f-thailand" style="filter:hue-rotate(-6deg)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Côte d'Andaman</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#9aa84a,#5a6618)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Jungle</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#f4e6b8,#9aa84a)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Krabi</span></div>
+          </div>
+        </section>
+
+        <!-- HIGHLANDS -->
+        <section class="page" id="p-highlands" data-chap="highlands">
+          <div class="chero"><div class="img film f-highlands"></div>
+            <div class="in"><div class="meta"><span class="dot" style="background:#edd0cc"></span><span class="tt" style="color:#dfeada">Travel</span><span class="ln"></span><span class="n">Chapitre II</span></div><h1>Walking in the Highlands</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>Une brume persistante, l'odeur de la tourbe et des kilomètres de lande silencieuse. Le temps ralenti.</p></div>
+          <div class="gal" data-gallery style="gap:14px">
+            <div class="git g-wide reveal"><div class="img film f-highlands"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Glen Coe, brume basse</span></div>
+            <div class="git g-full reveal"><div class="img" style="background:linear-gradient(135deg,#dfe6ea,#aab8c0)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Loch silencieux</span></div>
+          </div>
+          <div class="breath reveal" style="padding:42px 26px"><div class="emb"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--sage)"/></svg><span class="ln"></span></div><span class="q">« Ici, le silence a une texture. »</span><p class="who">Carnet — Glen Coe</p></div>
+          <div class="gal" data-gallery style="gap:14px">
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(160deg,#edd0cc,#c8a9a2)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Bruyère</span></div>
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(135deg,#B5BF8C,#8a9070)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Lande</span></div>
+            <div class="git g-full reveal"><div class="img film f-highlands" style="filter:brightness(1.04)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Vallée au nord</span></div>
+          </div>
+        </section>
+
+        <!-- CHAPITRES -->
+        <section class="page" id="p-chapters">
+          <div class="sec" style="padding-bottom:8px"><p class="eyebrow">La bibliothèque</p><h1 class="sec-h">Chapitres</h1></div>
+          <div class="pills" id="mpills">
+            <button class="pill active" data-filter="all">Tous</button><button class="pill" data-filter="travel">Travel</button><button class="pill" data-filter="wildlife">Wildlife</button><button class="pill" data-filter="portraits">Portraits</button><button class="pill" data-filter="events">Events</button>
+          </div>
+          <div class="sec" style="padding-top:16px" id="mlist">
+            <div class="lcard reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img film f-thailand"></div></div><div class="meta"><h4>Thailand on Film</h4><span class="tg" style="color:#C2702F">Travel</span></div></div>
+            <div class="lcard reveal" data-cat="travel" data-chapter="highlands"><div class="thumb"><div class="img film f-highlands"></div></div><div class="meta"><h4>Walking in the Highlands</h4><span class="tg" style="color:#7E9070">Travel</span></div></div>
+            <div class="lcard reveal" data-cat="travel" data-soon="1"><div class="thumb"><div class="img film f-amsterdam"></div></div><div class="meta"><h4>A Weekend in Amsterdam</h4><span class="tg" style="color:#9c8f6f">Travel</span></div></div>
+            <div class="lcard reveal" data-cat="wildlife" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#cbbd86,#6a7340)"></div></div><div class="meta"><h4>Creatures of Dawn</h4><span class="tg" style="color:#8D9B30">Wildlife</span></div></div>
+            <div class="lcard reveal" data-cat="portraits" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#e7c8b8,#c08b86)"></div></div><div class="meta"><h4>Faces I Met</h4><span class="tg" style="color:#C07F77">Portraits</span></div></div>
+          </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section class="page" id="p-about">
+          <div class="about">
+            <p class="eyebrow">À propos</p>
+            <h1 class="reveal serif">Je capture ce que l'œil oublie d'ordinaire.</h1>
+            <div class="embro emb reveal"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--rose)"/></svg><span class="ln"></span></div>
+            <p class="reveal">Photographe indépendante. Argentique et numérique, une obsession commune : la lumière naturelle, l'instant non posé, l'imperfection qui dit vrai. Des fragments d'une réalité que je vous tends.</p>
+          </div>
+        </section>
+
+        <!-- CONTACT -->
+        <section class="page" id="p-contact">
+          <div class="contact">
+            <p class="eyebrow">Contact</p><h1 class="reveal serif">Dites bonjour.</h1>
+            <form class="reveal" onsubmit="event.preventDefault();this.querySelector('.btn').textContent='Merci — message envoyé';">
+              <div class="field"><input placeholder=" " required><label>Nom</label></div>
+              <div class="field"><input type="email" placeholder=" " required><label>Email</label></div>
+              <div class="field"><textarea rows="3" placeholder=" " required></textarea><label>Message</label></div>
+              <button class="btn" type="submit">Envoyer</button>
+            </form>
+            <div class="cfoot"><a href="#"><i class="ti ti-brand-instagram"></i> @ablasframes</a><a href="#"><i class="ti ti-mail"></i> hello@ablasframes.com</a></div>
+          </div>
+        </section>
+
+      </div><!-- /scroller -->
+
+      <div class="bottomnav">
+        <div class="it active" data-nav="home"><i class="ti ti-book"></i><span>Le livre</span></div>
+        <div class="it" data-nav="chapters"><i class="ti ti-books"></i><span>Chapitres</span></div>
+        <div class="it" data-nav="about"><i class="ti ti-user"></i><span>À propos</span></div>
+        <div class="it" data-nav="contact"><i class="ti ti-mail"></i><span>Contact</span></div>
+      </div>
+
+      <div class="lb" id="lb">
+        <span class="count" id="lbcount"></span>
+        <button class="close" id="lbclose"><i class="ti ti-x"></i></button>
+        <div class="stage"><div class="img" id="lbimg"></div><span class="cap" id="lbcap"></span></div>
+        <span class="hint">‹ glissez pour naviguer ›</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p class="foot-note">ablas frames — Maquette 2 mobile · ouvrez sur téléphone pour le plein écran</p>
+
+<!-- gabarit des pages du livre -->
+<template id="leaves">
+  <div class="pg pg-title"><span class="pg-corner"></span>
+    <div style="margin-bottom:16px"><svg width="44" height="18" viewBox="0 0 60 20"><g fill="none" stroke="var(--gold)" stroke-width=".8"><path d="M2,10 H22"/><circle cx="30" cy="10" r="4"/><path d="M38,10 H58"/></g><path d="M30,3 L30.7,8 L36,10 L30.7,12 L30,17 L29.3,12 L24,10 L29.3,8 Z" fill="var(--rose)"/></svg></div>
+    <h2 class="serif">Fragments<span class="of">of my reality</span></h2>
+    <div class="deco"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--rose)"/></svg><span class="ln"></span></div>
+    <p>ablas frames — argentique</p>
+  </div>
+  <div class="pg"><span class="pg-corner"></span>
+    <p class="cap-sub">Le carnet</p><h3 class="cap serif">Sommaire</h3>
+    <div class="toc">
+      <div class="row" data-chapter="thailand"><span class="t">I · Thailand on Film</span><span class="n">page 04</span></div>
+      <div class="row" data-chapter="highlands"><span class="t">II · Walking in the Highlands</span><span class="n">page 06</span></div>
+      <div class="row" data-soon="1"><span class="t">III · A Weekend in Amsterdam</span><span class="n">page 08</span></div>
+    </div>
+  </div>
+  <div class="pg pg-chapter"><span class="pg-corner"></span>
+    <div class="ph"><div class="img film f-thailand"></div><span class="dot" style="background:#F95738"></span></div>
+    <p class="tg">Travel · Chapitre I</p><h3 class="serif">Thailand on Film</h3>
+    <p>Le tumulte de Bangkok, le silence des rizières. J'ai laissé l'argentique décider.</p>
+    <button class="enter" data-chapter="thailand">Entrer dans le chapitre <i class="ti ti-arrow-right"></i></button>
+  </div>
+  <div class="pg pg-chapter"><span class="pg-corner"></span>
+    <div class="ph"><div class="img film f-highlands"></div><span class="dot" style="background:#9fb0a0"></span></div>
+    <p class="tg">Travel · Chapitre II</p><h3 class="serif">Walking in the Highlands</h3>
+    <p>Brume, tourbe, lande silencieuse. Écosse, automne — le temps ralenti.</p>
+    <button class="enter" data-chapter="highlands">Entrer dans le chapitre <i class="ti ti-arrow-right"></i></button>
+  </div>
+  <div class="pg pg-chapter"><span class="pg-corner"></span>
+    <div class="ph"><div class="img film f-amsterdam"></div></div>
+    <p class="tg">Travel · Chapitre III</p><h3 class="serif">A Weekend in Amsterdam</h3>
+    <p>Pluie fine sur les canaux, lumière de fin de jour. Bientôt dans le carnet.</p>
+    <button class="enter" data-soon="1" style="background:transparent;color:var(--rose-deep);border:.5px solid var(--rose-deep);box-shadow:none;">Bientôt <i class="ti ti-clock-hour-4"></i></button>
+  </div>
+</template>
+
+<script>
+const app=document.getElementById('app');
+const scroller=document.getElementById('scroller');
+const back=document.getElementById('back'),topnav=document.getElementById('topnav');
+const chiprow=document.getElementById('chiprow'),chipt=document.getElementById('chipt');
+
+/* ---------- STARFIELD ---------- */
+(function(){
+  const s=document.getElementById('msky');const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N=reduce?40:90;const NS='http://www.w3.org/2000/svg';
+  for(let i=0;i<N;i++){
+    const left=Math.random()*100+'%',top=Math.random()*100+'%',dur=(2.5+Math.random()*4)+'s',delay=(Math.random()*5)+'s';
+    if(Math.random()>0.82){const sz=Math.random()*6+5;const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 10 10');svg.setAttribute('class','sparkle');svg.setAttribute('width',sz);svg.setAttribute('height',sz);svg.style.left=left;svg.style.top=top;svg.style.animationDuration=dur;svg.style.animationDelay=delay;svg.innerHTML='<path d="M5,0 L5.7,3.4 L9,5 L5.7,6.6 L5,10 L4.3,6.6 L1,5 L4.3,3.4 Z" fill="var(--star)"/>';s.appendChild(svg);}
+    else{const sz=Math.random()*2+1;const el=document.createElement('span');el.className='star';el.style.cssText=`width:${sz}px;height:${sz}px;left:${left};top:${top};animation-duration:${dur};animation-delay:${delay}`;s.appendChild(el);}
+  }
+})();
+
+/* ---------- LE LIVRE ---------- */
+const pagesHost=document.getElementById('pages');
+const contents=Array.from(document.getElementById('leaves').content.querySelectorAll('.pg'));
+const N=contents.length;let current=0;const leaves=[];
+contents.forEach((node,i)=>{
+  const leaf=document.createElement('div');leaf.className='leaf';
+  const front=document.createElement('div');front.className='face front';front.appendChild(node.cloneNode(true));
+  front.querySelector('.pg').insertAdjacentHTML('beforeend','<span class="pnum">'+(i*2+1).toString().padStart(2,'0')+'</span>');
+  const backNum=(i*2+2).toString().padStart(2,'0');
+  const back=document.createElement('div');back.className='face back';
+  back.innerHTML='<div class="pg pg-verso"><span class="pg-corner"></span><svg width="38" height="38" viewBox="0 0 50 50" style="opacity:.5"><g fill="none" stroke="var(--rose)" stroke-width=".7"><circle cx="25" cy="25" r="15"/><circle cx="25" cy="25" r="7"/></g><path d="M25,12 L25.7,21 L34,25 L25.7,29 L25,38 L24.3,29 L16,25 L24.3,21 Z" fill="var(--gold)" opacity=".55"/></svg><span class="mark serif">ablas frames</span><span class="pnum">'+backNum+'</span></div>';
+  leaf.appendChild(front);leaf.appendChild(back);pagesHost.appendChild(leaf);leaves.push(leaf);
+  leaf.addEventListener('click',e=>{if(e.target.closest('[data-chapter],[data-soon]'))return;flip(1);});
+});
+function updateBook(){
+  leaves.forEach((lf,i)=>{if(i<current){lf.classList.add('flipped');lf.style.zIndex=i+1;}else{lf.classList.remove('flipped');lf.style.zIndex=2*N-i;}});
+  document.getElementById('prev').disabled=current<=0;document.getElementById('next').disabled=current>=N;
+  document.querySelectorAll('#dots .d').forEach((d,i)=>d.classList.toggle('on',i===current));
+}
+function flip(d){const nc=Math.min(Math.max(current+d,0),N);if(nc!==current){current=nc;updateBook();}}
+document.getElementById('next').addEventListener('click',()=>flip(1));
+document.getElementById('prev').addEventListener('click',()=>flip(-1));
+const dotsHost=document.getElementById('dots');for(let i=0;i<=N;i++){const d=document.createElement('span');d.className='d';d.addEventListener('click',()=>{current=i;updateBook();});dotsHost.appendChild(d);}
+let bx=0;const book=document.getElementById('book');
+book.addEventListener('touchstart',e=>bx=e.touches[0].clientX,{passive:true});
+book.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-bx;if(Math.abs(dx)>40)flip(dx<0?1:-1);});
+updateBook();
+
+/* ---------- ROUTING ---------- */
+const PAGES={
+  home:{el:'p-home'},chapters:{el:'p-chapters'},about:{el:'p-about'},contact:{el:'p-contact'},
+  thailand:{el:'p-thailand',label:'Thailand on Film',tint:'#FAF0CA',tintN:'#3a3320',line:'rgba(140,115,30,.18)',dot:'#F95738'},
+  highlands:{el:'p-highlands',label:'Walking in the Highlands',tint:'#dde3e7',tintN:'#2a3236',line:'rgba(100,120,130,.2)',dot:'#edd0cc'},
+};
+const NAVKEYS=['home','chapters','about','contact'];
+function go(key){
+  const p=PAGES[key];if(!p)return;
+  document.querySelectorAll('.page').forEach(s=>s.classList.remove('active'));
+  document.getElementById(p.el).classList.add('active');
+  const night=app.dataset.theme==='night';
+  if(p.tint){topnav.style.background=night?p.tintN:p.tint;topnav.style.borderColor=p.line;chiprow.classList.add('show');chipt.textContent=p.label;chiprow.querySelector('.dot').style.background=p.dot;back.classList.add('show');}
+  else{topnav.style.background='';topnav.style.borderColor='';chiprow.classList.remove('show');back.classList.remove('show');}
+  const navKey=NAVKEYS.includes(key)?key:'chapters';
+  document.querySelectorAll('.bottomnav .it').forEach(i=>i.classList.toggle('active',i.dataset.nav===navKey));
+  scroller.scrollTo({top:0});runReveal();
+}
+document.querySelectorAll('[data-nav]').forEach(e=>e.addEventListener('click',()=>go(e.dataset.nav)));
+document.body.addEventListener('click',e=>{
+  const c=e.target.closest('[data-chapter]');if(c){e.stopPropagation();go(c.dataset.chapter);return;}
+  const s=e.target.closest('[data-soon]');if(s&&s.classList.contains('enter')){e.stopPropagation();s.firstChild.textContent='Bientôt disponible ';}
+});
+back.addEventListener('click',()=>go('home'));
+
+/* ---------- THEME ---------- */
+const toggle=document.getElementById('toggle'),ticon=document.getElementById('ticon');
+function applyTheme(t){
+  app.dataset.theme=t;document.querySelector('.screen').style.background=getComputedStyle(app).getPropertyValue('--bg');
+  ticon.className=t==='night'?'ti ti-moon':'ti ti-sun';try{localStorage.setItem('ff2m-theme',t);}catch(e){}
+  const cur=document.querySelector('.page.active');const ck=cur&&cur.dataset.chap;if(ck)go(ck);
+}
+toggle.addEventListener('click',()=>applyTheme(app.dataset.theme==='night'?'day':'night'));
+(function(){let t;try{t=localStorage.getItem('ff2m-theme');}catch(e){}if(!t){const h=new Date().getHours();t=(h<7||h>=19)?'night':'day';}applyTheme(t);})();
+
+/* ---------- FILTRES ---------- */
+document.querySelectorAll('#mpills .pill').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#mpills .pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');const f=b.dataset.filter;document.querySelectorAll('#mlist .lcard').forEach(c=>c.classList.toggle('hide',!(f==='all'||c.dataset.cat===f)));}));
+document.querySelectorAll('#p-thailand .pill,#p-highlands .pill').forEach(b=>b.addEventListener('click',()=>{b.parentNode.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');}));
+
+/* ---------- REVEAL + PROGRESS ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{root:scroller,threshold:.12});
+function runReveal(){document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el=>io.observe(el));}
+const prog=document.getElementById('prog');
+scroller.addEventListener('scroll',()=>{const h=scroller.scrollHeight-scroller.clientHeight;prog.style.width=(h>0?scroller.scrollTop/h*100:0)+'%';},{passive:true});
+
+/* ---------- LIGHTBOX ---------- */
+const lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbcap=document.getElementById('lbcap'),lbcount=document.getElementById('lbcount');
+let items=[],idx=0;
+function render(){const it=items[idx],img=it.querySelector('.img');lbimg.className=img.className;lbimg.style.cssText=img.getAttribute('style')||'';lbimg.style.position='absolute';lbimg.style.inset='0';const c=it.querySelector('.cap');lbcap.textContent=c?c.textContent:'';lbcount.textContent=(idx+1)+' / '+items.length;}
+function move(d){idx=(idx+d+items.length)%items.length;render();}
+function closeLB(){lb.classList.remove('open');}
+scroller.addEventListener('click',e=>{const it=e.target.closest('.git');if(!it)return;const set=Array.from(document.querySelectorAll('.page.active .git'));items=set;idx=set.indexOf(it);render();lb.classList.add('open');});
+document.getElementById('lbclose').addEventListener('click',closeLB);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+
+go('home');runReveal();
+</script>
+</body>
+</html>

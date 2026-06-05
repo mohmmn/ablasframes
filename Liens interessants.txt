@@ -1,0 +1,7 @@
+POUR LE LIVRE interactif FLIP BOOK EFFECT TUTO : https://www.youtube.com/watch?v=HFnzWoGe0so
+
+TURN JS : http://www.turnjs.com/
+
+SECTIONS INTERACTIVES : https://github.com/alvarotrigo/fullPage.js
+
+LIVRE ANCIEN : https://github.com/Nodlik/StPageFlip
