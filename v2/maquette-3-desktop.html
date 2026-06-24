@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ablas frames — Fragments of my reality · v2 (Desktop)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ============================================================
+   ablas frames — v2 · DESKTOP
+   Direction : galerie d'art contemporaine (Gagosian / White Cube)
+   Silence visuel · espace négatif · typographie éditoriale
+   ============================================================ */
+:root{
+  --c-bg:#FAFAF8;
+  --c-bg-alt:#F2F1EE;
+  --c-text:#111111;
+  --c-muted:#888880;
+  --c-accent:#111111;
+  --c-line:rgba(17,17,17,.13);
+  --maxw:1280px;
+  --padx:80px;
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;font-weight:300;font-size:16px;line-height:1.8;
+  background:var(--c-bg);color:var(--c-text);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Cormorant Garamond',serif;font-weight:300;letter-spacing:.04em;line-height:1.08;}
+em{font-style:italic;}
+a{color:inherit;text-decoration:none;}
+img{display:block;max-width:100%;}
+
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--padx);}
+.section{padding:120px 0;}
+.alt{background:var(--c-bg-alt);}
+
+/* ---------- curseur personnalisé ---------- */
+.cursor{position:fixed;top:0;left:0;width:8px;height:8px;border-radius:50%;background:var(--c-text);
+  pointer-events:none;z-index:9999;transform:translate(-50%,-50%);mix-blend-mode:difference;
+  transition:width .35s var(--ease),height .35s var(--ease),opacity .3s;}
+.cursor.big{width:40px;height:40px;}
+@media(hover:hover) and (pointer:fine){body{cursor:none;}a,button,input,textarea,.cell,[data-cursor]{cursor:none;}}
+@media(hover:none),(pointer:coarse){.cursor{display:none;}}
+
+/* ---------- navigation ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:200;transition:background .4s var(--ease),border-color .4s var(--ease);
+  border-bottom:1px solid transparent;}
+.nav.scrolled{background:var(--c-bg);border-bottom-color:var(--c-line);}
+.nav-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:84px;}
+.nav-side{display:flex;gap:40px;}
+.nav-side.left{justify-content:flex-start;}
+.nav-side.right{justify-content:flex-end;}
+.nav-side a{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-muted);position:relative;padding:4px 0;transition:color .3s;}
+.nav-side a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--c-accent);transition:width .4s var(--ease);}
+.nav-side a:hover,.nav-side a.current{color:var(--c-text);}
+.nav-side a:hover::after,.nav-side a.current::after{width:100%;}
+.nav-name{font-family:'Cormorant Garamond',serif;font-size:18px;letter-spacing:.06em;text-align:center;white-space:nowrap;}
+
+/* ---------- pages ---------- */
+.page{display:none;}
+.page.active{display:block;animation:fade .8s var(--ease);}
+@keyframes fade{from{opacity:0;}to{opacity:1;}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity 1s var(--ease),transform 1s var(--ease);}
+.reveal.in{opacity:1;transform:none;}
+
+.eyebrow{font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--c-muted);margin-bottom:30px;}
+
+/* ---------- HOME : hero ---------- */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding-top:84px;text-align:center;}
+.hero h1{font-size:clamp(64px,8vw,104px);letter-spacing:.03em;}
+.hero h1 em{display:block;color:var(--c-text);}
+.hero .sub{max-width:520px;margin:38px auto 0;color:var(--c-muted);font-size:16px;}
+.hero .scrollcue{margin-top:64px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--c-muted);display:flex;flex-direction:column;align-items:center;gap:12px;}
+.hero .scrollcue .ln{width:1px;height:54px;background:var(--c-line);}
+
+/* feature image pleine largeur */
+.feature{width:100%;aspect-ratio:16/8;position:relative;overflow:hidden;background:var(--c-bg-alt);}
+.feature .img{position:absolute;inset:0;transition:transform 1.6s var(--ease);}
+.feature:hover .img{transform:scale(1.03);}
+.feature .credit{position:absolute;left:var(--padx);bottom:28px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#fff;mix-blend-mode:difference;}
+
+/* statement */
+.statement{text-align:center;}
+.statement p{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(26px,3.2vw,40px);line-height:1.4;letter-spacing:.01em;max-width:920px;margin:0 auto;color:var(--c-text);}
+.statement .sig{margin-top:40px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--c-muted);}
+
+/* index éditorial des chapitres */
+.index .lead{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:20px;}
+.index .lead h2{font-size:36px;}
+.index .lead span{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-muted);}
+.index .rows{border-top:1px solid var(--c-line);}
+.idx-row{display:grid;grid-template-columns:64px 1fr auto 40px;align-items:center;gap:40px;
+  padding:38px 0;border-bottom:1px solid var(--c-line);cursor:pointer;transition:padding .5s var(--ease);}
+.idx-row .no{font-size:12px;letter-spacing:.1em;color:var(--c-muted);}
+.idx-row .ttl{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(28px,3vw,40px);transition:opacity .3s;}
+.idx-row .cat{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--c-muted);}
+.idx-row .ar{justify-self:end;font-size:20px;opacity:0;transform:translateX(-10px);transition:opacity .4s var(--ease),transform .4s var(--ease);}
+.idx-row:hover{padding-left:18px;}
+.idx-row:hover .ar{opacity:1;transform:none;}
+.idx-row.soon{cursor:default;}
+.idx-row.soon .ttl{color:var(--c-muted);}
+.idx-row.soon .ar{display:none;}
+
+/* ---------- grille galerie (œuvres accrochées au mur) ---------- */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:34px;}
+.cell{position:relative;overflow:hidden;background:var(--c-bg-alt);}
+.cell .img{position:absolute;inset:0;transition:transform 1.4s var(--ease);}
+.cell:hover .img{transform:scale(1.05);}
+.cell .cap{position:absolute;left:18px;bottom:16px;z-index:2;font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:#fff;mix-blend-mode:difference;opacity:0;transform:translateY(8px);transition:opacity .5s var(--ease),transform .5s var(--ease);}
+.cell:hover .cap{opacity:1;transform:none;}
+
+/* ===== effet « œuvre physique accrochée » : cadre + ombre + fil ===== */
+/* 1 + 2 — cadre simulé & ombre asymétrique (éclairage haut-gauche) */
+.cell,.work .ph,.frame-wrapper{
+  border:12px solid #F0EDE6;outline:1px solid #D8D4CC;border-radius:0;
+  box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0px rgba(0,0,0,.25);
+  transition:box-shadow .6s var(--ease),transform .6s var(--ease);}
+.cell:hover,.work:hover .ph,.frame-wrapper:hover{
+  box-shadow:6px 6px 16px rgba(0,0,0,.22),12px 12px 42px rgba(0,0,0,.12),1px 1px 0px rgba(0,0,0,.25);}
+/* 3 — fil d'accroche : uniquement sur les œuvres individuelles (.hung) */
+.frame-wrapper.hung{overflow:visible;}
+.frame-wrapper.hung::before{content:"";position:absolute;top:-18px;left:50%;width:1px;height:18px;background:#AAAAAA;}
+/* mur de galerie légèrement chaud */
+.wall{background:#F5F3EF;}
+.c-12{grid-column:span 12;aspect-ratio:16/8;}
+.c-8{grid-column:span 8;aspect-ratio:4/3;}
+.c-6{grid-column:span 6;aspect-ratio:4/3;}
+.c-5{grid-column:span 5;aspect-ratio:4/5;}
+.c-4{grid-column:span 4;aspect-ratio:3/4;}
+.c-3{grid-column:span 3;aspect-ratio:3/4;}
+.c-7{grid-column:span 7;aspect-ratio:16/10;}
+
+.lead-blk{margin-bottom:54px;}
+.lead-blk h2{font-size:36px;margin-bottom:8px;}
+.lead-blk p{color:var(--c-muted);max-width:560px;}
+
+/* ---------- CHAPITRE ---------- */
+.chap-head{padding:160px 0 70px;}
+.chap-head .meta{display:flex;align-items:center;gap:18px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--c-muted);margin-bottom:30px;}
+.chap-head .meta .ln{width:60px;height:1px;background:var(--c-line);}
+.chap-head h1{font-size:clamp(48px,6.5vw,84px);}
+.chap-img{max-width:860px;margin:0 auto;aspect-ratio:4/3;position:relative;background:var(--c-bg-alt);}
+.chap-img .img{position:absolute;inset:0;}
+.chap-intro{padding:120px 0;}
+.chap-intro .col{display:grid;grid-template-columns:1fr 1.4fr;gap:80px;align-items:start;}
+.chap-intro .lt{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-muted);}
+.chap-intro p{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(22px,2.4vw,30px);line-height:1.5;}
+.quote{text-align:center;padding:120px 0;}
+.quote p{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);line-height:1.4;max-width:880px;margin:0 auto;}
+.quote .who{margin-top:30px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-muted);}
+.chap-nav{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--c-line);}
+.chap-nav a{padding:54px 0;cursor:pointer;transition:opacity .3s;}
+.chap-nav a:hover{opacity:.6;}
+.chap-nav a.next{text-align:right;}
+.chap-nav .lbl{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-muted);margin-bottom:12px;}
+.chap-nav .t{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:30px;}
+
+/* ---------- CHAPITRES (index/travaux) ---------- */
+.filters{display:flex;gap:30px;margin-bottom:60px;flex-wrap:wrap;}
+.filters button{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--c-muted);background:none;border:none;padding:0 0 6px;
+  border-bottom:1px solid transparent;transition:color .3s,border-color .3s;}
+.filters button.active,.filters button:hover{color:var(--c-text);border-bottom-color:var(--c-accent);}
+.works{display:grid;grid-template-columns:repeat(2,1fr);gap:64px 40px;}
+.work{cursor:pointer;}
+.work .ph{aspect-ratio:4/3;position:relative;overflow:hidden;background:var(--c-bg-alt);margin-bottom:22px;}
+.work .ph .img{position:absolute;inset:0;transition:transform 1.4s var(--ease);}
+.work:hover .ph .img{transform:scale(1.04);}
+.work .row{display:flex;justify-content:space-between;align-items:baseline;border-top:1px solid var(--c-line);padding-top:18px;}
+.work h3{font-size:26px;}
+.work .cat{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-muted);}
+.work.soon{opacity:.55;cursor:default;}
+.work.hide{display:none;}
+
+/* ---------- ABOUT ---------- */
+.about{padding:200px 0 120px;}
+.about .col{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.about .ph{aspect-ratio:3/4;position:relative;background:var(--c-bg-alt);}
+.about .ph .img{position:absolute;inset:0;}
+.about h1{font-size:clamp(40px,5vw,64px);margin-bottom:40px;}
+.about p{color:var(--c-muted);margin-bottom:22px;max-width:480px;}
+.about .sig{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:30px;color:var(--c-text);margin-top:20px;}
+
+/* ---------- CONTACT ---------- */
+.contact{padding:200px 0 120px;}
+.contact .col{display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:start;}
+.contact h1{font-size:clamp(40px,5vw,64px);margin-bottom:40px;}
+.contact .detail{margin-bottom:30px;}
+.contact .detail .k{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-muted);margin-bottom:8px;}
+.contact .detail a,.contact .detail span{font-family:'Cormorant Garamond',serif;font-size:24px;}
+.field{position:relative;margin-bottom:40px;}
+.field input,.field textarea{width:100%;background:transparent;border:none;border-bottom:1px solid var(--c-line);
+  padding:14px 0;font-family:'DM Sans',sans-serif;font-weight:300;font-size:16px;color:var(--c-text);outline:none;resize:none;transition:border-color .4s;}
+.field label{position:absolute;left:0;top:14px;color:var(--c-muted);pointer-events:none;transition:.35s var(--ease);}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--c-accent);}
+.field input:focus~label,.field textarea:focus~label,.field input:not(:placeholder-shown)~label,.field textarea:not(:placeholder-shown)~label{top:-14px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;}
+.submit{font-size:12px;letter-spacing:.18em;text-transform:uppercase;background:var(--c-accent);color:var(--c-bg);border:none;padding:18px 44px;transition:opacity .3s;}
+.submit:hover{opacity:.8;}
+
+/* ---------- footer ---------- */
+.foot{border-top:1px solid var(--c-line);}
+.foot-row{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:90px;}
+.foot-row .cpr{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c-muted);}
+.foot-row .nm{font-family:'Cormorant Garamond',serif;font-size:18px;letter-spacing:.06em;text-align:center;}
+.foot-row .soc{display:flex;gap:26px;justify-content:flex-end;}
+.foot-row .soc a{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--c-muted);transition:color .3s;}
+.foot-row .soc a:hover{color:var(--c-text);}
+
+/* ---------- transition immersive (entrer dans l'œuvre) ---------- */
+main{transition:filter 1200ms var(--ease),transform 1200ms var(--ease),opacity 1200ms var(--ease);transform-origin:center center;}
+main.immersing{filter:blur(9px);transform:scale(1.06);opacity:.32;}
+.lb{position:fixed;inset:0;z-index:500;display:flex;align-items:center;justify-content:center;padding:80px;
+  background:rgba(245,243,239,0);backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);visibility:hidden;
+  transition:background 1100ms var(--ease),backdrop-filter 1100ms var(--ease);}
+.lb.show{visibility:visible;}
+.lb.open{background:rgba(245,243,239,.80);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);}
+.lb .stage{position:relative;width:min(940px,82vw);aspect-ratio:3/2;transform-origin:center center;will-change:transform;
+  border:12px solid #F0EDE6;outline:1px solid #D8D4CC;border-radius:0;background:#F0EDE6;
+  box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0px rgba(0,0,0,.25);}
+.lb .stage::before{content:"";position:absolute;top:-26px;left:50%;width:1px;height:26px;background:#AAAAAA;opacity:0;transition:opacity .7s var(--ease) .5s;}
+.lb.open .stage::before{opacity:1;}
+.lb .stage .img{position:absolute;inset:0;}
+.lb .cap{position:absolute;left:0;bottom:-36px;font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-muted);}
+.lb .x{position:absolute;top:34px;right:40px;font-size:24px;background:none;border:none;color:var(--c-text);z-index:3;opacity:0;transition:opacity .5s var(--ease) .45s;}
+.lb .nav-a{position:absolute;top:50%;transform:translateY(-50%);font-size:30px;background:none;border:none;color:var(--c-text);opacity:0;transition:opacity .4s var(--ease) .45s;z-index:3;}
+.lb.open .nav-a{opacity:.5;}.lb.open .nav-a:hover{opacity:1;}.lb.open .x{opacity:1;}
+.lb .pv{left:34px;}.lb .nx{right:34px;}
+.lb .ct{position:absolute;top:38px;left:40px;font-size:11px;letter-spacing:.14em;color:var(--c-muted);z-index:3;opacity:0;transition:opacity .5s var(--ease) .45s;}
+.lb.open .ct{opacity:1;}
+
+/* visuels argentiques (placeholders) */
+.film{background-blend-mode:multiply;}
+.f-thailand{background:linear-gradient(135deg,#e8d5a4,#cf9f4e 45%,#8f9d48 100%);}
+.f-highlands{background:linear-gradient(135deg,#d4dad6,#aeb6a4 55%,#84907a 100%);}
+.f-amsterdam{background:linear-gradient(135deg,#e6d9bd,#c9b98f 55%,#a6936e 100%);}
+.f-warm{background:linear-gradient(160deg,#e7b48f,#c97a4a);}
+.f-rice{background:linear-gradient(135deg,#b7c27a,#7d8a4a);}
+.f-temple{background:linear-gradient(135deg,#ead9a8,#caa84e);}
+.f-loch{background:linear-gradient(135deg,#cdd6d6,#9aaaa6);}
+.f-heath{background:linear-gradient(135deg,#b9c293,#869065);}
+.f-port{background:linear-gradient(135deg,#d8c4ae,#9c7e63);}
+.f-wild{background:linear-gradient(135deg,#cbbd86,#6a7340);}
+
+@media(max-width:1080px){
+  :root{--padx:40px;}
+  .about .col,.contact .col,.chap-intro .col{grid-template-columns:1fr;gap:48px;}
+  .works{gap:48px 24px;}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.1s!important;}}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-row wrap">
+    <div class="nav-side left">
+      <a data-nav="home">Accueil</a>
+      <a data-nav="chapters">Travaux</a>
+    </div>
+    <div class="nav-name" data-nav="home">ablas frames</div>
+    <div class="nav-side right">
+      <a data-nav="about">À propos</a>
+      <a data-nav="contact">Contact</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===================== HOME ===================== -->
+<section class="page active" id="page-home">
+
+  <section class="hero wrap">
+    <p class="eyebrow">Photographe · Argentique</p>
+    <h1>Fragments <em>of my reality</em></h1>
+    <p class="sub">Une collection d'instants saisis sur pellicule, au fil des voyages. Voyage, contemplation, lumière.</p>
+    <div class="scrollcue" id="scrollcue"><span>Défiler</span><span class="ln"></span></div>
+  </section>
+
+  <div class="feature" data-cursor>
+    <div class="img film f-thailand"></div>
+    <span class="credit">Bangkok, à l'aube — 2024</span>
+  </div>
+
+  <section class="section alt">
+    <div class="wrap statement reveal">
+      <p>Je capture ce que l'œil oublie d'ordinaire. La lumière naturelle, l'instant non posé, l'imperfection qui dit vrai — des fragments d'une réalité qui m'appartient et que je vous tends.</p>
+      <p class="sig">ablas frames</p>
+    </div>
+  </section>
+
+  <section class="section wall">
+    <div class="wrap">
+      <div class="lead-blk reveal"><h2>Sélection</h2><p>Quelques tirages choisis parmi les chapitres récents.</p></div>
+      <div class="grid reveal">
+        <div class="cell c-8" data-cursor><div class="img film f-thailand"></div><span class="cap">Côte d'Andaman</span></div>
+        <div class="cell c-4" data-cursor><div class="img film f-rice"></div><span class="cap">Rizières</span></div>
+        <div class="cell c-4" data-cursor><div class="img film f-loch"></div><span class="cap">Glen Coe</span></div>
+        <div class="cell c-4" data-cursor><div class="img film f-temple"></div><span class="cap">Temple d'or</span></div>
+        <div class="cell c-4" data-cursor><div class="img film f-heath"></div><span class="cap">Lande</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap index">
+      <div class="lead reveal"><h2>Travaux</h2><span>Index 01 — 03</span></div>
+      <div class="rows">
+        <div class="idx-row reveal" data-chapter="thailand">
+          <span class="no">01</span><span class="ttl">Thailand on Film</span><span class="cat">Travel</span><span class="ar"><i class="ti ti-arrow-up-right"></i></span>
+        </div>
+        <div class="idx-row reveal" data-chapter="highlands">
+          <span class="no">02</span><span class="ttl">Walking in the Highlands</span><span class="cat">Travel</span><span class="ar"><i class="ti ti-arrow-up-right"></i></span>
+        </div>
+        <div class="idx-row reveal soon">
+          <span class="no">03</span><span class="ttl">A Weekend in Amsterdam</span><span class="cat">Travel · Bientôt</span><span class="ar"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</section>
+
+<!-- ===================== THAILAND ===================== -->
+<section class="page wall" id="page-thailand" data-chap="thailand">
+  <div class="wrap chap-head">
+    <div class="meta"><span>Chapitre I</span><span class="ln"></span><span>Travel — Thaïlande</span></div>
+    <h1>Thailand on Film</h1>
+  </div>
+  <div class="chap-img frame-wrapper hung" data-cursor><div class="img film f-thailand"></div></div>
+  <section class="wrap chap-intro">
+    <div class="col reveal">
+      <p class="lt">L'histoire</p>
+      <p>Au cœur du tumulte de Bangkok et du silence des rizières, j'ai laissé l'argentique décider. Ces images sont des fragments — imparfaits, vivants, vrais.</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <div class="grid reveal">
+      <div class="cell c-7" data-cursor><div class="img film f-thailand"></div><span class="cap">Bangkok · 5h12</span></div>
+      <div class="cell c-5" data-cursor><div class="img film f-warm"></div><span class="cap">Marché flottant</span></div>
+      <div class="cell c-4" data-cursor><div class="img film f-temple"></div><span class="cap">Temple d'or</span></div>
+      <div class="cell c-4" data-cursor><div class="img film f-rice"></div><span class="cap">Rizières</span></div>
+      <div class="cell c-4" data-cursor><div class="img film f-thailand"></div><span class="cap">Tuk-tuk, mousson</span></div>
+    </div>
+  </div>
+  <section class="quote"><div class="wrap reveal">
+    <p>« La pellicule ne ment pas. Elle garde la chaleur de l'instant. »</p>
+    <p class="who">Carnet — Bangkok</p>
+  </div></section>
+  <div class="wrap">
+    <div class="grid reveal">
+      <div class="cell c-12" data-cursor><div class="img film f-thailand"></div><span class="cap">Côte d'Andaman</span></div>
+      <div class="cell c-6" data-cursor><div class="img film f-rice"></div><span class="cap">Jungle</span></div>
+      <div class="cell c-6" data-cursor><div class="img film f-warm"></div><span class="cap">Krabi, fin du jour</span></div>
+    </div>
+  </div>
+  <section class="section"><div class="wrap chap-nav">
+    <a class="prev" data-nav="chapters"><div class="lbl">Retour</div><div class="t">Tous les travaux</div></a>
+    <a class="next" data-chapter="highlands"><div class="lbl">Chapitre suivant</div><div class="t">Walking in the Highlands</div></a>
+  </div></section>
+</section>
+
+<!-- ===================== HIGHLANDS ===================== -->
+<section class="page wall" id="page-highlands" data-chap="highlands">
+  <div class="wrap chap-head">
+    <div class="meta"><span>Chapitre II</span><span class="ln"></span><span>Travel — Écosse</span></div>
+    <h1>Walking in the Highlands</h1>
+  </div>
+  <div class="chap-img frame-wrapper hung" data-cursor><div class="img film f-highlands"></div></div>
+  <section class="wrap chap-intro">
+    <div class="col reveal">
+      <p class="lt">L'histoire</p>
+      <p>Une brume persistante, l'odeur de la tourbe et des kilomètres de lande silencieuse. Le temps ralenti, le pas qui devient méditation.</p>
+    </div>
+  </section>
+  <div class="wrap">
+    <div class="grid reveal">
+      <div class="cell c-12" data-cursor><div class="img film f-highlands"></div><span class="cap">Glen Coe, brume basse</span></div>
+      <div class="cell c-6" data-cursor><div class="img film f-loch"></div><span class="cap">Loch silencieux</span></div>
+      <div class="cell c-6" data-cursor><div class="img film f-heath"></div><span class="cap">Bruyère</span></div>
+    </div>
+  </div>
+  <section class="quote"><div class="wrap reveal">
+    <p>« Ici, le silence a une texture. On marche dedans comme dans une étoffe. »</p>
+    <p class="who">Carnet — Glen Coe</p>
+  </div></section>
+  <div class="wrap">
+    <div class="grid reveal">
+      <div class="cell c-4" data-cursor><div class="img film f-heath"></div><span class="cap">Lande, midi gris</span></div>
+      <div class="cell c-4" data-cursor><div class="img film f-loch"></div><span class="cap">Pluie qui passe</span></div>
+      <div class="cell c-4" data-cursor><div class="img film f-highlands"></div><span class="cap">Vallée au nord</span></div>
+    </div>
+  </div>
+  <section class="section"><div class="wrap chap-nav">
+    <a class="prev" data-chapter="thailand"><div class="lbl">Chapitre précédent</div><div class="t">Thailand on Film</div></a>
+    <a class="next" data-nav="chapters"><div class="lbl">Retour</div><div class="t">Tous les travaux</div></a>
+  </div></section>
+</section>
+
+<!-- ===================== CHAPITRES / TRAVAUX ===================== -->
+<section class="page wall" id="page-chapters">
+  <section class="section" style="padding-top:200px">
+    <div class="wrap">
+      <p class="eyebrow reveal">La collection</p>
+      <h1 class="reveal" style="font-size:clamp(44px,6vw,80px);margin-bottom:60px;">Travaux</h1>
+      <div class="filters reveal" id="filters">
+        <button class="active" data-filter="all">Tous</button>
+        <button data-filter="travel">Travel</button>
+        <button data-filter="wildlife">Wildlife</button>
+        <button data-filter="portraits">Portraits</button>
+        <button data-filter="events">Events</button>
+      </div>
+      <div class="works reveal" id="works">
+        <div class="work" data-cat="travel" data-chapter="thailand"><div class="ph" data-cursor><div class="img film f-thailand"></div></div><div class="row"><h3>Thailand on Film</h3><span class="cat">Travel</span></div></div>
+        <div class="work" data-cat="travel" data-chapter="highlands"><div class="ph" data-cursor><div class="img film f-highlands"></div></div><div class="row"><h3>Walking in the Highlands</h3><span class="cat">Travel</span></div></div>
+        <div class="work soon" data-cat="travel"><div class="ph"><div class="img film f-amsterdam"></div></div><div class="row"><h3>A Weekend in Amsterdam</h3><span class="cat">Bientôt</span></div></div>
+        <div class="work soon" data-cat="wildlife"><div class="ph"><div class="img film f-wild"></div></div><div class="row"><h3>Creatures of Dawn</h3><span class="cat">Bientôt</span></div></div>
+        <div class="work soon" data-cat="portraits"><div class="ph"><div class="img film f-port"></div></div><div class="row"><h3>Faces I Met</h3><span class="cat">Bientôt</span></div></div>
+        <div class="work soon" data-cat="events"><div class="ph"><div class="img" style="background:linear-gradient(135deg,#d6ccb2,#8f8466)"></div></div><div class="row"><h3>One Night</h3><span class="cat">Bientôt</span></div></div>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="page" id="page-about">
+  <div class="wrap about">
+    <div class="col">
+      <div class="ph reveal frame-wrapper hung" data-cursor><div class="img film f-port"></div></div>
+      <div class="reveal">
+        <h1>Je capture ce que l'œil oublie d'ordinaire.</h1>
+        <p>Photographe indépendante, je travaille avec plusieurs clients et une obsession commune : la lumière naturelle, l'instant non posé, l'imperfection qui dit vrai.</p>
+        <p>Des fragments d'une réalité qui m'appartient et que je vous tends — un regard sur le monde, à hauteur de silence.</p>
+        <p class="sig">ablas</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="page" id="page-contact">
+  <div class="wrap contact">
+    <div class="col">
+      <div class="reveal">
+        <h1>Dites bonjour.</h1>
+        <div class="detail"><div class="k">Email</div><a href="mailto:hello@ablasframes.com">contact@ablasframes.com</a></div>
+        <div class="detail"><div class="k">Instagram</div><a href="#">@ablasframes</a></div>
+        <div class="detail"><div class="k">Studio</div><span>Rabat — sur rendez-vous</span></div>
+      </div>
+      <form class="reveal" onsubmit="event.preventDefault();this.querySelector('.submit').textContent='Merci — message envoyé';">
+        <div class="field"><input placeholder=" " required><label>Nom</label></div>
+        <div class="field"><input type="email" placeholder=" " required><label>Email</label></div>
+        <div class="field"><textarea rows="4" placeholder=" " required></textarea><label>Message</label></div>
+        <button type="submit" class="submit">Envoyer</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-row">
+    <span class="cpr">© 2026 ablas frames</span>
+    <span class="nm">Fragments of my reality</span>
+    <span class="soc"><a href="#">Instagram</a><a href="#">Email</a></span>
+  </div>
+</footer>
+
+<div class="lb" id="lb">
+  <span class="ct" id="lbct"></span>
+  <button class="x" id="lbx"><i class="ti ti-x"></i></button>
+  <button class="nav-a pv" id="lbpv"><i class="ti ti-arrow-left"></i></button>
+  <button class="nav-a nx" id="lbnx"><i class="ti ti-arrow-right"></i></button>
+  <div class="stage"><div class="img" id="lbimg"></div><span class="cap" id="lbcap"></span></div>
+</div>
+
+<script>
+/* ---------- curseur personnalisé ---------- */
+(function(){
+  const fine=matchMedia('(hover:hover) and (pointer:fine)').matches;
+  const cur=document.getElementById('cursor');if(!fine){cur.style.display='none';return;}
+  let x=innerWidth/2,y=innerHeight/2,cx=x,cy=y;
+  addEventListener('mousemove',e=>{x=e.clientX;y=e.clientY;});
+  (function loop(){cx+=(x-cx)*.2;cy+=(y-cy)*.2;cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`;requestAnimationFrame(loop);})();
+  document.addEventListener('mouseover',e=>{if(e.target.closest('[data-cursor],.cell,.feature,.chap-img'))cur.classList.add('big');});
+  document.addEventListener('mouseout',e=>{if(e.target.closest('[data-cursor],.cell,.feature,.chap-img'))cur.classList.remove('big');});
+})();
+
+/* ---------- nav : transparent -> blanc au scroll ---------- */
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>{nav.classList.toggle('scrolled',scrollY>10);},{passive:true});
+
+/* ---------- routing ---------- */
+const PAGES={home:'page-home',chapters:'page-chapters',about:'page-about',contact:'page-contact',thailand:'page-thailand',highlands:'page-highlands'};
+const NAVKEYS=['home','chapters','about','contact'];
+function go(key){
+  if(!PAGES[key])return;
+  document.querySelectorAll('.page').forEach(s=>s.classList.remove('active'));
+  document.getElementById(PAGES[key]).classList.add('active');
+  const navKey=NAVKEYS.includes(key)?key:'chapters';
+  document.querySelectorAll('.nav-side a[data-nav]').forEach(a=>a.classList.toggle('current',a.dataset.nav===navKey));
+  if(location.hash!=='#'+key)history.pushState({key},'','#'+key);
+  scrollTo({top:0});nav.classList.remove('scrolled');runReveal();
+}
+document.querySelectorAll('[data-nav]').forEach(e=>e.addEventListener('click',()=>go(e.dataset.nav)));
+document.body.addEventListener('click',e=>{const c=e.target.closest('[data-chapter]');if(c){go(c.dataset.chapter);}});
+addEventListener('popstate',()=>go((location.hash||'#home').slice(1)));
+document.getElementById('scrollcue').addEventListener('click',()=>scrollTo({top:innerHeight*.9,behavior:'smooth'}));
+
+/* ---------- filtres ---------- */
+document.querySelectorAll('#filters button').forEach(b=>b.addEventListener('click',()=>{
+  document.querySelectorAll('#filters button').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+  const f=b.dataset.filter;
+  document.querySelectorAll('#works .work').forEach(w=>w.classList.toggle('hide',!(f==='all'||w.dataset.cat===f)));
+}));
+
+/* ---------- reveal ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+function runReveal(){document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el=>io.observe(el));}
+
+/* ---------- transition immersive (entrer dans l'œuvre) ---------- */
+const lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbcap=document.getElementById('lbcap'),lbct=document.getElementById('lbct');
+const stage=lb.querySelector('.stage'),mainEl=document.querySelector('main');
+let items=[],idx=0,srcRect=null;
+function lbRender(){const it=items[idx],img=it.querySelector('.img');lbimg.className='img '+img.className.replace('img','').trim();lbimg.setAttribute('style',img.getAttribute('style')||'');const c=it.querySelector('.cap');lbcap.textContent=c?c.textContent:'';lbct.textContent=(idx+1)+' / '+items.length;}
+function lbMove(d){idx=(idx+d+items.length)%items.length;lbRender();}
+function flipTo(rect){
+  const t=stage.getBoundingClientRect();
+  const sc=rect.width/t.width;
+  const dx=(rect.left+rect.width/2)-(t.left+t.width/2);
+  const dy=(rect.top+rect.height/2)-(t.top+t.height/2);
+  return `translate(${dx}px,${dy}px) scale(${sc})`;
+}
+function openImmersive(cell){
+  const img=cell.querySelector('.img');srcRect=img.getBoundingClientRect();
+  const set=Array.from(document.querySelectorAll('.page.active .cell'));items=set;idx=set.indexOf(cell);lbRender();
+  lb.classList.add('show');document.body.style.overflow='hidden';
+  stage.style.transition='none';stage.style.transform=flipTo(srcRect);
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{
+    stage.style.transition='transform 1200ms var(--ease)';stage.style.transform='none';
+    lb.classList.add('open');mainEl.classList.add('immersing');
+  }));
+}
+function closeImmersive(){
+  lb.classList.remove('open');mainEl.classList.remove('immersing');document.body.style.overflow='';
+  if(srcRect){stage.style.transition='transform 900ms var(--ease)';stage.style.transform=flipTo(srcRect);}
+  setTimeout(()=>{lb.classList.remove('show');stage.style.transition='none';stage.style.transform='none';},920);
+}
+document.body.addEventListener('click',e=>{const cell=e.target.closest('.cell');if(cell)openImmersive(cell);});
+document.getElementById('lbx').addEventListener('click',e=>{e.stopPropagation();closeImmersive();});
+document.getElementById('lbnx').addEventListener('click',e=>{e.stopPropagation();lbMove(1);});
+document.getElementById('lbpv').addEventListener('click',e=>{e.stopPropagation();lbMove(-1);});
+lb.addEventListener('click',e=>{if(e.target===lb)closeImmersive();});
+addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeImmersive();if(e.key==='ArrowRight')lbMove(1);if(e.key==='ArrowLeft')lbMove(-1);});
+
+go((location.hash||'#home').slice(1));runReveal();
+</script>
+</body>
+</html>

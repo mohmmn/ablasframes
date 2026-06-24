@@ -5,3 +5,5 @@ TURN JS : http://www.turnjs.com/
 SECTIONS INTERACTIVES : https://github.com/alvarotrigo/fullPage.js
 
 LIVRE ANCIEN : https://github.com/Nodlik/StPageFlip
+
+REACT BIT

@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragments of my reality — ablas frames · Maquette 3 Mobile (Carnet ancien)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ============================================================
+   MAQUETTE 3 — MOBILE · Carnet ANCIEN · sépia/doré (aucun rose)
+   ============================================================ */
+:root{
+  --bg:#F4E9D8;--bg-soft:#EADBC2;--paper:#F4E9D8;--paper-edge:#dcc8a8;
+  --text:#473726;--muted:#8A7456;--faint:#B3997A;
+  --line:rgba(71,55,38,.12);--line-strong:rgba(71,55,38,.26);
+  --gold:#B08D57;--sage:#9DAA78;--accent:#9A6B3F;--accent-d:#7E5430;
+  --star:#D9B36A;--star-glow:rgba(217,179,106,.6);
+  --ease:cubic-bezier(.16,1,.3,1);
+}
+.app[data-theme="night"]{
+  --bg:#2A2620;--bg-soft:#332E26;--paper:#2A2620;--paper-edge:#4a4234;
+  --text:#F0E7D8;--muted:#C3B49A;--faint:#8E8068;
+  --line:rgba(255,255,255,.09);--line-strong:rgba(255,255,255,.2);
+  --gold:#E7C16B;--sage:#C3CD96;--accent:#C99A5E;--accent-d:#B5854A;
+  --star:#F0D38A;--star-glow:rgba(240,211,138,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  background:radial-gradient(ellipse at 50% 0%,#efe1c8,#e3d2b2 70%);padding:38px 16px 56px;color:#5a4630;}
+.serif{font-family:'Cormorant Garamond',serif;}
+.hw{font-family:'Petit Formal Script',cursive;}
+
+/* en-tête présentation (masqué sur petit écran) */
+.stage-head{text-align:center;margin-bottom:30px;max-width:520px;}
+.stage-head .em{display:inline-flex;gap:10px;align-items:center;color:#a3814f;font-size:10px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:12px;}
+.stage-head h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:32px;color:#5e4a31;line-height:1.1;}
+.stage-head p{font-size:12px;color:#8a7250;margin-top:10px;line-height:1.6;}
+
+/* cadre téléphone */
+.phone{width:392px;max-width:94vw;height:824px;max-height:86vh;background:#e7d8bd;border-radius:52px;padding:13px;
+  box-shadow:0 40px 90px rgba(90,60,30,.35),0 0 0 2px rgba(255,255,255,.45);position:relative;}
+.phone::before{content:"";position:absolute;top:26px;left:50%;transform:translateX(-50%);width:118px;height:30px;background:#1a1410;border-radius:18px;z-index:60;}
+.screen{width:100%;height:100%;border-radius:40px;overflow:hidden;position:relative;background:var(--bg);}
+.app{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);
+  transition:background .6s var(--ease),color .6s var(--ease);}
+
+/* starfield dans l'écran */
+#msky{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:var(--star);box-shadow:0 0 6px 1px var(--star-glow);animation:tw ease-in-out infinite;}
+.sparkle{position:absolute;animation:tw ease-in-out infinite;filter:drop-shadow(0 0 3px var(--star-glow));}
+@keyframes tw{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:.95;transform:scale(1.15);}}
+
+.scroller{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;position:relative;z-index:1;}
+.scroller::-webkit-scrollbar{display:none;}
+
+/* statut + navbar (logo centré) */
+.statusbar{height:40px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 4px;font-size:11px;font-weight:500;color:var(--text);position:relative;z-index:3;}
+.statusbar .r{display:flex;gap:6px;align-items:center;}
+.topnav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:6px 18px 12px;position:relative;z-index:70;
+  border-bottom:.5px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(6px);transition:background .6s var(--ease),border-color .6s;}
+.topnav .nav-left{display:flex;align-items:center;gap:12px;justify-self:start;}
+.topnav .back{font-size:18px;color:var(--text);cursor:pointer;display:none;}
+.topnav .back.show{display:block;}
+.burger{width:28px;height:24px;display:flex;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:0;}
+.burger span{display:block;height:1.5px;width:22px;background:var(--text);border-radius:2px;transition:transform .45s var(--ease),opacity .3s,width .45s var(--ease);}
+.burger span:nth-child(2){width:15px;}
+.app.menu-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:22px;}
+.app.menu-open .burger span:nth-child(2){opacity:0;}
+.app.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:22px;}
+
+/* ===================== MENU HAMBURGER (plein écran) ===================== */
+.menu{position:absolute;inset:0;z-index:65;display:flex;align-items:center;justify-content:center;
+  background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:blur(6px);border-radius:40px;
+  opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s;}
+.app.menu-open .menu{opacity:1;visibility:visible;}
+.menu::before{content:"";position:absolute;inset:18px;border:1px solid var(--gold);opacity:.25;border-radius:24px;pointer-events:none;}
+.menu-inner{text-align:center;width:100%;padding:0 40px;position:relative;z-index:2;}
+.menu-eyebrow{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:30px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.menu-eyebrow::before,.menu-eyebrow::after{content:"";width:26px;height:.5px;background:var(--line-strong);}
+.menu-links{display:flex;flex-direction:column;}
+.menu-links a{position:relative;display:flex;align-items:baseline;justify-content:center;gap:14px;padding:13px 0;cursor:pointer;text-decoration:none;color:var(--text);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:34px;line-height:1;
+  opacity:0;transform:translateY(16px);transition:opacity .55s var(--ease),transform .55s var(--ease),color .3s;}
+.app.menu-open .menu-links a{opacity:1;transform:none;}
+.menu-links a .i{font-family:'DM Sans',sans-serif;font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--faint);}
+.menu-links a.current{color:var(--accent);}.menu-links a.current .i{color:var(--accent);}
+.menu-links a:active{color:var(--accent);}
+.app.menu-open .menu-links a:nth-child(1){transition-delay:.08s;}
+.app.menu-open .menu-links a:nth-child(2){transition-delay:.14s;}
+.app.menu-open .menu-links a:nth-child(3){transition-delay:.20s;}
+.app.menu-open .menu-links a:nth-child(4){transition-delay:.26s;}
+.menu-deco{display:flex;align-items:center;justify-content:center;gap:12px;margin:30px 0;opacity:0;transition:opacity .5s var(--ease) .30s;}
+.app.menu-open .menu-deco{opacity:1;}.menu-deco .ln{width:34px;height:.5px;background:var(--line-strong);}
+.menu-foot{display:flex;flex-direction:column;gap:12px;align-items:center;opacity:0;transition:opacity .5s var(--ease) .36s;}
+.app.menu-open .menu-foot{opacity:1;}
+.menu-foot a{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:.04em;}
+.menu-foot .sig{font-family:'Petit Formal Script',cursive;font-size:22px;color:var(--accent);margin-bottom:4px;}
+.topnav .logo{justify-self:center;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;}
+.topnav .logo .crown{display:flex;align-items:center;gap:6px;}
+.topnav .logo .crown .ln{width:16px;height:.5px;background:var(--line-strong);}
+.topnav .logo .name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;letter-spacing:.03em;line-height:1;color:var(--text);}
+.topnav .logo .role{font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);}
+.toggle{width:40px;height:21px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;cursor:pointer;position:relative;justify-self:end;}
+.toggle .knob{position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:9px;transition:transform .45s var(--ease);}
+.app[data-theme="night"] .toggle .knob{transform:translateX(19px);}
+
+.prog{height:2px;background:var(--line);position:relative;z-index:3;}
+.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .15s linear;}
+.chiprow{display:none;align-items:center;gap:8px;padding:10px 20px 0;position:relative;z-index:2;}
+.chiprow.show{display:flex;}.chiprow .dot{width:7px;height:7px;border-radius:50%;}.chiprow .t{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+/* pages */
+.page{display:none;position:relative;z-index:1;padding-bottom:26px;}
+.page.active{display:block;animation:pin .6s var(--ease);}
+@keyframes pin{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.reveal{opacity:0;transform:translateY(16px);transition:.7s var(--ease);}.reveal.in{opacity:1;transform:none;}
+
+/* ===================== BANNIÈRE ===================== */
+.banner{position:relative;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:54px 22px 60px;overflow:hidden;}
+.banner .bg{position:absolute;inset:0;z-index:0;background:linear-gradient(150deg,#4a3a26 0%,#7c5e36 38%,#b78f4e 72%,#e3c585 100%);}
+.banner .grain{position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.5'/></svg>");}
+.banner .veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(28,20,12,.42),rgba(28,20,12,.30) 45%,rgba(28,20,12,.55)),radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(20,14,8,.4) 100%);}
+.banner .bc{position:relative;z-index:2;}
+.banner .kicker{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#ECCF92;margin-bottom:16px;text-shadow:0 1px 8px rgba(0,0,0,.4);}
+.banner h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;line-height:.94;color:#FBF3E6;font-size:54px;letter-spacing:.005em;text-shadow:0 3px 24px rgba(0,0,0,.4);}
+.banner h1 .of{display:block;font-size:.38em;font-style:normal;color:#ECCF92;letter-spacing:.06em;margin-top:.18em;}
+.banner .ornz{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:22px;}
+.banner .ornz .ln{width:46px;height:.5px;background:rgba(251,243,230,.45);}
+.banner .tagline{margin-top:16px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(251,243,230,.72);text-shadow:0 1px 8px rgba(0,0,0,.4);}
+.banner .discover{position:absolute;bottom:16px;left:0;right:0;z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;color:rgba(251,243,230,.82);font-size:8px;letter-spacing:.24em;text-transform:uppercase;}
+.banner .discover .ring{width:34px;height:34px;border-radius:50%;border:.5px solid rgba(251,243,230,.5);display:flex;align-items:center;justify-content:center;}
+.banner .discover .ring i{font-size:14px;animation:bob 2.2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(-2px);}50%{transform:translateY(3px);}}
+
+/* ===================== SECTION HÉRO (introduction) ===================== */
+.home-hero{padding:34px 20px 30px;text-align:center;position:relative;z-index:2;}
+.hero-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:24px;}
+.hero-img{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;box-shadow:0 12px 24px -12px rgba(90,60,30,.4);}
+.hero-img .img{position:absolute;inset:0;}
+.hero-img::after{content:"";position:absolute;inset:0;border-radius:12px;border:1px solid var(--gold);opacity:.35;}
+.hero-intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:18px;line-height:1.55;color:var(--text);margin:0 auto 22px;}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--accent);border:none;border-radius:30px;padding:13px 30px;cursor:pointer;text-decoration:none;box-shadow:0 8px 18px rgba(90,60,30,.3);}
+
+/* ===================== BANDEAU DÉFILANT (séparateur) ===================== */
+.marquee{position:relative;overflow:hidden;padding:13px 0;background:var(--bg-soft);border-top:.5px solid var(--line);border-bottom:.5px solid var(--line);z-index:2;}
+.marquee-track{display:flex;width:max-content;animation:marq 26s linear infinite;}
+.marquee-track span{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:16px;color:var(--accent);padding:0 18px;white-space:nowrap;display:inline-flex;align-items:center;}
+.marquee-track span::after{content:"\2726";color:var(--gold);font-size:10px;font-style:normal;margin-left:18px;}
+@keyframes marq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ===================== APERÇU PHOTOGRAPHIES (2 vues + flèches) ===================== */
+.photo-feature{padding:36px 16px;position:relative;z-index:2;}
+.photo-feature .lead{text-align:center;margin-bottom:22px;}
+.photo-feature .lead .e{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.photo-feature .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;color:var(--text);}
+.pf-stage{display:flex;align-items:center;gap:10px;}
+.pf-arrow{flex:none;width:38px;height:38px;border-radius:50%;border:.5px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:.3s var(--ease);}
+.pf-arrow:active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pf-frame{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;aspect-ratio:1/1;border-radius:12px;overflow:hidden;box-shadow:0 18px 36px -18px rgba(90,60,30,.42),inset 0 0 0 1px var(--line);}
+.pf-half{position:relative;overflow:hidden;background:var(--bg-soft);}
+.pf-half .img{position:absolute;inset:0;}
+.pf-half .cap{position:absolute;left:10px;bottom:9px;z-index:2;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,250,245,.92);text-shadow:0 1px 4px rgba(0,0,0,.5);}
+
+/* ===================== FRAMES (chapitres comme des œuvres encadrées) ===================== */
+.frames-section{padding:36px 20px 8px;position:relative;z-index:2;}
+.frames-section .lead{text-align:center;margin-bottom:28px;}
+.frames-section .lead .e{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.frames-section .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;color:var(--text);}
+.frames-grid{display:flex;flex-direction:column;gap:30px;}
+.art-frame{cursor:pointer;}
+.art-frame .frame{position:relative;padding:11px;border-radius:3px;background:linear-gradient(135deg,#caa86a,#9a7437 45%,#d8b878 100%);box-shadow:0 20px 40px -18px rgba(90,60,30,.55),inset 0 0 0 2px rgba(255,255,255,.18),inset 0 0 16px rgba(60,40,18,.4);transition:transform .5s var(--ease);}
+.art-frame:active .frame{transform:translateY(-4px);}
+.art-frame .matte{position:relative;background:#f4ecdb;padding:16px;box-shadow:inset 0 0 0 1px rgba(60,40,18,.16);}
+.app[data-theme="night"] .art-frame .matte{background:#e9dcc6;}
+.art-frame .canvas{position:relative;aspect-ratio:4/5;overflow:hidden;box-shadow:0 4px 12px rgba(60,40,18,.3);}
+.art-frame .canvas .img{position:absolute;inset:0;}
+.art-frame[data-soon] .canvas::after{content:"Bientôt";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:#fff;background:rgba(60,40,22,.55);padding:7px 14px;border-radius:30px;}
+.art-frame .plate{margin-top:14px;text-align:center;}
+.art-frame .plate .t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--text);}
+.art-frame .plate .s{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-top:4px;}
+
+/* ===================== LE CARNET (livre feuilletable) ===================== */
+.book-lead{text-align:center;padding:38px 22px 4px;position:relative;z-index:2;}
+.book-lead .e{font-size:9px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.book-lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:24px;line-height:1.1;color:var(--text);}
+.bookstage{display:flex;flex-direction:column;align-items:center;padding:18px 0 24px;position:relative;z-index:2;}
+.bookwrap{perspective:1600px;perspective-origin:50% 45%;}
+.book{position:relative;width:280px;height:404px;transform-style:preserve-3d;filter:drop-shadow(0 24px 36px rgba(90,60,30,.26));}
+.book::before{content:"";position:absolute;top:-6px;bottom:-6px;left:-9px;width:9px;background:linear-gradient(90deg,rgba(90,60,30,.28),rgba(90,60,30,.06));border-radius:3px 0 0 3px;}
+.pages{position:absolute;inset:0;transform-style:preserve-3d;}
+.leaf{position:absolute;inset:0;transform-origin:left center;transform-style:preserve-3d;transition:transform 1s var(--ease);cursor:pointer;}
+.leaf.flipped{transform:rotateY(-172deg);}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;overflow:hidden;background:var(--paper);border:1px solid var(--paper-edge);border-radius:4px 8px 8px 4px;}
+.face::before{content:"";position:absolute;inset:0;pointer-events:none;mix-blend-mode:multiply;opacity:.4;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.045' numOctaves='3'/></filter><rect width='160' height='160' filter='url(%23n)' opacity='0.5'/></svg>");}
+.face.front{box-shadow:inset 12px 0 22px -14px rgba(60,40,15,.4);}
+.face.back{transform:rotateY(180deg);box-shadow:inset -12px 0 22px -14px rgba(60,40,15,.4);}
+
+.pg{position:relative;width:100%;height:100%;padding:26px 24px;display:flex;flex-direction:column;z-index:2;}
+.pg .pnum{position:absolute;bottom:12px;right:18px;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:11px;color:var(--faint);}
+.face.back .pg .pnum{right:auto;left:18px;}
+.corner{position:absolute;width:22px;height:22px;border:1px solid var(--gold);opacity:.5;}
+.corner.tl{top:14px;left:14px;border-right:none;border-bottom:none;}
+.corner.tr{top:14px;right:14px;border-left:none;border-bottom:none;}
+.corner.bl{bottom:14px;left:14px;border-right:none;border-top:none;}
+.corner.br{bottom:14px;right:14px;border-left:none;border-top:none;}
+.pg-cover{align-items:center;justify-content:center;text-align:center;}
+.pg-cover .seal{margin-bottom:14px;}
+.pg-cover h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:30px;line-height:1.02;color:var(--text);}
+.pg-cover h2 .of{display:block;font-size:.46em;color:var(--accent);letter-spacing:.05em;margin-top:.18em;}
+.pg-cover .hwnote{margin-top:14px;font-family:'Petit Formal Script',cursive;font-size:18px;color:var(--accent);}
+.pg-cover .meta{margin-top:16px;font-size:8px;letter-spacing:.24em;text-transform:uppercase;color:var(--faint);}
+.pg-toc .ct{font-family:'Petit Formal Script',cursive;font-size:16px;color:var(--accent);margin-bottom:4px;}
+.pg-toc h3{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:24px;margin-bottom:20px;color:var(--text);}
+.toc{display:flex;flex-direction:column;gap:16px;}
+.toc .row{cursor:pointer;border-bottom:.5px solid var(--line);padding-bottom:13px;}
+.toc .row .t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:17px;color:var(--text);display:block;}
+.toc .row .n{font-size:8px;color:var(--faint);letter-spacing:.14em;text-transform:uppercase;margin-top:2px;}
+.toc .row:active .t{color:var(--accent);}
+.pg-chapter .ph{height:42%;border-radius:4px;overflow:hidden;position:relative;margin-bottom:14px;box-shadow:0 8px 18px rgba(60,40,18,.24);}
+.pg-chapter .ph .img{position:absolute;inset:0;}
+.pg-chapter .ph .dot{position:absolute;top:10px;right:10px;width:7px;height:7px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.25);}
+.pg-chapter .tg{font-family:'Petit Formal Script',cursive;font-size:15px;color:var(--accent);margin-bottom:4px;}
+.pg-chapter h3{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:22px;line-height:1.05;margin-bottom:8px;color:var(--text);}
+.pg-chapter p{font-size:11px;line-height:1.65;color:var(--muted);flex:1;}
+.pg-chapter .enter{align-self:flex-start;margin-top:8px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--accent);border:none;border-radius:24px;padding:9px 18px;cursor:pointer;display:inline-flex;gap:7px;align-items:center;box-shadow:0 5px 14px rgba(90,60,30,.3);}
+.pg-verso{align-items:center;justify-content:center;text-align:center;color:var(--faint);}
+.pg-verso .mark{font-family:'Petit Formal Script',cursive;font-size:15px;color:var(--muted);margin-top:12px;}
+
+.bookctrl{display:flex;align-items:center;gap:18px;margin-top:24px;}
+.bookctrl button{width:44px;height:44px;border-radius:50%;border:.5px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;transition:.35s var(--ease);}
+.bookctrl button:active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.bookctrl button:disabled{opacity:.3;}
+.bookdots{display:flex;gap:8px;}
+.bookdots .d{width:6px;height:6px;border-radius:50%;background:var(--line-strong);transition:.35s;}
+.bookdots .d.on{background:var(--accent);transform:scale(1.3);}
+.bookhint{margin-top:14px;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--faint);display:flex;gap:7px;align-items:center;}
+
+/* sections génériques */
+.sec{padding:28px 20px;}
+.eyebrow{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.sec-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;line-height:1.1;color:var(--text);}
+.embro{display:flex;align-items:center;justify-content:center;gap:10px;}.embro .ln{height:.5px;width:32px;background:var(--line-strong);}
+
+/* visuels argentiques */
+.film{background-blend-mode:multiply;}
+.f-thailand{background:linear-gradient(135deg,#e8d5a4,#cf9f4e 45%,#8f9d48 100%);}
+.f-highlands{background:linear-gradient(135deg,#d4dad6,#aeb6a4 55%,#84907a 100%);}
+.f-amsterdam{background:linear-gradient(135deg,#e6d9bd,#c9b98f 55%,#a6936e 100%);}
+
+/* chapitre */
+.chero{position:relative;height:218px;display:flex;align-items:flex-end;overflow:hidden;border-radius:0 0 24px 24px;}
+.chero .img{position:absolute;inset:0;}
+.chero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(50,34,20,.66),transparent 60%);}
+.chero .in{position:relative;z-index:2;padding:16px;width:100%;}
+.chero .meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.chero .meta .dot{width:6px;height:6px;border-radius:50%;}.chero .meta .tt{font-size:8px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;}
+.chero .meta .ln{flex:1;height:.5px;background:rgba(255,245,235,.45);}.chero .meta .n{font-size:8px;letter-spacing:.1em;color:rgba(255,245,235,.75);}
+.chero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#FFF6EE;font-size:28px;line-height:1.04;}
+.cintro{padding:20px 20px 4px;}.cintro .lt{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:10px;}
+.cintro p{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;font-weight:300;color:var(--text);}
+
+.pills{display:flex;gap:7px;padding:0 20px 6px;overflow-x:auto;}.pills::-webkit-scrollbar{display:none;}
+.pill{flex:none;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:.3s var(--ease);}
+.pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+.gal{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:18px 20px;}
+.git{position:relative;overflow:hidden;border-radius:6px;cursor:pointer;background:var(--bg-soft);}
+.git .img{position:absolute;inset:0;}
+.git .cap{position:absolute;left:10px;bottom:9px;z-index:2;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,250,245,.92);text-shadow:0 1px 4px rgba(0,0,0,.5);}
+.git .zz{position:absolute;top:9px;right:9px;z-index:2;color:rgba(255,250,245,.85);font-size:13px;}
+.g-full{grid-column:span 2;aspect-ratio:16/10;}.g-tall{aspect-ratio:3/4;}.g-sq{aspect-ratio:1;}.g-wide{grid-column:span 2;aspect-ratio:2/1;}
+
+.breath{text-align:center;padding:34px 26px;}
+.breath .emb{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;}.breath .emb .ln{height:.5px;width:28px;background:var(--line-strong);}
+.breath .q{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:18px;line-height:1.5;color:var(--text);}
+.breath .who{margin-top:10px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);}
+
+/* listing */
+.lcard{border-radius:12px;overflow:hidden;border:.5px solid var(--line);margin-bottom:14px;background:var(--bg);box-shadow:0 6px 18px rgba(90,60,30,.08);}
+.lcard.hide{display:none;}
+.lcard .thumb{height:128px;position:relative;overflow:hidden;}.lcard .thumb .img{position:absolute;inset:0;}
+.lcard .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(60,40,22,.42),transparent 60%);}
+.lcard .meta{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
+.lcard .meta h4{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:17px;}
+.lcard .meta .tg{font-size:9px;letter-spacing:.12em;text-transform:uppercase;}
+
+/* about / contact */
+.about{padding:56px 26px;text-align:center;}
+.about h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:27px;line-height:1.25;margin:20px 0;}
+.about .emb{margin:0 auto 20px;}
+.about p{font-size:13px;line-height:1.9;color:var(--muted);}
+.about .sig{margin-top:22px;font-family:'Petit Formal Script',cursive;font-size:26px;color:var(--accent);}
+.contact{padding:38px 24px;}
+.contact h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:32px;margin-bottom:28px;}
+.field{position:relative;margin-bottom:24px;}
+.field input,.field textarea{width:100%;background:transparent;border:none;border-bottom:.5px solid var(--line-strong);padding:10px 0;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--text);outline:none;resize:none;transition:border-color .4s;}
+.field label{position:absolute;left:0;top:10px;font-size:14px;color:var(--faint);pointer-events:none;transition:.35s var(--ease);}
+.field input:focus,.field textarea:focus{border-bottom-color:var(--accent);}
+.field input:focus~label,.field textarea:focus~label,.field input:not(:placeholder-shown)~label,.field textarea:not(:placeholder-shown)~label{top:-11px;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);}
+.btn{font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:13px 30px;background:var(--accent);color:#fff;border:none;border-radius:24px;cursor:pointer;width:100%;box-shadow:0 6px 16px rgba(90,60,30,.3);}
+.cfoot{display:flex;flex-direction:column;gap:14px;margin-top:34px;padding-top:22px;border-top:.5px solid var(--line);}
+.cfoot a{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);text-decoration:none;}
+
+/* lightbox */
+.lb{position:absolute;inset:0;z-index:100;background:rgba(46,30,18,.93);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;border-radius:40px;}
+.lb.open{opacity:1;visibility:visible;}
+.lb .stage{position:relative;width:88%;aspect-ratio:3/4;border-radius:8px;overflow:hidden;transform:scale(.92);transition:transform .45s var(--ease);}
+.lb.open .stage{transform:scale(1);}.lb .stage .img{position:absolute;inset:0;}
+.lb .cap{position:absolute;left:0;right:0;bottom:-28px;text-align:center;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,245,235,.65);}
+.lb .close{position:absolute;top:22px;right:22px;width:34px;height:34px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;background:none;cursor:pointer;}
+.lb .count{position:absolute;top:28px;left:22px;font-size:10px;letter-spacing:.12em;color:rgba(255,245,235,.6);}
+.lb .hint{position:absolute;bottom:24px;left:0;right:0;text-align:center;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,245,235,.4);}
+
+.foot-note{margin-top:28px;font-size:11px;color:#8a7250;letter-spacing:.05em;text-align:center;}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.1s!important;}.star,.sparkle,.marquee-track{animation:none;}.star,.sparkle{opacity:.6;}}
+@media(max-width:440px){body{padding:14px 0 28px;}.phone{border-radius:0;padding:0;width:100%;max-width:100%;height:100vh;max-height:100vh;}.phone::before{display:none;}.screen{border-radius:0;}.lb{border-radius:0;}.stage-head{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="stage-head">
+  <span class="em"><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#b08d57"/></svg> Maquette 3 · mobile <svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#b08d57"/></svg></span>
+  <h1>Fragments of my reality</h1>
+  <p>Carnet ancien · sépia & doré. Faites défiler la page d'accueil, puis feuilletez le carnet en bas.</p>
+</div>
+
+<div class="phone">
+  <div class="screen">
+    <div class="app" id="app" data-theme="day">
+      <div id="msky"></div>
+
+      <div class="statusbar"><span>9:41</span><span class="r"><i class="ti ti-signal-4g"></i> <i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i></span></div>
+      <div class="topnav" id="topnav">
+        <div class="nav-left">
+          <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
+          <i class="ti ti-arrow-left back" id="back"></i>
+        </div>
+        <div class="logo" data-nav="home">
+          <span class="crown"><span class="ln"></span><svg width="9" height="9" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></span>
+          <span class="name serif">ablas frames</span>
+          <span class="role">Photographe</span>
+        </div>
+        <button class="toggle" id="toggle"><span class="knob"><i class="ti ti-sun" id="ticon"></i></span></button>
+      </div>
+      <div class="prog"><span id="prog"></span></div>
+      <div class="chiprow" id="chiprow"><span class="dot"></span><span class="t" id="chipt"></span></div>
+
+      <div class="scroller" id="scroller">
+
+        <!-- ===================== HOME ===================== -->
+        <section class="page active" id="p-home">
+
+          <!-- bannière -->
+          <header class="banner">
+            <div class="bg"></div><div class="grain"></div><div class="veil"></div>
+            <div class="bc">
+              <p class="kicker">Carnet de voyage · Argentique</p>
+              <h1 class="serif">Fragments<span class="of">of my reality</span></h1>
+              <div class="ornz"><span class="ln"></span><svg width="14" height="14" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#ECCF92"/></svg><span class="ln"></span></div>
+              <p class="tagline">Voyage · Contemplation · Lumière</p>
+            </div>
+            <div class="discover" id="discover">Découvrez<span class="ring"><i class="ti ti-chevron-down"></i></span></div>
+          </header>
+
+          <!-- section héro -->
+          <section class="home-hero" id="home-hero">
+            <div class="hero-imgs">
+              <div class="hero-img reveal"><div class="img film f-thailand"></div></div>
+              <div class="hero-img reveal"><div class="img film f-highlands"></div></div>
+              <div class="hero-img reveal"><div class="img film f-amsterdam"></div></div>
+            </div>
+            <p class="hero-intro reveal">Photographe argentique, je collectionne des fragments de lumière au fil de mes voyages — des instants imparfaits, vivants, et profondément vrais.</p>
+            <a class="hero-cta reveal" data-nav="chapters">Découvrir les chapitres <i class="ti ti-arrow-right"></i></a>
+          </section>
+
+          <!-- bandeau défilant -->
+          <div class="marquee" aria-hidden="true">
+            <div class="marquee-track">
+              <span>Voyage</span><span>Contemplation</span><span>Lumière</span><span>Argentique</span><span>Fragments</span>
+              <span>Voyage</span><span>Contemplation</span><span>Lumière</span><span>Argentique</span><span>Fragments</span>
+            </div>
+          </div>
+
+          <!-- aperçu photographies -->
+          <section class="photo-feature" id="photo-feature">
+            <div class="lead reveal"><p class="e">Sélection</p><h2 class="serif">Quelques photographies</h2></div>
+            <div class="pf-stage reveal">
+              <button class="pf-arrow" id="pf-prev" aria-label="précédent"><i class="ti ti-chevron-left"></i></button>
+              <div class="pf-frame" id="pf-frame">
+                <div class="pf-half"><div class="img film f-thailand"></div><span class="cap">Bangkok · à l'aube</span></div>
+                <div class="pf-half"><div class="img film f-highlands"></div><span class="cap">Glen Coe · brume</span></div>
+              </div>
+              <button class="pf-arrow" id="pf-next" aria-label="suivant"><i class="ti ti-chevron-right"></i></button>
+            </div>
+          </section>
+
+          <!-- frames -->
+          <section class="frames-section" id="frames-section">
+            <div class="lead reveal"><p class="e">La galerie</p><h2 class="serif">Frames</h2></div>
+            <div class="frames-grid">
+              <article class="art-frame reveal" data-chapter="thailand">
+                <div class="frame"><div class="matte"><div class="canvas"><div class="img film f-thailand"></div></div></div></div>
+                <div class="plate"><p class="t">Thailand on Film</p><p class="s">Chapitre I · Travel</p></div>
+              </article>
+              <article class="art-frame reveal" data-chapter="highlands">
+                <div class="frame"><div class="matte"><div class="canvas"><div class="img film f-highlands"></div></div></div></div>
+                <div class="plate"><p class="t">Walking in the Highlands</p><p class="s">Chapitre II · Travel</p></div>
+              </article>
+              <article class="art-frame reveal" data-soon="1">
+                <div class="frame"><div class="matte"><div class="canvas"><div class="img film f-amsterdam"></div></div></div></div>
+                <div class="plate"><p class="t">A Weekend in Amsterdam</p><p class="s">Chapitre III · Bientôt</p></div>
+              </article>
+            </div>
+          </section>
+
+          <!-- LE CARNET (à la toute fin) -->
+          <div class="book-lead reveal"><p class="e">Ouvrez le carnet</p><h2 class="serif">Tournez les pages de mes voyages</h2></div>
+          <div class="bookstage">
+            <div class="bookwrap"><div class="book" id="book"><div class="pages" id="pages"></div></div></div>
+            <div class="bookctrl">
+              <button id="prev"><i class="ti ti-chevron-left"></i></button>
+              <div class="bookdots" id="dots"></div>
+              <button id="next"><i class="ti ti-chevron-right"></i></button>
+            </div>
+            <p class="bookhint"><i class="ti ti-hand-finger"></i> Glissez ou touchez la page</p>
+          </div>
+        </section>
+
+        <!-- ===================== THAILAND ===================== -->
+        <section class="page" id="p-thailand" data-chap="thailand">
+          <div class="chero"><div class="img film f-thailand"></div>
+            <div class="in"><div class="meta"><span class="dot" style="background:#F95738"></span><span class="tt" style="color:#e9d28f">Travel</span><span class="ln"></span><span class="n">Chapitre I</span></div><h1>Thailand on Film</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>J'ai laissé l'argentique décider. Ces images sont des fragments — imparfaits, vivants, vrais.</p></div>
+          <div class="pills"><button class="pill active">Tous</button><button class="pill">Bangkok</button><button class="pill">Nature</button><button class="pill">Mer</button></div>
+          <div class="gal" data-gallery>
+            <div class="git g-full reveal"><div class="img film f-thailand"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Bangkok · 5h12</span></div>
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(160deg,#F08c6a,#c8401a)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Marché flottant</span></div>
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(135deg,#9aa84a,#c0cf78)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Rizières</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#f4e6b8,#d4c060)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Temple</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#d4a85a,#F08c6a)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Épices</span></div>
+          </div>
+          <div class="breath reveal"><div class="emb"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--accent)"/></svg><span class="ln"></span></div><span class="q">« La pellicule garde la chaleur de l'instant. »</span><p class="who">Carnet — Bangkok</p></div>
+          <div class="gal" data-gallery>
+            <div class="git g-wide reveal"><div class="img film f-thailand" style="filter:hue-rotate(-6deg)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Côte d'Andaman</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#9aa84a,#5a6618)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Jungle</span></div>
+            <div class="git g-sq reveal"><div class="img" style="background:linear-gradient(135deg,#f4e6b8,#9aa84a)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Krabi</span></div>
+          </div>
+        </section>
+
+        <!-- ===================== HIGHLANDS ===================== -->
+        <section class="page" id="p-highlands" data-chap="highlands">
+          <div class="chero"><div class="img film f-highlands"></div>
+            <div class="in"><div class="meta"><span class="dot" style="background:#B5BF8C"></span><span class="tt" style="color:#dfeada">Travel</span><span class="ln"></span><span class="n">Chapitre II</span></div><h1>Walking in the Highlands</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>Une brume persistante, l'odeur de la tourbe et des kilomètres de lande silencieuse. Le temps ralenti.</p></div>
+          <div class="gal" data-gallery style="gap:14px">
+            <div class="git g-wide reveal"><div class="img film f-highlands"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Glen Coe, brume basse</span></div>
+            <div class="git g-full reveal"><div class="img" style="background:linear-gradient(135deg,#d4dad6,#aab8c0)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Loch silencieux</span></div>
+          </div>
+          <div class="breath reveal" style="padding:42px 26px"><div class="emb"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--sage)"/></svg><span class="ln"></span></div><span class="q">« Ici, le silence a une texture. »</span><p class="who">Carnet — Glen Coe</p></div>
+          <div class="gal" data-gallery style="gap:14px">
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(160deg,#cdd3cb,#aab8c0)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Bruyère</span></div>
+            <div class="git g-tall reveal"><div class="img" style="background:linear-gradient(135deg,#B5BF8C,#8a9070)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Lande</span></div>
+            <div class="git g-full reveal"><div class="img film f-highlands" style="filter:brightness(1.04)"></div><i class="ti ti-zoom-in zz"></i><span class="cap">Vallée au nord</span></div>
+          </div>
+        </section>
+
+        <!-- ===================== CHAPITRES ===================== -->
+        <section class="page" id="p-chapters">
+          <div class="sec" style="padding-bottom:8px"><p class="eyebrow">La bibliothèque</p><h1 class="sec-h">Chapitres</h1></div>
+          <div class="pills" id="mpills">
+            <button class="pill active" data-filter="all">Tous</button><button class="pill" data-filter="travel">Travel</button><button class="pill" data-filter="wildlife">Wildlife</button><button class="pill" data-filter="portraits">Portraits</button><button class="pill" data-filter="events">Events</button>
+          </div>
+          <div class="sec" style="padding-top:16px" id="mlist">
+            <div class="lcard reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img film f-thailand"></div></div><div class="meta"><h4>Thailand on Film</h4><span class="tg" style="color:#C2702F">Travel</span></div></div>
+            <div class="lcard reveal" data-cat="travel" data-chapter="highlands"><div class="thumb"><div class="img film f-highlands"></div></div><div class="meta"><h4>Walking in the Highlands</h4><span class="tg" style="color:#7E9070">Travel</span></div></div>
+            <div class="lcard reveal" data-cat="travel" data-soon="1"><div class="thumb"><div class="img film f-amsterdam"></div></div><div class="meta"><h4>A Weekend in Amsterdam</h4><span class="tg" style="color:#9c8f6f">Travel</span></div></div>
+            <div class="lcard reveal" data-cat="wildlife" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#cbbd86,#6a7340)"></div></div><div class="meta"><h4>Creatures of Dawn</h4><span class="tg" style="color:#8D9B30">Wildlife</span></div></div>
+            <div class="lcard reveal" data-cat="portraits" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#d8c4ae,#9c7e63)"></div></div><div class="meta"><h4>Faces I Met</h4><span class="tg" style="color:#9A6B3F">Portraits</span></div></div>
+          </div>
+        </section>
+
+        <!-- ===================== ABOUT ===================== -->
+        <section class="page" id="p-about">
+          <div class="about">
+            <p class="eyebrow">À propos</p>
+            <h1 class="reveal serif">Je capture ce que l'œil oublie d'ordinaire.</h1>
+            <div class="embro emb reveal"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--accent)"/></svg><span class="ln"></span></div>
+            <p class="reveal">Photographe indépendante. Argentique et numérique, une obsession commune : la lumière naturelle, l'instant non posé, l'imperfection qui dit vrai. Des fragments d'une réalité que je vous tends.</p>
+            <p class="sig reveal">ablas</p>
+          </div>
+        </section>
+
+        <!-- ===================== CONTACT ===================== -->
+        <section class="page" id="p-contact">
+          <div class="contact">
+            <p class="eyebrow">Contact</p><h1 class="reveal serif">Dites bonjour.</h1>
+            <form class="reveal" onsubmit="event.preventDefault();this.querySelector('.btn').textContent='Merci — message envoyé';">
+              <div class="field"><input placeholder=" " required><label>Nom</label></div>
+              <div class="field"><input type="email" placeholder=" " required><label>Email</label></div>
+              <div class="field"><textarea rows="3" placeholder=" " required></textarea><label>Message</label></div>
+              <button class="btn" type="submit">Envoyer</button>
+            </form>
+            <div class="cfoot"><a href="#"><i class="ti ti-brand-instagram"></i> @ablasframes</a><a href="#"><i class="ti ti-mail"></i> hello@ablasframes.com</a></div>
+          </div>
+        </section>
+
+      </div><!-- /scroller -->
+
+      <!-- MENU HAMBURGER plein écran -->
+      <div class="menu" id="menu">
+        <div class="menu-inner">
+          <p class="menu-eyebrow">Le carnet</p>
+          <nav class="menu-links" id="menu-links">
+            <a data-nav="home"><span>Accueil</span><span class="i">01</span></a>
+            <a data-nav="chapters"><span>Chapitres</span><span class="i">02</span></a>
+            <a data-nav="about"><span>À propos</span><span class="i">03</span></a>
+            <a data-nav="contact"><span>Contact</span><span class="i">04</span></a>
+          </nav>
+          <div class="menu-deco"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></div>
+          <div class="menu-foot">
+            <span class="sig">ablas</span>
+            <a href="#"><i class="ti ti-brand-instagram"></i> @ablasframes</a>
+            <a href="#"><i class="ti ti-mail"></i> hello@ablasframes.com</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="lb" id="lb">
+        <span class="count" id="lbcount"></span>
+        <button class="close" id="lbclose"><i class="ti ti-x"></i></button>
+        <div class="stage"><div class="img" id="lbimg"></div><span class="cap" id="lbcap"></span></div>
+        <span class="hint">‹ glissez pour naviguer ›</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p class="foot-note">ablas frames — Maquette 3 mobile · ouvrez sur téléphone pour le plein écran</p>
+
+<!-- gabarit des pages du livre -->
+<template id="leaves">
+  <div class="pg pg-cover"><span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+    <div class="seal"><svg width="46" height="46" viewBox="0 0 60 60"><g fill="none" stroke="var(--gold)" stroke-width="1"><circle cx="30" cy="30" r="26"/><circle cx="30" cy="30" r="20"/></g><path d="M30,12 L31,26 L44,30 L31,34 L30,48 L29,34 L16,30 L29,26 Z" fill="var(--accent)"/></svg></div>
+    <h2 class="serif">Fragments<span class="of">of my reality</span></h2>
+    <p class="hwnote">~ mon carnet de route ~</p>
+    <p class="meta">ablas frames · 2024–2026</p>
+  </div>
+  <div class="pg pg-toc"><span class="corner tl"></span><span class="corner br"></span>
+    <p class="ct">~ le carnet ~</p><h3 class="serif">Sommaire</h3>
+    <div class="toc">
+      <div class="row" data-chapter="thailand"><span class="t">I · Thailand on Film</span><span class="n">Chapitre premier</span></div>
+      <div class="row" data-chapter="highlands"><span class="t">II · Walking in the Highlands</span><span class="n">Chapitre second</span></div>
+      <div class="row" data-soon="1"><span class="t">III · A Weekend in Amsterdam</span><span class="n">Bientôt</span></div>
+    </div>
+  </div>
+  <div class="pg pg-chapter"><span class="corner tl"></span>
+    <div class="ph"><div class="img film f-thailand"></div><span class="dot" style="background:#F95738"></span></div>
+    <p class="tg">~ chapitre premier ~</p><h3 class="serif">Thailand on Film</h3>
+    <p>Le tumulte de Bangkok, le silence des rizières. J'ai laissé l'argentique décider.</p>
+    <button class="enter" data-chapter="thailand">Entrer dans le chapitre <i class="ti ti-arrow-right"></i></button>
+  </div>
+  <div class="pg pg-chapter"><span class="corner tl"></span>
+    <div class="ph"><div class="img film f-highlands"></div><span class="dot" style="background:#9DAA78"></span></div>
+    <p class="tg">~ chapitre second ~</p><h3 class="serif">Walking in the Highlands</h3>
+    <p>Brume, tourbe, lande silencieuse. Écosse, automne — le temps ralenti.</p>
+    <button class="enter" data-chapter="highlands">Entrer dans le chapitre <i class="ti ti-arrow-right"></i></button>
+  </div>
+  <div class="pg pg-chapter"><span class="corner tl"></span>
+    <div class="ph"><div class="img film f-amsterdam"></div></div>
+    <p class="tg">~ chapitre troisième ~</p><h3 class="serif">A Weekend in Amsterdam</h3>
+    <p>Pluie fine sur les canaux, lumière de fin de jour. Bientôt dans le carnet.</p>
+    <button class="enter" data-soon="1" style="background:transparent;color:var(--accent);border:.5px solid var(--accent);box-shadow:none;">Bientôt <i class="ti ti-clock-hour-4"></i></button>
+  </div>
+</template>
+
+<script>
+const app=document.getElementById('app');
+const scroller=document.getElementById('scroller');
+const back=document.getElementById('back'),topnav=document.getElementById('topnav');
+const chiprow=document.getElementById('chiprow'),chipt=document.getElementById('chipt');
+const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+
+/* ---------- MENU HAMBURGER ---------- */
+function setMenu(open){app.classList.toggle('menu-open',open);}
+burger.addEventListener('click',()=>setMenu(!app.classList.contains('menu-open')));
+menu.addEventListener('click',e=>{if(e.target===menu)setMenu(false);});
+
+/* ---------- STARFIELD ---------- */
+(function(){
+  const s=document.getElementById('msky');const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N=reduce?40:88;const NS='http://www.w3.org/2000/svg';
+  for(let i=0;i<N;i++){
+    const left=Math.random()*100+'%',top=Math.random()*100+'%',dur=(2.5+Math.random()*4)+'s',delay=(Math.random()*5)+'s';
+    if(Math.random()>0.78){const sz=Math.random()*7+5;const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 10 10');svg.setAttribute('class','sparkle');svg.setAttribute('width',sz);svg.setAttribute('height',sz);svg.style.left=left;svg.style.top=top;svg.style.animationDuration=dur;svg.style.animationDelay=delay;svg.innerHTML='<path d="M5,0 L5.7,3.4 L9,5 L5.7,6.6 L5,10 L4.3,6.6 L1,5 L4.3,3.4 Z" fill="var(--star)"/>';s.appendChild(svg);}
+    else{const sz=Math.random()*2+1;const el=document.createElement('span');el.className='star';el.style.cssText=`width:${sz}px;height:${sz}px;left:${left};top:${top};animation-duration:${dur};animation-delay:${delay}`;s.appendChild(el);}
+  }
+})();
+
+/* ---------- LE CARNET ---------- */
+const pagesHost=document.getElementById('pages');
+const contents=Array.from(document.getElementById('leaves').content.querySelectorAll('.pg'));
+const N=contents.length;let current=0;const leaves=[];
+contents.forEach((node,i)=>{
+  const leaf=document.createElement('div');leaf.className='leaf';
+  const front=document.createElement('div');front.className='face front';front.appendChild(node.cloneNode(true));
+  front.querySelector('.pg').insertAdjacentHTML('beforeend','<span class="pnum">'+(i*2+1).toString().padStart(2,'0')+'</span>');
+  const backNum=(i*2+2).toString().padStart(2,'0');
+  const backNode=document.createElement('div');backNode.className='face back';
+  backNode.innerHTML='<div class="pg pg-verso"><span class="corner tl"></span><span class="corner br"></span><svg width="40" height="40" viewBox="0 0 60 60" style="opacity:.5"><g fill="none" stroke="var(--gold)" stroke-width=".8"><circle cx="30" cy="30" r="22"/><circle cx="30" cy="30" r="12"/></g><path d="M30,14 L31,26 L43,30 L31,34 L30,46 L29,34 L17,30 L29,26 Z" fill="var(--accent)" opacity=".6"/></svg><span class="mark">à suivre, au prochain voyage…</span><span class="pnum">'+backNum+'</span></div>';
+  leaf.appendChild(front);leaf.appendChild(backNode);pagesHost.appendChild(leaf);leaves.push(leaf);
+  leaf.addEventListener('click',e=>{if(e.target.closest('[data-chapter],[data-soon]'))return;flip(1);});
+});
+function updateBook(){
+  leaves.forEach((lf,i)=>{if(i<current){lf.classList.add('flipped');lf.style.zIndex=i+1;}else{lf.classList.remove('flipped');lf.style.zIndex=2*N-i;}});
+  document.getElementById('prev').disabled=current<=0;document.getElementById('next').disabled=current>=N;
+  document.querySelectorAll('#dots .d').forEach((d,i)=>d.classList.toggle('on',i===current));
+}
+function flip(d){const nc=Math.min(Math.max(current+d,0),N);if(nc!==current){current=nc;updateBook();}}
+document.getElementById('next').addEventListener('click',()=>flip(1));
+document.getElementById('prev').addEventListener('click',()=>flip(-1));
+const dotsHost=document.getElementById('dots');for(let i=0;i<=N;i++){const d=document.createElement('span');d.className='d';d.addEventListener('click',()=>{current=i;updateBook();});dotsHost.appendChild(d);}
+let bx=0;const book=document.getElementById('book');
+book.addEventListener('touchstart',e=>bx=e.touches[0].clientX,{passive:true});
+book.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-bx;if(Math.abs(dx)>40)flip(dx<0?1:-1);});
+updateBook();
+
+/* ---------- DISCOVER ---------- */
+document.getElementById('discover').addEventListener('click',()=>document.getElementById('home-hero').scrollIntoView({behavior:'smooth'}));
+
+/* ---------- APERÇU PHOTOGRAPHIES (carrousel 2 vues) ---------- */
+(function(){
+  const frame=document.getElementById('pf-frame');if(!frame)return;
+  const sets=[
+    [{c:'film f-thailand',cap:"Bangkok · à l'aube"},{c:'film f-highlands',cap:'Glen Coe · brume'}],
+    [{c:'film f-amsterdam',cap:'Amsterdam · canaux'},{c:'film f-thailand',cap:'Krabi · fin du jour'}],
+    [{c:'film f-highlands',cap:'Loch · silence'},{c:'film f-amsterdam',cap:'Week-end suspendu'}],
+  ];
+  let i=0;
+  function render(){frame.innerHTML=sets[i].map(p=>'<div class="pf-half"><div class="img '+p.c+'"></div><span class="cap">'+p.cap+'</span></div>').join('');}
+  document.getElementById('pf-next').addEventListener('click',()=>{i=(i+1)%sets.length;render();});
+  document.getElementById('pf-prev').addEventListener('click',()=>{i=(i-1+sets.length)%sets.length;render();});
+})();
+
+/* ---------- ROUTING ---------- */
+const PAGES={
+  home:{el:'p-home'},chapters:{el:'p-chapters'},about:{el:'p-about'},contact:{el:'p-contact'},
+  thailand:{el:'p-thailand',label:'Thailand on Film',tint:'#FAF0CA',tintN:'#3a3320',line:'rgba(140,115,30,.18)',dot:'#F95738'},
+  highlands:{el:'p-highlands',label:'Walking in the Highlands',tint:'#dde3e7',tintN:'#2a3236',line:'rgba(100,120,130,.2)',dot:'#B5BF8C'},
+};
+const NAVKEYS=['home','chapters','about','contact'];
+function go(key){
+  const p=PAGES[key];if(!p)return;
+  document.querySelectorAll('.page').forEach(s=>s.classList.remove('active'));
+  document.getElementById(p.el).classList.add('active');
+  const night=app.dataset.theme==='night';
+  if(p.tint){topnav.style.background=night?p.tintN:p.tint;topnav.style.borderColor=p.line;chiprow.classList.add('show');chipt.textContent=p.label;chiprow.querySelector('.dot').style.background=p.dot;back.classList.add('show');}
+  else{topnav.style.background='';topnav.style.borderColor='';chiprow.classList.remove('show');back.classList.remove('show');}
+  const navKey=NAVKEYS.includes(key)?key:'chapters';
+  document.querySelectorAll('#menu-links a').forEach(i=>i.classList.toggle('current',i.dataset.nav===navKey));
+  setMenu(false);
+  scroller.scrollTo({top:0});runReveal();
+}
+document.querySelectorAll('[data-nav]').forEach(e=>e.addEventListener('click',()=>go(e.dataset.nav)));
+document.body.addEventListener('click',e=>{
+  const c=e.target.closest('[data-chapter]');if(c){e.stopPropagation();go(c.dataset.chapter);return;}
+  const s=e.target.closest('[data-soon]');if(s&&s.classList.contains('enter')){e.stopPropagation();s.firstChild.textContent='Bientôt disponible ';}
+});
+back.addEventListener('click',()=>go('home'));
+
+/* ---------- THEME ---------- */
+const toggle=document.getElementById('toggle'),ticon=document.getElementById('ticon');
+function applyTheme(t){
+  app.dataset.theme=t;document.querySelector('.screen').style.background=getComputedStyle(app).getPropertyValue('--bg');
+  ticon.className=t==='night'?'ti ti-moon':'ti ti-sun';try{localStorage.setItem('ff3m-theme',t);}catch(e){}
+  const cur=document.querySelector('.page.active');const ck=cur&&cur.dataset.chap;if(ck)go(ck);
+}
+toggle.addEventListener('click',()=>applyTheme(app.dataset.theme==='night'?'day':'night'));
+(function(){let t;try{t=localStorage.getItem('ff3m-theme');}catch(e){}if(!t){const h=new Date().getHours();t=(h<7||h>=19)?'night':'day';}applyTheme(t);})();
+
+/* ---------- FILTRES ---------- */
+document.querySelectorAll('#mpills .pill').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#mpills .pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');const f=b.dataset.filter;document.querySelectorAll('#mlist .lcard').forEach(c=>c.classList.toggle('hide',!(f==='all'||c.dataset.cat===f)));}));
+document.querySelectorAll('#p-thailand .pill,#p-highlands .pill').forEach(b=>b.addEventListener('click',()=>{b.parentNode.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');}));
+
+/* ---------- REVEAL + PROGRESS ---------- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{root:scroller,threshold:.12});
+function runReveal(){document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el=>io.observe(el));}
+const prog=document.getElementById('prog');
+scroller.addEventListener('scroll',()=>{const h=scroller.scrollHeight-scroller.clientHeight;prog.style.width=(h>0?scroller.scrollTop/h*100:0)+'%';},{passive:true});
+
+/* ---------- LIGHTBOX ---------- */
+const lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbcap=document.getElementById('lbcap'),lbcount=document.getElementById('lbcount');
+let items=[],idx=0;
+function render(){const it=items[idx],img=it.querySelector('.img');lbimg.className=img.className;lbimg.style.cssText=img.getAttribute('style')||'';lbimg.style.position='absolute';lbimg.style.inset='0';const c=it.querySelector('.cap');lbcap.textContent=c?c.textContent:'';lbcount.textContent=(idx+1)+' / '+items.length;}
+function move(d){idx=(idx+d+items.length)%items.length;render();}
+function closeLB(){lb.classList.remove('open');}
+scroller.addEventListener('click',e=>{const it=e.target.closest('.git');if(!it)return;const set=Array.from(document.querySelectorAll('.page.active .git'));items=set;idx=set.indexOf(it);render();lb.classList.add('open');});
+document.getElementById('lbclose').addEventListener('click',closeLB);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+document.addEventListener('keydown',e=>{if(!lb.classList.contains('open'))return;if(e.key==='Escape')closeLB();if(e.key==='ArrowRight')move(1);if(e.key==='ArrowLeft')move(-1);});
+
+go('home');runReveal();
+</script>
+</body>
+</html>

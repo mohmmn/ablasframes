@@ -249,6 +249,72 @@ section.pad{padding:104px 0;}
 .chap-nav .lbl{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;}
 .chap-nav .ttl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;line-height:1.05;}
 
+/* ===================== HOME · SECTION HÉRO (introduction) ===================== */
+.home-hero{padding:100px 0 84px;text-align:center;}
+.hero-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-bottom:46px;}
+.hero-img{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:3/4;
+  box-shadow:0 22px 46px -20px rgba(60,40,20,.42),inset 0 0 0 1px var(--line);}
+.hero-img .img{position:absolute;inset:0;transition:transform 1.2s var(--ease);}
+.hero-img:hover .img{transform:scale(1.05);}
+.hero-img::after{content:"";position:absolute;inset:0;border-radius:18px;border:1px solid var(--gold);opacity:.35;pointer-events:none;}
+.hero-intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(20px,2.6vw,30px);
+  line-height:1.55;color:var(--text);max-width:680px;margin:0 auto 36px;}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;
+  background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
+  box-shadow:0 12px 26px rgba(80,52,26,.32);transition:transform .35s var(--ease),background .3s;}
+.hero-cta:hover{transform:translateY(-2px);background:var(--accent-d);}
+
+/* ===================== BANDEAU DÉFILANT (séparateur) ===================== */
+.marquee{position:relative;overflow:hidden;padding:18px 0;background:var(--bg-soft);
+  border-top:.5px solid var(--line);border-bottom:.5px solid var(--line);}
+.marquee-track{display:flex;width:max-content;animation:marq 30s linear infinite;}
+.marquee-track span{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:var(--accent);
+  padding:0 30px;white-space:nowrap;display:inline-flex;align-items:center;}
+.marquee-track span::after{content:"\2726";color:var(--gold);font-size:13px;font-style:normal;margin-left:30px;}
+@keyframes marq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* ===================== HOME · APERÇU PHOTOGRAPHIES (deux vues + flèches) ===================== */
+.photo-feature{padding:100px 0;}
+.photo-feature .lead{text-align:center;margin-bottom:46px;}
+.photo-feature .lead .e{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.photo-feature .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);}
+.pf-stage{display:flex;align-items:center;gap:26px;}
+.pf-arrow{flex:none;width:48px;height:48px;border-radius:50%;border:.5px solid var(--line-strong);background:transparent;color:var(--text);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:20px;transition:.35s var(--ease);}
+.pf-arrow:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:scale(1.06);}
+.pf-frame{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:14px;aspect-ratio:21/9;border-radius:16px;overflow:hidden;
+  box-shadow:0 30px 60px -24px rgba(60,40,20,.42),inset 0 0 0 1px var(--line);}
+.pf-half{position:relative;overflow:hidden;background:var(--bg-soft);}
+.pf-half .img{position:absolute;inset:0;transition:transform 1.2s var(--ease);}
+.pf-half:hover .img{transform:scale(1.04);}
+.pf-half .cap{position:absolute;left:16px;bottom:14px;z-index:2;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(255,250,245,.92);text-shadow:0 1px 6px rgba(0,0,0,.4);}
+
+/* ===================== HOME · FRAMES (chapitres encadrés comme des œuvres) ===================== */
+.frames-section{padding:100px 0;}
+.frames-section .lead{text-align:center;margin-bottom:54px;}
+.frames-section .lead .e{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.frames-section .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);}
+.frames-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:40px;}
+.art-frame{cursor:pointer;}
+.art-frame .frame{position:relative;padding:14px;border-radius:3px;
+  background:linear-gradient(135deg,#caa86a,#9a7437 45%,#d8b878 100%);
+  box-shadow:0 28px 56px -22px rgba(60,40,20,.55),inset 0 0 0 2px rgba(255,255,255,.18),inset 0 0 20px rgba(60,40,18,.4);
+  transition:transform .5s var(--ease),box-shadow .5s;}
+.art-frame:hover .frame{transform:translateY(-6px);box-shadow:0 40px 72px -22px rgba(60,40,20,.6),inset 0 0 0 2px rgba(255,255,255,.22),inset 0 0 20px rgba(60,40,18,.4);}
+.art-frame .matte{position:relative;background:#f4ecdb;padding:22px;box-shadow:inset 0 0 0 1px rgba(60,40,18,.16);}
+[data-theme="night"] .art-frame .matte{background:#e9dcc6;}
+.art-frame .canvas{position:relative;aspect-ratio:4/5;overflow:hidden;box-shadow:0 4px 14px rgba(60,40,18,.3);}
+.art-frame .canvas .img{position:absolute;inset:0;transition:transform 1.2s var(--ease);}
+.art-frame:hover .canvas .img{transform:scale(1.05);}
+.art-frame[data-soon] .canvas::after{content:"Bientôt";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#fff;background:rgba(60,40,22,.55);padding:8px 16px;border-radius:30px;}
+.art-frame .plate{margin-top:18px;text-align:center;}
+.art-frame .plate .t{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:21px;color:var(--text);}
+.art-frame .plate .s{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-top:5px;}
+
+@media(max-width:880px){.hero-imgs{grid-template-columns:1fr;}.frames-grid{grid-template-columns:1fr;gap:48px;}.pf-frame{aspect-ratio:4/3;}}
+
 /* ===================== reste du site ===================== */
 .eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
 .sec-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.08;color:var(--text);}
@@ -359,6 +425,63 @@ section.pad{padding:104px 0;}
     </div>
     <div class="discover" id="discover">Découvrez mon histoire<span class="ring"><i class="ti ti-chevron-down"></i></span></div>
   </header>
+
+  <!-- ===================== SECTION HÉRO (introduction) ===================== -->
+  <section class="home-hero" id="home-hero">
+    <div class="wrap">
+      <div class="hero-imgs">
+        <div class="hero-img reveal"><div class="img film f-thailand"></div></div>
+        <div class="hero-img reveal"><div class="img film f-highlands"></div></div>
+        <div class="hero-img reveal"><div class="img film f-amsterdam"></div></div>
+      </div>
+      <p class="hero-intro reveal">Photographe argentique, je collectionne des fragments de lumière au fil de mes voyages — des instants imparfaits, vivants, et profondément vrais.</p>
+      <a class="hero-cta reveal" data-nav="chapters">Découvrir les chapitres <i class="ti ti-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <!-- ===================== BANDEAU DÉFILANT (séparateur) ===================== -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Voyage</span><span>Contemplation</span><span>Lumière</span><span>Argentique</span><span>Fragments</span>
+      <span>Voyage</span><span>Contemplation</span><span>Lumière</span><span>Argentique</span><span>Fragments</span>
+    </div>
+  </div>
+
+  <!-- ===================== APERÇU PHOTOGRAPHIES (deux vues + flèches) ===================== -->
+  <section class="photo-feature" id="photo-feature">
+    <div class="wrap">
+      <div class="lead reveal"><p class="e">Sélection</p><h2 class="serif">Quelques photographies</h2></div>
+      <div class="pf-stage reveal">
+        <button class="pf-arrow" id="pf-prev" aria-label="précédent"><i class="ti ti-chevron-left"></i></button>
+        <div class="pf-frame" id="pf-frame">
+          <div class="pf-half"><div class="img film f-thailand"></div><span class="cap">Bangkok · à l'aube</span></div>
+          <div class="pf-half"><div class="img film f-highlands"></div><span class="cap">Glen Coe · brume</span></div>
+        </div>
+        <button class="pf-arrow" id="pf-next" aria-label="suivant"><i class="ti ti-chevron-right"></i></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FRAMES (chapitres comme des œuvres encadrées) ===================== -->
+  <section class="frames-section" id="frames-section">
+    <div class="wrap">
+      <div class="lead reveal"><p class="e">La galerie</p><h2 class="serif">Frames</h2></div>
+      <div class="frames-grid">
+        <article class="art-frame reveal" data-chapter="thailand">
+          <div class="frame"><div class="matte"><div class="canvas"><div class="img film f-thailand"></div></div></div></div>
+          <div class="plate"><p class="t">Thailand on Film</p><p class="s">Chapitre I · Travel</p></div>
+        </article>
+        <article class="art-frame reveal" data-chapter="highlands">
+          <div class="frame"><div class="matte"><div class="canvas"><div class="img film f-highlands"></div></div></div></div>
+          <div class="plate"><p class="t">Walking in the Highlands</p><p class="s">Chapitre II · Travel</p></div>
+        </article>
+        <article class="art-frame reveal" data-soon="1">
+          <div class="frame"><div class="matte"><div class="canvas"><div class="img film f-amsterdam"></div></div></div></div>
+          <div class="plate"><p class="t">A Weekend in Amsterdam</p><p class="s">Chapitre III · Bientôt</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
 
   <section class="book-section" id="book-section">
     <div class="lead"><p class="e">Ouvrez le carnet</p><h2 class="serif">Tournez les pages de mes voyages</h2></div>
@@ -712,7 +835,27 @@ let bx=0;bookInner.addEventListener('touchstart',e=>bx=e.touches[0].clientX,{pas
 bookInner.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-bx;if(Math.abs(dx)>50)flip(dx<0?1:-1);});
 updateBook();
 
-document.getElementById('discover').addEventListener('click',()=>document.getElementById('book-section').scrollIntoView({behavior:'smooth'}));
+document.getElementById('discover').addEventListener('click',()=>document.getElementById('home-hero').scrollIntoView({behavior:'smooth'}));
+
+/* ===================== APERÇU PHOTOGRAPHIES (carrousel deux vues) ===================== */
+(function photoFeature(){
+  const frame=document.getElementById('pf-frame');if(!frame)return;
+  const sets=[
+    [{c:'film f-thailand',cap:"Bangkok · à l'aube"},{c:'film f-highlands',cap:'Glen Coe · brume'}],
+    [{c:'film f-amsterdam',cap:'Amsterdam · canaux'},{c:'film f-thailand',cap:'Krabi · fin du jour'}],
+    [{c:'film f-highlands',cap:'Loch · silence'},{c:'film f-amsterdam',cap:'Week-end suspendu'}],
+  ];
+  let i=0;
+  function render(){
+    const s=sets[i];
+    frame.innerHTML=s.map(p=>'<div class="pf-half"><div class="img '+p.c+'"></div><span class="cap">'+p.cap+'</span></div>').join('');
+  }
+  document.getElementById('pf-next').addEventListener('click',()=>{i=(i+1)%sets.length;render();});
+  document.getElementById('pf-prev').addEventListener('click',()=>{i=(i-1+sets.length)%sets.length;render();});
+})();
+
+/* ===================== FRAMES → ouverture du chapitre ===================== */
+document.querySelectorAll('.art-frame[data-chapter]').forEach(f=>f.addEventListener('click',()=>go(f.dataset.chapter)));
 
 /* ===================== ROUTING ===================== */
 const PAGES={
