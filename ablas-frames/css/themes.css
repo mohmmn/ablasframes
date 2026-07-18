@@ -1,0 +1,60 @@
+/* ============================================================
+   themes.css — day/night theme + the 6 per-frame palettes
+   (each declined in light & dark). --fdark:1 flags a palette
+   whose background is dark, so the nav switches to light text.
+   ============================================================ */
+[data-theme="night"]{
+  --bg:#2A2620;
+  --bg-soft:#332E26;
+  --text:#F0E7D8;
+  --muted:#C3B49A;
+  --faint:#8E8068;
+  --line:rgba(255,255,255,.09);
+  --line-strong:rgba(255,255,255,.2);
+  --gold:#E7C16B;
+  --sage:#C3CD96;
+  --accent:#C99A5E;
+  --accent-d:#B5854A;
+  --star:#F0D38A;
+  --star-glow:rgba(240,211,138,.8);
+  --frame-c:#EFEBE2;
+  --frame-o:#CFC9BE;
+}
+
+/* defaults: a frame page inherits the global palette */
+.frame-page{--fbg:var(--bg);--ftext:var(--text);--fmuted:var(--muted);--fline:var(--line);--faccent:var(--accent);--faccent2:var(--gold);--fsoft:var(--bg-soft);--fglow:rgba(176,141,87,.45);}
+
+/* — THAILAND (cream / red / olive) — */
+[data-theme="day"]   #page-thailand    {--fbg:#FFFAE9;--ftext:#3A2E14;--fmuted:#8A7A3A;--fline:rgba(130,135,0,.18);--faccent:#A43032;--faccent2:#828700;--fsoft:#D2E5C5;--fglow:rgba(164,48,50,.40);}
+[data-theme="night"] #page-thailand    {--fbg:#23180E;--ftext:#F4E7CE;--fmuted:#B49A6E;--fline:rgba(242,217,164,.16);--faccent:#E0655F;--faccent2:#B7BE4E;--fsoft:#33291A;--fglow:rgba(224,101,95,.50);--fdark:1;}
+/* — BALI (tropical teal) — */
+[data-theme="day"]   #page-bali        {--fbg:#EFF6F1;--ftext:#1F3B34;--fmuted:#5F8078;--fline:rgba(46,140,125,.18);--faccent:#2E8C7D;--faccent2:#6BBF9F;--fsoft:#DCECE6;--fglow:rgba(46,140,125,.42);}
+[data-theme="night"] #page-bali        {--fbg:#0C201C;--ftext:#D6ECE4;--fmuted:#7FA89C;--fline:rgba(107,191,159,.18);--faccent:#3FC0AB;--faccent2:#7FD9BC;--fsoft:#123029;--fglow:rgba(63,192,171,.50);--fdark:1;}
+/* — HYDE PARK NOSTALGIA (blue) — */
+[data-theme="day"]   #page-hydepark    {--fbg:#EEF3FB;--ftext:#16233F;--fmuted:#5E729C;--fline:rgba(58,96,160,.20);--faccent:#3A60A0;--faccent2:#4D4177;--fsoft:#DCE6F7;--fglow:rgba(58,96,160,.42);}
+[data-theme="night"] #page-hydepark    {--fbg:#0B1838;--ftext:#D7E3FB;--fmuted:#8FA3CF;--fline:rgba(136,165,224,.22);--faccent:#88A5E0;--faccent2:#C8DDF5;--fsoft:#14264D;--fglow:rgba(136,165,224,.42);--fdark:1;}
+/* — NIGHT MARKETS (neon cyan / navy) — */
+[data-theme="day"]   #page-nightmarkets{--fbg:#EAF7F7;--ftext:#12263A;--fmuted:#5C8A90;--fline:rgba(18,167,173,.24);--faccent:#12A7AD;--faccent2:#E08A5A;--fsoft:#D5EFEF;--fglow:rgba(38,203,209,.40);}
+[data-theme="night"] #page-nightmarkets{--fbg:#12263A;--ftext:#D6F5F2;--fmuted:#7FB2B8;--fline:rgba(38,203,209,.24);--faccent:#26CBD1;--faccent2:#97EECE;--fsoft:#163A52;--fglow:rgba(38,203,209,.42);--fdark:1;}
+/* — ECHOES OF MOROCCO (ochre / gold / salmon) — */
+[data-theme="day"]   #page-morocco     {--fbg:#FBF4E9;--ftext:#2B2119;--fmuted:#9A7C57;--fline:rgba(252,75,65,.16);--faccent:#FC4B41;--faccent2:#408E9A;--fsoft:#F6E4C1;--fglow:rgba(252,75,65,.42);}
+[data-theme="night"] #page-morocco     {--fbg:#16211D;--ftext:#F4E7CF;--fmuted:#A6B0A0;--fline:rgba(246,191,90,.20);--faccent:#FC4B41;--faccent2:#52B3BF;--fsoft:#20302A;--fglow:rgba(252,75,65,.46);--fdark:1;}
+/* — WILDLIFE (olive / earth) — */
+[data-theme="day"]   #page-wildlife    {--fbg:#F5F4EA;--ftext:#35371F;--fmuted:#6F7346;--fline:rgba(111,125,58,.18);--faccent:#6F7D3A;--faccent2:#A08A3F;--fsoft:#E7E6D4;--fglow:rgba(111,125,58,.42);}
+[data-theme="night"] #page-wildlife    {--fbg:#1C1E12;--ftext:#E6E7CF;--fmuted:#9CA073;--fline:rgba(160,138,63,.18);--faccent:#9DAE55;--faccent2:#C6A961;--fsoft:#2A2C1B;--fglow:rgba(157,174,85,.50);--fdark:1;}
+
+/* map palette vars onto frame-page content */
+.frame-page.active{background:var(--fbg);color:var(--ftext);min-height:100vh;}
+.frame-page .eyebrow{color:var(--faccent);}
+.frame-page .chap-intro p{color:var(--ftext);}
+.frame-page .chap-intro .lt{color:var(--fmuted);}
+.frame-page .breath .q{color:var(--ftext);}
+.frame-page .breath .who{color:var(--fmuted);}
+.frame-page .embro .ln{background:var(--fline);}
+.frame-page .gitem{background:var(--fsoft);}
+.frame-page .chap-nav{border-top-color:var(--fline);}
+.frame-page .chap-nav a{color:var(--fmuted);}
+.frame-page .chap-nav a:hover{color:var(--faccent);}
+.frame-page .chap-nav a i{color:var(--faccent);}
+.frame-page .chap-nav .lbl{color:var(--fmuted);}
+.frame-page .chap-hero .meta .dot{background:var(--faccent);}

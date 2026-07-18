@@ -1,0 +1,30 @@
+/* ============================================================
+   contact.css — featured Instagram card + alternative links
+   ============================================================ */
+.contact{padding:80px 0;}
+.contact .lead{text-align:center;margin-bottom:60px;}
+.contact .lead .eyebrow{margin-bottom:18px;}
+.contact .lead h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(38px,5.5vw,66px);line-height:1.05;color:var(--text);}
+.contact .lead .sub{margin-top:22px;font-size:15px;color:var(--muted);max-width:520px;margin-left:auto;margin-right:auto;}
+
+.ig-card{position:relative;max-width:760px;margin:0 auto;border-radius:26px;overflow:hidden;text-align:center;padding:64px 40px 58px;
+  color:#fff;background:linear-gradient(135deg,#f9ce34 0%,#ee2a7b 46%,#6228d7 100%);
+  box-shadow:0 40px 80px -30px rgba(120,30,110,.6);}
+.ig-card::before{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.6'/></svg>");}
+.ig-card .inner{position:relative;z-index:2;}
+.ig-card .ig-ico{width:78px;height:78px;border-radius:22px;margin:0 auto 26px;display:flex;align-items:center;justify-content:center;
+  font-size:40px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(4px);}
+.ig-card .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:14px;}
+.ig-card h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(34px,5vw,52px);line-height:1;margin-bottom:14px;}
+.ig-card p{font-size:14.5px;color:rgba(255,255,255,.9);max-width:440px;margin:0 auto 32px;line-height:1.7;}
+.ig-btn{display:inline-flex;align-items:center;gap:11px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
+  color:#7a1650;background:#fff;border-radius:40px;padding:17px 40px;text-decoration:none;
+  box-shadow:0 14px 30px rgba(0,0,0,.22);transition:transform .35s var(--ease),box-shadow .35s;}
+.ig-btn:hover{transform:translateY(-3px);box-shadow:0 20px 40px rgba(0,0,0,.28);}
+.ig-btn i{font-size:19px;}
+
+.contact-alt{display:flex;justify-content:center;gap:44px;flex-wrap:wrap;margin-top:52px;padding-top:40px;border-top:.5px solid var(--line);}
+.contact-alt a{display:flex;align-items:center;gap:11px;font-size:13.5px;color:var(--muted);text-decoration:none;transition:color .3s;}
+.contact-alt a:hover{color:var(--accent);}
+.contact-alt a i{font-size:20px;color:var(--accent);}

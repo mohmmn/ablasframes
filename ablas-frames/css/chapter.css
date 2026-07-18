@@ -1,0 +1,57 @@
+/* ============================================================
+   chapter.css — frame pages: chap-hero, intro, MASONRY gallery
+   (native aspect ratios, no cropping), "breath" quote,
+   previous/next frame navigation
+   ============================================================ */
+
+/* ------- hero ------- */
+.chap-hero{position:relative;height:60vh;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;border-radius:0 0 30px 30px;}
+.chap-hero .img{position:absolute;inset:0;}
+.chap-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(30,22,12,.72),transparent 60%);}
+.chap-hero .inner{position:relative;z-index:2;width:100%;}
+.chap-hero-pad{padding-bottom:44px;}
+.chap-hero .meta{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.chap-hero .meta .dot{width:8px;height:8px;border-radius:50%;}
+.chap-hero .meta .t{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;}
+.chap-hero .meta .ln{flex:1;max-width:140px;height:.5px;background:rgba(255,245,235,.4);}
+.chap-hero .meta .num{font-size:11px;letter-spacing:.12em;color:rgba(255,245,235,.7);}
+.chap-hero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(36px,5.5vw,64px);line-height:1.02;margin-bottom:24px;}
+
+/* ------- intro (centered, before the grid) ------- */
+.chap-intro{padding:34px 0 10px;text-align:center;}
+.chap-intro .lt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;}
+.chap-intro p{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,28px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;margin-left:auto;margin-right:auto;}
+.chap-body{padding-top:48px;}
+
+/* ------- MASONRY gallery: CSS columns, images keep their native
+   ratio (never cropped), break-inside keeps each card whole ------- */
+.masonry{columns:4;column-gap:14px;}
+.gitem{position:relative;display:block;break-inside:avoid;margin-bottom:14px;overflow:hidden;border-radius:8px;cursor:pointer;background:var(--fsoft,var(--bg-soft));}
+.gitem img{width:100%;height:auto;display:block;border-radius:8px;}
+/* hover: darken overlay + magnifier only — the image itself never moves */
+.gitem::after{content:"";position:absolute;inset:0;z-index:1;background:rgba(20,14,8,0);transition:background .35s var(--ease);pointer-events:none;border-radius:8px;}
+.gitem:hover::after{background:rgba(20,14,8,.26);}
+.gitem .zoom{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:.4s;color:#fff;font-size:22px;z-index:2;pointer-events:none;}
+.gitem:hover .zoom{opacity:1;}
+.gitem .cap{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,250,245,.92);opacity:0;transform:translateY(6px);transition:.5s var(--ease);text-shadow:0 1px 6px rgba(0,0,0,.5);pointer-events:none;}
+.gitem:hover .cap{opacity:1;transform:none;}
+
+@media(max-width:980px){.masonry{columns:3;}}
+@media(max-width:640px){.masonry{columns:2;column-gap:8px;}.gitem{margin-bottom:8px;border-radius:6px;}.gitem img{border-radius:6px;}}
+
+/* ------- "breath" quote ------- */
+.breath{text-align:center;padding:80px 0;}
+.breath-embro{margin-bottom:26px;}
+.breath .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(22px,3vw,34px);line-height:1.5;color:var(--text);max-width:680px;margin:0 auto;}
+.breath .who{margin-top:18px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);}
+
+/* ------- previous / next frame ------- */
+.chap-nav{display:flex;justify-content:space-between;gap:24px;border-top:.5px solid var(--line);margin-top:40px;padding:46px 0 0;}
+.chap-nav a{display:flex;align-items:center;gap:16px;cursor:pointer;color:var(--muted);text-decoration:none;transition:color .3s,transform .35s var(--ease);max-width:48%;}
+.chap-nav a:hover{color:var(--accent);}
+.chap-nav a.prev:hover{transform:translateX(-5px);}
+.chap-nav a.next:hover{transform:translateX(5px);}
+.chap-nav a.next{flex-direction:row-reverse;text-align:right;}
+.chap-nav a i{font-size:26px;color:var(--accent);flex:none;}
+.chap-nav .lbl{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;}
+.chap-nav .ttl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;line-height:1.05;}

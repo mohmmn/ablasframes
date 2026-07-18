@@ -1,0 +1,67 @@
+/* ============================================================
+   responsive.css — cross-cutting media queries merged from the
+   mobile mock-up, plus the "no image hover motion" rule and
+   prefers-reduced-motion fallbacks
+   ============================================================ */
+
+@media(max-width:880px){
+  /* hero: text first, framed photo below */
+  .hero-2col{grid-template-columns:1fr;gap:40px;}
+  .hero-txt{order:1;text-align:center;}
+  .hero-intro{margin-left:auto;margin-right:auto;}
+  .hero-photo{order:2;justify-self:stretch;max-width:none;}
+  /* selection: two equal columns, captions always visible (no hover on touch) */
+  .sel-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .sel-cell.c-8,.sel-cell.c-4{grid-column:auto;aspect-ratio:1;}
+  .sel-cell{border-width:8px;}
+  .sel-cell .cap{opacity:1;transform:none;font-size:8px;left:9px;bottom:8px;}
+  /* frames strips */
+  .frow-pano{aspect-ratio:16/9;}
+  .frow-meta{gap:12px;}
+  .frow-t{font-size:19px;}
+  /* about stacks */
+  .about-col{grid-template-columns:1fr;gap:44px;}
+  .wrap.about{padding-top:44px;padding-bottom:44px;}
+}
+
+@media(max-width:760px){
+  .wrap,.wrap-sm{padding:0 22px;}
+  section.pad{padding:36px 0;}
+  .banner{min-height:62vh;padding:54px 22px;}
+  .banner h1{font-size:clamp(48px,15vw,80px);}
+  .home-hero{padding:36px 0 30px;}
+  .hero-frame{border-width:10px;}
+  .chap-hero{height:38vh;min-height:260px;border-radius:0 0 24px 24px;}
+  .chap-hero-pad{padding-bottom:22px;}
+  .chap-hero h1{margin-bottom:10px;}
+  .chap-intro{padding:22px 0 4px;}
+  .chap-intro p{font-size:18px;}
+  .chap-body{padding-top:26px;}
+  .breath{padding:40px 0;}
+  .breath .q{font-size:19px;}
+  .chap-nav{margin-top:24px;padding-top:26px;gap:12px;}
+  .chap-nav a{gap:9px;}
+  .chap-nav a i{font-size:19px;}
+  .chap-nav .ttl{font-size:15px;}
+  .contact{padding:40px 0;}
+  .ig-card{padding:38px 24px 34px;border-radius:22px;}
+  .contact-alt{flex-direction:column;align-items:center;gap:14px;margin-top:28px;padding-top:22px;}
+  .pills{gap:7px;margin-bottom:24px;overflow-x:auto;flex-wrap:nowrap;padding-bottom:4px;}
+  .pill{flex:none;font-size:9px;padding:7px 14px;white-space:nowrap;}
+  .frames-section{padding:36px 0 40px;}
+  .about-gal{gap:14px;}
+}
+
+/* ------- NO hover motion on images, anywhere (explicit rule) ------- */
+.hero-frame .canvas .img,.sel-cell .img,.frow-pano .img,.gitem img,.list-card .thumb .img,.pano .img{transition:none!important;}
+.hero-frame:hover .canvas .img,.sel-cell:hover .img,.gitem:hover img,.list-card:hover .thumb .img,.pano:hover .img,
+.sel-cell:hover,.list-card:hover{transform:none!important;}
+.sel-cell:hover{box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0 rgba(0,0,0,.25)!important;}
+.list-card:hover{box-shadow:0 8px 24px rgba(80,52,26,.08)!important;}
+
+/* ------- reduced motion ------- */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.12s!important;}
+  .star,.sparkle-svg{animation:none;opacity:.7;}
+  html{scroll-behavior:auto;}
+}

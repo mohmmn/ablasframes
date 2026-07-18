@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragments of my reality — ablas frames · Maquette v3 (Mobile)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+/* ============================================================
+   MAQUETTE v3 — MOBILE · mix créative (v1) + pro (v2)
+   Palettes light/dark par frame · galeries alignées · zoom contain
+   ============================================================ */
+:root{
+  --bg:#F4E9D8;--bg-soft:#EADBC2;
+  --text:#473726;--muted:#8A7456;--faint:#B3997A;
+  --line:rgba(71,55,38,.12);--line-strong:rgba(71,55,38,.26);
+  --gold:#B08D57;--sage:#9DAA78;--accent:#9A6B3F;--accent-d:#7E5430;
+  --star:#D9B36A;--star-glow:rgba(217,179,106,.6);
+  --ease:cubic-bezier(.16,1,.3,1);
+  --frame-c:#F0EDE6;--frame-o:#D8D4CC;
+}
+.app[data-theme="night"]{
+  --bg:#2A2620;--bg-soft:#332E26;
+  --text:#F0E7D8;--muted:#C3B49A;--faint:#8E8068;
+  --line:rgba(255,255,255,.09);--line-strong:rgba(255,255,255,.2);
+  --gold:#E7C16B;--sage:#C3CD96;--accent:#C99A5E;--accent-d:#B5854A;
+  --star:#F0D38A;--star-glow:rgba(240,211,138,.8);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;
+  background:radial-gradient(ellipse at 50% 0%,#efe1c8,#e3d2b2 70%);padding:38px 16px 56px;color:#5a4630;}
+.serif{font-family:'Cormorant Garamond',serif;}
+.hw{font-family:'Petit Formal Script',cursive;}
+.img,.pic{background-size:cover;background-position:center;background-repeat:no-repeat;}
+
+.stage-head{text-align:center;margin-bottom:30px;max-width:520px;}
+.stage-head .em{display:inline-flex;gap:10px;align-items:center;color:#a3814f;font-size:10px;letter-spacing:.3em;text-transform:uppercase;margin-bottom:12px;}
+.stage-head h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:32px;color:#5e4a31;line-height:1.1;}
+.stage-head p{font-size:12px;color:#8a7250;margin-top:10px;line-height:1.6;}
+
+.phone{width:392px;max-width:94vw;height:824px;max-height:86vh;background:#e7d8bd;border-radius:52px;padding:13px;
+  box-shadow:0 40px 90px rgba(90,60,30,.35),0 0 0 2px rgba(255,255,255,.45);position:relative;}
+.phone::before{content:"";position:absolute;top:26px;left:50%;transform:translateX(-50%);width:118px;height:30px;background:#1a1410;border-radius:18px;z-index:60;}
+.screen{width:100%;height:100%;border-radius:40px;overflow:hidden;position:relative;background:var(--bg);}
+.app{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);color:var(--text);
+  transition:background .6s var(--ease),color .6s var(--ease);}
+
+#msky{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.star{position:absolute;border-radius:50%;background:var(--star);box-shadow:0 0 6px 1px var(--star-glow);animation:tw ease-in-out infinite;}
+.sparkle{position:absolute;animation:tw ease-in-out infinite;filter:drop-shadow(0 0 3px var(--star-glow));}
+@keyframes tw{0%,100%{opacity:.3;transform:scale(.8);}50%{opacity:.95;transform:scale(1.15);}}
+
+.scroller{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;position:relative;z-index:1;}
+.scroller::-webkit-scrollbar{display:none;}
+
+.statusbar{height:40px;display:flex;align-items:flex-end;justify-content:space-between;padding:0 26px 4px;font-size:11px;font-weight:500;color:var(--text);position:relative;z-index:3;}
+.statusbar .r{display:flex;gap:6px;align-items:center;}
+.topnav{display:grid;grid-template-columns:auto 1fr auto;align-items:center;padding:6px 18px 12px;position:relative;z-index:70;
+  border-bottom:.5px solid var(--line);background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(6px);transition:background .6s var(--ease),border-color .6s;}
+.topnav .nav-left{display:flex;align-items:center;gap:12px;justify-self:start;}
+.topnav .back{font-size:18px;color:var(--text);cursor:pointer;display:none;}
+.topnav .back.show{display:block;}
+.burger{width:28px;height:24px;display:flex;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:0;}
+.burger span{display:block;height:1.5px;width:22px;background:var(--text);border-radius:2px;transition:transform .45s var(--ease),opacity .3s,width .45s var(--ease);}
+.burger span:nth-child(2){width:15px;}
+.app.menu-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:22px;}
+.app.menu-open .burger span:nth-child(2){opacity:0;}
+.app.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:22px;}
+.topnav .logo{justify-self:center;text-align:center;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;}
+.topnav .logo .crown{display:flex;align-items:center;gap:6px;}
+.topnav .logo .crown .ln{width:16px;height:.5px;background:var(--line-strong);}
+.topnav .logo .name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:18px;letter-spacing:.03em;line-height:1;color:var(--text);}
+.topnav .logo .role{font-size:7px;letter-spacing:.3em;text-transform:uppercase;color:var(--faint);}
+.toggle{width:40px;height:21px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;cursor:pointer;position:relative;justify-self:end;}
+.toggle .knob{position:absolute;top:2px;left:2px;width:15px;height:15px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:9px;transition:transform .45s var(--ease);}
+.app[data-theme="night"] .toggle .knob{transform:translateX(19px);}
+
+/* MENU plein écran */
+.menu{position:absolute;inset:0;z-index:65;display:flex;align-items:center;justify-content:center;
+  background:color-mix(in srgb,var(--bg) 96%,transparent);backdrop-filter:blur(6px);border-radius:40px;
+  opacity:0;visibility:hidden;transition:opacity .45s var(--ease),visibility .45s;}
+.app.menu-open .menu{opacity:1;visibility:visible;}
+.menu::before{content:"";position:absolute;inset:18px;border:1px solid var(--gold);opacity:.25;border-radius:24px;pointer-events:none;}
+.menu-inner{text-align:center;width:100%;padding:0 40px;position:relative;z-index:2;}
+.menu-eyebrow{font-size:9px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent);margin-bottom:26px;display:flex;align-items:center;justify-content:center;gap:12px;}
+.menu-eyebrow::before,.menu-eyebrow::after{content:"";width:26px;height:.5px;background:var(--line-strong);}
+.menu-links{display:flex;flex-direction:column;}
+.menu-links a{position:relative;display:flex;align-items:baseline;justify-content:center;gap:14px;padding:13px 0;cursor:pointer;text-decoration:none;color:var(--text);
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:34px;line-height:1;
+  opacity:0;transform:translateY(16px);transition:opacity .55s var(--ease),transform .55s var(--ease),color .3s;}
+.app.menu-open .menu-links a{opacity:1;transform:none;}
+.menu-links a .i{font-family:'DM Sans',sans-serif;font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--faint);}
+.menu-links a.current{color:var(--accent);}.menu-links a.current .i{color:var(--accent);}
+.app.menu-open .menu-links a:nth-child(1){transition-delay:.08s;}
+.app.menu-open .menu-links a:nth-child(2){transition-delay:.14s;}
+.app.menu-open .menu-links a:nth-child(3){transition-delay:.20s;}
+.app.menu-open .menu-links a:nth-child(4){transition-delay:.26s;}
+.menu-deco{display:flex;align-items:center;justify-content:center;gap:12px;margin:26px 0;opacity:0;transition:opacity .5s var(--ease) .30s;}
+.app.menu-open .menu-deco{opacity:1;}.menu-deco .ln{width:34px;height:.5px;background:var(--line-strong);}
+.menu-foot{display:flex;flex-direction:column;gap:12px;align-items:center;opacity:0;transition:opacity .5s var(--ease) .36s;}
+.app.menu-open .menu-foot{opacity:1;}
+.menu-foot a{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);text-decoration:none;letter-spacing:.04em;}
+.menu-foot .sig{font-family:'Petit Formal Script',cursive;font-size:22px;color:var(--accent);margin-bottom:4px;}
+
+.prog{height:2px;background:var(--line);position:relative;z-index:3;}
+.prog span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .15s linear;}
+.chiprow{display:none;align-items:center;gap:8px;padding:10px 20px 0;position:relative;z-index:2;}
+.chiprow.show{display:flex;}.chiprow .dot{width:7px;height:7px;border-radius:50%;}.chiprow .t{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+/* navbar/statut sur frame au thème sombre */
+.app.frame-dark .statusbar{color:#fff;}
+.app.frame-dark .topnav .logo .name{color:#fff;}
+.app.frame-dark .topnav .logo .role{color:rgba(255,255,255,.55);}
+.app.frame-dark .topnav .logo .crown .ln{background:rgba(255,255,255,.3);}
+.app.frame-dark .burger span{background:#fff;}
+.app.frame-dark .back{color:#fff;}
+.app.frame-dark .toggle{border-color:rgba(255,255,255,.4);}
+.app.frame-dark .chiprow .t{color:rgba(255,255,255,.7);}
+.app.frame-dark .prog{background:rgba(255,255,255,.14);}
+
+/* pages */
+.page{display:none;position:relative;z-index:1;padding-bottom:26px;}
+.page.active{display:block;animation:pin .6s var(--ease);}
+@keyframes pin{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.reveal{opacity:0;transform:translateY(16px);transition:.7s var(--ease);}.reveal.in{opacity:1;transform:none;}
+
+/* BANNIÈRE */
+.banner{position:relative;min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:54px 22px 60px;overflow:hidden;}
+.banner .bg{position:absolute;inset:0;z-index:0;}
+.banner .grain{position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.5'/></svg>");}
+.banner .veil{position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,rgba(28,20,12,.46),rgba(28,20,12,.32) 45%,rgba(28,20,12,.6)),radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(20,14,8,.42) 100%);}
+.banner .bc{position:relative;z-index:2;}
+.banner .kicker{font-size:9px;letter-spacing:.4em;text-transform:uppercase;color:#ECCF92;margin-bottom:16px;text-shadow:0 1px 8px rgba(0,0,0,.4);}
+.banner h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;line-height:.94;color:#FBF3E6;font-size:54px;letter-spacing:.005em;text-shadow:0 3px 24px rgba(0,0,0,.4);}
+.banner h1 .of{display:block;font-size:.38em;font-style:normal;color:#ECCF92;letter-spacing:.06em;margin-top:.18em;}
+.banner .ornz{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:22px;}
+.banner .ornz .ln{width:46px;height:.5px;background:rgba(251,243,230,.45);}
+.banner .tagline{margin-top:16px;font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:rgba(251,243,230,.72);text-shadow:0 1px 8px rgba(0,0,0,.4);}
+.banner .discover{position:absolute;bottom:16px;left:0;right:0;z-index:3;display:flex;flex-direction:column;align-items:center;gap:7px;cursor:pointer;color:rgba(251,243,230,.82);font-size:8px;letter-spacing:.24em;text-transform:uppercase;}
+.banner .discover .ring{width:34px;height:34px;border-radius:50%;border:.5px solid rgba(251,243,230,.5);display:flex;align-items:center;justify-content:center;}
+.banner .discover .ring i{font-size:14px;line-height:1;display:block;animation:bob 2.2s ease-in-out infinite;}
+@keyframes bob{0%,100%{transform:translateY(-2px);}50%{transform:translateY(3px);}}
+
+/* SECTION HÉRO */
+.home-hero{padding:34px 20px 30px;text-align:center;position:relative;z-index:2;}
+.hero-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-bottom:24px;}
+.hero-img{position:relative;border-radius:12px;overflow:hidden;aspect-ratio:3/4;box-shadow:0 12px 24px -12px rgba(90,60,30,.4);}
+.hero-img .img{position:absolute;inset:0;}
+.hero-img::after{content:"";position:absolute;inset:0;border-radius:12px;border:1px solid var(--gold);opacity:.35;}
+.hero-intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:18px;line-height:1.55;color:var(--text);margin:0 auto 22px;}
+.hero-cta{display:inline-flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#fff;background:var(--accent);border:none;border-radius:30px;padding:13px 30px;cursor:pointer;text-decoration:none;box-shadow:0 8px 18px rgba(90,60,30,.3);}
+
+/* APERÇU PHOTOGRAPHIES */
+.photo-feature{padding:36px 16px;position:relative;z-index:2;}
+.photo-feature .lead{text-align:center;margin-bottom:22px;}
+.photo-feature .lead .e{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.photo-feature .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;color:var(--text);}
+.pf-stage{display:flex;align-items:center;gap:10px;}
+.pf-arrow{flex:none;width:38px;height:38px;border-radius:50%;border:.5px solid var(--line-strong);background:transparent;color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:17px;transition:.3s var(--ease);}
+.pf-arrow:active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pf-frame{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:8px;aspect-ratio:1/1;border-radius:12px;overflow:hidden;box-shadow:0 18px 36px -18px rgba(90,60,30,.42),inset 0 0 0 1px var(--line);}
+.pf-half{position:relative;overflow:hidden;background:var(--bg-soft);}
+.pf-half .img{position:absolute;inset:0;}
+.pf-half .cap{position:absolute;left:10px;bottom:9px;z-index:2;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,250,245,.92);text-shadow:0 1px 4px rgba(0,0,0,.5);}
+
+/* FRAMES en bandes panoramiques fines (façon "À propos") */
+.frames-section{padding:36px 20px 20px;position:relative;z-index:2;}
+.frames-section .lead{text-align:center;margin-bottom:28px;}
+.frames-section .lead .e{font-size:9px;letter-spacing:.28em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;}
+.frames-section .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;color:var(--text);}
+.frames-list{display:flex;flex-direction:column;gap:6px;}
+.frame-row{cursor:pointer;}
+.frow-pano{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:4px;background:var(--bg-soft);
+  box-shadow:0 12px 26px -16px rgba(90,60,30,.4),inset 0 0 0 1px var(--line);}
+.frow-pano .img{position:absolute;inset:0;}
+.frow-meta{display:flex;align-items:baseline;gap:12px;padding:12px 2px 18px;border-bottom:.5px solid var(--line);}
+.frow-num{font-size:9px;letter-spacing:.1em;color:var(--faint);flex:none;width:16px;}
+.frow-t{flex:1;font-style:italic;font-weight:300;font-size:18px;color:var(--text);}
+.frow-s{flex:none;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+
+.eyebrow{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.sec-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;line-height:1.1;color:var(--text);}
+.embro{display:flex;align-items:center;justify-content:center;gap:10px;}.embro .ln{height:.5px;width:32px;background:var(--line-strong);}
+
+/* CHAPITRE / FRAME */
+.chero{position:relative;height:218px;display:flex;align-items:flex-end;overflow:hidden;border-radius:0 0 24px 24px;}
+.chero .img{position:absolute;inset:0;}
+.chero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(30,22,12,.72),transparent 60%);}
+.chero .in{position:relative;z-index:2;padding:16px;width:100%;}
+.chero .meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.chero .meta .dot{width:6px;height:6px;border-radius:50%;}.chero .meta .tt{font-size:8px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;}
+.chero .meta .ln{flex:1;height:.5px;background:rgba(255,245,235,.45);}.chero .meta .n{font-size:8px;letter-spacing:.1em;color:rgba(255,245,235,.75);}
+.chero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#FFF6EE;font-size:28px;line-height:1.04;}
+.cintro{padding:20px 20px 4px;}.cintro .lt{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--fmuted,var(--faint));margin-bottom:10px;}
+.cintro p{font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1.6;font-weight:300;color:var(--ftext,var(--text));}
+
+/* GALERIE ALIGNÉE : grille carrée régulière */
+.gal{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;padding:18px 20px;}
+.git{position:relative;overflow:hidden;border-radius:6px;cursor:pointer;background:var(--fsoft,var(--bg-soft));aspect-ratio:1;}
+.git .img{position:absolute;inset:0;}
+.git .cap{position:absolute;left:10px;bottom:9px;z-index:2;font-size:8px;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,250,245,.92);text-shadow:0 1px 4px rgba(0,0,0,.5);}
+.git .zz{position:absolute;top:9px;right:9px;z-index:2;color:rgba(255,250,245,.85);font-size:13px;}
+.gal .git.g-full{grid-column:span 2;aspect-ratio:16/10;}
+
+.breath{text-align:center;padding:30px 26px;}
+.breath .emb{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px;}.breath .emb .ln{height:.5px;width:28px;background:var(--fline,var(--line-strong));}
+.breath .q{display:block;font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:18px;line-height:1.5;color:var(--ftext,var(--text));}
+.breath .who{margin-top:10px;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--fmuted,var(--faint));}
+
+/* nav frame précédente / suivante */
+.cnav{display:flex;justify-content:space-between;gap:12px;padding:22px 20px 4px;margin-top:8px;border-top:.5px solid var(--fline,var(--line));}
+.cnav a{display:flex;align-items:center;gap:9px;cursor:pointer;color:var(--fmuted,var(--muted));text-decoration:none;max-width:48%;}
+.cnav a.next{flex-direction:row-reverse;text-align:right;}
+.cnav a i{font-size:19px;color:var(--faccent,var(--accent));flex:none;}
+.cnav .lbl{display:block;font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:var(--fmuted,var(--faint));margin-bottom:2px;}
+.cnav .ttl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:15px;line-height:1.05;color:var(--ftext,var(--text));}
+
+/* palettes par frame (light + dark) */
+.frame-page{--fbg:var(--bg);--ftext:var(--text);--fmuted:var(--muted);--fline:var(--line);--faccent:var(--accent);--faccent2:var(--gold);--fsoft:var(--bg-soft);}
+.app[data-theme="day"]   #p-thailand    {--fbg:#FFFAE9;--ftext:#3A2E14;--fmuted:#8A7A3A;--fline:rgba(130,135,0,.18);--faccent:#A43032;--faccent2:#828700;--fsoft:#D2E5C5;}
+.app[data-theme="night"] #p-thailand    {--fbg:#23180E;--ftext:#F4E7CE;--fmuted:#B49A6E;--fline:rgba(242,217,164,.16);--faccent:#E0655F;--faccent2:#B7BE4E;--fsoft:#33291A;--fdark:1;}
+.app[data-theme="day"]   #p-bali        {--fbg:#EFF6F1;--ftext:#1F3B34;--fmuted:#5F8078;--fline:rgba(46,140,125,.18);--faccent:#2E8C7D;--faccent2:#6BBF9F;--fsoft:#DCECE6;}
+.app[data-theme="night"] #p-bali        {--fbg:#0C201C;--ftext:#D6ECE4;--fmuted:#7FA89C;--fline:rgba(107,191,159,.18);--faccent:#3FC0AB;--faccent2:#7FD9BC;--fsoft:#123029;--fdark:1;}
+.app[data-theme="day"]   #p-hydepark    {--fbg:#EEF3FB;--ftext:#16233F;--fmuted:#5E729C;--fline:rgba(58,96,160,.20);--faccent:#3A60A0;--faccent2:#4D4177;--fsoft:#DCE6F7;}
+.app[data-theme="night"] #p-hydepark    {--fbg:#0B1838;--ftext:#D7E3FB;--fmuted:#8FA3CF;--fline:rgba(136,165,224,.22);--faccent:#88A5E0;--faccent2:#C8DDF5;--fsoft:#14264D;--fdark:1;}
+.app[data-theme="day"]   #p-nightmarkets{--fbg:#EAF7F7;--ftext:#12263A;--fmuted:#5C8A90;--fline:rgba(18,167,173,.24);--faccent:#12A7AD;--faccent2:#E08A5A;--fsoft:#D5EFEF;}
+.app[data-theme="night"] #p-nightmarkets{--fbg:#12263A;--ftext:#D6F5F2;--fmuted:#7FB2B8;--fline:rgba(38,203,209,.24);--faccent:#26CBD1;--faccent2:#97EECE;--fsoft:#163A52;--fdark:1;}
+.app[data-theme="day"]   #p-morocco     {--fbg:#FBF4E9;--ftext:#2B2119;--fmuted:#9A7C57;--fline:rgba(252,75,65,.16);--faccent:#FC4B41;--faccent2:#408E9A;--fsoft:#F6E4C1;}
+.app[data-theme="night"] #p-morocco     {--fbg:#16211D;--ftext:#F4E7CF;--fmuted:#A6B0A0;--fline:rgba(246,191,90,.20);--faccent:#FC4B41;--faccent2:#52B3BF;--fsoft:#20302A;--fdark:1;}
+.app[data-theme="day"]   #p-wildlife    {--fbg:#F5F4EA;--ftext:#35371F;--fmuted:#6F7346;--fline:rgba(111,125,58,.18);--faccent:#6F7D3A;--faccent2:#A08A3F;--fsoft:#E7E6D4;}
+.app[data-theme="night"] #p-wildlife    {--fbg:#1C1E12;--ftext:#E6E7CF;--fmuted:#9CA073;--fline:rgba(160,138,63,.18);--faccent:#9DAE55;--faccent2:#C6A961;--fsoft:#2A2C1B;--fdark:1;}
+.frame-page.active{background:var(--fbg);color:var(--ftext);}
+.frame-page .eyebrow{color:var(--faccent);}
+.frame-page .chero .meta .dot{background:var(--faccent);}
+
+/* pills (listing frames) */
+.pills{display:flex;gap:7px;padding:0 20px 6px;overflow-x:auto;}.pills::-webkit-scrollbar{display:none;}
+.pill{flex:none;font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:7px 14px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer;white-space:nowrap;transition:.3s var(--ease);}
+.pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+
+/* listing */
+.lcard{border-radius:12px;overflow:hidden;border:.5px solid var(--line);margin-bottom:14px;background:var(--bg);box-shadow:0 6px 18px rgba(90,60,30,.08);}
+.lcard.hide{display:none;}
+.lcard .thumb{height:150px;position:relative;overflow:hidden;}.lcard .thumb .img{position:absolute;inset:0;}
+.lcard .thumb::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(40,28,14,.5),transparent 60%);}
+.lcard .meta{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;}
+.lcard .meta h4{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:17px;}
+.lcard .meta .tg{font-size:9px;letter-spacing:.12em;text-transform:uppercase;}
+.sec{padding:28px 20px;}
+
+/* ABOUT (photo + texte · minimaliste) */
+.about{padding:44px 24px 40px;}
+.about .ph{position:relative;aspect-ratio:3/4;overflow:hidden;border-radius:8px;margin-bottom:26px;background:var(--bg-soft);
+  box-shadow:0 18px 36px -18px rgba(90,60,30,.5),inset 0 0 0 1px var(--line);}
+.about .ph .img{position:absolute;inset:0;}
+.about .ph::after{content:"";position:absolute;inset:0;border-radius:8px;border:1px solid var(--gold);opacity:.3;}
+.about h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;line-height:1.18;margin-bottom:18px;color:var(--text);}
+.about p{font-size:13px;line-height:1.9;color:var(--muted);margin-bottom:14px;}
+.about .sig{margin-top:16px;font-family:'Petit Formal Script',cursive;font-size:26px;color:var(--accent);}
+
+/* CONTACT (Instagram mis en avant) */
+.contact{padding:36px 22px 40px;}
+.contact .lead{text-align:center;margin-bottom:26px;}
+.contact .lead h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:32px;color:var(--text);}
+.contact .lead .sub{margin-top:12px;font-size:12.5px;color:var(--muted);line-height:1.7;}
+.ig-card{position:relative;border-radius:22px;overflow:hidden;text-align:center;padding:38px 24px 34px;color:#fff;
+  background:linear-gradient(135deg,#f9ce34 0%,#ee2a7b 46%,#6228d7 100%);box-shadow:0 26px 50px -22px rgba(120,30,110,.6);}
+.ig-card::before{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.6'/></svg>");}
+.ig-card .inner{position:relative;z-index:2;}
+.ig-card .ig-ico{width:60px;height:60px;border-radius:18px;margin:0 auto 18px;display:flex;align-items:center;justify-content:center;font-size:30px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);}
+.ig-card .k{font-size:9px;letter-spacing:.26em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:10px;}
+.ig-card h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:34px;line-height:1;margin-bottom:12px;}
+.ig-card p{font-size:12.5px;color:rgba(255,255,255,.92);line-height:1.65;margin-bottom:22px;}
+.ig-btn{display:inline-flex;align-items:center;gap:9px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:#7a1650;background:#fff;border-radius:30px;padding:13px 26px;text-decoration:none;box-shadow:0 10px 22px rgba(0,0,0,.22);}
+.ig-btn i{font-size:16px;}
+.contact-alt{display:flex;flex-direction:column;gap:14px;margin-top:28px;padding-top:22px;border-top:.5px solid var(--line);}
+.contact-alt a{display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;color:var(--muted);text-decoration:none;}
+.contact-alt a i{font-size:18px;color:var(--accent);}
+
+.foot-note{margin-top:28px;font-size:11px;color:#8a7250;letter-spacing:.05em;text-align:center;}
+
+/* HÉRO mobile (texte au-dessus, image encadrée en dessous) */
+.hero-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:24px;line-height:1.14;color:var(--text);text-align:center;margin-bottom:14px;}
+.hero-photo{margin-top:26px;}
+.hero-frame{position:relative;border:10px solid var(--frame-c);outline:1px solid var(--frame-o);background:var(--frame-c);box-shadow:3px 3px 10px rgba(0,0,0,.18),7px 7px 26px rgba(0,0,0,.10);}
+.hero-frame .canvas{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg-soft);}
+.hero-frame .canvas .img{position:absolute;inset:0;}
+/* SÉLECTION mobile (tirages encadrés) */
+.selection{padding:34px 20px;position:relative;z-index:2;}
+.sel-lead{text-align:center;margin-bottom:20px;}
+.sel-lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:26px;color:var(--text);margin-bottom:8px;}
+.sel-lead p{color:var(--muted);font-size:12px;}
+.sel-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.sel-cell{position:relative;overflow:hidden;aspect-ratio:1;border:8px solid var(--frame-c);outline:1px solid var(--frame-o);background:var(--frame-c);box-shadow:2px 2px 8px rgba(0,0,0,.16);cursor:default;}
+.sel-cell .img{position:absolute;inset:0;background-color:var(--bg-soft);}
+.sel-cell .cap{position:absolute;left:9px;bottom:8px;z-index:2;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#fff;text-shadow:0 1px 5px rgba(0,0,0,.6);}
+/* ABOUT mobile (titre souligné + galerie panoramique) */
+.about-h{font-family:'DM Sans',sans-serif;text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:13px;color:var(--text);padding-bottom:14px;border-bottom:1px solid var(--line-strong);margin-bottom:24px;}
+.about-gal{display:flex;flex-direction:column;gap:14px;margin-top:26px;}
+.about-gal .pano{position:relative;aspect-ratio:32/7;overflow:hidden;border-radius:4px;background:var(--bg-soft);box-shadow:0 12px 26px -16px rgba(90,60,30,.4),inset 0 0 0 1px var(--line);}
+.about-gal .pano .img{position:absolute;inset:0;}
+/* intro de frame : centrée */
+.cintro{text-align:center;}
+/* LIGHTBOX (image entière · contain) */
+.lb{position:absolute;inset:0;z-index:100;background:rgba(30,22,12,.94);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .35s var(--ease),visibility .35s;border-radius:40px;padding:16px;}
+.lb.open{opacity:1;visibility:visible;}
+.lb .stage{position:relative;width:100%;height:78%;transform:scale(.92);transition:transform .45s var(--ease);}
+.lb.open .stage{transform:scale(1);}.lb .stage .img{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center;}
+.lb .cap{position:absolute;left:0;right:0;bottom:-26px;text-align:center;font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,245,235,.65);}
+.lb .close{position:absolute;top:22px;right:22px;width:34px;height:34px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;background:none;cursor:pointer;z-index:3;}
+.lb .count{position:absolute;top:28px;left:22px;font-size:10px;letter-spacing:.12em;color:rgba(255,245,235,.6);z-index:3;}
+
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.1s!important;}.star,.sparkle{animation:none;opacity:.6;}}
+@media(max-width:440px){body{padding:14px 0 28px;}.phone{border-radius:0;padding:0;width:100%;max-width:100%;height:100vh;max-height:100vh;}.phone::before{display:none;}.screen{border-radius:0;}.lb{border-radius:0;}.stage-head{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="stage-head">
+  <span class="em"><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#b08d57"/></svg> Maquette v3 · mobile <svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="#b08d57"/></svg></span>
+  <h1>Fragments of my reality</h1>
+  <p>Un thème de couleur par frame · light & dark. Ouvrez le menu, puis une frame.</p>
+</div>
+
+<div class="phone">
+  <div class="screen">
+    <div class="app" id="app" data-theme="day">
+      <div id="msky"></div>
+
+      <div class="statusbar"><span>9:41</span><span class="r"><i class="ti ti-signal-4g"></i> <i class="ti ti-wifi"></i> <i class="ti ti-battery-3"></i></span></div>
+      <div class="topnav" id="topnav">
+        <div class="nav-left">
+          <button class="burger" id="burger" aria-label="menu"><span></span><span></span><span></span></button>
+          <i class="ti ti-arrow-left back" id="back"></i>
+        </div>
+        <div class="logo" data-nav="home">
+          <span class="crown"><span class="ln"></span><svg width="9" height="9" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></span>
+          <span class="name serif">ablas frames</span>
+          <span class="role">Photographe</span>
+        </div>
+        <button class="toggle" id="toggle"><span class="knob"><i class="ti ti-sun" id="ticon"></i></span></button>
+      </div>
+      <div class="prog"><span id="prog"></span></div>
+      <div class="chiprow" id="chiprow"><span class="dot"></span><span class="t" id="chipt"></span></div>
+
+      <!-- MENU -->
+      <div class="menu" id="menu">
+        <div class="menu-inner">
+          <p class="menu-eyebrow">Navigation</p>
+          <nav class="menu-links" id="menu-links">
+            <a data-nav="home">Accueil <span class="i">01</span></a>
+            <a data-nav="frames">Frames <span class="i">02</span></a>
+            <a data-nav="about">À propos <span class="i">03</span></a>
+            <a data-nav="contact">Contact <span class="i">04</span></a>
+          </nav>
+          <div class="menu-deco"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></div>
+          <div class="menu-foot"><span class="sig">ablas</span><a href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> @ablasframes</a></div>
+        </div>
+      </div>
+
+      <div class="scroller" id="scroller">
+
+        <!-- ===================== HOME ===================== -->
+        <section class="page active" id="p-home">
+          <header class="banner">
+            <div class="bg" style="background-image:url('../photographies/categories/travel/thailand/thai-2.jpeg')"></div><div class="grain"></div><div class="veil"></div>
+            <div class="bc">
+              <h1 class="serif">Fragments<span class="of">of my reality</span></h1>
+            </div>
+          </header>
+
+          <section class="home-hero" id="home-hero">
+            <p class="eyebrow reveal" style="text-align:center">Introduction</p>
+            <h2 class="hero-h serif reveal">Des fragments de lumière, au fil des voyages.</h2>
+            <p class="hero-intro reveal">Je collectionne des instants imparfaits, vivants et profondément vrais — captés sur pellicule aux quatre coins du monde.</p>
+            <div class="hero-photo reveal"><div class="hero-frame"><div class="canvas"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div></div></div></div>
+          </section>
+
+          <section class="selection" id="selection">
+            <div class="sel-lead reveal"><h2 class="serif">Sélection</h2><p>Quelques tirages choisis parmi les chapitres récents.</p></div>
+            <div class="sel-grid reveal">
+              <div class="sel-cell"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-3.jpeg')"></div><span class="cap">Rizières</span></div>
+              <div class="sel-cell"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-5.jpeg')"></div><span class="cap">Bord de mer</span></div>
+              <div class="sel-cell"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-6.jpeg')"></div><span class="cap">Vallée verte</span></div>
+              <div class="sel-cell"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-11.jpeg')"></div><span class="cap">Océan</span></div>
+            </div>
+          </section>
+
+          <section class="frames-section" id="frames-section">
+            <div class="lead reveal"><p class="e">La galerie</p><h2 class="serif">Frames</h2></div>
+            <div class="frames-list">
+              <article class="frame-row reveal" data-chapter="thailand">
+                <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-13.jpeg')"></div></div>
+                <div class="frow-meta"><span class="frow-num">01</span><h3 class="frow-t serif">Thailand on Film</h3><span class="frow-s">Travel</span></div>
+              </article>
+              <article class="frame-row reveal" data-chapter="bali">
+                <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-2.jpeg')"></div></div>
+                <div class="frow-meta"><span class="frow-num">02</span><h3 class="frow-t serif">Bali</h3><span class="frow-s">Travel</span></div>
+              </article>
+              <article class="frame-row reveal" data-chapter="hydepark">
+                <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-2.jpeg')"></div></div>
+                <div class="frow-meta"><span class="frow-num">03</span><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span></div>
+              </article>
+              <article class="frame-row reveal" data-chapter="nightmarkets">
+                <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div></div>
+                <div class="frow-meta"><span class="frow-num">04</span><h3 class="frow-t serif">Night Markets</h3><span class="frow-s">Travel</span></div>
+              </article>
+              <article class="frame-row reveal" data-chapter="morocco">
+                <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-2.jpeg')"></div></div>
+                <div class="frow-meta"><span class="frow-num">05</span><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span></div>
+              </article>
+            </div>
+          </section>
+        </section>
+
+        <!-- ===================== THAILAND ===================== -->
+        <section class="page frame-page" id="p-thailand" data-chap="thailand">
+          <div class="chero"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-2.jpeg')"></div>
+            <div class="in"><div class="meta"><span class="dot"></span><span class="tt" style="color:#e9d28f">Travel</span><span class="ln"></span><span class="n">Thaïlande</span></div><h1>Thailand on Film</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>Le tumulte de Bangkok, le silence des rizières. J'ai laissé l'argentique décider — des fragments imparfaits, vivants, vrais.</p></div>
+          <div class="gal" id="gal-thailand"></div>
+          <div class="breath reveal"><div class="emb"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div><span class="q">« La pellicule garde la chaleur de l'instant. »</span><span class="who">Carnet — Bangkok</span></div>
+        </section>
+
+        <!-- ===================== BALI ===================== -->
+        <section class="page frame-page" id="p-bali" data-chap="bali">
+          <div class="chero"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-2.jpeg')"></div>
+            <div class="in"><div class="meta"><span class="dot"></span><span class="tt" style="color:#bfe6dd">Travel</span><span class="ln"></span><span class="n">Indonésie</span></div><h1>Bali</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>Rizières en terrasses et eau vive. Entre temples et lumière verte, chaque cadre respire la moiteur douce des tropiques.</p></div>
+          <div class="gal" id="gal-bali"></div>
+          <div class="breath reveal"><div class="emb"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div><span class="q">« Bali se laisse regarder lentement. »</span><span class="who">Carnet — Ubud</span></div>
+        </section>
+
+        <!-- ===================== HYDE PARK ===================== -->
+        <section class="page frame-page" id="p-hydepark" data-chap="hydepark">
+          <div class="chero"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-2.jpeg')"></div>
+            <div class="in"><div class="meta"><span class="dot"></span><span class="tt" style="color:#dbe5c9">Travel</span><span class="ln"></span><span class="n">Londres</span></div><h1>Hyde Park Nostalgia</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>Une lumière anglaise, tamisée et grise, entre les arbres de Hyde Park. Des instants suspendus, teintés d'une douce mélancolie.</p></div>
+          <div class="gal" id="gal-hydepark"></div>
+        </section>
+
+        <!-- ===================== NIGHT MARKETS ===================== -->
+        <section class="page frame-page" id="p-nightmarkets" data-chap="nightmarkets">
+          <div class="chero"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div>
+            <div class="in"><div class="meta"><span class="dot"></span><span class="tt" style="color:#f0c3ac">Travel</span><span class="ln"></span><span class="n">La nuit</span></div><h1>Night Markets</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>Néons, vapeurs et couleurs. Les marchés de nuit sont un théâtre de lumière — l'argentique y capte la chaleur brute de la foule.</p></div>
+          <div class="gal" id="gal-nightmarkets"></div>
+        </section>
+
+        <!-- ===================== MOROCCO ===================== -->
+        <section class="page frame-page" id="p-morocco" data-chap="morocco">
+          <div class="chero"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-2.jpeg')"></div>
+            <div class="in"><div class="meta"><span class="dot"></span><span class="tt" style="color:#e8c3a6">Portraits</span><span class="ln"></span><span class="n">Maroc</span></div><h1>Echoes of Morocco</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>Des visages et des murs d'ocre, l'écho d'un pays de lumière. La terre et la peau partagent la même chaleur.</p></div>
+          <div class="gal" id="gal-morocco"></div>
+          <div class="breath reveal"><div class="emb"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div><span class="q">« La terre et la peau, même lumière. »</span><span class="who">Carnet — Maroc</span></div>
+        </section>
+
+        <!-- ===================== WILDLIFE ===================== -->
+        <section class="page frame-page" id="p-wildlife" data-chap="wildlife">
+          <div class="chero"><div class="img" style="background-image:url('../photographies/categories/wildlife/wild-1.jpeg')"></div>
+            <div class="in"><div class="meta"><span class="dot"></span><span class="tt" style="color:#d3daa8">Wildlife</span><span class="ln"></span><span class="n">Faune</span></div><h1>Wildlife</h1></div></div>
+          <div class="cintro reveal"><p class="lt">L'histoire</p><p>À l'affût, dans le silence. La faune ne pose jamais — chaque cadre est une patience récompensée.</p></div>
+          <div class="gal" id="gal-wildlife"></div>
+        </section>
+
+        <!-- ===================== FRAMES (listing) ===================== -->
+        <section class="page" id="p-frames">
+          <div class="sec"><p class="eyebrow reveal">La bibliothèque</p><h1 class="sec-h reveal">Frames</h1></div>
+          <div class="pills" id="mpills">
+            <button class="pill active" data-filter="all">Toutes</button>
+            <button class="pill" data-filter="travel">Travel</button>
+            <button class="pill" data-filter="portraits">Portraits</button>
+            <button class="pill" data-filter="wildlife">Wildlife</button>
+          </div>
+          <div class="sec" id="mlist" style="padding-top:14px">
+            <article class="lcard reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-1.jpeg')"></div></div><div class="meta"><h4>Thailand on Film</h4><span class="tg" style="color:#C2702F">Travel</span></div></article>
+            <article class="lcard reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-1.jpeg')"></div></div><div class="meta"><h4>Bali</h4><span class="tg" style="color:#3F8B7C">Travel</span></div></article>
+            <article class="lcard reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-1.jpeg')"></div></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tg" style="color:#7E8B5B">Travel</span></div></article>
+            <article class="lcard reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div></div><div class="meta"><h4>Night Markets</h4><span class="tg" style="color:#BE5D3E">Travel</span></div></article>
+            <article class="lcard reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tg" style="color:#A9663F">Portraits</span></div></article>
+            <article class="lcard reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/wildlife/wild-1.jpeg')"></div></div><div class="meta"><h4>Wildlife</h4><span class="tg" style="color:#727E3E">Wildlife</span></div></article>
+          </div>
+        </section>
+
+        <!-- ===================== ABOUT ===================== -->
+        <section class="page" id="p-about">
+          <div class="about">
+            <h2 class="about-h reveal">About me</h2>
+            <div class="reveal">
+              <p>Photographe indépendante, je travaille à l'argentique et au numérique, avec une obsession commune : la lumière naturelle, l'instant non posé, l'imperfection qui dit vrai.</p>
+              <p>Chaque voyage devient une collecte de fragments — des visages, des paysages, des silences que l'œil oublie d'ordinaire.</p>
+              <p>Des fragments d'une réalité qui m'appartient et que je vous tends — à hauteur de silence.</p>
+              <p class="sig">ablas</p>
+            </div>
+            <div class="about-gal reveal">
+             <div class="pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-13.jpeg')"></div></div>
+              <div class="pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-14.jpeg')"></div></div>
+              <div class="pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-16.jpeg')"></div></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===================== CONTACT ===================== -->
+        <section class="page" id="p-contact">
+          <div class="contact">
+            <div class="ig-card reveal">
+              <div class="inner">
+                <div class="ig-ico"><i class="ti ti-brand-instagram"></i></div>
+                <p class="k">Suivez-moi sur Instagram</p>
+                <h2>@ablasframes</h2>
+                <p>Mes fragments du moment et mes nouveaux tirages, en premier. Écrivez-moi en message privé pour toute demande.</p>
+                <a class="ig-btn" href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Ouvrir Instagram</a>
+              </div>
+            </div>
+            <div class="contact-alt reveal">
+              <a href="mailto:hello@ablasframes.com"><i class="ti ti-mail"></i> hello@ablasframes.com</a>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- LIGHTBOX -->
+      <div class="lb" id="lb">
+        <span class="count" id="lbcount"></span>
+        <button class="close" id="lbclose"><i class="ti ti-x"></i></button>
+        <div class="stage"><div class="img" id="lbimg"></div><span class="cap" id="lbcap"></span></div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<p class="foot-note">© ablas frames — Fragments of my reality · Maquette v3 mobile</p>
+
+<script>
+const app=document.getElementById('app');
+const scroller=document.getElementById('scroller');
+const back=document.getElementById('back'),topnav=document.getElementById('topnav');
+const chiprow=document.getElementById('chiprow'),chipt=document.getElementById('chipt');
+const burger=document.getElementById('burger'),menu=document.getElementById('menu');
+
+/* MENU */
+function setMenu(open){app.classList.toggle('menu-open',open);}
+burger.addEventListener('click',()=>setMenu(!app.classList.contains('menu-open')));
+menu.addEventListener('click',e=>{if(e.target===menu)setMenu(false);});
+
+/* STARFIELD */
+(function(){
+  const s=document.getElementById('msky');const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const N=reduce?40:80;const NS='http://www.w3.org/2000/svg';
+  for(let i=0;i<N;i++){
+    const left=Math.random()*100+'%',top=Math.random()*100+'%',dur=(2.5+Math.random()*4)+'s',delay=(Math.random()*5)+'s';
+    if(Math.random()>0.78){const sz=Math.random()*7+5;const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 10 10');svg.setAttribute('class','sparkle');svg.setAttribute('width',sz);svg.setAttribute('height',sz);svg.style.left=left;svg.style.top=top;svg.style.animationDuration=dur;svg.style.animationDelay=delay;svg.innerHTML='<path d="M5,0 L5.7,3.4 L9,5 L5.7,6.6 L5,10 L4.3,6.6 L1,5 L4.3,3.4 Z" fill="var(--star)"/>';s.appendChild(svg);}
+    else{const sz=Math.random()*2+1;const el=document.createElement('span');el.className='star';el.style.cssText=`width:${sz}px;height:${sz}px;left:${left};top:${top};animation-duration:${dur};animation-delay:${delay}`;s.appendChild(el);}
+  }
+})();
+
+/* DISCOVER */
+(function(){const d=document.getElementById('discover');if(d)d.addEventListener('click',()=>document.getElementById('home-hero').scrollIntoView({behavior:'smooth'}));})();
+
+/* APERÇU PHOTOGRAPHIES */
+(function(){
+  const frame=document.getElementById('pf-frame');if(!frame)return;
+  const P='../photographies/categories/';
+  const sets=[
+    [{img:P+'travel/thailand/thai-1.jpeg',cap:"Bangkok · à l'aube"},{img:P+'travel/bali/bali-1.jpeg',cap:'Bali · rizières'}],
+    [{img:P+'portraits/echoes-of-morocco/eom-2.jpeg',cap:'Maroc · regard'},{img:P+'travel/night-markets/nightmarkets-1.jpeg',cap:'Marché · néons'}],
+    [{img:P+'travel/hyde-park-nostalgia/hpn-1.jpeg',cap:'Londres'},{img:P+'wildlife/wild-1.jpeg',cap:'Faune'}],
+  ];
+  let i=0;
+  function render(){frame.innerHTML=sets[i].map(p=>'<div class="pf-half"><div class="img" style="background-image:url(\''+p.img+'\')"></div><span class="cap">'+p.cap+'</span></div>').join('');}
+  document.getElementById('pf-next').addEventListener('click',()=>{i=(i+1)%sets.length;render();});
+  document.getElementById('pf-prev').addEventListener('click',()=>{i=(i-1+sets.length)%sets.length;render();});
+  render();
+})();
+
+/* GALERIES (génération auto · toutes les photos · sans vide) */
+const GAL={
+  thailand:{dir:'travel/thailand',pre:'thai',n:25},
+  bali:{dir:'travel/bali',pre:'bali',n:15},
+  hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',n:6},
+  nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',n:3},
+  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',n:17},
+  wildlife:{dir:'wildlife',pre:'wild',n:6},
+};
+Object.entries(GAL).forEach(([key,g])=>{
+  const host=document.getElementById('gal-'+key);if(!host)return;
+  let html='';
+  for(let i=1;i<=g.n;i++){
+    html+='<div class="git"><div class="img" style="background-image:url(\'../photographies/categories/'+g.dir+'/'+g.pre+'-'+i+'.jpeg\')"></div><i class="ti ti-zoom-in zz"></i></div>';
+  }
+  host.innerHTML=html;
+});
+/* la dernière image s'étire pour combler la rangée incomplète (2 colonnes) */
+(function fillGrid(){
+  const cols=2;
+  document.querySelectorAll('.gal').forEach(host=>{
+    const items=[...host.children];
+    if(!items.length)return;
+    const rem=items.length%cols;
+    if(rem!==0){const last=items[items.length-1];last.style.gridColumn='span '+(cols-rem+1);last.style.aspectRatio=(cols-rem+1)+' / 1';}
+  });
+})();
+
+/* ROUTING */
+const FRAMES=[
+  {key:'thailand',el:'p-thailand',label:'Thailand on Film'},
+  {key:'bali',el:'p-bali',label:'Bali'},
+  {key:'hydepark',el:'p-hydepark',label:'Hyde Park Nostalgia'},
+  {key:'nightmarkets',el:'p-nightmarkets',label:'Night Markets'},
+  {key:'morocco',el:'p-morocco',label:'Echoes of Morocco'},
+  {key:'wildlife',el:'p-wildlife',label:'Wildlife'},
+];
+const PAGES={home:{el:'p-home'},frames:{el:'p-frames'},about:{el:'p-about'},contact:{el:'p-contact'}};
+FRAMES.forEach(f=>PAGES[f.key]={el:f.el,label:f.label,frame:true});
+const NAVKEYS=['home','frames','about','contact'];
+
+function retint(){
+  const el=document.querySelector('.page.active');
+  if(el&&el.classList.contains('frame-page')){
+    const cs=getComputedStyle(el);const fbg=cs.getPropertyValue('--fbg').trim();
+    topnav.style.background=fbg;topnav.style.borderColor=cs.getPropertyValue('--fline').trim();
+    app.style.background=fbg;document.querySelector('.screen').style.background=fbg;
+    app.classList.toggle('frame-dark',cs.getPropertyValue('--fdark').trim()==='1');
+  }else{
+    topnav.style.background='';topnav.style.borderColor='';app.style.background='';
+    document.querySelector('.screen').style.background=getComputedStyle(app).getPropertyValue('--bg');
+    app.classList.remove('frame-dark');
+  }
+}
+function go(key){
+  const p=PAGES[key];if(!p)return;
+  document.querySelectorAll('.page').forEach(s=>s.classList.remove('active'));
+  const el=document.getElementById(p.el);el.classList.add('active');
+  if(p.frame){chiprow.classList.add('show');chipt.textContent=p.label;chiprow.querySelector('.dot').style.background=getComputedStyle(el).getPropertyValue('--faccent').trim();back.classList.add('show');}
+  else{chiprow.classList.remove('show');back.classList.remove('show');}
+  const navKey=NAVKEYS.includes(key)?key:'frames';
+  document.querySelectorAll('#menu-links a').forEach(a=>a.classList.toggle('current',a.dataset.nav===navKey));
+  setMenu(false);retint();
+  scroller.scrollTo({top:0});runReveal();
+}
+document.querySelectorAll('[data-nav]').forEach(e=>e.addEventListener('click',()=>go(e.dataset.nav)));
+document.body.addEventListener('click',e=>{const c=e.target.closest('[data-chapter]');if(c){e.stopPropagation();go(c.dataset.chapter);}});
+back.addEventListener('click',()=>go('frames'));
+
+/* NAV frame précédente / suivante */
+FRAMES.forEach((f,i)=>{
+  const sec=document.getElementById(f.el);if(!sec)return;
+  const prev=FRAMES[i-1],next=FRAMES[i+1];
+  const box=document.createElement('div');box.className='cnav reveal';
+  const mk=(key,label,ttl,dir)=>{const a=document.createElement('a');a.className=dir;a.dataset.nav=NAVKEYS.includes(key)?key:'';if(!NAVKEYS.includes(key))a.dataset.chapter=key;a.innerHTML='<i class="ti ti-arrow-'+(dir==='prev'?'left':'right')+'"></i><span><span class="lbl">'+label+'</span><span class="ttl">'+ttl+'</span></span>';return a;};
+  box.appendChild(prev?mk(prev.key,'Précédente',prev.label,'prev'):mk('frames','Retour','Toutes les frames','prev'));
+  box.appendChild(next?mk(next.key,'Suivante',next.label,'next'):mk('frames','Retour','Toutes les frames','next'));
+  sec.appendChild(box);
+});
+
+/* THEME */
+const toggle=document.getElementById('toggle'),ticon=document.getElementById('ticon');
+function applyTheme(t){
+  app.dataset.theme=t;ticon.className=t==='night'?'ti ti-moon':'ti ti-sun';
+  try{localStorage.setItem('ff3mv3-theme',t);}catch(e){}
+  retint();
+  if(!document.querySelector('.page.active.frame-page'))document.querySelector('.screen').style.background=getComputedStyle(app).getPropertyValue('--bg');
+}
+toggle.addEventListener('click',()=>applyTheme(app.dataset.theme==='night'?'day':'night'));
+(function(){let t;try{t=localStorage.getItem('ff3mv3-theme');}catch(e){}if(!t){const h=new Date().getHours();t=(h<7||h>=19)?'night':'day';}applyTheme(t);})();
+
+/* FILTRES */
+document.querySelectorAll('#mpills .pill').forEach(b=>b.addEventListener('click',()=>{document.querySelectorAll('#mpills .pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');const f=b.dataset.filter;document.querySelectorAll('#mlist .lcard').forEach(c=>c.classList.toggle('hide',!(f==='all'||c.dataset.cat===f)));}));
+
+/* REVEAL + PROGRESS */
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{root:scroller,threshold:.12});
+function runReveal(){document.querySelectorAll('.page.active .reveal:not(.in)').forEach(el=>io.observe(el));}
+const prog=document.getElementById('prog');
+scroller.addEventListener('scroll',()=>{const h=scroller.scrollHeight-scroller.clientHeight;prog.style.width=(h>0?scroller.scrollTop/h*100:0)+'%';},{passive:true});
+
+/* LIGHTBOX */
+const lb=document.getElementById('lb'),lbimg=document.getElementById('lbimg'),lbcap=document.getElementById('lbcap'),lbcount=document.getElementById('lbcount');
+let items=[],idx=0;
+function lbRender(){const it=items[idx],img=it.querySelector('.img');lbimg.className='img';lbimg.style.cssText=img.getAttribute('style')||'';lbimg.style.position='absolute';lbimg.style.inset='0';const c=it.querySelector('.cap');lbcap.textContent=c?c.textContent:'';lbcount.textContent=(idx+1)+' / '+items.length;}
+function move(d){idx=(idx+d+items.length)%items.length;lbRender();}
+function closeLB(){lb.classList.remove('open');}
+scroller.addEventListener('click',e=>{const it=e.target.closest('.git');if(!it)return;const set=Array.from(document.querySelectorAll('.page.active .git'));items=set;idx=set.indexOf(it);lbRender();lb.classList.add('open');});
+document.getElementById('lbclose').addEventListener('click',closeLB);
+lb.addEventListener('click',e=>{if(e.target===lb)closeLB();});
+let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});lb.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)move(dx<0?1:-1);});
+
+go('home');runReveal();
+</script>
+</body>
+</html>

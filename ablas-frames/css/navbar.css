@@ -1,0 +1,82 @@
+/* ============================================================
+   navbar.css — one DOM, two behaviours:
+   ≥880px : horizontal nav (logo / centered links / toggle+chip)
+   <880px : burger button + dropdown panel anchored under the bar
+   ============================================================ */
+.nav{position:sticky;top:0;z-index:200;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 64px;gap:48px;
+  background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:.5px solid var(--line);
+  transition:background .6s var(--ease),border-color .6s;}
+.nav-links{display:flex;gap:46px;align-items:center;justify-self:center;}
+.nav-right{display:flex;gap:24px;align-items:center;justify-self:end;}
+.nav a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;cursor:pointer;position:relative;padding:6px 0;transition:color .35s;white-space:nowrap;}
+.nav-links a::after{content:"";position:absolute;left:50%;bottom:0;width:0;height:.5px;background:var(--accent);transition:.45s var(--ease);transform:translateX(-50%);}
+.nav a:hover,.nav a.current{color:var(--text);}
+.nav-links a:hover::after,.nav-links a.current::after{width:100%;}
+
+.nav-left{display:flex;align-items:center;gap:14px;justify-self:start;}
+.nav-logo{text-align:left;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:3px;}
+.nav-logo .crown{display:flex;align-items:center;gap:7px;}
+.nav-logo .crown .ln{width:22px;height:.5px;background:var(--line-strong);}
+.nav-logo .name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:25px;letter-spacing:.04em;line-height:1;color:var(--text);}
+.nav-logo .role{font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--faint);}
+
+.toggle{width:46px;height:24px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;cursor:pointer;position:relative;flex-shrink:0;}
+.toggle .knob{position:absolute;top:2.5px;left:2.5px;width:18px;height:18px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:11px;transition:transform .45s var(--ease);}
+[data-theme="night"] .toggle .knob{transform:translateX(22px);}
+
+.navchip{display:none;align-items:center;gap:7px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
+.navchip .dot{width:7px;height:7px;border-radius:50%;}
+.navchip.show{display:flex;}
+
+/* ------- burger + back arrow (mobile only) ------- */
+.burger{display:none;width:28px;height:24px;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:0;flex-shrink:0;}
+.burger span{display:block;height:1.5px;width:22px;background:var(--text);border-radius:2px;transition:transform .45s var(--ease),opacity .3s,width .45s var(--ease);}
+.burger span:nth-child(2){width:15px;}
+.nav.menu-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:22px;}
+.nav.menu-open .burger span:nth-child(2){opacity:0;}
+.nav.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:22px;}
+.nav-back{display:none;background:none;border:none;font-size:19px;color:var(--text);cursor:pointer;padding:0;flex-shrink:0;}
+
+/* ------- dropdown panel (mobile), anchored under the navbar ------- */
+.menu-drop{position:absolute;top:100%;left:0;right:0;z-index:190;display:none;flex-direction:column;padding:10px 26px 20px;
+  background:color-mix(in srgb,var(--bg) 97%,transparent);backdrop-filter:blur(8px);border-bottom:.5px solid var(--line);
+  transform-origin:top center;opacity:0;transform:scaleY(.92) translateY(-6px);pointer-events:none;
+  transition:opacity .35s var(--ease),transform .4s var(--ease);}
+.menu-drop>a{display:flex;align-items:baseline;justify-content:space-between;gap:14px;padding:13px 2px;
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:24px;text-transform:none;letter-spacing:.02em;
+  color:var(--text);border-bottom:.5px solid var(--line);}
+.menu-drop>a .i{font-family:'DM Sans',sans-serif;font-style:normal;font-size:10px;letter-spacing:.1em;color:var(--faint);}
+.menu-drop>a.current{color:var(--accent);}
+.menu-drop>a.current .i{color:var(--accent);}
+.menu-drop .menu-foot{display:flex;justify-content:center;padding-top:16px;}
+.menu-drop .menu-foot a{display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted);text-transform:none;letter-spacing:.04em;}
+.nav.menu-open .menu-drop{opacity:1;transform:none;pointer-events:auto;}
+
+/* ------- navbar tinted over a dark frame palette ------- */
+.nav.on-dark a{color:rgba(255,255,255,.66);}
+.nav.on-dark a:hover,.nav.on-dark a.current{color:#fff;}
+.nav.on-dark .nav-links a::after{background:#fff;}
+.nav.on-dark .nav-logo .name{color:#fff;}
+.nav.on-dark .nav-logo .role{color:rgba(255,255,255,.55);}
+.nav.on-dark .nav-logo .crown .ln{background:rgba(255,255,255,.35);}
+.nav.on-dark .navchip{color:rgba(255,255,255,.72);}
+.nav.on-dark .toggle{border-color:rgba(255,255,255,.4);}
+.nav.on-dark .burger span{background:#fff;}
+.nav.on-dark .nav-back{color:#fff;}
+
+/* ------- responsive switch ------- */
+@media(max-width:980px){
+  .nav{padding:18px 28px;gap:20px;}
+  .nav-links{gap:30px;}
+  .nav-right{gap:18px;}
+}
+@media(max-width:880px){
+  .nav{grid-template-columns:auto 1fr;padding:14px 20px;gap:14px;}
+  .nav-links{display:none;}
+  .burger{display:flex;}
+  .nav-back.show{display:block;}
+  .nav-logo .name{font-size:20px;}
+  .nav-logo .role{font-size:7px;}
+  .navchip{display:none!important;} /* the chip is a desktop affordance */
+  .menu-drop{display:flex;}
+}

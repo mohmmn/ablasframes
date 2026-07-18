@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="day">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fragments of my reality — ablas frames</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/themes.css">
+<link rel="stylesheet" href="css/navbar.css">
+<link rel="stylesheet" href="css/banner.css">
+<link rel="stylesheet" href="css/home.css">
+<link rel="stylesheet" href="css/chapter.css">
+<link rel="stylesheet" href="css/transitions.css">
+<link rel="stylesheet" href="css/listing.css">
+<link rel="stylesheet" href="css/about.css">
+<link rel="stylesheet" href="css/contact.css">
+<link rel="stylesheet" href="css/lightbox.css">
+<link rel="stylesheet" href="css/footer.css">
+<link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+<div id="sky"></div>
+<div id="progress"></div>
+
+<nav class="nav" id="nav">
+  <div class="nav-left">
+    <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <button class="nav-back" id="nav-back" aria-label="Back to all frames"><i class="ti ti-arrow-left"></i></button>
+    <div class="nav-logo" data-nav="home">
+      <span class="crown"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></span>
+      <span class="name serif">ablas frames</span><span class="role">Photographer</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a data-nav="home" class="current">Home</a>
+    <a data-nav="frames">Frames</a>
+    <a data-nav="about">About</a>
+    <a data-nav="contact">Contact</a>
+  </div>
+  <div class="nav-right">
+    <span class="navchip" id="navchip"><span class="dot"></span><span id="navchip-t"></span></span>
+    <button class="toggle" id="toggle" aria-label="Day / night theme"><span class="knob"><i class="ti ti-sun" id="ticon"></i></span></button>
+  </div>
+  <!-- Mobile dropdown panel, anchored under the navbar -->
+  <div class="menu-drop" id="menu-drop" aria-hidden="true">
+    <a data-nav="home" class="current">Home <span class="i">01</span></a>
+    <a data-nav="frames">Frames <span class="i">02</span></a>
+    <a data-nav="about">About <span class="i">03</span></a>
+    <a data-nav="contact">Contact <span class="i">04</span></a>
+    <div class="menu-foot">
+      <a href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> @ablasframes</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+
+<!-- ===================== HOME ===================== -->
+<section class="page active" id="page-home">
+
+  <header class="banner">
+    <div class="bg" style="background-image:url('../photographies/categories/travel/thailand/thai-2.jpeg')"></div>
+    <div class="grain"></div>
+    <div class="veil"></div>
+    <div class="banner-content">
+      <h1 class="serif">Fragments<span class="of">of my reality</span></h1>
+    </div>
+  </header>
+
+  <!-- HERO (introduction) -->
+  <section class="home-hero" id="home-hero">
+    <div class="wrap">
+      <div class="hero-2col">
+        <div class="hero-txt reveal">
+          <p class="eyebrow">Introduction</p>
+          <h2 class="serif">Fragments of light,<br>gathered along the way.</h2>
+          <p class="hero-intro">I collect living, deeply true moments — captured on film across the four corners of the world.</p>
+        </div>
+        <div class="hero-photo reveal">
+          <div class="hero-frame"><div class="canvas"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SELECTION -->
+  <section class="selection" id="selection">
+    <div class="wrap">
+      <div class="sel-lead reveal"><h2 class="serif">A Selection</h2><p>A few chosen prints from recent chapters.</p></div>
+      <div class="sel-grid reveal">
+        <div class="sel-cell c-8"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-3.jpeg')"></div><span class="cap">Bali — Terraced rice fields</span></div>
+        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-5.jpeg')"></div><span class="cap">Bali — By the sea</span></div>
+        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-6.jpeg')"></div><span class="cap">Bali — Green valley</span></div>
+        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-8.jpeg')"></div><span class="cap">Bali — Back street</span></div>
+        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-11.jpeg')"></div><span class="cap">Bali — Ocean</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FRAMES (panoramic strips) -->
+  <section class="frames-section" id="frames-section">
+    <div class="wrap">
+      <div class="lead reveal"><p class="e">The gallery</p><h2 class="serif">Frames</h2></div>
+      <div class="frames-list">
+        <article class="frame-row reveal" data-chapter="thailand">
+          <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-13.jpeg')"></div></div>
+          <div class="frow-meta"><span class="frow-num">01</span><h3 class="frow-t serif">Thailand on Film</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+        </article>
+        <article class="frame-row reveal" data-chapter="bali">
+          <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-2.jpeg')"></div></div>
+          <div class="frow-meta"><span class="frow-num">02</span><h3 class="frow-t serif">Bali</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+        </article>
+        <article class="frame-row reveal" data-chapter="hydepark">
+          <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-2.jpeg')"></div></div>
+          <div class="frow-meta"><span class="frow-num">03</span><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+        </article>
+        <article class="frame-row reveal" data-chapter="nightmarkets">
+          <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div></div>
+          <div class="frow-meta"><span class="frow-num">04</span><h3 class="frow-t serif">Night Markets</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+        </article>
+        <article class="frame-row reveal" data-chapter="morocco">
+          <div class="frow-pano"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-2.jpeg')"></div></div>
+          <div class="frow-meta"><span class="frow-num">05</span><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+        </article>
+      </div>
+    </div>
+  </section>
+</section>
+
+<!-- ===================== FRAME : THAILAND ===================== -->
+<section class="page frame-page" id="page-thailand" data-chap="thailand">
+  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-2.jpeg')"></div><div class="inner"><div class="wrap chap-hero-pad">
+    <div class="meta"><span class="dot" style="background:#cf9f4e"></span><span class="t" style="color:#e9d28f">Travel</span><span class="ln"></span><span class="num">Frame · Thailand</span></div>
+    <h1 class="serif">Thailand on Film</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>In the heart of Bangkok's tumult and the silence of the rice fields, I let the film decide. These images are fragments — imperfect, alive, true.</p></div>
+  <section class="pad chap-body"><div class="wrap">
+    <p class="eyebrow reveal">Gallery · Thailand</p>
+    <div class="gallery masonry" id="gal-thailand"></div>
+    <div class="breath reveal"><div class="embro breath-embro"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div>
+      <p class="q">&ldquo;Film never lies. It keeps the warmth of the moment.&rdquo;</p><p class="who">Notebook — Bangkok</p></div>
+  </div></section>
+</section>
+
+<!-- ===================== FRAME : BALI ===================== -->
+<section class="page frame-page" id="page-bali" data-chap="bali">
+  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-2.jpeg')"></div><div class="inner"><div class="wrap chap-hero-pad">
+    <div class="meta"><span class="dot" style="background:#4a9d8e"></span><span class="t" style="color:#bfe6dd">Travel</span><span class="ln"></span><span class="num">Frame · Indonesia</span></div>
+    <h1 class="serif">Bali</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>An island of terraced rice fields and living water. Between temples and green light, every frame breathes the soft warmth of the tropics.</p></div>
+  <section class="pad chap-body"><div class="wrap">
+    <p class="eyebrow reveal">Gallery · Bali</p>
+    <div class="gallery masonry" id="gal-bali"></div>
+    <div class="breath reveal"><div class="embro breath-embro"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div>
+      <p class="q">&ldquo;Water, stone, green light — Bali reveals itself slowly.&rdquo;</p><p class="who">Notebook — Ubud</p></div>
+  </div></section>
+</section>
+
+<!-- ===================== FRAME : HYDE PARK NOSTALGIA ===================== -->
+<section class="page frame-page" id="page-hydepark" data-chap="hydepark">
+  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-2.jpeg')"></div><div class="inner"><div class="wrap chap-hero-pad">
+    <div class="meta"><span class="dot" style="background:#8a9a6b"></span><span class="t" style="color:#dbe5c9">Travel</span><span class="ln"></span><span class="num">Frame · London</span></div>
+    <h1 class="serif">Hyde Park Nostalgia</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>An English light, soft and grey, drifting between the trees of Hyde Park. Suspended moments, tinged with a gentle melancholy.</p></div>
+  <section class="pad chap-body"><div class="wrap">
+    <p class="eyebrow reveal">Gallery · London</p>
+    <div class="gallery masonry" id="gal-hydepark"></div>
+  </div></section>
+</section>
+
+<!-- ===================== FRAME : NIGHT MARKETS ===================== -->
+<section class="page frame-page" id="page-nightmarkets" data-chap="nightmarkets">
+  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div><div class="inner"><div class="wrap chap-hero-pad">
+    <div class="meta"><span class="dot" style="background:#c96b4a"></span><span class="t" style="color:#f0c3ac">Travel</span><span class="ln"></span><span class="num">Frame · After dark</span></div>
+    <h1 class="serif">Night Markets</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>Neon, steam and colour. Night markets are a theatre of light — and film catches the raw warmth of the crowd.</p></div>
+  <section class="pad chap-body"><div class="wrap">
+    <p class="eyebrow reveal">Gallery · Night markets</p>
+    <div class="gallery masonry" id="gal-nightmarkets"></div>
+  </div></section>
+</section>
+
+<!-- ===================== FRAME : ECHOES OF MOROCCO ===================== -->
+<section class="page frame-page" id="page-morocco" data-chap="morocco">
+  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-2.jpeg')"></div><div class="inner"><div class="wrap chap-hero-pad">
+    <div class="meta"><span class="dot" style="background:#b5734a"></span><span class="t" style="color:#e8c3a6">Portraits</span><span class="ln"></span><span class="num">Frame · Morocco</span></div>
+    <h1 class="serif">Echoes of Morocco</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>Faces and ochre walls, the echo of a country made of light. A series of portraits where earth and skin share the same warmth.</p></div>
+  <section class="pad chap-body"><div class="wrap">
+    <p class="eyebrow reveal">Gallery · Morocco</p>
+    <div class="gallery masonry" id="gal-morocco"></div>
+    <div class="breath reveal"><div class="embro breath-embro"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div>
+      <p class="q">&ldquo;Earth and skin share the same light.&rdquo;</p><p class="who">Notebook — Morocco</p></div>
+  </div></section>
+</section>
+
+<!-- ===================== FRAME : WILDLIFE ===================== -->
+<section class="page frame-page" id="page-wildlife" data-chap="wildlife">
+  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/wildlife/wild-1.jpeg')"></div><div class="inner"><div class="wrap chap-hero-pad">
+    <div class="meta"><span class="dot" style="background:#7d8a4a"></span><span class="t" style="color:#d3daa8">Wildlife</span><span class="ln"></span><span class="num">Frame · Fauna</span></div>
+    <h1 class="serif">Wildlife</h1></div></div></div>
+  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>Lying in wait, in silence. Wildlife never poses — it barely lets itself be caught. Every frame is patience rewarded.</p></div>
+  <section class="pad chap-body"><div class="wrap">
+    <p class="eyebrow reveal">Gallery · Wildlife</p>
+    <div class="gallery masonry" id="gal-wildlife"></div>
+  </div></section>
+</section>
+
+<!-- ===================== FRAMES (listing) ===================== -->
+<section class="page" id="page-frames">
+  <section class="pad"><div class="wrap">
+    <p class="eyebrow reveal">The library</p><h1 class="sec-h reveal listing-title">Frames</h1>
+    <div class="pills reveal">
+      <button class="pill active" data-filter="all">All</button>
+      <button class="pill" data-filter="travel">Travel</button>
+      <button class="pill" data-filter="portraits">Portraits</button>
+      <button class="pill" data-filter="wildlife">Wildlife</button>
+      <button class="pill" data-filter="events">Events</button>
+    </div>
+    <div class="list-grid" id="listgrid">
+      <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-1.jpeg')"></div><div class="narr"><p>&ldquo;I let the film decide.&rdquo;</p></div></div><div class="meta"><h4>Thailand on Film</h4><span class="tag" style="color:#C2702F">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-1.jpeg')"></div><div class="narr"><p>&ldquo;Bali reveals itself slowly.&rdquo;</p></div></div><div class="meta"><h4>Bali</h4><span class="tag" style="color:#3F8B7C">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-1.jpeg')"></div><div class="narr"><p>&ldquo;A gentle English melancholy.&rdquo;</p></div></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag" style="color:#7E8B5B">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div><div class="narr"><p>&ldquo;A theatre of light, after dark.&rdquo;</p></div></div><div class="meta"><h4>Night Markets</h4><span class="tag" style="color:#BE5D3E">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div><div class="narr"><p>&ldquo;Earth and skin, the same light.&rdquo;</p></div></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag" style="color:#A9663F">Portraits</span></div></article>
+      <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/wildlife/wild-1.jpeg')"></div><div class="narr"><p>&ldquo;Patience rewarded.&rdquo;</p></div></div><div class="meta"><h4>Wildlife</h4><span class="tag" style="color:#727E3E">Wildlife</span></div></article>
+      <article class="list-card reveal soon" data-cat="events" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#d6ccb2,#8f8466)"></div><div class="narr"><p>Moments — coming soon</p></div></div><div class="meta"><h4>One Night</h4><span class="tag" style="color:#8f8466">Events</span></div></article>
+    </div>
+  </div></section>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section class="page" id="page-about">
+  <div class="wrap about">
+    <div class="about-col">
+      <div class="about-txt reveal">
+        <h2 class="about-h">About me</h2>
+        <p>I am an independent photographer working in both film and digital, with one shared obsession: natural light, the unposed moment, the imperfection that tells the truth.</p>
+        <p>Every journey becomes a harvest of fragments — faces, landscapes, silences the eye usually forgets. I bring them home the way one brings back letters from a faraway land.</p>
+        <p>Fragments of a reality that belongs to me, held out to you — a way of looking at the world, at the height of silence.</p>
+        <p class="sig">ablas</p>
+      </div>
+      <div class="about-gal reveal">
+        <div class="pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-13.jpeg')"></div></div>
+        <div class="pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-14.jpeg')"></div></div>
+        <div class="pano"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-16.jpeg')"></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section class="page" id="page-contact">
+  <section class="contact"><div class="wrap">
+    <div class="ig-card reveal">
+      <div class="inner">
+        <div class="ig-ico"><i class="ti ti-brand-instagram"></i></div>
+        <p class="k">Follow me on Instagram</p>
+        <h2>@ablasframes</h2>
+        <p>My latest fragments, travel notebooks and new prints — everything happens there first. Send me a direct message for any enquiry.</p>
+        <a class="ig-btn" href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Open Instagram</a>
+      </div>
+    </div>
+    <div class="contact-alt reveal">
+      <a href="mailto:hello@ablasframes.com"><i class="ti ti-mail"></i> hello@ablasframes.com</a>
+      <a href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> @ablasframes</a>
+    </div>
+  </div></section>
+</section>
+
+</main>
+
+<footer class="foot"><p>© ablas frames — Fragments of my reality</p></footer>
+
+<!-- Lightbox -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <span class="lb-count" id="lb-count"></span>
+  <button class="lb-close" id="lb-close" aria-label="Close"><i class="ti ti-x"></i></button>
+  <button class="lb-arrow lb-prev" id="lb-prev" aria-label="Previous photo"><i class="ti ti-arrow-left"></i></button>
+  <button class="lb-arrow lb-next" id="lb-next" aria-label="Next photo"><i class="ti ti-arrow-right"></i></button>
+  <div class="stage"><img id="lb-img" alt=""><span class="cap" id="lb-cap"></span></div>
+</div>
+
+<!-- Frame-entry transition curtain -->
+<div class="tveil" id="tveil" aria-hidden="true">
+  <svg viewBox="0 0 10 10" width="34" height="34" class="tveil-mark"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="currentColor"/></svg>
+</div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

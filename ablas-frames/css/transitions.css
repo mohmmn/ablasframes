@@ -1,0 +1,33 @@
+/* ============================================================
+   transitions.css — "film curtain" transition when entering a
+   frame page. A veil in the destination frame's accent colour
+   (--veil-c, set by js/transitions.js) sweeps up over the
+   viewport like a darkslide being pulled, then lifts away to
+   reveal the new chapter. The chap-hero image eases from a
+   slight zoom, title and meta stagger in after it.
+   ============================================================ */
+.tveil{position:fixed;inset:0;z-index:400;background:var(--veil-c,var(--accent));pointer-events:none;
+  display:flex;align-items:center;justify-content:center;color:rgba(255,250,240,.9);
+  transform:translateY(101%);}
+.tveil .tveil-mark{opacity:0;transform:scale(.6);transition:opacity .25s var(--ease),transform .35s var(--ease);}
+/* phase 1: curtain closes (sweeps up from the bottom) */
+.tveil.cover{transform:translateY(0);transition:transform .38s cubic-bezier(.55,.06,.35,1);}
+.tveil.cover .tveil-mark{opacity:1;transform:scale(1);}
+/* phase 2: curtain lifts away upward, revealing the frame */
+.tveil.lift{transform:translateY(-101%);transition:transform .45s cubic-bezier(.55,.06,.35,1);}
+
+/* entry animation on the destination frame page */
+.page.frame-enter .chap-hero .img{animation:heroZoom 1.3s var(--ease) both;}
+.page.frame-enter .chap-hero h1{animation:heroRise .9s var(--ease) .18s both;}
+.page.frame-enter .chap-hero .meta{animation:heroRise .9s var(--ease) .34s both;}
+@keyframes heroZoom{from{transform:scale(1.07);}to{transform:scale(1);}}
+@keyframes heroRise{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+/* a frame entered via the curtain skips the generic page fade */
+.page.frame-enter{animation:none;}
+
+@media(prefers-reduced-motion:reduce){
+  .tveil{display:none;}
+  .page.frame-enter .chap-hero .img,
+  .page.frame-enter .chap-hero h1,
+  .page.frame-enter .chap-hero .meta{animation:none;}
+}

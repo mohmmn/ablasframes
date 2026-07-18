@@ -1,0 +1,14 @@
+/* ============================================================
+   about.css — text column + panoramic gallery (asymmetric)
+   ============================================================ */
+.wrap.about{padding-top:80px;padding-bottom:80px;}
+.about-col{display:grid;grid-template-columns:0.92fr 1.18fr;gap:80px;align-items:start;}
+.about-txt{text-align:left;}
+.about-h{font-family:'DM Sans',sans-serif;text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
+  padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
+.about-txt p{font-size:15px;line-height:2.05;color:var(--muted);margin-bottom:22px;}
+.about-txt .sig{font-family:'Petit Formal Script',cursive;font-size:30px;color:var(--accent);margin-top:8px;}
+.about-gal{display:flex;flex-direction:column;gap:22px;}
+.pano{position:relative;aspect-ratio:32/7;overflow:hidden;border-radius:4px;background:var(--bg-soft);
+  box-shadow:0 18px 40px -22px rgba(60,40,20,.42),inset 0 0 0 1px var(--line);}
+.pano .img{position:absolute;inset:0;}

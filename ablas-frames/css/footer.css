@@ -1,0 +1,5 @@
+/* ============================================================
+   footer.css
+   ============================================================ */
+.foot{padding:50px 0;text-align:center;border-top:.5px solid var(--line);position:relative;z-index:2;}
+.foot p{font-size:11px;letter-spacing:.12em;color:var(--faint);}
