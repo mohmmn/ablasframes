@@ -1092,12 +1092,16 @@ function justify(gallery){
   if(!gallery)return;
   const items=[...gallery.children].filter(el=>el.classList&&el.classList.contains('gitem'));
   if(!items.length)return;
-  // Largeur réelle (fractionnaire) puis arrondi À L'INFÉRIEUR.
-  // clientWidth arrondit au pixel le plus proche : sur mobile, une largeur réelle de 327,6px était
-  // lue 328px, on remplissait donc les rangées à 328px → dépassement de 0,4px → le navigateur
-  // renvoyait la DERNIÈRE image à la ligne suivante, d'où le vide asymétrique à droite.
-  // Math.floor garantit que la rangée tient toujours dans le conteneur.
-  const W=Math.floor(gallery.getBoundingClientRect().width);
+  // Largeur réelle (fractionnaire), arrondie À L'INFÉRIEUR, MOINS UNE MARGE DE SÉCURITÉ.
+  //
+  // Pourquoi la marge (SAFE) : on remplissait chaque rangée à EXACTEMENT la largeur du conteneur
+  // (somme des photos + espaces = W au pixel près). Une rangée flex ainsi remplie n'a AUCUNE
+  // tolérance : la moindre imprécision sous-pixel du navigateur suffit à faire repartir la
+  // dernière photo à la ligne — et comme les suivantes se recalent derrière elle, toute la
+  // mosaïque part de travers (constaté sur iPhone : rangées 2+3 rendues en 1+2+2).
+  // 1px de jeu rend le débordement impossible et reste invisible à l'œil.
+  const SAFE=1;
+  const W=Math.floor(gallery.getBoundingClientRect().width)-SAFE;
   if(W<=1)return;                              // page masquée : on réessaiera à l'affichage
   const gap=parseFloat(getComputedStyle(gallery).gap)||10;
   // hauteur de rangée cible + nb max d'images par rangée, selon la largeur (mobile → images plus grandes)
