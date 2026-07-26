@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="day">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ablas frames — Fragments of my reality · Photographer</title>
 <meta name="description" content="ablas frames — independent film photographer. Fragments of light captured on film across the world: Thailand, Bali, London, Morocco, wildlife.">
-<meta name="theme-color" content="#F4E9D8">
+<meta name="theme-color" content="#0C0F0E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pinyon+Script&family=Petit+Formal+Script&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 /* ============================================================
@@ -21,22 +21,22 @@
    - Contact : Instagram mis en avant
    ============================================================ */
 :root{
-  --bg:#F4E9D8;            /* crème vieilli */
-  --bg-soft:#EADBC2;
-  --text:#473726;          /* encre sépia */
-  --muted:#8A7456;
-  --faint:#B3997A;
-  --line:rgba(71,55,38,.12);
-  --line-strong:rgba(71,55,38,.26);
-  --gold:#B08D57;
+  --bg:#0C0F0E;            /* obsidienne (noir stylé, léger sous-ton froid) */
+  --bg-soft:#171B1A;
+  --text:#ECEAE3;          /* blanc cassé */
+  --muted:#A9A79E;
+  --faint:#6C6B63;
+  --line:rgba(255,255,255,.10);
+  --line-strong:rgba(255,255,255,.22);
+  --gold:#C9A86A;
   --sage:#9DAA78;
-  --accent:#9A6B3F;        /* cognac (accent principal) */
-  --accent-d:#7E5430;
-  --star:#D9B36A;
-  --star-glow:rgba(217,179,106,.65);
+  --accent:#C9A86A;        /* or chaud — accent principal sur obsidienne */
+  --accent-d:#B08D57;
+  --star:#E7C778;
+  --star-glow:rgba(231,199,120,.7);
   --ease:cubic-bezier(.16,1,.3,1);
   --maxw:1200px;
-  /* cadre blanc (repris de la v2) */
+  /* cadre blanc (repris de la v2) — 6px sur PC, 4px sur mobile (voir @media max-width:760px) */
   --frame-w:6px;
   --frame-c:#F0EDE6;
   --frame-o:#D8D4CC;
@@ -52,28 +52,11 @@
   --sec-gap:34px;
   --lead-gap:34px;
 }
-[data-theme="night"]{
-  --bg:#2A2620;
-  --bg-soft:#332E26;
-  --text:#F0E7D8;
-  --muted:#C3B49A;
-  --faint:#8E8068;
-  --line:rgba(255,255,255,.09);
-  --line-strong:rgba(255,255,255,.2);
-  --gold:#E7C16B;
-  --sage:#C3CD96;
-  --accent:#C99A5E;
-  --accent-d:#B5854A;
-  --star:#F0D38A;
-  --star-glow:rgba(240,211,138,.8);
-  --frame-c:#EFEBE2;
-  --frame-o:#CFC9BE;
-}
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
+body{font-family:'Libre Baskerville',serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);}
-.serif{font-family:'Cormorant Garamond',serif;}
+.serif{font-family:'Libre Baskerville',serif;}
 .hw{font-family:'Petit Formal Script',cursive;}
 img{display:block;max-width:100%;}
 /* toutes les couches image : recadrage propre */
@@ -82,11 +65,7 @@ img{display:block;max-width:100%;}
 .wrap-sm{max-width:720px;margin:0 auto;padding:0 48px;position:relative;z-index:2;}
 section.pad{padding:var(--sec-gap) 0;}
 
-/* ===================== STARFIELD (modéré, doré) ===================== */
-#sky{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
-.star{position:absolute;border-radius:50%;background:var(--star);box-shadow:0 0 8px 1px var(--star-glow);animation:tw ease-in-out infinite;}
-.sparkle-svg{position:absolute;animation:tw ease-in-out infinite;filter:drop-shadow(0 0 4px var(--star-glow));}
-@keyframes tw{0%,100%{opacity:.35;transform:scale(.85);}50%{opacity:.95;transform:scale(1.12);}}
+/* ===================== (starfield retiré) ===================== */
 #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:300;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .15s linear;}
 
 /* ===================== NAVBAR (identique v1) ===================== */
@@ -98,24 +77,40 @@ section.pad{padding:var(--sec-gap) 0;}
 .nav a{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);text-decoration:none;cursor:pointer;position:relative;padding:6px 0;transition:color .35s;white-space:nowrap;}
 .nav a::after{content:"";position:absolute;left:50%;bottom:0;width:0;height:.5px;background:var(--accent);transition:.45s var(--ease);transform:translateX(-50%);}
 .nav a:hover,.nav a.current{color:var(--text);}.nav a:hover::after,.nav a.current::after{width:100%;}
-.nav-logo{justify-self:start;text-align:left;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;gap:3px;}
-.nav-logo .crown{display:flex;align-items:center;gap:7px;}.nav-logo .crown .ln{width:22px;height:.5px;background:var(--line-strong);}
-.nav-logo .name{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:25px;letter-spacing:.04em;line-height:1;color:var(--text);}
-.nav-logo .role{font-size:8px;letter-spacing:.34em;text-transform:uppercase;color:var(--faint);}
-.toggle{width:46px;height:24px;border-radius:20px;border:.5px solid var(--line-strong);background:transparent;cursor:pointer;position:relative;flex-shrink:0;}
-.toggle .knob{position:absolute;top:2.5px;left:2.5px;width:18px;height:18px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;color:var(--bg);font-size:11px;transition:transform .45s var(--ease);}
-[data-theme="night"] .toggle .knob{transform:translateX(22px);}
+.nav-logo{justify-self:start;text-align:left;cursor:pointer;display:flex;align-items:center;}
+
+/* ===== LOGO AF (image) — noir en mode jour, blanc en mode nuit =====
+   Les deux versions sont dans le HTML ; on affiche celle qui contraste avec le fond.
+   `.on-dark` = navbar posée sur une frame à palette sombre → toujours le logo blanc. */
+.logo-swap{display:inline-flex;align-items:center;line-height:0;}
+/* NE PAS mettre `display` ici : `.logo-swap img` (0,1,1) écraserait `.logo-night{display:none}`
+   (0,1,0) et les deux logos s'afficheraient côte à côte. */
+.logo-swap img{width:auto;height:100%;}
+/* Base du site = obsidienne (sombre) → logo AF BLANC par défaut partout (navbar, menu, ornement). */
+.logo-day{display:none;}    /* logo noir : masqué par défaut */
+.logo-night{display:block;} /* logo blanc : visible par défaut */
+/* frames CLAIRES (fond clair : bali, hyde park, wildlife, scotland) → logo NOIR.
+   .on-light est posé par retintNav() quand la frame active n'est PAS en palette sombre.
+   L'ornement « breath » en bas de frame suit la même règle via les sélecteurs #page-… .
+   À compléter si une autre frame passe en fond clair. */
+.nav.on-light .logo-night,.menu.on-light .logo-night{display:none;}
+.nav.on-light .logo-day,.menu.on-light .logo-day{display:block;}
+#page-bali .embro .logo-night,#page-hydepark .embro .logo-night,#page-wildlife .embro .logo-night,#page-scotland .embro .logo-night{display:none;}
+#page-bali .embro .logo-day,#page-hydepark .embro .logo-day,#page-wildlife .embro .logo-day,#page-scotland .embro .logo-day{display:block;}
+.nav-logo .logo-swap{height:38px;transition:height .4s var(--ease);}
+.nav.compact .nav-logo .logo-swap{height:32px;}
 .navchip{display:none;align-items:center;gap:7px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
 .navchip .dot{width:7px;height:7px;border-radius:50%;}.navchip.show{display:flex;}
 /* navbar sur une frame au thème sombre */
 .nav.on-dark a{color:rgba(255,255,255,.66);}
 .nav.on-dark a:hover,.nav.on-dark a.current{color:#fff;}
 .nav.on-dark a::after{background:#fff;}
-.nav.on-dark .nav-logo .name{color:#fff;}
-.nav.on-dark .nav-logo .role{color:rgba(255,255,255,.55);}
-.nav.on-dark .nav-logo .crown .ln{background:rgba(255,255,255,.35);}
 .nav.on-dark .navchip{color:rgba(255,255,255,.72);}
-.nav.on-dark .toggle{border-color:rgba(255,255,255,.4);}
+/* navbar sur une frame au fond CLAIR → texte foncé (le fond du site est sombre par défaut) */
+.nav.on-light a{color:rgba(18,18,18,.62);}
+.nav.on-light a:hover,.nav.on-light a.current{color:#111;}
+.nav.on-light a::after{background:#111;}
+.nav.on-light .navchip{color:rgba(18,18,18,.7);}
 
 /* ===================== BURGER + MENU MOBILE (plein écran) ===================== */
 .burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:30px;height:26px;background:none;border:none;padding:0;cursor:pointer;}
@@ -125,6 +120,7 @@ body.menu-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45de
 body.menu-open .burger span:nth-child(2){opacity:0;}
 body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg);width:24px;}
 .nav.on-dark .burger span{background:#fff;}
+.nav.on-light .burger span{background:#141414;}
 
 /* ===== sélecteur de frame dans la navbar (prev / next) — mobile uniquement ===== */
 .nav-frameswitch{display:none;align-items:center;justify-content:center;gap:6px;justify-self:center;min-width:0;max-width:100%;}
@@ -134,12 +130,14 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45
 .fs-arrow:active{transform:scale(.9);}
 .fs-name{flex:0 1 auto;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;cursor:pointer;padding:0 2px;line-height:1.1;}
 .fs-name .fs-dot{display:none;}
-.fs-t{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:16px;color:var(--text);max-width:44vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.fs-count{font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:var(--faint);}
+/* seul le titre de la frame, centré entre les deux flèches (ni numérotation, ni catégorie) */
+.fs-t{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:17px;color:var(--text);max-width:54vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .nav.on-dark .fs-arrow{color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.34);}
 .nav.on-dark .fs-arrow:hover{color:#fff;border-color:#fff;}
 .nav.on-dark .fs-t{color:#fff;}
-.nav.on-dark .fs-count{color:rgba(255,255,255,.6);}
+.nav.on-light .fs-arrow{color:rgba(18,18,18,.72);border-color:rgba(18,18,18,.3);}
+.nav.on-light .fs-arrow:hover{color:#111;border-color:#111;}
+.nav.on-light .fs-t{color:#111;}
 
 /* menu déroulant sous la navbar (mobile) */
 .menu{position:fixed;top:0;left:0;right:0;z-index:150;
@@ -152,19 +150,21 @@ body.menu-open .menu{transform:translateY(0);opacity:1;visibility:visible;}
 .menu-inner{max-width:var(--maxw);margin:0 auto;}
 .menu-links{display:flex;flex-direction:column;}
 .menu-links a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 2px;cursor:pointer;text-decoration:none;color:var(--text);
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:27px;line-height:1;
+  font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:27px;line-height:1;
   border-bottom:.5px solid var(--line);
-  opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s,padding-left .3s;}
+  opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s;}
 body.menu-open .menu-links a{opacity:1;transform:none;}
-.menu-links a:hover,.menu-links a.current{color:var(--accent);padding-left:8px;}
-.menu-links a .i{font-family:'DM Sans',sans-serif;font-style:normal;font-size:11px;letter-spacing:.14em;color:var(--faint);}
+/* page active : SEULE la couleur change — aucun décalage ni changement de taille
+   (l'ancien padding-left:8px faisait glisser le titre vers la droite) */
+.menu-links a:hover,.menu-links a.current{color:var(--accent);}
+.menu-links a .i{font-family:'Libre Baskerville',serif;font-style:normal;font-size:11px;letter-spacing:.14em;color:var(--faint);}
 .menu-links a.current .i{color:var(--accent);}
 body.menu-open .menu-links a:nth-child(1){transition-delay:.05s;}
 body.menu-open .menu-links a:nth-child(2){transition-delay:.10s;}
 body.menu-open .menu-links a:nth-child(3){transition-delay:.15s;}
 body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .menu-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:20px;padding-top:16px;border-top:.5px solid var(--line);}
-.menu-foot .sig{font-family:'Petit Formal Script',cursive;font-size:24px;color:var(--accent);}
+.menu-foot .sig{display:inline-flex;align-items:center;height:30px;}
 .menu-foot a{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);text-decoration:none;transition:color .3s;}
 .menu-foot a:hover{color:var(--accent);}
 
@@ -174,12 +174,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* ===== entrée cinématique dans une frame ===== */
 .frame-page.active{animation:frameIn .85s var(--ease);}
 @keyframes frameIn{0%{opacity:0;transform:scale(1.045) translateY(20px);}100%{opacity:1;transform:none;}}
-.frame-page.active .chap-hero .img,.frame-page.active .chero .img{animation:heroKen 1.5s var(--ease);transform-origin:50% 55%;}
+.frame-page.active .chap-photo .img{animation:heroKen 1.5s var(--ease);transform-origin:50% 55%;}
 @keyframes heroKen{from{transform:scale(1.16);}to{transform:scale(1);}}
-.frame-page.active .chap-hero::after,.frame-page.active .chero::after{animation:heroVeil 1.1s var(--ease);}
+.frame-page.active .chap-photo::after{animation:heroVeil 1.1s var(--ease);}
 @keyframes heroVeil{from{opacity:0;}to{opacity:1;}}
-.frame-page.active .chap-hero .meta,.frame-page.active .chero .meta{animation:frRise .9s var(--ease) .12s both;}
-.frame-page.active .chap-hero h1,.frame-page.active .chero h1{animation:frRise 1s var(--ease) .22s both;}
+.frame-page.active .chap-cap .meta,.frame-page.active .chap-txt .meta{animation:frRise .9s var(--ease) .12s both;}
+.frame-page.active .chap-cap h1,.frame-page.active .chap-txt h1{animation:frRise 1s var(--ease) .22s both;}
 @keyframes frRise{from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:none;}}
 
 /* ===================== BANNIÈRE (photo en fond + titre TRÈS grand) — v1 ===================== */
@@ -193,9 +193,9 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(20,14,8,.42) 100%);}
 .banner-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;}
 .banner .kicker{font-size:13px;letter-spacing:.5em;text-transform:uppercase;color:#ECCF92;margin-bottom:30px;text-shadow:0 1px 12px rgba(0,0,0,.4);opacity:0;animation:rise 1.1s var(--ease) .2s forwards;}
-.banner h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;line-height:.92;color:#FBF3E6;
-  font-size:clamp(58px,12.5vw,176px);letter-spacing:.005em;text-shadow:0 4px 40px rgba(0,0,0,.4);opacity:0;animation:rise 1.3s var(--ease) .4s forwards;}
-.banner h1 .of{display:block;font-size:.42em;font-style:normal;color:#ECCF92;letter-spacing:.06em;margin-top:.12em;text-shadow:0 2px 20px rgba(0,0,0,.4);}
+.banner h1{font-family:'Pinyon Script',cursive;font-style:normal;font-weight:400;line-height:1.1;color:#FBF3E6;
+  font-size:clamp(74px,15vw,208px);letter-spacing:0;text-shadow:0 4px 40px rgba(0,0,0,.4);opacity:0;animation:rise 1.3s var(--ease) .4s forwards;}
+.banner h1 .of{display:block;font-family:'Libre Baskerville',serif;font-size:.3em;font-style:italic;color:#ECCF92;letter-spacing:.04em;margin-top:.05em;text-shadow:0 2px 20px rgba(0,0,0,.4);}
 .banner .ornz{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:38px;opacity:0;animation:rise 1.3s var(--ease) .7s forwards;}
 .banner .ornz .ln{width:80px;height:.5px;background:rgba(251,243,230,.45);}
 .banner .tagline{margin-top:22px;font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:rgba(251,243,230,.72);text-shadow:0 1px 10px rgba(0,0,0,.4);opacity:0;animation:rise 1.3s var(--ease) .9s forwards;}
@@ -213,11 +213,11 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .hero-2col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
 .hero-txt{text-align:left;}
 .hero-txt .eyebrow{margin-bottom:16px;}
-.hero-txt h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(30px,3.6vw,48px);line-height:1.12;color:var(--text);margin-bottom:26px;}
-.hero-intro{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2vw,24px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
-.hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#fff;
+.hero-txt h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(30px,3.6vw,48px);line-height:1.12;color:var(--text);margin-bottom:26px;}
+.hero-intro{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2vw,24px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#0C0F0E;
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
-  box-shadow:0 12px 26px rgba(80,52,26,.32);transition:transform .35s var(--ease),background .3s;}
+  box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
 .hero-cta:hover{transform:translateY(-2px);background:var(--accent-d);}
 .hero-photo{justify-self:end;width:100%;max-width:440px;}
 .hero-frame{position:relative;border:var(--frame-w) solid var(--frame-c);outline:1px solid var(--frame-o);background:var(--frame-c);
@@ -225,18 +225,18 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .hero-frame .canvas{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg-soft);}
 .hero-frame .canvas .img{position:absolute;inset:0;transition:transform 1.4s var(--ease);}
 .hero-frame:hover .canvas .img{transform:scale(1.04);}
-/* mobile : introduction centrée, photo plus modeste (et non pleine largeur) */
+/* mobile : introduction centrée, TEXTE SEUL (la photo n'est affichée que sur PC) */
 @media(max-width:880px){
-  .hero-2col{grid-template-columns:1fr;gap:30px;}
+  .hero-2col{grid-template-columns:1fr;gap:0;}
   .hero-txt{order:1;text-align:center;}
   .hero-intro{margin-left:auto;margin-right:auto;margin-bottom:0;}
-  .hero-photo{order:2;justify-self:center;width:min(76%,300px);max-width:none;}
+  .hero-photo{display:none;}
 }
 
 /* ===================== HOME · SÉLECTION (tirages encadrés — v2) ===================== */
 .selection{padding:var(--sec-gap) 0;}
-.sel-lead{text-align:center;margin-bottom:var(--lead-gap);}
-.sel-lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);margin-bottom:10px;}
+.sel-lead{text-align:left;margin-bottom:var(--lead-gap);}
+.sel-lead h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);margin-bottom:10px;}
 .sel-lead p{color:var(--muted);font-size:15px;}
 .sel-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:30px;}
 .sel-cell{position:relative;overflow:hidden;cursor:default;background:var(--frame-c);
@@ -244,7 +244,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0 rgba(0,0,0,.25);
   transition:box-shadow .5s var(--ease),transform .5s var(--ease);}
 .sel-cell:hover{transform:translateY(-4px);box-shadow:6px 6px 16px rgba(0,0,0,.22),12px 12px 42px rgba(0,0,0,.12),1px 1px 0 rgba(0,0,0,.25);}
-.sel-cell .img{position:absolute;inset:0;background-color:var(--bg-soft);transition:transform 1.4s var(--ease);}
+.sel-cell .img{position:absolute;inset:0;background-color:var(--bg-soft);background-position:var(--focus,center);transition:transform 1.4s var(--ease);}
 .sel-cell:hover .img{transform:scale(1.04);}
 .sel-cell .cap{position:absolute;left:16px;bottom:14px;z-index:2;font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:#fff;text-shadow:0 1px 8px rgba(0,0,0,.6);opacity:0;transform:translateY(6px);transition:opacity .45s var(--ease),transform .45s var(--ease);}
@@ -255,17 +255,21 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 /* ===================== HOME · FRAMES (cadre BLANC seul, taille v2) ===================== */
 .frames-section{padding:var(--sec-gap) 0 calc(var(--sec-gap) * 1.4);}
-.frames-section .lead{text-align:center;margin-bottom:var(--lead-gap);}
+.frames-section .lead{text-align:left;margin-bottom:var(--lead-gap);}
 .frames-section .lead .e{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-.frames-section .lead h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);}
+.frames-section .lead h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);}
 /* frames en bandes panoramiques fines (façon "À propos") — pas de cadre photo classique
    NOTE cadrage : la plupart des photos sources sont en PORTRAIT (1066x1600). Un ratio trop
    panoramique (l'ancien 32/7 = 4.6:1) n'en montrait qu'une tranche de ~14% prise au centre —
    d'où le ciel vide sur Hyde Park et les visages coupés sur Morocco. Le ratio est adouci et
    chaque bande définit son propre point de cadrage via --focus (voir le HTML). */
 .frames-list{display:flex;flex-direction:column;gap:8px;}
+/* PC : les bannières sont surtout en PORTRAIT → une bande pleine largeur (21/9) n'en montrait
+   qu'une fine tranche. On passe en grille 2 colonnes avec des cadres moins panoramiques (16/9),
+   ce qui rejoint le cadrage mobile jugé correct. */
+@media(min-width:881px){.frames-list{display:grid;grid-template-columns:1fr 1fr;gap:36px 30px;}}
 .frame-row{cursor:pointer;}
-.frow-pano{position:relative;aspect-ratio:21/9;overflow:hidden;border-radius:4px;background:var(--bg-soft);
+.frow-pano{position:relative;aspect-ratio:16/9;overflow:hidden;border-radius:4px;background:var(--bg-soft);
   box-shadow:0 18px 40px -22px rgba(60,40,20,.42),inset 0 0 0 1px var(--line);}
 .frow-pano .img{position:absolute;inset:0;background-position:var(--focus,center);}
 .frow-meta{display:flex;align-items:baseline;gap:22px;padding:16px 4px 24px;border-bottom:.5px solid var(--line);}
@@ -280,18 +284,44 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 /* ===================== reste du site ===================== */
 .eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
-.sec-h{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.08;color:var(--text);}
+.sec-h{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.08;color:var(--text);}
 .embro{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto;}.embro .ln{height:.5px;width:50px;background:var(--line-strong);}
 
-.chap-hero{position:relative;height:60vh;min-height:420px;display:flex;align-items:flex-end;overflow:hidden;border-radius:0 0 30px 30px;}
-.chap-hero .img{position:absolute;inset:0;}
-.chap-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(30,22,12,.72),transparent 60%);}
-.chap-hero .inner{position:relative;z-index:2;width:100%;}
-.chap-hero .meta{display:flex;align-items:center;gap:12px;margin-bottom:14px;}.chap-hero .meta .dot{width:8px;height:8px;border-radius:50%;}
-.chap-hero .meta .t{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;}.chap-hero .meta .ln{flex:1;max-width:140px;height:.5px;background:rgba(255,245,235,.4);}.chap-hero .meta .num{font-size:11px;letter-spacing:.12em;color:rgba(255,245,235,.7);}
-.chap-hero h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(36px,5.5vw,64px);line-height:1.02;margin-bottom:24px;}
-.chap-intro{padding:var(--sec-gap) 0 10px;}.chap-intro .lt{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);margin-bottom:18px;}
-.chap-intro p{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,28px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;}
+/* ===== EN-TÊTE DE FRAME =====
+   MOBILE (défaut) : bannière — photo plein cadre + titre superposé (.chap-cap), description dessous.
+   PC (≥881px)     : split — photo à GAUCHE, titre + description à DROITE (.chap-txt). */
+.chap-head{position:relative;}
+.chap-photo{position:relative;height:48vh;min-height:320px;overflow:hidden;}
+.chap-photo .img{position:absolute;inset:0;background-size:cover;background-position:center;}
+.chap-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(20,16,8,.72),transparent 58%);}
+.chap-cap{position:absolute;left:0;right:0;bottom:0;z-index:2;padding:0 22px 30px;}
+.chap-cap .meta{display:flex;align-items:center;gap:15px;margin-bottom:12px;}
+.chap-cap .meta .t{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:#FFF6EE;white-space:nowrap;text-shadow:0 1px 10px rgba(0,0,0,.45);}
+.chap-cap .meta .meta-rule{flex:none;height:1px;width:clamp(56px,13vw,168px);background:rgba(255,246,238,.55);}
+.chap-cap h1{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(34px,7vw,58px);line-height:1.02;}
+.chap-txt{padding:var(--sec-gap) 22px 0;}
+.chap-txt>.meta,.chap-txt>h1{display:none;}                 /* méta+titre déjà superposés sur la photo (mobile) */
+.chap-intro{padding:0;}
+.chap-intro p{font-family:'Libre Baskerville',serif;font-size:clamp(18px,2.2vw,24px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;}
+/* PC : split photo (gauche) / titre + description (droite) — corrige aussi la netteté (photo en demi-largeur) */
+@media(min-width:881px){
+  /* photo PLUS PETITE à gauche (colonne ~300px), colonne texte alignée EN HAUT :
+     ligne « FRAME —— Catégorie » en haut à droite de la photo, titre + description plus gros dessous.
+     En-tête compact (peu de padding + photo réduite) pour laisser apparaître le début de la galerie. */
+  .frame-page .chap-head{max-width:var(--maxw);margin:0 auto;padding:calc(var(--sec-gap)*0.8) 48px 0;display:grid;grid-template-columns:minmax(20%,25%) 1fr;gap:54px;align-items:start;}
+  .frame-page .chap-photo{height:auto;min-height:0;aspect-ratio:4/5;background:var(--frame-c);
+    border:var(--frame-w) solid var(--frame-c);outline:1px solid var(--frame-o);border-radius:0;
+    box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0 rgba(0,0,0,.25);}
+  .frame-page .chap-photo::after{display:none;}
+  .frame-page .chap-cap{display:none;}
+  .frame-page .chap-txt{padding:0;}
+  .frame-page .chap-txt>.meta{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
+  .frame-page .chap-txt>.meta .t{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--faccent);white-space:nowrap;}
+  .frame-page .chap-txt>.meta .meta-rule{flex:1;max-width:160px;height:1px;background:var(--faccent);opacity:.5;}
+  .frame-page .chap-txt>h1{display:block;font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;color:var(--ftext);font-size:clamp(44px,5vw,68px);line-height:1.03;margin-bottom:28px;}
+  .frame-page .chap-txt .chap-intro{text-align:left;}
+  .frame-page .chap-txt .chap-intro p{font-size:clamp(19px,1.6vw,25px);line-height:1.7;color:var(--ftext);max-width:56ch;margin:0;text-align:left;opacity:.94;}
+}
 
 .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;grid-auto-flow:dense;}
 .gitem{position:relative;overflow:hidden;border-radius:8px;cursor:pointer;background:var(--bg-soft);}
@@ -301,57 +331,57 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .gitem .cap{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,250,245,.92);opacity:0;transform:translateY(6px);transition:.5s var(--ease);text-shadow:0 1px 6px rgba(0,0,0,.5);}.gitem:hover .cap{opacity:1;transform:none;}
 .s-wide{grid-column:span 8;aspect-ratio:16/9;}.s-tall{grid-column:span 4;aspect-ratio:3/4;}.s-sq{grid-column:span 4;aspect-ratio:1;}.s-half{grid-column:span 6;aspect-ratio:3/2;}.s-port{grid-column:span 5;aspect-ratio:4/5;}.s-pan{grid-column:span 12;aspect-ratio:21/9;}
 
-.breath{text-align:center;padding:calc(var(--sec-gap) * 1.5) 0;}.breath .q{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(22px,3vw,34px);line-height:1.5;color:var(--text);max-width:680px;margin:0 auto;}.breath .who{margin-top:18px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);}
+.breath{text-align:center;padding:calc(var(--sec-gap) * 0.5) 0;}
+/* logo AF au centre de l'ornement (remplace l'étoile) */
+.embro .logo-swap{height:34px;}
 
 .pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:42px;}
 .pill{font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:10px 22px;border-radius:30px;border:.5px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer;transition:.35s var(--ease);}
-.pill:hover{border-color:var(--accent);color:var(--accent);}.pill.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+.pill:hover{border-color:var(--accent);color:var(--accent);}.pill.active{background:var(--accent);color:#0C0F0E;border-color:var(--accent);}
 .list-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;}
-.list-card{border-radius:14px;overflow:hidden;border:.5px solid var(--line);cursor:pointer;background:var(--bg);transition:transform .5s var(--ease),opacity .45s,box-shadow .5s;box-shadow:0 8px 24px rgba(80,52,26,.08);}
+.list-card{border-radius:14px;overflow:hidden;border:.5px solid var(--line);cursor:pointer;background:var(--bg-soft);transition:transform .5s var(--ease),opacity .45s,box-shadow .5s;box-shadow:0 8px 24px rgba(0,0,0,.28);}
 .list-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(80,52,26,.16);}
 .list-card.hide{opacity:0;transform:scale(.95);pointer-events:none;position:absolute;}
 .list-card .thumb{height:230px;position:relative;overflow:hidden;}.list-card .thumb .img{position:absolute;inset:0;transition:transform 1s var(--ease);}.list-card:hover .thumb .img{transform:scale(1.06);}
 .list-card .narr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;opacity:0;transition:.5s;background:linear-gradient(to top,rgba(40,28,14,.8),rgba(40,28,14,.48));}.list-card:hover .narr{opacity:1;}
 .list-card .narr p{font-family:'Petit Formal Script',cursive;font-size:21px;line-height:1.45;color:#FFF6EE;}
-.list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:19px;}.list-card .meta .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
-.list-card.soon{cursor:default;}.list-card.soon:hover{transform:none;}
+.list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:19px;}.list-card .meta .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
+/* message affiché quand un filtre ne contient encore aucun album (évite une page vide) */
+.list-empty{padding:44px 0;text-align:center;font-family:'Libre Baskerville',serif;font-style:italic;
+  font-size:19px;color:var(--muted);}
+.list-empty[hidden]{display:none;}
 
 /* navigation frame précédente / suivante */
-.chap-nav{display:flex;justify-content:space-between;gap:24px;border-top:.5px solid var(--line);margin-top:40px;padding:46px 0 0;}
+.chap-nav{display:flex;justify-content:space-between;gap:24px;border-top:.5px solid var(--line);margin-top:8px;padding:24px 0 0;}
 .chap-nav a{display:flex;align-items:center;gap:16px;cursor:pointer;color:var(--muted);text-decoration:none;transition:color .3s,transform .35s var(--ease);max-width:48%;}
 .chap-nav a:hover{color:var(--accent);}
 .chap-nav a.prev:hover{transform:translateX(-5px);}.chap-nav a.next:hover{transform:translateX(5px);}
 .chap-nav a.next{flex-direction:row-reverse;text-align:right;}
 .chap-nav a i{font-size:26px;color:var(--accent);flex:none;}
 .chap-nav .lbl{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;}
-.chap-nav .ttl{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;line-height:1.05;}
+.chap-nav .ttl{font-family:'Libre Baskerville',serif;font-style:italic;font-size:22px;line-height:1.05;}
 
-/* ===================== PALETTES PAR FRAME (logique de thème) ===================== */
+/* ===================== PALETTES PAR FRAME (un seul mode — plus de jour/nuit) =====================
+   thailand & nightmarkets : couleurs SOMBRES conservées (--fdark:1)
+   bali & morocco : fonds imposés (#49d1fd / #202785) ; morocco reste sombre (texte clair) */
 .frame-page{--fbg:var(--bg);--ftext:var(--text);--fmuted:var(--muted);--fline:var(--line);--faccent:var(--accent);--faccent2:var(--gold);--fsoft:var(--bg-soft);--fglow:rgba(176,141,87,.45);}
-/* — THAILAND (cream / red / olive) — */
-[data-theme="day"]   #page-thailand    {--fbg:#FFFAE9;--ftext:#3A2E14;--fmuted:#8A7A3A;--fline:rgba(130,135,0,.18);--faccent:#A43032;--faccent2:#828700;--fsoft:#D2E5C5;--fglow:rgba(164,48,50,.40);}
-[data-theme="night"] #page-thailand    {--fbg:#23180E;--ftext:#F4E7CE;--fmuted:#B49A6E;--fline:rgba(242,217,164,.16);--faccent:#E0655F;--faccent2:#B7BE4E;--fsoft:#33291A;--fglow:rgba(224,101,95,.50);--fdark:1;}
-/* — BALI (teal tropical) — */
-[data-theme="day"]   #page-bali        {--fbg:#EFF6F1;--ftext:#1F3B34;--fmuted:#5F8078;--fline:rgba(46,140,125,.18);--faccent:#2E8C7D;--faccent2:#6BBF9F;--fsoft:#DCECE6;--fglow:rgba(46,140,125,.42);}
-[data-theme="night"] #page-bali        {--fbg:#0C201C;--ftext:#D6ECE4;--fmuted:#7FA89C;--fline:rgba(107,191,159,.18);--faccent:#3FC0AB;--faccent2:#7FD9BC;--fsoft:#123029;--fglow:rgba(63,192,171,.50);--fdark:1;}
-/* — HYDE PARK NOSTALGIA (blue) — */
-[data-theme="day"]   #page-hydepark    {--fbg:#EEF3FB;--ftext:#16233F;--fmuted:#5E729C;--fline:rgba(58,96,160,.20);--faccent:#3A60A0;--faccent2:#4D4177;--fsoft:#DCE6F7;--fglow:rgba(58,96,160,.42);}
-[data-theme="night"] #page-hydepark    {--fbg:#0B1838;--ftext:#D7E3FB;--fmuted:#8FA3CF;--fline:rgba(136,165,224,.22);--faccent:#88A5E0;--faccent2:#C8DDF5;--fsoft:#14264D;--fglow:rgba(136,165,224,.42);--fdark:1;}
-/* — NIGHT MARKETS (cyan neon / navy) — */
-[data-theme="day"]   #page-nightmarkets{--fbg:#EAF7F7;--ftext:#12263A;--fmuted:#5C8A90;--fline:rgba(18,167,173,.24);--faccent:#12A7AD;--faccent2:#E08A5A;--fsoft:#D5EFEF;--fglow:rgba(38,203,209,.40);}
-[data-theme="night"] #page-nightmarkets{--fbg:#12263A;--ftext:#D6F5F2;--fmuted:#7FB2B8;--fline:rgba(38,203,209,.24);--faccent:#26CBD1;--faccent2:#97EECE;--fsoft:#163A52;--fglow:rgba(38,203,209,.42);--fdark:1;}
-/* — ECHOES OF MOROCCO (ochre / gold / salmon) — */
-[data-theme="day"]   #page-morocco     {--fbg:#FBF4E9;--ftext:#2B2119;--fmuted:#9A7C57;--fline:rgba(252,75,65,.16);--faccent:#FC4B41;--faccent2:#408E9A;--fsoft:#F6E4C1;--fglow:rgba(252,75,65,.42);}
-[data-theme="night"] #page-morocco     {--fbg:#16211D;--ftext:#F4E7CF;--fmuted:#A6B0A0;--fline:rgba(246,191,90,.20);--faccent:#FC4B41;--faccent2:#52B3BF;--fsoft:#20302A;--fglow:rgba(252,75,65,.46);--fdark:1;}
-/* — WILDLIFE (olive / earth) — */
-[data-theme="day"]   #page-wildlife    {--fbg:#F5F4EA;--ftext:#35371F;--fmuted:#6F7346;--fline:rgba(111,125,58,.18);--faccent:#6F7D3A;--faccent2:#A08A3F;--fsoft:#E7E6D4;--fglow:rgba(111,125,58,.42);}
-[data-theme="night"] #page-wildlife    {--fbg:#1C1E12;--ftext:#E6E7CF;--fmuted:#9CA073;--fline:rgba(160,138,63,.18);--faccent:#9DAE55;--faccent2:#C6A961;--fsoft:#2A2C1B;--fglow:rgba(157,174,85,.50);--fdark:1;}
+/* — THAILAND — SOMBRE — */
+#page-thailand    {--fbg:#828700;--ftext:#FFFAE9;--fmuted:#E3DEB8;--fline:rgba(255,250,233,.16);--faccent:#F2D9A4;--faccent2:#D2E5C5;--fsoft:#5E6100;--fglow:rgba(242,217,164,.42);--fdark:1;}
+/* — BALI — clair, fond #49d1fd (cyan ciel) · texte teal foncé · highlights corail — */
+#page-bali        {--fbg:#49d1fd;--ftext:#06344A;--fmuted:#2C6E86;--fline:rgba(6,52,74,.20);--faccent:#FF6B5C;--faccent2:#FFC24C;--fsoft:#BDE9FB;--fglow:rgba(255,107,92,.42);}
+/* — HYDE PARK NOSTALGIA — clair — */
+#page-hydepark    {--fbg:#F3F0E9;--ftext:#101010;--fmuted:#7C766A;--fline:rgba(16,16,16,.12);--faccent:#6F6454;--faccent2:#E3DBCC;--fsoft:#FDFCF8;--fglow:rgba(111,100,84,.28);}
+/* — NIGHT MARKETS — SOMBRE — */
+#page-nightmarkets{--fbg:#12263A;--ftext:#D6F5F2;--fmuted:#7FB2B8;--fline:rgba(38,203,209,.24);--faccent:#26CBD1;--faccent2:#97EECE;--fsoft:#163A52;--fglow:rgba(38,203,209,.42);--fdark:1;}
+/* — ECHOES OF MOROCCO — fond dominant #202785 (indigo) · texte sable · accent orange — */
+#page-morocco     {--fbg:#202785;--ftext:#EFD9C6;--fmuted:#BFC2E6;--fline:rgba(239,217,198,.18);--faccent:#EC5F0D;--faccent2:#EFD9C6;--fsoft:#171C5E;--fglow:rgba(236,95,13,.46);--fdark:1;}
+/* — WILDLIFE — clair — */
+#page-wildlife    {--fbg:#FADF7F;--ftext:#574245;--fmuted:#8A7440;--fline:rgba(121,92,95,.20);--faccent:#795C5F;--faccent2:#A69658;--fsoft:#F5E7A6;--fglow:rgba(121,92,95,.35);}
+/* — SCOTLAND — clair — */
+#page-scotland    {--fbg:#D2EBFF;--ftext:#45290C;--fmuted:#A3683E;--fline:rgba(117,138,209,.20);--faccent:#758AD1;--faccent2:#A3683E;--fsoft:#E1FBDA;--fglow:rgba(117,138,209,.40);}
 .frame-page.active{background:var(--fbg);color:var(--ftext);min-height:100vh;}
 .frame-page .eyebrow{color:var(--faccent);}
 .frame-page .chap-intro p{color:var(--ftext);}
-.frame-page .chap-intro .lt{color:var(--fmuted);}
-.frame-page .breath .q{color:var(--ftext);}
-.frame-page .breath .who{color:var(--fmuted);}
 .frame-page .embro .ln{background:var(--fline);}
 .frame-page .gitem{background:var(--fsoft);}
 .frame-page .chap-nav{border-top-color:var(--fline);}
@@ -359,14 +389,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .frame-page .chap-nav a:hover{color:var(--faccent);}
 .frame-page .chap-nav a i{color:var(--faccent);}
 .frame-page .chap-nav .lbl{color:var(--fmuted);}
-.frame-page .chap-hero .meta .dot{background:var(--faccent);}
 /* intro de frame : centrée, en haut, avant la grille */
 .frame-page .chap-intro{text-align:center;}
 .frame-page .chap-intro p{margin-left:auto;margin-right:auto;}
 /* galerie « mosaïque justifiée » : chaque image entière, à ses vraies proportions,
    imbriquée en rangées qui remplissent toute la largeur (façon Tetris) — aucun recadrage */
 .frame-page .gallery{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;--cglow:var(--fglow);}
-.frame-page .gitem{position:relative;flex:0 0 auto;overflow:hidden;border-radius:6px;margin:0;line-height:0;
+.frame-page .gitem{position:relative;flex:0 0 auto;overflow:hidden;border-radius:0;margin:0;line-height:0;
   background:var(--fsoft);cursor:zoom-in;width:220px;height:150px;}
 .frame-page .gitem img{display:block;width:100%;height:100%;object-fit:cover;}
 /* survol : léger assombrissement + loupe (l'image ne bouge pas) */
@@ -380,7 +409,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .wrap.about{padding-top:calc(var(--sec-gap) * 1.3);padding-bottom:calc(var(--sec-gap) * 1.3);}
 .about-col{display:grid;grid-template-columns:0.92fr 1.18fr;gap:80px;align-items:start;}
 .about-txt{text-align:left;}
-.about-h{font-family:'DM Sans',sans-serif;text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
+.about-h{font-family:'Libre Baskerville',serif;text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
   padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
 .about-txt p{font-size:15px;line-height:2.05;color:var(--muted);margin-bottom:22px;}
 .about-txt .sig{font-family:'Petit Formal Script',cursive;font-size:30px;color:var(--accent);margin-top:8px;}
@@ -392,7 +421,8 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 /* ----- DESKTOP : la colonne photos épouse exactement la hauteur du texte -----
    align-items:stretch donne à .about-gal la hauteur de la rangée (dictée par le texte, le plus
-   haut des deux), puis chaque photo en prend un tiers via flex:1 → aucun vide en bas.
+   haut des deux), puis les 4 photos s'en partagent la hauteur via flex:1 → aucun vide en bas.
+   C'est ce partage qui rend les bandes plus fines quand on ajoute des photos.
    aspect-ratio:auto + min-height:0 sont indispensables : sinon la hauteur minimale déduite du
    ratio (3 × largeur/2,33) imposerait sa propre hauteur à la rangée et le calage échouerait.
    Bloc volontairement scopé en min-width:881px : la règle .about-gal .pano est plus spécifique
@@ -421,30 +451,42 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .about-gal .pano:nth-child(2){order:4;}
   .about-txt p:nth-of-type(3){order:5;}
   .about-gal .pano:nth-child(3){order:6;}
-  .about-txt p.sig{order:7;margin-top:0;}
+  .about-txt p:nth-of-type(4){order:7;}
+  .about-gal .pano:nth-child(4){order:8;}
   /* hauteur des photos sur mobile : c'est LA valeur à régler.
-     Plus le 1er nombre est grand, plus la bande est fine (2/1 → hauteur = largeur / 2).
-     Repères : 3/2 = 231px · 2/1 = 173px (actuel) · 21/9 = 148px · 5/2 = 138px */
-  .pano{aspect-ratio:2/1;}
+     Plus le 1er nombre est grand, plus la bande est fine (3/1 → hauteur = largeur / 3).
+     Repères : 2/1 = 173px · 5/2 = 138px · 3/1 = 115px (actuel) · 7/2 = 99px */
+  .pano{aspect-ratio:3/1;}
 }
 
 /* ===================== CONTACT (Instagram mis en avant) ===================== */
 .contact{padding:calc(var(--sec-gap) * 1.3) 0;}
 .contact .lead{text-align:center;margin-bottom:var(--lead-gap);}
 .contact .lead .eyebrow{margin-bottom:18px;}
-.contact .lead h1{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(38px,5.5vw,66px);line-height:1.05;color:var(--text);}
+.contact .lead h1{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(38px,5.5vw,66px);line-height:1.05;color:var(--text);}
 .contact .lead .sub{margin-top:22px;font-size:15px;color:var(--muted);max-width:520px;margin-left:auto;margin-right:auto;}
+/* cartes de contact : Instagram + e-mail, côte à côte sur PC, empilées sur mobile */
+.contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch;max-width:1040px;margin:0 auto;}
+@media(max-width:880px){.contact-cards{grid-template-columns:1fr;gap:20px;}}
+
 /* carte Instagram vedette */
-.ig-card{position:relative;max-width:760px;margin:0 auto;border-radius:26px;overflow:hidden;text-align:center;padding:64px 40px 58px;
+.ig-card{position:relative;display:flex;border-radius:26px;overflow:hidden;text-align:center;padding:52px 34px 46px;
   color:#fff;background:linear-gradient(135deg,#f9ce34 0%,#ee2a7b 46%,#6228d7 100%);
   box-shadow:0 40px 80px -30px rgba(120,30,110,.6);}
+/* variante e-mail : mêmes proportions, palette chaude du site */
+.mail-card{background:linear-gradient(135deg,#D9B36A 0%,#9A6B3F 48%,#5E3A22 100%);
+  box-shadow:0 40px 80px -30px rgba(80,52,26,.6);}
+.mail-card .ig-btn{color:#7A4A22;}
+/* l'adresse est bien plus longue qu'un pseudo : on réduit pour éviter tout débordement */
+.mail-card h2{font-size:clamp(19px,2.4vw,27px);word-break:break-word;}
 .ig-card::before{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.6'/></svg>");}
-.ig-card .inner{position:relative;z-index:2;}
+.ig-card .inner{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center;}
+.ig-card .ig-btn{margin-top:auto;}   /* les boutons des deux cartes s'alignent en bas */
 .ig-card .ig-ico{width:78px;height:78px;border-radius:22px;margin:0 auto 26px;display:flex;align-items:center;justify-content:center;
   font-size:40px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(4px);}
 .ig-card .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:14px;}
-.ig-card h2{font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;font-size:clamp(34px,5vw,52px);line-height:1;margin-bottom:14px;}
+.ig-card h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:clamp(34px,5vw,52px);line-height:1;margin-bottom:14px;}
 .ig-card p{font-size:14.5px;color:rgba(255,255,255,.9);max-width:440px;margin:0 auto 32px;line-height:1.7;}
 .ig-btn{display:inline-flex;align-items:center;gap:11px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
   color:#7a1650;background:#fff;border-radius:40px;padding:17px 40px;text-decoration:none;
@@ -469,24 +511,39 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 @media(max-width:980px){.nav{padding:18px 28px;gap:20px;}.nav-links{gap:30px;}.nav-right{gap:18px;}.list-grid{grid-template-columns:repeat(2,1fr);}.s-wide,.s-half,.s-port,.s-tall,.s-sq{grid-column:span 6;}.s-pan{grid-column:span 12;}.about .col{grid-template-columns:1fr;gap:48px;}}
 @media(max-width:760px){
-  /* rythme vertical resserré sur mobile (voir --sec-gap / --lead-gap dans :root) */
-  :root{--sec-gap:26px;--lead-gap:24px;}
+  /* rythme vertical resserré sur mobile (voir --sec-gap / --lead-gap dans :root)
+     + cadre photo plus fin sur mobile (6px sur PC) */
+  :root{--sec-gap:26px;--lead-gap:24px;--frame-w:4px;}
   .wrap,.wrap-sm{padding:0 22px;}
   .nav{grid-template-columns:auto 1fr auto;padding:15px 20px;gap:12px;}
   .nav-links{display:none;}
+  /* le burger (30px) est désormais seul dans sa colonne : on réserve la même largeur à droite
+     pour que le logo reste bien centré (le bouton jour/nuit compensait avant) */
+  .nav-right{min-width:30px;}
   .burger{display:flex;}
   .nav-logo{justify-self:center;align-items:center;text-align:center;}
-  .nav-logo .name{font-size:21px;}
+  .nav-logo .logo-swap{height:30px;}
   .nav.is-frame .nav-logo{display:none;}
   .nav.is-frame .nav-frameswitch{display:flex;}
   .navchip{display:none!important;}
   .list-grid{grid-template-columns:1fr;}
-  .banner{min-height:calc(100vh - 66px);}
-  .banner h1{font-size:clamp(52px,17vw,88px);}
-  .chap-hero{height:46vh;min-height:300px;border-radius:0 0 22px 22px;}
-  .home-hero,.selection,.frames-section{padding-left:0;padding-right:0;}}
+  /* bannière raccourcie sur mobile (avant : plein écran) — régler ici la hauteur */
+  /* titre de la home remonté sur mobile : on aligne en haut plutôt qu'au centre, puis on règle
+     la hauteur avec `padding-top` ci-dessous — plus petit = plus haut, plus grand = plus bas. */
+  .banner{min-height:40vh;padding:54px 24px;justify-content:flex-start;padding-top:8vh;}
+  .banner h1{font-size:clamp(54px,17vw,88px);}
+  .discover{bottom:18px;}
+  .chap-photo{height:46vh;min-height:300px;}
+  .home-hero,.selection,.frames-section{padding-left:0;padding-right:0;}
+  /* espace sous la bannière mobile avant la description (réglable) */
+  .chap-txt{padding-top:calc(var(--sec-gap) * 1.3);}
+  /* bas de page allégé sur mobile : footer, ornement de fin et nav frame précédente/suivante */
+  .foot{padding:20px 0;}
+  .foot p{font-size:10px;}
+  .breath{padding:calc(var(--sec-gap) * .8) 0;}
+  .chap-nav{margin-top:22px;padding-top:24px;}}
 @media(max-width:520px){.frow-pano{aspect-ratio:3/2;}}
-@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.12s!important;}.star,.sparkle-svg{animation:none;opacity:.7;}html{scroll-behavior:auto;}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.12s!important;}html{scroll-behavior:auto;}}
 /* ============================================================================
    ANIMATIONS — ajouts (à trier : garder / retirer)
    Chaque bloc est numéroté et indépendant : supprimer un bloc n'affecte pas les autres.
@@ -511,7 +568,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 @keyframes seamOut{from{opacity:.9;transform:scaleX(1);}to{opacity:0;transform:scaleX(0);}}
 /* nom de la frame, révélé le temps que l'obturateur est fermé */
 .shutter .sh-name{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;
-  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:300;font-size:clamp(24px,4vw,40px);
+  font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(24px,4vw,40px);
   color:#FBF3E6;opacity:0;letter-spacing:.02em;}
 .shutter.close .sh-name{animation:shName .34s .12s var(--ease) forwards;}
 .shutter.open  .sh-name{animation:shNameOut .2s ease-in forwards;}
@@ -521,27 +578,24 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .shutter.open .flash{animation:flashPop .4s ease-out;}
 @keyframes flashPop{0%{opacity:.5;}100%{opacity:0;}}
 
-/* [A16] BANNIÈRE — « mise au point » du titre à l'arrivée sur la home (~2,6 s)
-   Chaque lettre de « Fragments » apparaît floue et se met au net l'une après l'autre (façon
-   réglage d'objectif), puis « of my reality » se resserre depuis un interlettrage large.
-   Remplace l'ancienne arrivée en bloc (keyframe `rise`) sans la supprimer : ces deux règles
-   la neutralisent, il suffit de retirer ce bloc pour revenir à l'état précédent. */
-.banner h1{opacity:1;animation:none;}
-.banner h1 .l{display:inline-block;white-space:pre;animation:lensFocus 1.25s var(--ease) both;}
+/* [A16] BANNIÈRE — arrivée « mise au point » du titre calligraphié, d'un seul bloc.
+   La police cursive (Pinyon Script) est liée : on ne peut pas la découper lettre par lettre
+   sans casser les liaisons, donc tout le mot apparaît ensemble (flou → net). */
+.banner h1{opacity:0;animation:lensFocus 1.5s var(--ease) .25s both;}
 @keyframes lensFocus{
-  0%{opacity:0;filter:blur(18px);transform:translateY(32px) scale(1.09);}
-  55%{opacity:1;}
+  0%{opacity:0;filter:blur(16px);transform:translateY(26px) scale(1.06);}
+  60%{opacity:1;}
   100%{opacity:1;filter:blur(0);transform:none;}
 }
-.banner h1 .of{animation:ofFocus 1.15s var(--ease) 1.45s both;}
+.banner h1 .of{opacity:0;animation:ofFocus 1.1s var(--ease) 1.15s both;}
 @keyframes ofFocus{
-  0%{opacity:0;filter:blur(10px);letter-spacing:.36em;transform:translateY(12px);}
-  100%{opacity:1;filter:blur(0);letter-spacing:.06em;transform:none;}
+  0%{opacity:0;filter:blur(8px);letter-spacing:.34em;transform:translateY(10px);}
+  100%{opacity:1;filter:blur(0);letter-spacing:.04em;transform:none;}
 }
 
 /* [A2] TITRE DE FRAME révélé mot à mot (remplace l'arrivée en bloc du titre) */
-.frame-page.active .chap-hero h1{animation:none;}
-.frame-page.active .chap-hero h1 .w{display:inline-block;animation:wordUp .7s var(--ease) both;}
+.frame-page.active .chap-cap h1,.frame-page.active .chap-txt h1{animation:none;}
+.frame-page.active .chap-cap h1 .w,.frame-page.active .chap-txt h1 .w{display:inline-block;animation:wordUp .7s var(--ease) both;}
 @keyframes wordUp{from{opacity:0;transform:translateY(26px) rotate(1.2deg);}to{opacity:1;transform:none;}}
 
 /* [A3] REVEAL EN CASCADE (les éléments d'un même groupe arrivent l'un après l'autre) */
@@ -579,15 +633,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .fs-arrow{transition:color .3s,border-color .3s,background .3s,transform .25s var(--ease);}
 .fs-arrow.tap{transform:scale(.82);}
 
-/* [A12] BOUTON JOUR/NUIT — retiré.
-   La rotation au clic déplaçait le knob : la propriété individuelle `rotate` s'applique AVANT
-   `transform`, donc en mode nuit (transform:translateX(22px)) la rotation de 180° inversait le
-   repère et envoyait le knob à gauche, à l'envers. Le knob ne bouge désormais qu'une fois le
-   clic finalisé, quand le thème change réellement (glissement d'origine, inchangé).
-   Retour tactile sans aucun déplacement : seul le contour réagit à l'appui. */
-.toggle{transition:border-color .25s var(--ease);}
-.toggle:active{border-color:var(--accent);}
-
 /* [A13] LIGNE des frame-rows qui se trace au reveal */
 .frow-meta{position:relative;}
 .frow-meta::after{content:"";position:absolute;left:0;bottom:-.5px;height:1px;width:0;background:var(--accent);
@@ -613,7 +658,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 </head>
 <body>
 
-<div id="sky"></div>
 <div id="progress"></div>
 
 <!-- [A1] obturateur d'appareil photo joué à l'ouverture d'une frame -->
@@ -627,13 +671,15 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 <nav class="nav" id="nav">
   <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
-  <div class="nav-logo" data-nav="home">
-    <span class="crown"><span class="ln"></span><svg width="11" height="11" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--gold)"/></svg><span class="ln"></span></span>
-    <span class="name serif">ablas frames</span><span class="role">Photographer</span>
+  <div class="nav-logo" data-nav="home" aria-label="ablas frames — accueil">
+    <span class="logo-swap">
+      <img class="logo-day" src="logo-af-noir.png" alt="ablas frames">
+      <img class="logo-night" src="logo-af-blanc.png" alt="">
+    </span>
   </div>
   <div class="nav-frameswitch" id="frameswitch" aria-hidden="true">
     <button class="fs-arrow" id="fs-prev" aria-label="Previous frame"><i class="ti ti-chevron-left"></i></button>
-    <button class="fs-name" id="fs-name" data-nav="frames" title="All frames"><span class="fs-dot" id="fs-dot"></span><span class="fs-t" id="fs-t"></span><span class="fs-count" id="fs-count"></span></button>
+    <button class="fs-name" id="fs-name" data-nav="frames" title="All frames"><span class="fs-dot" id="fs-dot"></span><span class="fs-t" id="fs-t"></span></button>
     <button class="fs-arrow" id="fs-next" aria-label="Next frame"><i class="ti ti-chevron-right"></i></button>
   </div>
   <div class="nav-links">
@@ -642,9 +688,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <a data-nav="about">About</a>
     <a data-nav="contact">Contact</a>
   </div>
-  <div class="nav-right"><span class="navchip" id="navchip"><span class="dot"></span><span id="navchip-t"></span></span>
-    <button class="toggle" id="toggle" aria-label="Toggle day / night"><span class="knob"><i class="ti ti-sun" id="ticon"></i></span></button>
-  </div>
+  <div class="nav-right"><span class="navchip" id="navchip"><span class="dot"></span><span id="navchip-t"></span></span></div>
 </nav>
 
 <!-- MENU MOBILE (déroulant) -->
@@ -656,7 +700,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <a data-nav="about">About <span class="i">03</span></a>
       <a data-nav="contact">Contact <span class="i">04</span></a>
     </nav>
-    <div class="menu-foot"><span class="sig">ablas</span><a href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> @ablasframes</a></div>
+    <div class="menu-foot">
+      <span class="sig logo-swap">
+        <img class="logo-day" src="logo-af-noir.png" alt="ablas frames">
+        <img class="logo-night" src="logo-af-blanc.png" alt="">
+      </span>
+      <a href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> @ablasframes</a>
+    </div>
   </div>
 </div>
 
@@ -666,7 +716,8 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <section class="page active" id="page-home">
 
   <header class="banner">
-    <div class="bg" style="background-image:url('../photographies/categories/travel/thailand/thai-2.jpeg')"></div>
+    <!-- photo de bannière : dossier dédié photographies/categories/banner/ — remplace juste ce fichier pour la changer -->
+    <div class="bg" style="background-image:url('photographies/categories/banner/banner-1.jpeg')"></div>
     <div class="grain"></div>
     <div class="veil"></div>
     <div class="banner-content">
@@ -684,7 +735,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
           <p class="hero-intro">I collect living, deeply true moments — caught on film in every corner of the world.</p>
         </div>
         <div class="hero-photo reveal">
-          <div class="hero-frame"><div class="canvas"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div></div></div>
+          <div class="hero-frame"><div class="canvas"><div class="img" style="background-image:url('photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div></div></div>
         </div>
       </div>
     </div>
@@ -693,13 +744,15 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   <!-- APERÇU PHOTOGRAPHIES (deux vues + flèches) -->
   <section class="selection" id="selection">
     <div class="wrap">
-      <div class="sel-lead reveal"><h2 class="serif">Selection</h2><p>A few prints chosen from the recent chapters.</p></div>
+      <div class="sel-lead reveal"><h2 class="serif">Gallery</h2><p>A few prints chosen from the recent chapters.</p></div>
+      <!-- 5 photos : dossier dédié photographies/categories/gallery/gallery-1..5.jpeg — remplace ces
+           fichiers (mêmes noms) pour changer la sélection sans toucher au HTML -->
       <div class="sel-grid reveal">
-        <div class="sel-cell c-8"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-3.jpeg')"></div><span class="cap">Bali — Terraced rice fields</span></div>
-        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-5.jpeg')"></div><span class="cap">Bali — Seaside</span></div>
-        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-6.jpeg')"></div><span class="cap">Bali — Green valley</span></div>
-        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-8.jpeg')"></div><span class="cap">Bali — Alleyway</span></div>
-        <div class="sel-cell c-4"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-11.jpeg')"></div><span class="cap">Bali — Ocean</span></div>
+        <div class="sel-cell c-8"><div class="img" style="--focus:center 58%;background-image:url('photographies/categories/gallery/gallery-1.jpeg')"></div><span class="cap">Thailand — Longtail boat</span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 42%;background-image:url('photographies/categories/gallery/gallery-2.jpeg')"></div><span class="cap">Morocco — Zellige arch</span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 45%;background-image:url('photographies/categories/gallery/gallery-3.jpeg')"></div><span class="cap">Wildlife — Capybara</span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 62%;background-image:url('photographies/categories/gallery/gallery-4.jpeg')"></div><span class="cap">London — The Serpentine</span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 55%;background-image:url('photographies/categories/gallery/gallery-5.jpeg')"></div><span class="cap">Bali — Cliff path</span></div>
       </div>
     </div>
   </section>
@@ -707,29 +760,31 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   <!-- FRAMES (cadre blanc seul) -->
   <section class="frames-section" id="frames-section">
     <div class="wrap">
-      <div class="lead reveal"><p class="e">The gallery</p><h2 class="serif">Frames</h2></div>
+      <div class="lead reveal"><h2 class="serif">Albums</h2></div>
       <div class="frames-list">
         <article class="frame-row reveal" data-chapter="thailand">
-          <div class="frow-pano"><div class="img" style="--focus:center 58%;background-image:url('../photographies/categories/travel/thailand/thai-13.jpeg')"></div></div>
-          <div class="frow-meta"><span class="frow-num">01</span><h3 class="frow-t serif">Thailand on Film</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+          <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/thailand/banner.jpeg')"></div></div>
+          <div class="frow-meta"><span class="frow-num">01</span><h3 class="frow-t serif">Thailand</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="bali">
-          <div class="frow-pano"><div class="img" style="--focus:center 52%;background-image:url('../photographies/categories/travel/bali/bali-2.jpeg')"></div></div>
+          <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/bali/banner.jpeg')"></div></div>
           <div class="frow-meta"><span class="frow-num">02</span><h3 class="frow-t serif">Bali</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="hydepark">
-          <!-- source portrait : le sujet (les oies, la berge) est en bas → sans --focus on n'affichait que du ciel blanc -->
-          <div class="frow-pano"><div class="img" style="--focus:center 82%;background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-2.jpeg')"></div></div>
+          <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/hyde-park-nostalgia/banner.jpeg')"></div></div>
           <div class="frow-meta"><span class="frow-num">03</span><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="nightmarkets">
-          <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div></div>
+          <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/night-markets/banner.jpeg')"></div></div>
           <div class="frow-meta"><span class="frow-num">04</span><h3 class="frow-t serif">Night Markets</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="morocco">
-          <!-- source portrait : les visages sont au tiers haut → sans --focus la bande les coupait -->
-          <div class="frow-pano"><div class="img" style="--focus:center 36%;background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-2.jpeg')"></div></div>
+          <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/portraits/echoes-of-morocco/banner.jpeg')"></div></div>
           <div class="frow-meta"><span class="frow-num">05</span><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+        </article>
+        <article class="frame-row reveal" data-chapter="scotland">
+          <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/scotland/banner.jpeg')"></div></div>
+          <div class="frow-meta"><span class="frow-num">06</span><h3 class="frow-t serif">Scotland</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
       </div>
     </div>
@@ -738,96 +793,167 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 <!-- ===================== FRAME : THAILAND ===================== -->
 <section class="page frame-page" id="page-thailand" data-chap="thailand">
-  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-2.jpeg')"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
-    <div class="meta"><span class="dot" style="background:#cf9f4e"></span><span class="t" style="color:#e9d28f">Travel</span><span class="ln"></span><span class="num">Frame · Thailand</span></div>
-    <h1 class="serif">Thailand on Film</h1></div></div></div>
-  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>In the heart of Bangkok's clamour and the silence of the rice fields, I let the film decide. These images are fragments — imperfect, alive, true.</p></div>
+  <div class="chap-head">
+    <div class="chap-photo"><div class="img" style="background-image:url('photographies/categories/travel/thailand/banner.jpeg')"></div>
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Thailand</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
+      <h1 class="serif">Thailand</h1>
+      <div class="chap-intro reveal"><p>In the heart of Bangkok's clamour and the silence of the rice fields, I let the film decide. These images are fragments — imperfect, alive, true.</p></div>
+    </div>
+  </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
-    <p class="eyebrow reveal">Gallery · Thailand</p>
+    <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-thailand"></div>
-    <div class="breath reveal"><div class="embro" style="margin-bottom:26px"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div>
-      <p class="q">“Film never lies. It keeps the warmth of the moment.”</p><p class="who">Notebook — Bangkok</p></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img class="logo-day" src="logo-af-noir.png" alt=""><img class="logo-night" src="logo-af-blanc.png" alt=""></span>
+      <span class="ln"></span></div></div>
   </div></section>
 </section>
 
 <!-- ===================== FRAME : BALI ===================== -->
 <section class="page frame-page" id="page-bali" data-chap="bali">
-  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-2.jpeg')"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
-    <div class="meta"><span class="dot" style="background:#4a9d8e"></span><span class="t" style="color:#bfe6dd">Travel</span><span class="ln"></span><span class="num">Frame · Indonesia</span></div>
-    <h1 class="serif">Bali</h1></div></div></div>
-  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>An island of terraced rice fields and running water. Between temples and green light, every frame breathes the soft warmth of the tropics.</p></div>
+  <div class="chap-head">
+    <div class="chap-photo"><div class="img" style="background-image:url('photographies/categories/travel/bali/banner.jpeg')"></div>
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Bali</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
+      <h1 class="serif">Bali</h1>
+      <div class="chap-intro reveal"><p>An island of terraced rice fields and running water. Between temples and green light, every frame breathes the soft warmth of the tropics.</p></div>
+    </div>
+  </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
-    <p class="eyebrow reveal">Gallery · Bali</p>
+    <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-bali"></div>
-    <div class="breath reveal"><div class="embro" style="margin-bottom:26px"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div>
-      <p class="q">“Water, stone, green light — Bali reveals itself slowly.”</p><p class="who">Notebook — Ubud</p></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img class="logo-day" src="logo-af-noir.png" alt=""><img class="logo-night" src="logo-af-blanc.png" alt=""></span>
+      <span class="ln"></span></div></div>
   </div></section>
 </section>
 
 <!-- ===================== FRAME : HYDE PARK NOSTALGIA ===================== -->
 <section class="page frame-page" id="page-hydepark" data-chap="hydepark">
-  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-2.jpeg')"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
-    <div class="meta"><span class="dot" style="background:#8a9a6b"></span><span class="t" style="color:#dbe5c9">Travel</span><span class="ln"></span><span class="num">Frame · London</span></div>
-    <h1 class="serif">Hyde Park Nostalgia</h1></div></div></div>
-  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>A soft, grey English light between the trees of Hyde Park. Suspended moments, tinged with a gentle melancholy.</p></div>
+  <div class="chap-head">
+    <div class="chap-photo"><div class="img" style="background-image:url('photographies/categories/travel/hyde-park-nostalgia/banner.jpeg')"></div>
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Hyde Park Nostalgia</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
+      <h1 class="serif">Hyde Park Nostalgia</h1>
+      <div class="chap-intro reveal"><p>A soft, grey English light between the trees of Hyde Park. Suspended moments, tinged with a gentle melancholy.</p></div>
+    </div>
+  </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
-    <p class="eyebrow reveal">Gallery · London</p>
+    <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-hydepark"></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img class="logo-day" src="logo-af-noir.png" alt=""><img class="logo-night" src="logo-af-blanc.png" alt=""></span>
+      <span class="ln"></span></div></div>
   </div></section>
 </section>
 
 <!-- ===================== FRAME : NIGHT MARKETS ===================== -->
 <section class="page frame-page" id="page-nightmarkets" data-chap="nightmarkets">
-  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
-    <div class="meta"><span class="dot" style="background:#c96b4a"></span><span class="t" style="color:#f0c3ac">Travel</span><span class="ln"></span><span class="num">Frame · The night</span></div>
-    <h1 class="serif">Night Markets</h1></div></div></div>
-  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>Neon, steam and colour. Night markets are a theatre of light — film captures the raw warmth of the crowd.</p></div>
+  <div class="chap-head">
+    <div class="chap-photo"><div class="img" style="background-image:url('photographies/categories/travel/night-markets/banner.jpeg')"></div>
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Night Markets</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
+      <h1 class="serif">Night Markets</h1>
+      <div class="chap-intro reveal"><p>Neon, steam and colour. Night markets are a theatre of light — film captures the raw warmth of the crowd.</p></div>
+    </div>
+  </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
-    <p class="eyebrow reveal">Gallery · Night Markets</p>
+    <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-nightmarkets"></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img class="logo-day" src="logo-af-noir.png" alt=""><img class="logo-night" src="logo-af-blanc.png" alt=""></span>
+      <span class="ln"></span></div></div>
   </div></section>
 </section>
 
 <!-- ===================== FRAME : ECHOES OF MOROCCO ===================== -->
 <section class="page frame-page" id="page-morocco" data-chap="morocco">
-  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-2.jpeg')"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
-    <div class="meta"><span class="dot" style="background:#b5734a"></span><span class="t" style="color:#e8c3a6">Portraits</span><span class="ln"></span><span class="num">Frame · Morocco</span></div>
-    <h1 class="serif">Echoes of Morocco</h1></div></div></div>
-  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>Faces and ochre walls, the echo of a land of light. A series of portraits where earth and skin share the same warmth.</p></div>
+  <div class="chap-head">
+    <div class="chap-photo"><div class="img" style="background-image:url('photographies/categories/portraits/echoes-of-morocco/banner.jpeg')"></div>
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Portraits</span></div><h1 class="serif">Echoes of Morocco</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Portraits</span></div>
+      <h1 class="serif">Echoes of Morocco</h1>
+      <div class="chap-intro reveal"><p>Faces and ochre walls, the echo of a land of light. A series of portraits where earth and skin share the same warmth.</p></div>
+    </div>
+  </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
-    <p class="eyebrow reveal">Gallery · Morocco</p>
+    <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-morocco"></div>
-    <div class="breath reveal"><div class="embro" style="margin-bottom:26px"><span class="ln"></span><svg width="12" height="12" viewBox="0 0 10 10"><path d="M5,0 L5.6,3.4 L9,5 L5.6,6.6 L5,10 L4.4,6.6 L1,5 L4.4,3.4 Z" fill="var(--faccent)"/></svg><span class="ln"></span></div>
-      <p class="q">“Earth and skin share the same light.”</p><p class="who">Notebook — Morocco</p></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img class="logo-day" src="logo-af-noir.png" alt=""><img class="logo-night" src="logo-af-blanc.png" alt=""></span>
+      <span class="ln"></span></div></div>
   </div></section>
 </section>
 
 <!-- ===================== FRAME : WILDLIFE ===================== -->
 <section class="page frame-page" id="page-wildlife" data-chap="wildlife">
-  <div class="chap-hero"><div class="img" style="background-image:url('../photographies/categories/wildlife/wild-1.jpeg')"></div><div class="inner"><div class="wrap" style="padding-bottom:44px">
-    <div class="meta"><span class="dot" style="background:#7d8a4a"></span><span class="t" style="color:#d3daa8">Wildlife</span><span class="ln"></span><span class="num">Frame · Wildlife</span></div>
-    <h1 class="serif">Wildlife</h1></div></div></div>
-  <div class="wrap chap-intro reveal"><p class="lt">The story</p><p>On the lookout, in silence. Wildlife never poses — it barely lets itself be surprised. Every frame is patience rewarded.</p></div>
+  <div class="chap-head">
+    <div class="chap-photo"><div class="img" style="background-image:url('photographies/categories/wildlife/banner.jpeg')"></div>
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Wildlife</span></div><h1 class="serif">Wildlife</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Wildlife</span></div>
+      <h1 class="serif">Wildlife</h1>
+      <div class="chap-intro reveal"><p>On the lookout, in silence. Wildlife never poses — it barely lets itself be surprised. Every frame is patience rewarded.</p></div>
+    </div>
+  </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
-    <p class="eyebrow reveal">Gallery · Wildlife</p>
+    <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-wildlife"></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img class="logo-day" src="logo-af-noir.png" alt=""><img class="logo-night" src="logo-af-blanc.png" alt=""></span>
+      <span class="ln"></span></div></div>
+  </div></section>
+</section>
+
+<!-- ===================== FRAME : SCOTLAND ===================== -->
+<section class="page frame-page" id="page-scotland" data-chap="scotland">
+  <div class="chap-head">
+    <div class="chap-photo"><div class="img" style="background-image:url('photographies/categories/travel/scotland/banner.jpeg')"></div>
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Scotland</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
+      <h1 class="serif">Scotland</h1>
+      <div class="chap-intro reveal"><p>Wind-scoured hills, shaggy highland cattle, and a silence only the fog seems to hold. Scotland unfolds slowly, one grey horizon at a time.</p></div>
+    </div>
+  </div>
+  <section class="pad" style="padding-top:48px"><div class="wrap">
+    <p class="eyebrow reveal">Gallery</p>
+    <div class="gallery" id="gal-scotland"></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img class="logo-day" src="logo-af-noir.png" alt=""><img class="logo-night" src="logo-af-blanc.png" alt=""></span>
+      <span class="ln"></span></div></div>
   </div></section>
 </section>
 
 <!-- ===================== FRAMES (listing — ex "Chapitres") ===================== -->
 <section class="page" id="page-frames">
   <section class="pad"><div class="wrap">
-    <p class="eyebrow reveal">The library</p><h1 class="sec-h reveal" style="margin-bottom:38px">Frames</h1>
-    <div class="pills reveal"><button class="pill active" data-filter="all">All</button><button class="pill" data-filter="travel">Travel</button><button class="pill" data-filter="portraits">Portraits</button><button class="pill" data-filter="wildlife">Wildlife</button><button class="pill" data-filter="events">Events</button></div>
+    <h1 class="sec-h reveal" style="margin-bottom:38px">Frames</h1>
+    <div class="pills reveal"><button class="pill active" data-filter="all">All</button><button class="pill" data-filter="travel">Travel</button><button class="pill" data-filter="portraits">Portraits</button><button class="pill" data-filter="wildlife">Wildlife</button><button class="pill" data-filter="sports">Sports</button><button class="pill" data-filter="events">Events</button></div>
     <div class="list-grid" id="listgrid">
-      <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/thailand/thai-1.jpeg')"></div><div class="narr"><p>“I let the film decide.”</p></div></div><div class="meta"><h4>Thailand on Film</h4><span class="tag" style="color:#C2702F">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/bali/bali-1.jpeg')"></div><div class="narr"><p>“Bali reveals itself slowly.”</p></div></div><div class="meta"><h4>Bali</h4><span class="tag" style="color:#3F8B7C">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/hyde-park-nostalgia/hpn-1.jpeg')"></div><div class="narr"><p>“A gentle English melancholy.”</p></div></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag" style="color:#7E8B5B">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/travel/night-markets/nightmarkets-1.jpeg')"></div><div class="narr"><p>“A theatre of light, at night.”</p></div></div><div class="meta"><h4>Night Markets</h4><span class="tag" style="color:#BE5D3E">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div><div class="narr"><p>“Earth and skin, one light.”</p></div></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag" style="color:#A9663F">Portraits</span></div></article>
-      <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><div class="img" style="background-image:url('../photographies/categories/wildlife/wild-1.jpeg')"></div><div class="narr"><p>“Patience rewarded.”</p></div></div><div class="meta"><h4>Wildlife</h4><span class="tag" style="color:#727E3E">Wildlife</span></div></article>
-      <article class="list-card reveal soon" data-cat="events" data-soon="1"><div class="thumb"><div class="img" style="background:linear-gradient(135deg,#d6ccb2,#8f8466)"></div><div class="narr"><p>Moments — soon</p></div></div><div class="meta"><h4>One Night</h4><span class="tag" style="color:#8f8466">Events</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/thailand/thai-1.jpeg')"></div><div class="narr"><p>“I let the film decide.”</p></div></div><div class="meta"><h4>Thailand</h4><span class="tag" style="color:#A43032">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/bali/bali-1.jpeg')"></div><div class="narr"><p>“Bali reveals itself slowly.”</p></div></div><div class="meta"><h4>Bali</h4><span class="tag" style="color:#2584A7">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/hyde-park-nostalgia/hpn-1.jpeg')"></div><div class="narr"><p>“A gentle English melancholy.”</p></div></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag" style="color:#6F6454">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/night-markets/nightmarkets-2.jpeg')"></div><div class="narr"><p>“A theatre of light, at night.”</p></div></div><div class="meta"><h4>Night Markets</h4><span class="tag" style="color:#BE5D3E">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div><div class="narr"><p>“Earth and skin, one light.”</p></div></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag" style="color:#C24E12">Portraits</span></div></article>
+      <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/wildlife/wild-2.jpeg')"></div><div class="narr"><p>“Patience rewarded.”</p></div></div><div class="meta"><h4>Wildlife</h4><span class="tag" style="color:#795C5F">Wildlife</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="scotland"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/scotland/scotland-2.jpeg')"></div><div class="narr"><p>“The fog keeps its own secrets.”</p></div></div><div class="meta"><h4>Scotland</h4><span class="tag" style="color:#758AD1">Travel</span></div></article>
     </div>
+    <!-- affiché uniquement quand un filtre ne contient encore aucun album (Sports, Events) -->
+    <p class="list-empty" id="listempty" hidden>No album in this category yet — coming soon.</p>
   </div></section>
 </section>
 
@@ -838,16 +964,18 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="about-txt">
         <h2 class="about-h reveal">About me</h2>
         <p class="reveal">An independent photographer, I work on film and digital alike, driven by one shared obsession: natural light, the unposed moment, the imperfection that rings true.</p>
+        <p class="reveal">Film imposes its own pace: a handful of frames, no screen to check. You wait, you look twice, and the light decides.</p>
         <p class="reveal">Every journey becomes a gathering of fragments — faces, landscapes, silences the eye usually forgets. I bring them back the way one brings back letters from a distant land.</p>
         <p class="reveal">Fragments of a reality that is mine, held out to you — a way of looking at the world, at the height of silence.</p>
-        <p class="sig reveal">ablas</p>
       </div>
-      <!-- photos PAYSAGE (1600x1066) : mieux adaptées à une bande panoramique que les sources
-           portrait utilisées avant (thai-14 / thai-16), et affichées sans agrandissement -->
+      <!-- photos PAYSAGE (1600x1066) : mieux adaptées à une bande panoramique que des sources
+           portrait, et affichées sans agrandissement.
+           4 bandes = 4 paragraphes, identique sur PC et mobile. -->
       <div class="about-gal">
-        <div class="pano reveal"><div class="img" style="--focus:center 46%;background-image:url('../photographies/categories/travel/thailand/thai-11.jpeg')"></div></div>
-        <div class="pano reveal"><div class="img" style="--focus:center 58%;background-image:url('../photographies/categories/travel/thailand/thai-18.jpeg')"></div></div>
-        <div class="pano reveal"><div class="img" style="--focus:center 42%;background-image:url('../photographies/categories/travel/thailand/thai-21.jpeg')"></div></div>
+        <div class="pano reveal"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/thailand/thai-3.jpeg')"></div></div>
+        <div class="pano reveal"><div class="img" style="--focus:center 58%;background-image:url('photographies/categories/travel/thailand/thai-18.jpeg')"></div></div>
+        <div class="pano reveal"><div class="img" style="--focus:center 58%;background-image:url('photographies/categories/travel/thailand/thai-5.jpeg')"></div></div>
+        <div class="pano reveal"><div class="img" style="--focus:center 42%;background-image:url('photographies/categories/travel/thailand/thai-21.jpeg')"></div></div>
       </div>
     </div>
   </div>
@@ -856,13 +984,27 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <!-- ===================== CONTACT (Instagram mis en avant) ===================== -->
 <section class="page" id="page-contact">
   <section class="contact"><div class="wrap">
-    <div class="ig-card reveal">
-      <div class="inner">
-        <div class="ig-ico"><i class="ti ti-brand-instagram"></i></div>
-        <p class="k">Follow me on Instagram</p>
-        <h2>@ablasframes</h2>
-        <p>My latest fragments, travel notebooks and new prints — that's where everything happens first. Send me a direct message for any enquiry.</p>
-        <a class="ig-btn" href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Open Instagram</a>
+    <div class="contact-cards">
+      <div class="ig-card reveal">
+        <div class="inner">
+          <div class="ig-ico"><i class="ti ti-brand-instagram"></i></div>
+          <p class="k">Follow me on Instagram</p>
+          <h2>@ablasframes</h2>
+          <p>My latest fragments, travel notebooks and new prints — that's where everything happens first. Send me a direct message for any enquiry.</p>
+          <a class="ig-btn" href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><i class="ti ti-brand-instagram"></i> Open Instagram</a>
+        </div>
+      </div>
+      <!-- carte e-mail : le bouton ouvre Gmail avec l'objet et le message déjà rédigés -->
+      <div class="ig-card mail-card reveal">
+        <div class="inner">
+          <div class="ig-ico"><i class="ti ti-mail"></i></div>
+          <p class="k">Write to me</p>
+          <h2>hello@ablasframes.com</h2>
+          <p>For a commission, a print order or a collaboration — tell me about your project and I'll get back to you.</p>
+          <a class="ig-btn" id="mail-btn"
+             href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=hello%40ablasframes.com&amp;su=Photography%20enquiry&amp;body=Hello%20Abla%2C%0A%0AI%20came%20across%20your%20work%20and%20would%20like%20to%20get%20in%20touch.%0A%0A-%20Project%3A%20%0A-%20Dates%3A%20%0A-%20Location%3A%20%0A%0AThank%20you%2C%0A"
+             target="_blank" rel="noopener"><i class="ti ti-send"></i> Send an email</a>
+        </div>
       </div>
     </div>
     <div class="contact-alt reveal">
@@ -889,56 +1031,19 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    Posé tout en haut du script : si le JS ne s'exécute pas, les photos restent visibles. */
 document.documentElement.classList.add('blur-up');
 
-/* ===================== STARFIELD ===================== */
-(function sky(){
-  const s=document.getElementById('sky');const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const N=reduce?40:78;const NS='http://www.w3.org/2000/svg';
-  for(let i=0;i<N;i++){
-    const left=Math.random()*100+'%',top=Math.random()*100+'%',dur=(2.8+Math.random()*3.6)+'s',delay=(Math.random()*5)+'s';
-    if(Math.random()>0.62){
-      const sz=Math.random()*9+7;
-      const svg=document.createElementNS(NS,'svg');svg.setAttribute('viewBox','0 0 10 10');svg.setAttribute('class','sparkle-svg');
-      svg.setAttribute('width',sz);svg.setAttribute('height',sz);svg.style.left=left;svg.style.top=top;svg.style.animationDuration=dur;svg.style.animationDelay=delay;
-      svg.innerHTML='<path d="M5,0 L5.8,3.3 L9,5 L5.8,6.7 L5,10 L4.2,6.7 L1,5 L4.2,3.3 Z" fill="var(--star)"/>';
-      s.appendChild(svg);
-    }else{
-      const sz=Math.random()*2.4+1.4;
-      const el=document.createElement('span');el.className='star';
-      el.style.cssText=`width:${sz}px;height:${sz}px;left:${left};top:${top};animation-duration:${dur};animation-delay:${delay}`;
-      s.appendChild(el);
-    }
-  }
-})();
+/* (starfield retiré) */
 
 (function(){const d=document.getElementById('discover');if(d)d.addEventListener('click',()=>document.getElementById('home-hero').scrollIntoView({behavior:'smooth'}));})();
 
-/* ===================== APERÇU PHOTOGRAPHIES (carrousel deux vues) ===================== */
-(function photoFeature(){
-  const frame=document.getElementById('pf-frame');if(!frame)return;
-  const P='../photographies/categories/';
-  const sets=[
-    [{img:P+'travel/thailand/thai-1.jpeg',cap:"Bangkok · at dawn"},{img:P+'travel/bali/bali-1.jpeg',cap:'Bali · rice fields'}],
-    [{img:P+'portraits/echoes-of-morocco/eom-2.jpeg',cap:'Morocco · a gaze'},{img:P+'travel/night-markets/nightmarkets-1.jpeg',cap:'Market · neon'}],
-    [{img:P+'travel/hyde-park-nostalgia/hpn-1.jpeg',cap:'London · Hyde Park'},{img:P+'wildlife/wild-1.jpeg',cap:'Wildlife · on the lookout'}],
-  ];
-  let i=0;
-  function render(){
-    const s=sets[i];
-    frame.innerHTML=s.map(p=>'<div class="pf-half"><div class="img" style="background-image:url(\''+p.img+'\')"></div><span class="cap">'+p.cap+'</span></div>').join('');
-  }
-  document.getElementById('pf-next').addEventListener('click',()=>{i=(i+1)%sets.length;render();});
-  document.getElementById('pf-prev').addEventListener('click',()=>{i=(i-1+sets.length)%sets.length;render();});
-  render();
-})();
-
 /* ===================== GALERIES (génération auto · toutes les photos · sans vide) ===================== */
 const GAL={
-  thailand:{dir:'travel/thailand',pre:'thai',n:25,label:'Thailand on Film'},
+  thailand:{dir:'travel/thailand',pre:'thai',n:24,label:'Thailand'},
   bali:{dir:'travel/bali',pre:'bali',n:15,label:'Bali'},
   hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',n:6,label:'Hyde Park Nostalgia'},
   nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',n:3,label:'Night Markets'},
   morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',n:17,label:'Echoes of Morocco'},
   wildlife:{dir:'wildlife',pre:'wild',n:6,label:'Wildlife'},
+  scotland:{dir:'travel/scotland',pre:'scotland',n:8,label:'Scotland'},
 };
 /* Chaque image devient une <img> réelle : on lit ses vraies proportions,
    puis on dispose la galerie en « mosaïque justifiée » (rangées de même hauteur,
@@ -969,7 +1074,7 @@ function justify(gallery){
     row.push(it);sum+=ratioOf(it);
     if(row.length>=maxN || (W-gap*(row.length-1))/sum<=target){rows.push({items:row,sum});row=[];sum=0;}
   });
-  const partial=row.length?{items:row,sum}:null; // dernière rangée incomplète (le cas échéant)
+  let partial=row.length?{items:row,sum}:null; // dernière rangée incomplète (le cas échéant)
   // 2) une rangée occupe TOUJOURS exactement la largeur disponible : largeurs ∝ ratio, et la
   //    dernière image absorbe le reste des arrondis → bord droit net, jamais de vide.
   const layout=(r,h)=>{
@@ -982,10 +1087,20 @@ function justify(gallery){
       else{const w=Math.max(1,Math.floor(avail*ratioOf(it)/r.sum));it.style.width=w+'px';used+=w;}
     });
   };
-  rows.forEach(r=>layout(r,(W-gap*(r.items.length-1))/r.sum)); // rangées pleines : vraies proportions
-  // 3) dernière rangée incomplète (souvent une seule photo sur mobile) : elle s'étire pour occuper
-  //    toute la largeur. Sa hauteur est bornée pour qu'une photo portrait isolée ne devienne pas
-  //    démesurée ; object-fit:cover recadre alors légèrement. La galerie reste un rectangle plein.
+  // 2b) une dernière rangée d'UNE seule photo serait étirée sur toute la largeur en un bandeau
+  //     panoramique (recadrage excessif — ex. Scotland, 8 photos = rangée de 7 + 1). On la fusionne
+  //     alors avec la rangée pleine précédente, qui se redistribue sur toute la largeur avec une image
+  //     de plus (un peu plus petites) → aucun vide à droite ET aucun bandeau déformé.
+  if(partial && partial.items.length===1 && rows.length){
+    const last=rows.pop();
+    rows.push({items:last.items.concat(partial.items), sum:last.sum+partial.sum});
+    partial=null;
+  }
+  rows.forEach(r=>layout(r,(W-gap*(r.items.length-1))/r.sum)); // rangées pleines : vraies proportions, largeur remplie
+  // 3) dernière rangée incomplète (≥ 2 photos) : elle s'ÉTIRE pour occuper TOUTE la largeur — aucun
+  //    vide à droite. Les images grandissent proportionnellement (largeur ∝ ratio) et la hauteur est
+  //    bornée pour ne pas devenir démesurée ; object-fit:cover recadre alors proprement, sans
+  //    déformer. La galerie reste un rectangle plein.
   if(partial){
     const hFull=(W-gap*(partial.items.length-1))/partial.sum;
     layout(partial,Math.min(hFull,target*1.35));
@@ -1002,17 +1117,20 @@ Object.entries(GAL).forEach(([key,g])=>{
   const host=document.getElementById('gal-'+key);if(!host)return;
   let html='';
   for(let i=1;i<=g.n;i++){
-    const src='../photographies/categories/'+g.dir+'/'+g.pre+'-'+i+'.jpeg';
+    const src='photographies/categories/'+g.dir+'/'+g.pre+'-'+i+'.jpeg';
     html+='<figure class="gitem"><img class="gimg" src="'+src+'" alt="'+g.label+' — '+i+'" loading="lazy"><span class="gzoom"><i class="ti ti-zoom-in"></i></span></figure>';
   }
   host.innerHTML=html;
   host.querySelectorAll('img.gimg').forEach(img=>{
     const fig=img.closest('.gitem');
-    // [A4] .ready déclenche le passage flou → net ; posé aussi en cas d'erreur pour ne jamais
-    // laisser une image invisible.
+    // Image manquante (photo supprimée → trou dans la numérotation, ex. thai-11) : on retire
+    // la vignette de la galerie. Aucune icône cassée ni case vide — la mosaïque se recompose
+    // toute seule. Robuste à n'importe quel trou, présent ou futur, sans toucher au code.
+    const fail=()=>{fig.remove();justifyQueued(host);};
+    // [A4] .ready déclenche le passage flou → net.
     const done=()=>{if(img.naturalWidth&&img.naturalHeight)fig._ratio=img.naturalWidth/img.naturalHeight;img.classList.add('ready');justifyQueued(host);};
-    if(img.complete&&img.naturalWidth)done();
-    else{img.addEventListener('load',done);img.addEventListener('error',()=>{fig._ratio=1.5;img.classList.add('ready');justifyQueued(host);});}
+    if(img.complete){img.naturalWidth?done():fail();}
+    else{img.addEventListener('load',done);img.addEventListener('error',fail);}
   });
   justify(host);
 });
@@ -1044,20 +1162,20 @@ window.addEventListener('orientationchange',()=>setTimeout(justifyActive,220));
   burger.addEventListener('click',e=>{e.stopPropagation();setMenu(!document.body.classList.contains('menu-open'));});
   document.addEventListener('click',e=>{
     if(!document.body.classList.contains('menu-open'))return;
-    // le bouton jour/nuit ne ferme pas le menu (changement de thème fluide, menu ouvert)
-    if(!e.target.closest('#menu')&&!e.target.closest('#burger')&&!e.target.closest('#toggle'))setMenu(false);
+    if(!e.target.closest('#menu')&&!e.target.closest('#burger'))setMenu(false);
   });
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&document.body.classList.contains('menu-open'))setMenu(false);});
 })();
 
 /* ===================== ROUTING ===================== */
 const FRAMES=[
-  {key:'thailand',    el:'page-thailand',    label:'Thailand on Film',      dot:'#cf9f4e'},
-  {key:'bali',        el:'page-bali',        label:'Bali',                  dot:'#4a9d8e'},
-  {key:'hydepark',    el:'page-hydepark',    label:'Hyde Park Nostalgia',   dot:'#8a9a6b'},
+  {key:'thailand',    el:'page-thailand',    label:'Thailand',      dot:'#A43032'},
+  {key:'bali',        el:'page-bali',        label:'Bali',                  dot:'#FE6D73'},
+  {key:'hydepark',    el:'page-hydepark',    label:'Hyde Park Nostalgia',   dot:'#6F6454'},
   {key:'nightmarkets',el:'page-nightmarkets',label:'Night Markets',         dot:'#c96b4a'},
-  {key:'morocco',     el:'page-morocco',     label:'Echoes of Morocco',     dot:'#b5734a'},
-  {key:'wildlife',    el:'page-wildlife',    label:'Wildlife',              dot:'#7d8a4a'},
+  {key:'morocco',     el:'page-morocco',     label:'Echoes of Morocco',     dot:'#EC5F0D'},
+  {key:'wildlife',    el:'page-wildlife',    label:'Wildlife',              dot:'#795C5F'},
+  {key:'scotland',    el:'page-scotland',    label:'Scotland',              dot:'#758AD1'},
 ];
 const PAGES={home:{el:'page-home'},frames:{el:'page-frames'},about:{el:'page-about'},contact:{el:'page-contact'}};
 FRAMES.forEach(f=>PAGES[f.key]={el:f.el,label:f.label,dot:f.dot});
@@ -1066,7 +1184,7 @@ const NAVKEYS=['home','frames','about','contact'];
 /* ----- sélecteur de frame (navbar mobile) + navigation prev/next ----- */
 let currentFrameIdx=-1;
 const fsEl=document.getElementById('frameswitch'),fsT=document.getElementById('fs-t'),
-      fsCount=document.getElementById('fs-count'),fsDot=document.getElementById('fs-dot');
+      fsDot=document.getElementById('fs-dot');
 function goFrameRel(dir){
   if(currentFrameIdx<0)return;
   const n=FRAMES.length;
@@ -1092,6 +1210,7 @@ function retintNav(){
     nav.style.background=fbg;
     nav.style.borderColor=fline;
     nav.classList.toggle('on-dark',dark);
+    nav.classList.toggle('on-light',!dark);   // frame à fond clair → logo/texte foncés
     document.body.style.background=fbg;
     if(menuEl){                                   // le menu déroulant hérite de la palette de la frame
       const fmuted=cs.getPropertyValue('--fmuted').trim();
@@ -1102,11 +1221,12 @@ function retintNav(){
       menuEl.style.setProperty('--line',fline);
       menuEl.style.setProperty('--accent',cs.getPropertyValue('--faccent').trim());
       menuEl.classList.toggle('on-dark',dark);
+      menuEl.classList.toggle('on-light',!dark);
     }
   }else{
-    nav.style.background='';nav.style.borderColor='';nav.classList.remove('on-dark');
+    nav.style.background='';nav.style.borderColor='';nav.classList.remove('on-dark','on-light');
     document.body.style.background='';
-    if(menuEl){MENU_VARS.forEach(p=>menuEl.style.removeProperty(p));menuEl.classList.remove('on-dark');}
+    if(menuEl){MENU_VARS.forEach(p=>menuEl.style.removeProperty(p));menuEl.classList.remove('on-dark','on-light');}
   }
 }
 function go(key,skipReveal){
@@ -1121,7 +1241,6 @@ function go(key,skipReveal){
   if(currentFrameIdx>=0){
     nav.classList.add('is-frame');
     if(fsT)fsT.textContent=p.label;
-    if(fsCount)fsCount.textContent=(currentFrameIdx+1)+' / '+FRAMES.length;
     if(fsDot)fsDot.style.background=p.dot||'';
     if(fsEl)fsEl.setAttribute('aria-hidden','false');
   }else{
@@ -1205,21 +1324,14 @@ FRAMES.forEach((f,i)=>{
   wrap.appendChild(box);
 });
 
-/* ===================== THEME ===================== */
-const toggle=document.getElementById('toggle'),ticon=document.getElementById('ticon');
-function applyTheme(t){
-  document.documentElement.dataset.theme=t;ticon.className=t==='night'?'ti ti-moon':'ti ti-sun';
-  try{localStorage.setItem('ff3-theme',t);}catch(e){}
-  retintNav();
-}
-toggle.addEventListener('click',()=>applyTheme(document.documentElement.dataset.theme==='night'?'day':'night'));
-(function(){let t;try{t=localStorage.getItem('ff3-theme');}catch(e){}if(!t){const h=new Date().getHours();t=(h<7||h>=19)?'night':'day';}applyTheme(t);})();
-
 /* ===================== FILTRES ===================== */
 document.querySelectorAll('.pills .pill').forEach(b=>b.addEventListener('click',()=>{
   const grp=b.closest('.pills');grp.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');
   const f=b.dataset.filter;if(!f)return;
   document.querySelectorAll('#listgrid .list-card').forEach(c=>c.classList.toggle('hide',!(f==='all'||c.dataset.cat===f)));
+  // catégorie sans album (Sports, Events) → on affiche un message plutôt qu'une zone vide
+  const empty=document.getElementById('listempty');
+  if(empty)empty.hidden=document.querySelectorAll('#listgrid .list-card:not(.hide)').length>0;
 }));
 
 /* ===================== REVEAL + PROGRESS ===================== */
@@ -1254,20 +1366,11 @@ function onScroll(){
 }
 window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll);}},{passive:true});
 
-/* [A16] bannière : « Fragments » est découpé en lettres, chacune décalée dans le temps,
-   pour la mise au point progressive. Le sous-titre « of my reality » est conservé tel quel. */
-(function bannerTitle(){
-  const h=document.querySelector('.banner h1');if(!h)return;
-  const of=h.querySelector('.of');
-  const first=h.firstChild;
-  const mot=(first&&first.nodeType===3?first.textContent:'').trim();
-  if(!mot)return;                                    // structure inattendue → on laisse le titre intact
-  const lettres=[...mot].map((c,i)=>'<span class="l" style="animation-delay:'+(0.25+i*0.075).toFixed(3)+'s">'+c+'</span>').join('');
-  h.innerHTML=lettres+(of?of.outerHTML:'');          // dernière lettre nette à ~2,1s, sous-titre à ~2,6s
-})();
+/* [A16] bannière : le titre calligraphié (Pinyon Script) arrive d'un seul bloc (voir CSS).
+   On ne découpe plus « Fragments » lettre par lettre — une police cursive liée se briserait. */
 
 /* [A2] titre de frame : découpé en mots pour une arrivée en cascade */
-document.querySelectorAll('.frame-page .chap-hero h1').forEach(h=>{
+document.querySelectorAll('.frame-page .chap-cap h1,.frame-page .chap-txt h1').forEach(h=>{
   const words=h.textContent.trim().split(/\s+/);
   h.innerHTML=words.map((w,i)=>'<span class="w" style="animation-delay:'+(0.26+i*0.09).toFixed(2)+'s">'+w+'</span>').join(' ');
 });
@@ -1294,15 +1397,16 @@ document.querySelectorAll('.pills .pill').forEach(b=>b.addEventListener('click',
   hf.addEventListener('mouseleave',()=>{hf.style.transform='';});
 })();
 
-/* [A9] bouton Instagram magnétique : il vient légèrement vers le curseur */
+/* [A9] boutons de contact magnétiques : ils viennent légèrement vers le curseur */
 (function(){
-  const b=document.querySelector('.ig-btn');
-  if(!b||REDUCE||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
-  b.addEventListener('mousemove',e=>{
-    const r=b.getBoundingClientRect();
-    b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18).toFixed(1)+'px,'+((e.clientY-r.top-r.height/2)*.28).toFixed(1)+'px)';
+  if(REDUCE||!matchMedia('(hover:hover) and (pointer:fine)').matches)return;
+  document.querySelectorAll('.ig-btn').forEach(b=>{
+    b.addEventListener('mousemove',e=>{
+      const r=b.getBoundingClientRect();
+      b.style.transform='translate('+((e.clientX-r.left-r.width/2)*.18).toFixed(1)+'px,'+((e.clientY-r.top-r.height/2)*.28).toFixed(1)+'px)';
+    });
+    b.addEventListener('mouseleave',()=>{b.style.transform='';});
   });
-  b.addEventListener('mouseleave',()=>{b.style.transform='';});
 })();
 
 /* [A11] retour tactile des flèches prev/next */
