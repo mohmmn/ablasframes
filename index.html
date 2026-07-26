@@ -8,7 +8,11 @@
 <meta name="theme-color" content="#F6F3E4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pinyon+Script&family=Petit+Formal+Script&display=swap" rel="stylesheet">
+<!-- Cormorant Garamond = police de TITRAGE (élégante, déliée, très présente sur les portfolios de
+     photographes). Libre Baskerville = texte courant et étiquettes, inchangée.
+     Les deux cursives d'origine (Pinyon Script, Petit Formal Script) ont été retirées : elles ne
+     stylaient plus aucun élément du HTML et se téléchargeaient pour rien. -->
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
 <style>
 /* ============================================================
@@ -28,6 +32,7 @@
      ============================================================ */
   --bg:#F6F3E4;            /* crème — fond unique du site */
   --bg-soft:#EDE9D6;       /* crème légèrement plus dense (cases de photo en attente) */
+  --bg-intro:#E8E1C8;      /* beige soutenu — réservé à la section « Introduction » */
   --text:#1F1C16;          /* brun-noir */
   --muted:#6B6455;
   --faint:#706957;         /* 4,9:1 sur crème — l'ancien #6C6B63 clair y tombait à 2,8:1 */
@@ -41,6 +46,18 @@
   --star-glow:rgba(176,141,87,.55);
   --ease:cubic-bezier(.16,1,.3,1);
   --maxw:1200px;
+
+  /* ============================================================
+     TYPOGRAPHIE — deux rôles, deux polices
+     --font-display : TITRES et chapôs. Cormorant Garamond : déliée, contrastée, italique
+                      soignée — la coupe qu'on retrouve sur les portfolios de photographes.
+     Libre Baskerville (posée sur `body`) reste le TEXTE COURANT et surtout TOUTES LES
+     PETITES ÉTIQUETTES en capitales espacées, qui l'héritent sans la redéclarer :
+     .frow-s (« Travel »), .eyebrow, .nav a, .tag, les légendes… — inchangées.
+     Sur une même ligne d'album on lit donc « Thailand » en Cormorant et « Travel »
+     en Libre Baskerville : c'est ce contraste qui crée la hiérarchie.
+     ============================================================ */
+  --font-display:'Cormorant Garamond',Georgia,serif;
   /* cadre des tirages — 6px sur PC, 4px sur mobile (voir @media max-width:760px)
      BLANC PUR : sur fond crème, l'ancien #F0EDE6 se confondait avec la page. */
   --frame-w:6px;
@@ -62,8 +79,7 @@
 html{scroll-behavior:smooth;}
 body{font-family:'Libre Baskerville',serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);}
-.serif{font-family:'Libre Baskerville',serif;}
-.hw{font-family:'Petit Formal Script',cursive;}
+.serif{font-family:var(--font-display);}
 img{display:block;max-width:100%;}
 /* toutes les couches image : recadrage propre */
 .img,.pic{background-size:cover;background-position:center;background-repeat:no-repeat;}
@@ -135,7 +151,7 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45
 .fs-name{flex:0 1 auto;min-width:0;display:flex;flex-direction:column;align-items:center;gap:1px;background:none;border:none;cursor:pointer;padding:0 2px;line-height:1.1;}
 .fs-name .fs-dot{display:none;}
 /* seul le titre de la frame, centré entre les deux flèches (ni numérotation, ni catégorie) */
-.fs-t{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:17px;color:var(--text);max-width:54vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.fs-t{font-family:var(--font-display);font-style:italic;font-weight:400;font-size:20px;color:var(--text);max-width:54vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
 .nav.on-dark .fs-arrow{color:rgba(255,255,255,.72);border-color:rgba(255,255,255,.34);}
 .nav.on-dark .fs-arrow:hover{color:#fff;border-color:#fff;}
 .nav.on-dark .fs-t{color:#fff;}
@@ -158,7 +174,7 @@ body.menu-open .menu{transform:translateY(0);opacity:1;visibility:visible;
 .menu-inner{max-width:var(--maxw);margin:0 auto;}
 .menu-links{display:flex;flex-direction:column;}
 .menu-links a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 2px;cursor:pointer;text-decoration:none;color:var(--text);
-  font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:27px;line-height:1;
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:31px;line-height:1;
   border-bottom:.5px solid var(--line);
   opacity:0;transform:translateY(10px);transition:color .3s;}
 body.menu-open .menu-links a{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s;}
@@ -204,9 +220,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(20,14,8,.18) 100%);}
 .banner-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;}
 .banner .kicker{font-size:13px;letter-spacing:.5em;text-transform:uppercase;color:#ECCF92;margin-bottom:30px;text-shadow:0 1px 12px rgba(0,0,0,.4);opacity:0;animation:rise 1.1s var(--ease) .2s forwards;}
-.banner h1{font-family:'Pinyon Script',cursive;font-style:normal;font-weight:400;line-height:1.1;color:#FBF3E6;
-  font-size:clamp(74px,15vw,208px);letter-spacing:0;text-shadow:0 4px 40px rgba(0,0,0,.4);opacity:0;animation:rise 1.3s var(--ease) .4s forwards;}
-.banner h1 .of{display:block;font-family:'Libre Baskerville',serif;font-size:.3em;font-style:italic;color:#ECCF92;letter-spacing:.04em;margin-top:.05em;text-shadow:0 2px 20px rgba(0,0,0,.4);}
 .banner .ornz{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:38px;opacity:0;animation:rise 1.3s var(--ease) .7s forwards;}
 .banner .ornz .ln{width:80px;height:.5px;background:rgba(251,243,230,.45);}
 .banner .tagline{margin-top:22px;font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:rgba(251,243,230,.72);text-shadow:0 1px 10px rgba(0,0,0,.4);opacity:0;animation:rise 1.3s var(--ease) .9s forwards;}
@@ -219,13 +232,19 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .discover .ring i{font-size:18px;line-height:1;display:block;animation:bob 2.2s ease-in-out infinite;}
 @keyframes bob{0%,100%{transform:translateY(-3px);}50%{transform:translateY(4px);}}
 
-/* ===================== HOME · SECTION HÉRO (texte + image encadrée) ===================== */
-.home-hero{padding:var(--sec-gap) 0;}
+/* ===================== HOME · SECTION HÉRO (texte + image encadrée) =====================
+   Seule section du site posée sur un beige PLUS SOUTENU que le reste de la page : elle se
+   détache ainsi juste sous la bannière. Le padding vertical est renforcé pour que la bande
+   de couleur respire au lieu de coller au texte. Tout le reste garde le crème habituel. */
+.home-hero{padding:calc(var(--sec-gap) * 1.9) 0;background:var(--bg-intro);
+  /* Le beige étant plus soutenu que le crème, l'accent et le gris de texte y perdaient du
+     contraste (4,3:1 et 4,5:1, sous le seuil lisible). On les fonce d'un cran, UNIQUEMENT ici. */
+  --accent:#71572A;--muted:#5F5949;}
 .hero-2col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
 .hero-txt{text-align:left;}
 .hero-txt .eyebrow{margin-bottom:16px;}
-.hero-txt h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(30px,3.6vw,48px);line-height:1.12;color:var(--text);margin-bottom:26px;}
-.hero-intro{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2vw,24px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
+.hero-txt h2{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(34px,4.2vw,56px);line-height:1.12;color:var(--text);margin-bottom:26px;}
+.hero-intro{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(20px,2.3vw,28px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
   box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
@@ -247,7 +266,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* ===================== HOME · SÉLECTION (tirages encadrés — v2) ===================== */
 .selection{padding:var(--sec-gap) 0;}
 .sel-lead{text-align:left;margin-bottom:var(--lead-gap);}
-.sel-lead h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);margin-bottom:10px;}
+.sel-lead h2{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(30px,4vw,49px);color:var(--text);margin-bottom:10px;}
 .sel-lead p{color:var(--muted);font-size:15px;}
 .sel-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:30px;}
 .sel-cell{position:relative;overflow:hidden;cursor:default;background:var(--frame-c);
@@ -268,7 +287,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .frames-section{padding:var(--sec-gap) 0 calc(var(--sec-gap) * 1.4);}
 .frames-section .lead{text-align:left;margin-bottom:var(--lead-gap);}
 .frames-section .lead .e{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-.frames-section .lead h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(26px,3.4vw,42px);color:var(--text);}
+.frames-section .lead h2{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(30px,4vw,49px);color:var(--text);}
 /* frames en bandes panoramiques fines (façon "À propos") — pas de cadre photo classique
    NOTE cadrage : la plupart des photos sources sont en PORTRAIT (1066x1600). Un ratio trop
    panoramique (l'ancien 32/7 = 4.6:1) n'en montrait qu'une tranche de ~14% prise au centre —
@@ -290,11 +309,11 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .frame-row:hover .frow-arrow{opacity:1;transform:none;}
 
 /* mobile : bande encore moins panoramique → on garde davantage de la photo */
-@media(max-width:880px){.hero-imgs{grid-template-columns:1fr;}.pf-frame{aspect-ratio:4/3;}.frow-pano{aspect-ratio:16/9;}.frow-meta{gap:12px;padding:12px 4px 18px;}.frow-t{font-size:19px;}}
+@media(max-width:880px){.hero-imgs{grid-template-columns:1fr;}.pf-frame{aspect-ratio:4/3;}.frow-pano{aspect-ratio:16/9;}.frow-meta{gap:12px;padding:12px 4px 18px;}.frow-t{font-size:22px;}}
 
 /* ===================== reste du site ===================== */
 .eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
-.sec-h{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(28px,4vw,46px);line-height:1.08;color:var(--text);}
+.sec-h{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(32px,4.6vw,54px);line-height:1.08;color:var(--text);}
 .embro{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto;}.embro .ln{height:.5px;width:50px;background:var(--line-strong);}
 
 /* ===== EN-TÊTE DE FRAME =====
@@ -308,11 +327,11 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .chap-cap .meta{display:flex;align-items:center;gap:15px;margin-bottom:12px;}
 .chap-cap .meta .t{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:#FFF6EE;white-space:nowrap;text-shadow:0 1px 10px rgba(0,0,0,.45);}
 .chap-cap .meta .meta-rule{flex:none;height:1px;width:clamp(56px,13vw,168px);background:rgba(255,246,238,.55);}
-.chap-cap h1{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(34px,7vw,58px);line-height:1.02;}
+.chap-cap h1{font-family:var(--font-display);font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(39px,8vw,67px);line-height:1.02;}
 .chap-txt{padding:var(--sec-gap) 22px 0;}
 .chap-txt>.meta,.chap-txt>h1{display:none;}                 /* méta+titre déjà superposés sur la photo (mobile) */
 .chap-intro{padding:0;}
-.chap-intro p{font-family:'Libre Baskerville',serif;font-size:clamp(18px,2.2vw,24px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;}
+.chap-intro p{font-family:var(--font-display);font-size:clamp(20px,2.5vw,28px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;}
 /* PC : split photo (gauche) / titre + description (droite) — corrige aussi la netteté (photo en demi-largeur) */
 @media(min-width:881px){
   /* photo PLUS PETITE à gauche (colonne ~300px), colonne texte alignée EN HAUT :
@@ -328,9 +347,9 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .frame-page .chap-txt>.meta{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
   .frame-page .chap-txt>.meta .t{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--faccent);white-space:nowrap;}
   .frame-page .chap-txt>.meta .meta-rule{flex:1;max-width:160px;height:1px;background:var(--faccent);opacity:.5;}
-  .frame-page .chap-txt>h1{display:block;font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;color:var(--ftext);font-size:clamp(44px,5vw,68px);line-height:1.03;margin-bottom:28px;}
+  .frame-page .chap-txt>h1{display:block;font-family:var(--font-display);font-style:italic;font-weight:300;color:var(--ftext);font-size:clamp(50px,5.8vw,78px);line-height:1.03;margin-bottom:28px;}
   .frame-page .chap-txt .chap-intro{text-align:left;}
-  .frame-page .chap-txt .chap-intro p{font-size:clamp(19px,1.6vw,25px);line-height:1.7;color:var(--ftext);max-width:56ch;margin:0;text-align:left;opacity:.94;}
+  .frame-page .chap-txt .chap-intro p{font-size:clamp(21px,1.85vw,29px);line-height:1.7;color:var(--ftext);max-width:56ch;margin:0;text-align:left;opacity:.94;}
 }
 
 .gallery{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;grid-auto-flow:dense;}
@@ -359,10 +378,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .list-card.show-in{animation:cardIn .38s var(--ease) both;}
 @keyframes cardIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 .list-card .thumb{height:230px;position:relative;overflow:hidden;}.list-card .thumb .img{position:absolute;inset:0;transition:transform 1s var(--ease);}.list-card:hover .thumb .img{transform:scale(1.06);}
-.list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:19px;}.list-card .meta .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
+.list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:var(--font-display);font-style:italic;font-weight:400;font-size:19px;}.list-card .meta .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
 /* message affiché quand un filtre ne contient encore aucun album (évite une page vide) */
-.list-empty{padding:44px 0;text-align:center;font-family:'Libre Baskerville',serif;font-style:italic;
-  font-size:19px;color:var(--muted);}
+.list-empty{padding:44px 0;text-align:center;font-family:var(--font-display);font-style:italic;
+  font-size:22px;color:var(--muted);}
 .list-empty[hidden]{display:none;}
 
 /* navigation frame précédente / suivante */
@@ -404,7 +423,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .about-h{font-family:'Libre Baskerville',serif;text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
   padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
 .about-txt p{font-size:15px;line-height:2.05;color:var(--muted);margin-bottom:22px;}
-.about-txt .sig{font-family:'Petit Formal Script',cursive;font-size:30px;color:var(--accent);margin-top:8px;}
+.about-txt .sig{font-family:var(--font-display);font-size:34px;color:var(--accent);margin-top:8px;}
 .about-gal{display:flex;flex-direction:column;gap:22px;}
 .pano{position:relative;aspect-ratio:21/9;overflow:hidden;border-radius:4px;background:var(--bg-soft);
   box-shadow:0 18px 40px -22px rgba(60,40,20,.42),inset 0 0 0 1px var(--line);}
@@ -424,38 +443,27 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .about-gal .pano{aspect-ratio:auto;flex:1 1 0;min-height:0;}
 }
 
-/* ----- MOBILE : texte et photos s'alternent -----
-   Sur une seule colonne, .about-txt et .about-gal passent en display:contents : leurs enfants
-   deviennent donc les enfants directs de la grille .about-col, ce qui permet de les entrelacer
-   avec `order` (paragraphe → photo → paragraphe → photo …). */
+/* ----- MOBILE : TOUT LE TEXTE, PUIS TOUTES LES PHOTOS -----
+   Les photos ne s'intercalent plus entre les paragraphes. `.about-txt` et `.about-gal`
+   restent donc deux blocs distincts, empilés dans l'ordre du HTML — on a retiré le
+   `display:contents` + les `order` qui servaient à les entrelacer. */
 @media(max-width:880px){
   /* align-items:stretch est INDISPENSABLE : la règle desktop pose align-items:start, or en
      colonne flex cela empêche l'étirement et chaque élément prend sa largeur intrinsèque.
      Un .pano ne contient qu'une image en position:absolute → largeur intrinsèque nulle
      → les photos disparaissaient en ne laissant qu'un espace vide. */
-  .about-col{display:flex;flex-direction:column;align-items:stretch;gap:26px;}
-  .about-txt,.about-gal{display:contents;}
-  .about-txt p{margin-bottom:0;}
-  .about-h{margin-bottom:0;order:0;}
-  .about-txt p:nth-of-type(1){order:1;}
-  .about-gal .pano:nth-child(1){order:2;}
-  .about-txt p:nth-of-type(2){order:3;}
-  .about-gal .pano:nth-child(2){order:4;}
-  .about-txt p:nth-of-type(3){order:5;}
-  .about-gal .pano:nth-child(3){order:6;}
-  .about-txt p:nth-of-type(4){order:7;}
-  .about-gal .pano:nth-child(4){order:8;}
+  .about-col{display:flex;flex-direction:column;align-items:stretch;gap:30px;}
   /* hauteur des photos sur mobile : c'est LA valeur à régler.
      Plus le 1er nombre est grand, plus la bande est fine (3/1 → hauteur = largeur / 3).
-     Repères : 2/1 = 173px · 5/2 = 138px · 3/1 = 115px (actuel) · 7/2 = 99px */
-  .pano{aspect-ratio:3/1;}
+     Repères : 2/1 = 173px · 5/2 = 138px · 3/1 = 115px · 7/2 = 99px */
+  .pano{aspect-ratio:5/2;}
 }
 
 /* ===================== CONTACT (Instagram mis en avant) ===================== */
 .contact{padding:calc(var(--sec-gap) * 1.3) 0;}
 .contact .lead{text-align:center;margin-bottom:var(--lead-gap);}
 .contact .lead .eyebrow{margin-bottom:18px;}
-.contact .lead h1{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(38px,5.5vw,66px);line-height:1.05;color:var(--text);}
+.contact .lead h1{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(44px,6.3vw,76px);line-height:1.05;color:var(--text);}
 .contact .lead .sub{margin-top:22px;font-size:15px;color:var(--muted);max-width:520px;margin-left:auto;margin-right:auto;}
 /* cartes de contact : Instagram + e-mail, côte à côte sur PC, empilées sur mobile */
 .contact-cards{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:stretch;max-width:1040px;margin:0 auto;}
@@ -471,7 +479,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .mail-card .ig-btn{color:#7A4A22;}
 /* L'adresse est bien plus longue qu'un pseudo : nettement réduite pour tenir en entier, sur une
    seule ligne, même sur les petits écrans. `break-word` reste un filet de sécurité. */
-.mail-card h2{font-size:clamp(15px,4vw,21px);word-break:break-word;letter-spacing:-.01em;}
+/* Sélecteur doublé `.ig-card.mail-card` À DESSEIN : la carte porte LES DEUX classes, et
+   `.ig-card h2` (même spécificité, déclarée plus bas) l'emportait — la réduction ne s'appliquait
+   donc pas et l'adresse restait affichée en 39px. */
+.ig-card.mail-card h2{font-size:clamp(20px,6vw,30px);word-break:break-word;letter-spacing:-.01em;}
 .ig-card::before{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.6'/></svg>");}
 .ig-card .inner{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center;}
@@ -481,7 +492,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* carte Instagram : le logo ablas frames (blanc) remplace l'icône de marque — plus personnel */
 .ig-card .ig-ico img{width:auto;height:42px;}
 .ig-card .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:14px;}
-.ig-card h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:clamp(34px,5vw,52px);line-height:1;margin-bottom:14px;}
+.ig-card h2{font-family:var(--font-display);font-style:italic;font-weight:400;font-size:clamp(39px,5.8vw,60px);line-height:1;margin-bottom:14px;}
 .ig-card p{font-size:14.5px;color:rgba(255,255,255,.9);max-width:440px;margin:0 auto 32px;line-height:1.7;}
 .ig-btn{display:inline-flex;align-items:center;gap:11px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
   color:#7a1650;background:#fff;border-radius:40px;padding:17px 40px;text-decoration:none;
@@ -536,7 +547,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   /* titre de la home remonté sur mobile : on aligne en haut plutôt qu'au centre, puis on règle
      la hauteur avec `padding-top` ci-dessous — plus petit = plus haut, plus grand = plus bas. */
   .banner{min-height:40vh;padding:54px 24px;justify-content:flex-start;padding-top:8vh;}
-  .banner h1{font-size:clamp(54px,17vw,88px);}
   .discover{bottom:18px;}
   .chap-photo{height:46vh;min-height:300px;}
   .home-hero,.selection,.frames-section{padding-left:0;padding-right:0;}
@@ -574,7 +584,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 @keyframes seamOut{from{opacity:.9;transform:scaleX(1);}to{opacity:0;transform:scaleX(0);}}
 /* nom de la frame, révélé le temps que l'obturateur est fermé */
 .shutter .sh-name{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;
-  font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(24px,4vw,40px);
+  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(28px,4.6vw,46px);
   color:#FBF3E6;opacity:0;letter-spacing:.02em;}
 .shutter.close .sh-name{animation:shName .34s .12s var(--ease) forwards;}
 .shutter.open  .sh-name{animation:shNameOut .2s ease-in forwards;}
@@ -584,20 +594,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .shutter.open .flash{animation:flashPop .4s ease-out;}
 @keyframes flashPop{0%{opacity:.5;}100%{opacity:0;}}
 
-/* [A16] BANNIÈRE — arrivée « mise au point » du titre calligraphié, d'un seul bloc.
-   La police cursive (Pinyon Script) est liée : on ne peut pas la découper lettre par lettre
-   sans casser les liaisons, donc tout le mot apparaît ensemble (flou → net). */
-.banner h1{opacity:0;animation:lensFocus 1.5s var(--ease) .25s both;}
-@keyframes lensFocus{
-  0%{opacity:0;filter:blur(16px);transform:translateY(26px) scale(1.06);}
-  60%{opacity:1;}
-  100%{opacity:1;filter:blur(0);transform:none;}
-}
-.banner h1 .of{opacity:0;animation:ofFocus 1.1s var(--ease) 1.15s both;}
-@keyframes ofFocus{
-  0%{opacity:0;filter:blur(8px);letter-spacing:.34em;transform:translateY(10px);}
-  100%{opacity:1;filter:blur(0);letter-spacing:.04em;transform:none;}
-}
 
 /* [A2] TITRE DE FRAME révélé mot à mot (remplace l'arrivée en bloc du titre) */
 .frame-page.active .chap-cap h1,.frame-page.active .chap-txt h1{animation:none;}
@@ -1427,8 +1423,6 @@ function onScroll(){
 }
 window.addEventListener('scroll',()=>{if(!ticking){ticking=true;requestAnimationFrame(onScroll);}},{passive:true});
 
-/* [A16] bannière : le titre calligraphié (Pinyon Script) arrive d'un seul bloc (voir CSS).
-   On ne découpe plus « Fragments » lettre par lettre — une police cursive liée se briserait. */
 
 /* [A2] titre de frame : découpé en mots pour une arrivée en cascade */
 document.querySelectorAll('.frame-page .chap-cap h1,.frame-page .chap-txt h1').forEach(h=>{
