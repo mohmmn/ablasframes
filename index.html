@@ -1047,32 +1047,47 @@ document.documentElement.classList.add('blur-up');
 (function(){const d=document.getElementById('discover');if(d)d.addEventListener('click',()=>document.getElementById('home-hero').scrollIntoView({behavior:'smooth'}));})();
 
 /* ===================== GALERIES (génération auto · toutes les photos · sans vide) ===================== */
-/* ---- PROPORTIONS CONNUES D'AVANCE ----------------------------------------------------------
-   La mosaïque a besoin du RATIO de chaque photo pour se composer. Avant, ce ratio n'était connu
-   qu'une fois l'image téléchargée : la galerie se dessinait donc « au jugé » puis se réagençait
-   à chaque arrivée de photo — d'où l'impression, sur mobile, qu'il faut attendre que ça se range.
-   On déclare donc les formats ici : la mise en page est JUSTE dès le tout premier rendu.
-
-   Format par défaut : PORTRAIT 1066x1600 (≈ 3 photos sur 4). Seules les EXCEPTIONS sont listées :
-     land : paysage  1600x1066      p34 : portrait 1200x1600
-     skip : numéros manquants (photo supprimée) — aucune case n'est réservée pour eux
-
-   SI VOUS AJOUTEZ / RETIREZ UNE PHOTO sans mettre ces listes à jour, le site reste correct :
-   il retombe simplement sur l'ancien comportement (mesure au chargement) pour cette photo-là. */
-const R_PORT=1066/1600, R_LAND=1600/1066, R_P34=1200/1600;
+/* ---- ALBUMS : où trouver les photos ---- */
 const GAL={
-  thailand:{dir:'travel/thailand',pre:'thai',n:24,label:'Thailand',skip:[11],land:[3,13,18,21,24]},
-  bali:{dir:'travel/bali',pre:'bali',n:15,label:'Bali',skip:[14],land:[1,2,3,4,5,8,11,13,15],p34:[6,7]},
-  hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',n:6,label:'Hyde Park Nostalgia',skip:[4]},
-  nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',n:3,label:'Night Markets',skip:[1],land:[2,3]},
-  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',n:17,label:'Echoes of Morocco',skip:[9]},
-  wildlife:{dir:'wildlife',pre:'wild',n:6,label:'Wildlife',skip:[1]},
-  scotland:{dir:'travel/scotland',pre:'scotland',n:8,label:'Scotland',skip:[1],p34:[3,5,8]},
+  thailand:{dir:'travel/thailand',pre:'thai',label:'Thailand'},
+  bali:{dir:'travel/bali',pre:'bali',label:'Bali'},
+  hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',label:'Hyde Park Nostalgia'},
+  nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',label:'Night Markets'},
+  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',label:'Echoes of Morocco'},
+  wildlife:{dir:'wildlife',pre:'wild',label:'Wildlife'},
+  scotland:{dir:'travel/scotland',pre:'scotland',label:'Scotland'},
 };
-/* Chaque image devient une <img> réelle : on connaît ses proportions d'avance (voir GAL ci-dessus),
+
+/* ---- DIMENSIONS RÉELLES DE CHAQUE PHOTO ----------------------------------------------------
+   La mosaïque a besoin du RATIO de chaque photo pour se composer. S'il n'est connu qu'une fois
+   l'image téléchargée, la galerie se dessine « au jugé » puis se réagence à chaque arrivée de
+   photo — d'où l'impression, sur mobile, qu'il faut attendre que ça se range.
+   Les vraies largeur/hauteur sont donc fournies ICI, en amont : la mise en page est exacte dès
+   le tout premier rendu, avant le moindre octet d'image.
+
+   Format : album:{ n° de photo:[largeur,hauteur], … }
+   Un numéro ABSENT = photo inexistante : aucune case n'est réservée pour elle.
+
+   ⚠ BLOC GÉNÉRÉ — ne pas éditer à la main.
+   Après tout ajout / suppression / remplacement de photo, régénérer avec :
+       node tools/scan-photos.js
+   (le script relit les fichiers du dossier photographies/ et réécrit ce bloc tout seul)         */
+/* >>> PHOTO-DIM-START <<< */
+const DIM={
+  thailand:{1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],12:[1066,1600],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1066,1600],21:[1600,1066],22:[1066,1600],23:[1066,1600],24:[1600,1066]},
+  bali:{1:[1600,1066],2:[1600,1066],3:[1600,1066],4:[1600,1066],5:[1600,1068],6:[1200,1600],7:[1200,1600],8:[1600,1066],9:[1066,1600],10:[1066,1600],11:[1600,1066],12:[1066,1600],13:[1600,1066],15:[1600,1066]},
+  hydepark:{1:[1066,1600],2:[1066,1600],3:[1066,1600],5:[1066,1600],6:[1066,1600]},
+  nightmarkets:{2:[1600,1066],3:[1600,1066]},
+  morocco:{1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1066,1600],13:[1066,1600],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600]},
+  wildlife:{2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600]},
+  scotland:{2:[1066,1600],3:[1200,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1066,1600],8:[1200,1600]},
+};
+/* >>> PHOTO-DIM-END <<< */
+
+/* Chaque image devient une <img> réelle, dont les proportions sont connues d'avance (DIM),
    puis on dispose la galerie en « mosaïque justifiée » (rangées de même hauteur,
    pleine largeur, sans recadrage). */
-function ratioOf(fig){return fig._ratio||R_PORT;}
+function ratioOf(fig){return fig._ratio||1.5;}
 function justify(gallery){
   if(!gallery)return;
   const items=[...gallery.children].filter(el=>el.classList&&el.classList.contains('gitem'));
@@ -1139,21 +1154,21 @@ function justifyActive(){document.querySelectorAll('.page.active .gallery').forE
 
 Object.entries(GAL).forEach(([key,g])=>{
   const host=document.getElementById('gal-'+key);if(!host)return;
-  const skip=g.skip||[],land=g.land||[],p34=g.p34||[];
+  const dim=DIM[key]||{};
   let html='';
-  for(let i=1;i<=g.n;i++){
-    if(skip.includes(i))continue;   // trou connu : aucune case réservée, donc rien à retirer ensuite
-    const r=land.includes(i)?R_LAND:(p34.includes(i)?R_P34:R_PORT);
+  // on parcourt les photos RÉELLEMENT présentes (clés de DIM), dans l'ordre des numéros
+  Object.keys(dim).map(Number).sort((a,b)=>a-b).forEach(i=>{
+    const w=dim[i][0],h=dim[i][1];
     const src='photographies/categories/'+g.dir+'/'+g.pre+'-'+i+'.jpeg';
-    html+='<figure class="gitem" data-r="'+r.toFixed(4)+'"><img class="gimg" src="'+src+'" alt="'+g.label+' — '+i+'" loading="lazy"><span class="gzoom"><i class="ti ti-zoom-in"></i></span></figure>';
-  }
+    // width/height sur la balise : le navigateur réserve nativement le bon rapport d'aspect
+    html+='<figure class="gitem" data-r="'+(w/h).toFixed(4)+'"><img class="gimg" width="'+w+'" height="'+h+'" src="'+src+'" alt="'+g.label+' — '+i+'" loading="lazy"><span class="gzoom"><i class="ti ti-zoom-in"></i></span></figure>';
+  });
   host.innerHTML=html;
   host.querySelectorAll('img.gimg').forEach(img=>{
     const fig=img.closest('.gitem');
-    fig._ratio=parseFloat(fig.dataset.r)||R_PORT;   // proportions déclarées → 1re mise en page déjà juste
-    // Image manquante non déclarée dans `skip` : on retire la vignette de la galerie. Aucune icône
-    // cassée ni case vide — la mosaïque se recompose toute seule. Robuste à n'importe quel trou,
-    // présent ou futur, sans toucher au code.
+    fig._ratio=parseFloat(fig.dataset.r)||1.5;   // dimensions déclarées → 1re mise en page déjà juste
+    // Filet de sécurité si le manifeste n'a pas été régénéré : photo supprimée mais encore listée
+    // → on retire la vignette. Aucune icône cassée ni case vide, la mosaïque se recompose seule.
     const fail=()=>{fig.remove();justifyQueued(host);};
     // [A4] .ready déclenche le passage flou → net.
     const done=()=>{
