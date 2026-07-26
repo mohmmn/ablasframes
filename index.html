@@ -582,14 +582,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .shutter.open  .seam{animation:seamOut .3s ease-in forwards;}
 @keyframes seamIn{from{opacity:0;transform:scaleX(0);}to{opacity:.9;transform:scaleX(1);}}
 @keyframes seamOut{from{opacity:.9;transform:scaleX(1);}to{opacity:0;transform:scaleX(0);}}
-/* nom de la frame, révélé le temps que l'obturateur est fermé */
-.shutter .sh-name{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;
-  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(28px,4.6vw,46px);
-  color:#FBF3E6;opacity:0;letter-spacing:.02em;}
-.shutter.close .sh-name{animation:shName .34s .12s var(--ease) forwards;}
-.shutter.open  .sh-name{animation:shNameOut .2s ease-in forwards;}
-@keyframes shName{from{opacity:0;transform:translateY(-50%) scale(.96);}to{opacity:.92;transform:translateY(-50%) scale(1);}}
-@keyframes shNameOut{to{opacity:0;}}
+/* (le nom de la frame ne s'affiche plus pendant l'obturateur : volets, liseré et flash seuls) */
 .shutter .flash{position:absolute;inset:0;background:#fff;opacity:0;}
 .shutter.open .flash{animation:flashPop .4s ease-out;}
 @keyframes flashPop{0%{opacity:.5;}100%{opacity:0;}}
@@ -665,7 +658,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   <span class="blade t"></span>
   <span class="blade b"></span>
   <span class="seam"></span>
-  <span class="sh-name" id="sh-name"></span>
   <span class="flash"></span>
 </div>
 
@@ -1320,7 +1312,7 @@ function go(key,skipReveal){
 }
 /* ===================== [A1] OUVERTURE D'UNE FRAME : OBTURATEUR ===================== */
 const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
-const shutter=document.getElementById('shutter'),shName=document.getElementById('sh-name');
+const shutter=document.getElementById('shutter');
 let shBusy=false;
 /* ouvre une frame derrière un obturateur : volets qui se ferment → bascule de page → flash → réouverture */
 function openFrame(key){
@@ -1333,7 +1325,6 @@ function openFrame(key){
   const dark=cs&&cs.getPropertyValue('--fdark').trim()==='1';
   shutter.style.setProperty('--sh-bg',dark?'#0B0906':'#1C1610');
   shutter.style.setProperty('--sh-accent',(cs&&cs.getPropertyValue('--faccent').trim())||'var(--gold)');
-  if(shName)shName.textContent=p.label||'';
   shutter.classList.add('run','close');
   setTimeout(()=>{                       // volets fermés : on change de page à l'abri des regards
     go(key);
