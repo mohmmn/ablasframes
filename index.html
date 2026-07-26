@@ -114,7 +114,9 @@ section.pad{padding:var(--sec-gap) 0;}
 
 /* ===================== BURGER + MENU MOBILE (plein écran) ===================== */
 .burger{display:none;flex-direction:column;justify-content:center;gap:5px;width:30px;height:26px;background:none;border:none;padding:0;cursor:pointer;}
-.burger span{display:block;height:1.5px;width:24px;background:var(--text);border-radius:2px;transition:transform .45s var(--ease),opacity .3s,width .45s var(--ease);}
+.burger span{display:block;height:1.5px;width:24px;background:var(--text);border-radius:2px;}
+/* le trait ne s'anime QU'À L'OUVERTURE : au repli, l'état visé n'a plus de transition → retour instantané */
+body.menu-open .burger span{transition:transform .45s var(--ease),opacity .3s,width .45s var(--ease);}
 .burger span:nth-child(2){width:17px;}
 body.menu-open .burger span:nth-child(1){transform:translateY(6.5px) rotate(45deg);width:24px;}
 body.menu-open .burger span:nth-child(2){opacity:0;}
@@ -139,21 +141,25 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45
 .nav.on-light .fs-arrow:hover{color:#111;border-color:#111;}
 .nav.on-light .fs-t{color:#111;}
 
-/* menu déroulant sous la navbar (mobile) */
+/* menu déroulant sous la navbar (mobile)
+   L'ANIMATION EST PORTÉE PAR L'ÉTAT OUVERT UNIQUEMENT : une transition CSS se joue d'après le
+   style VISÉ. À l'ouverture, le style visé (`body.menu-open .menu`) porte la transition → le menu
+   se déroule. À la fermeture, le style visé (`.menu`) n'en a pas → le menu disparaît net.
+   Même principe pour les liens et le burger ci-dessous. */
 .menu{position:fixed;top:0;left:0;right:0;z-index:150;
   background:color-mix(in srgb,var(--bg) 97%,transparent);backdrop-filter:blur(10px);
   border-bottom:.5px solid var(--line);box-shadow:0 24px 44px -26px rgba(60,40,20,.55);
   padding:92px 24px 24px;
-  transform:translateY(-100%);opacity:0;visibility:hidden;
-  transition:transform .5s var(--ease),opacity .4s var(--ease),visibility .5s;}
-body.menu-open .menu{transform:translateY(0);opacity:1;visibility:visible;}
+  transform:translateY(-100%);opacity:0;visibility:hidden;transition:none;}
+body.menu-open .menu{transform:translateY(0);opacity:1;visibility:visible;
+  transition:transform .5s var(--ease),opacity .4s var(--ease);}
 .menu-inner{max-width:var(--maxw);margin:0 auto;}
 .menu-links{display:flex;flex-direction:column;}
 .menu-links a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 2px;cursor:pointer;text-decoration:none;color:var(--text);
   font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:27px;line-height:1;
   border-bottom:.5px solid var(--line);
-  opacity:0;transform:translateY(10px);transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s;}
-body.menu-open .menu-links a{opacity:1;transform:none;}
+  opacity:0;transform:translateY(10px);transition:color .3s;}
+body.menu-open .menu-links a{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s;}
 /* page active : SEULE la couleur change — aucun décalage ni changement de taille
    (l'ancien padding-left:8px faisait glisser le titre vers la droite) */
 .menu-links a:hover,.menu-links a.current{color:var(--accent);}
@@ -273,7 +279,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   box-shadow:0 18px 40px -22px rgba(60,40,20,.42),inset 0 0 0 1px var(--line);}
 .frow-pano .img{position:absolute;inset:0;background-position:var(--focus,center);}
 .frow-meta{display:flex;align-items:baseline;gap:22px;padding:16px 4px 24px;border-bottom:.5px solid var(--line);}
-.frow-num{font-size:11px;letter-spacing:.1em;color:var(--faint);flex:none;width:22px;}
 .frow-t{flex:1;font-style:italic;font-weight:300;font-size:24px;color:var(--text);}
 .frow-s{flex:none;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 .frow-arrow{flex:none;font-size:18px;color:var(--accent);opacity:0;transform:translateX(-6px);transition:opacity .35s var(--ease),transform .35s var(--ease);}
@@ -341,7 +346,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .list-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;}
 .list-card{border-radius:14px;overflow:hidden;border:.5px solid var(--line);cursor:pointer;background:var(--bg-soft);transition:transform .5s var(--ease),opacity .45s,box-shadow .5s;box-shadow:0 8px 24px rgba(0,0,0,.28);}
 .list-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(80,52,26,.16);}
-.list-card.hide{opacity:0;transform:scale(.95);pointer-events:none;position:absolute;}
+/* Filtre de catégorie : la carte écartée est RETIRÉE du rendu (display:none), pas estompée.
+   L'ancien `opacity:0;position:absolute` la laissait peinte au-dessus de la grille pendant la
+   transition → on voyait les albums de la catégorie précédente flotter avant de disparaître. */
+.list-card.hide{display:none;}
+/* les cartes retenues réapparaissent ensemble, une fois les autres déjà retirées */
+.list-card.show-in{animation:cardIn .38s var(--ease) both;}
+@keyframes cardIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 .list-card .thumb{height:230px;position:relative;overflow:hidden;}.list-card .thumb .img{position:absolute;inset:0;transition:transform 1s var(--ease);}.list-card:hover .thumb .img{transform:scale(1.06);}
 .list-card .narr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;opacity:0;transition:.5s;background:linear-gradient(to top,rgba(40,28,14,.8),rgba(40,28,14,.48));}.list-card:hover .narr{opacity:1;}
 .list-card .narr p{font-family:'Petit Formal Script',cursive;font-size:21px;line-height:1.45;color:#FFF6EE;}
@@ -485,6 +496,8 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .ig-card .ig-btn{margin-top:auto;}   /* les boutons des deux cartes s'alignent en bas */
 .ig-card .ig-ico{width:78px;height:78px;border-radius:22px;margin:0 auto 26px;display:flex;align-items:center;justify-content:center;
   font-size:40px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(4px);}
+/* carte Instagram : le logo ablas frames (blanc) remplace l'icône de marque — plus personnel */
+.ig-card .ig-ico img{width:auto;height:42px;}
 .ig-card .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:14px;}
 .ig-card h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:clamp(34px,5vw,52px);line-height:1;margin-bottom:14px;}
 .ig-card p{font-size:14.5px;color:rgba(255,255,255,.9);max-width:440px;margin:0 auto 32px;line-height:1.7;}
@@ -639,9 +652,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   transition:width .9s var(--ease) .1s;}
 .frame-row.in .frow-meta::after{width:100%;}
 
-/* [A14] NUMÉRO de frame qui glisse au survol */
-.frow-num{transition:transform .35s var(--ease),color .35s;}
-.frame-row:hover .frow-num{transform:translateX(3px);color:var(--accent);}
+/* [A14] TITRE de frame qui se teinte au survol */
 .frame-row:hover .frow-t{color:var(--accent);}
 .frow-t{transition:color .35s;}
 
@@ -764,27 +775,27 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="frames-list">
         <article class="frame-row reveal" data-chapter="thailand">
           <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/thailand/banner.jpeg')"></div></div>
-          <div class="frow-meta"><span class="frow-num">01</span><h3 class="frow-t serif">Thailand</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Thailand</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="bali">
           <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/bali/banner.jpeg')"></div></div>
-          <div class="frow-meta"><span class="frow-num">02</span><h3 class="frow-t serif">Bali</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Bali</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="hydepark">
           <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/hyde-park-nostalgia/banner.jpeg')"></div></div>
-          <div class="frow-meta"><span class="frow-num">03</span><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="nightmarkets">
           <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/night-markets/banner.jpeg')"></div></div>
-          <div class="frow-meta"><span class="frow-num">04</span><h3 class="frow-t serif">Night Markets</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Night Markets</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="morocco">
           <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/portraits/echoes-of-morocco/banner.jpeg')"></div></div>
-          <div class="frow-meta"><span class="frow-num">05</span><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
         <article class="frame-row reveal" data-chapter="scotland">
           <div class="frow-pano"><div class="img" style="--focus:center 50%;background-image:url('photographies/categories/travel/scotland/banner.jpeg')"></div></div>
-          <div class="frow-meta"><span class="frow-num">06</span><h3 class="frow-t serif">Scotland</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Scotland</h3><span class="frow-s">Travel</span><i class="ti ti-arrow-up-right frow-arrow"></i></div>
         </article>
       </div>
     </div>
@@ -987,7 +998,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="contact-cards">
       <div class="ig-card reveal">
         <div class="inner">
-          <div class="ig-ico"><i class="ti ti-brand-instagram"></i></div>
+          <div class="ig-ico"><img src="logo-af-blanc.png" alt="ablas frames"></div>
           <p class="k">Follow me on Instagram</p>
           <h2>@ablasframes</h2>
           <p>My latest fragments, travel notebooks and new prints — that's where everything happens first. Send me a direct message for any enquiry.</p>
@@ -1036,19 +1047,32 @@ document.documentElement.classList.add('blur-up');
 (function(){const d=document.getElementById('discover');if(d)d.addEventListener('click',()=>document.getElementById('home-hero').scrollIntoView({behavior:'smooth'}));})();
 
 /* ===================== GALERIES (génération auto · toutes les photos · sans vide) ===================== */
+/* ---- PROPORTIONS CONNUES D'AVANCE ----------------------------------------------------------
+   La mosaïque a besoin du RATIO de chaque photo pour se composer. Avant, ce ratio n'était connu
+   qu'une fois l'image téléchargée : la galerie se dessinait donc « au jugé » puis se réagençait
+   à chaque arrivée de photo — d'où l'impression, sur mobile, qu'il faut attendre que ça se range.
+   On déclare donc les formats ici : la mise en page est JUSTE dès le tout premier rendu.
+
+   Format par défaut : PORTRAIT 1066x1600 (≈ 3 photos sur 4). Seules les EXCEPTIONS sont listées :
+     land : paysage  1600x1066      p34 : portrait 1200x1600
+     skip : numéros manquants (photo supprimée) — aucune case n'est réservée pour eux
+
+   SI VOUS AJOUTEZ / RETIREZ UNE PHOTO sans mettre ces listes à jour, le site reste correct :
+   il retombe simplement sur l'ancien comportement (mesure au chargement) pour cette photo-là. */
+const R_PORT=1066/1600, R_LAND=1600/1066, R_P34=1200/1600;
 const GAL={
-  thailand:{dir:'travel/thailand',pre:'thai',n:24,label:'Thailand'},
-  bali:{dir:'travel/bali',pre:'bali',n:15,label:'Bali'},
-  hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',n:6,label:'Hyde Park Nostalgia'},
-  nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',n:3,label:'Night Markets'},
-  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',n:17,label:'Echoes of Morocco'},
-  wildlife:{dir:'wildlife',pre:'wild',n:6,label:'Wildlife'},
-  scotland:{dir:'travel/scotland',pre:'scotland',n:8,label:'Scotland'},
+  thailand:{dir:'travel/thailand',pre:'thai',n:24,label:'Thailand',skip:[11],land:[3,13,18,21,24]},
+  bali:{dir:'travel/bali',pre:'bali',n:15,label:'Bali',skip:[14],land:[1,2,3,4,5,8,11,13,15],p34:[6,7]},
+  hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',n:6,label:'Hyde Park Nostalgia',skip:[4]},
+  nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',n:3,label:'Night Markets',skip:[1],land:[2,3]},
+  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',n:17,label:'Echoes of Morocco',skip:[9]},
+  wildlife:{dir:'wildlife',pre:'wild',n:6,label:'Wildlife',skip:[1]},
+  scotland:{dir:'travel/scotland',pre:'scotland',n:8,label:'Scotland',skip:[1],p34:[3,5,8]},
 };
-/* Chaque image devient une <img> réelle : on lit ses vraies proportions,
+/* Chaque image devient une <img> réelle : on connaît ses proportions d'avance (voir GAL ci-dessus),
    puis on dispose la galerie en « mosaïque justifiée » (rangées de même hauteur,
    pleine largeur, sans recadrage). */
-function ratioOf(fig){return fig._ratio||1.5;}
+function ratioOf(fig){return fig._ratio||R_PORT;}
 function justify(gallery){
   if(!gallery)return;
   const items=[...gallery.children].filter(el=>el.classList&&el.classList.contains('gitem'));
@@ -1115,20 +1139,31 @@ function justifyActive(){document.querySelectorAll('.page.active .gallery').forE
 
 Object.entries(GAL).forEach(([key,g])=>{
   const host=document.getElementById('gal-'+key);if(!host)return;
+  const skip=g.skip||[],land=g.land||[],p34=g.p34||[];
   let html='';
   for(let i=1;i<=g.n;i++){
+    if(skip.includes(i))continue;   // trou connu : aucune case réservée, donc rien à retirer ensuite
+    const r=land.includes(i)?R_LAND:(p34.includes(i)?R_P34:R_PORT);
     const src='photographies/categories/'+g.dir+'/'+g.pre+'-'+i+'.jpeg';
-    html+='<figure class="gitem"><img class="gimg" src="'+src+'" alt="'+g.label+' — '+i+'" loading="lazy"><span class="gzoom"><i class="ti ti-zoom-in"></i></span></figure>';
+    html+='<figure class="gitem" data-r="'+r.toFixed(4)+'"><img class="gimg" src="'+src+'" alt="'+g.label+' — '+i+'" loading="lazy"><span class="gzoom"><i class="ti ti-zoom-in"></i></span></figure>';
   }
   host.innerHTML=html;
   host.querySelectorAll('img.gimg').forEach(img=>{
     const fig=img.closest('.gitem');
-    // Image manquante (photo supprimée → trou dans la numérotation, ex. thai-11) : on retire
-    // la vignette de la galerie. Aucune icône cassée ni case vide — la mosaïque se recompose
-    // toute seule. Robuste à n'importe quel trou, présent ou futur, sans toucher au code.
+    fig._ratio=parseFloat(fig.dataset.r)||R_PORT;   // proportions déclarées → 1re mise en page déjà juste
+    // Image manquante non déclarée dans `skip` : on retire la vignette de la galerie. Aucune icône
+    // cassée ni case vide — la mosaïque se recompose toute seule. Robuste à n'importe quel trou,
+    // présent ou futur, sans toucher au code.
     const fail=()=>{fig.remove();justifyQueued(host);};
     // [A4] .ready déclenche le passage flou → net.
-    const done=()=>{if(img.naturalWidth&&img.naturalHeight)fig._ratio=img.naturalWidth/img.naturalHeight;img.classList.add('ready');justifyQueued(host);};
+    const done=()=>{
+      img.classList.add('ready');
+      if(!img.naturalWidth||!img.naturalHeight)return;
+      const r=img.naturalWidth/img.naturalHeight;
+      // conforme au format déclaré → on NE retouche PAS la mise en page (plus aucun réagencement)
+      if(Math.abs(r-fig._ratio)<0.01)return;
+      fig._ratio=r;justifyQueued(host);
+    };
     if(img.complete){img.naturalWidth?done():fail();}
     else{img.addEventListener('load',done);img.addEventListener('error',fail);}
   });
@@ -1328,10 +1363,19 @@ FRAMES.forEach((f,i)=>{
 document.querySelectorAll('.pills .pill').forEach(b=>b.addEventListener('click',()=>{
   const grp=b.closest('.pills');grp.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));b.classList.add('active');
   const f=b.dataset.filter;if(!f)return;
-  document.querySelectorAll('#listgrid .list-card').forEach(c=>c.classList.toggle('hide',!(f==='all'||c.dataset.cat===f)));
+  const grid=document.getElementById('listgrid');
+  const cards=[...grid.querySelectorAll('.list-card')];
+  // 1) on retire D'ABORD toutes les cartes — la grille est vide avant que la suite ne s'affiche,
+  //    donc aucun album de la catégorie précédente ne reste visible pendant le changement.
+  cards.forEach(c=>{c.classList.add('hide');c.classList.remove('show-in');});
+  // 2) PUIS on affiche uniquement celles de la catégorie demandée
+  const keep=cards.filter(c=>f==='all'||c.dataset.cat===f);
+  keep.forEach(c=>c.classList.remove('hide'));
+  void grid.offsetWidth;                       // reflow : relance l'animation même si la carte était déjà là
+  keep.forEach(c=>c.classList.add('show-in'));
   // catégorie sans album (Sports, Events) → on affiche un message plutôt qu'une zone vide
   const empty=document.getElementById('listempty');
-  if(empty)empty.hidden=document.querySelectorAll('#listgrid .list-card:not(.hide)').length>0;
+  if(empty)empty.hidden=keep.length>0;
 }));
 
 /* ===================== REVEAL + PROGRESS ===================== */
