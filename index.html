@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ablas frames — Fragments of my reality · Photographer</title>
 <meta name="description" content="ablas frames — independent film photographer. Fragments of light captured on film across the world: Thailand, Bali, London, Morocco, wildlife.">
-<meta name="theme-color" content="#0C0F0E">
+<meta name="theme-color" content="#F6F3E4">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Pinyon+Script&family=Petit+Formal+Script&display=swap" rel="stylesheet">
@@ -21,25 +21,31 @@
    - Contact : Instagram mis en avant
    ============================================================ */
 :root{
-  --bg:#0C0F0E;            /* obsidienne (noir stylé, léger sous-ton froid) */
-  --bg-soft:#171B1A;
-  --text:#ECEAE3;          /* blanc cassé */
-  --muted:#A9A79E;
-  --faint:#6C6B63;
-  --line:rgba(255,255,255,.10);
-  --line-strong:rgba(255,255,255,.22);
-  --gold:#C9A86A;
-  --sage:#9DAA78;
-  --accent:#C9A86A;        /* or chaud — accent principal sur obsidienne */
-  --accent-d:#B08D57;
-  --star:#E7C778;
-  --star-glow:rgba(231,199,120,.7);
+  /* ============================================================
+     PALETTE UNIQUE — tout le site partage ce fond crème (#F6F3E4),
+     y compris chaque page de frame (voir « PALETTES PAR FRAME » plus bas).
+     Le texte est donc SOMBRE sur fond CLAIR partout.
+     ============================================================ */
+  --bg:#F6F3E4;            /* crème — fond unique du site */
+  --bg-soft:#EDE9D6;       /* crème légèrement plus dense (cases de photo en attente) */
+  --text:#1F1C16;          /* brun-noir */
+  --muted:#6B6455;
+  --faint:#706957;         /* 4,9:1 sur crème — l'ancien #6C6B63 clair y tombait à 2,8:1 */
+  --line:rgba(31,28,22,.13);
+  --line-strong:rgba(31,28,22,.26);
+  --gold:#9A7B3C;
+  --sage:#7C8A5A;
+  --accent:#7E6330;        /* or profond, 5,1:1 sur crème — porte les sur-titres en 10px */
+  --accent-d:#654E24;      /* survol */
+  --star:#B08D57;
+  --star-glow:rgba(176,141,87,.55);
   --ease:cubic-bezier(.16,1,.3,1);
   --maxw:1200px;
-  /* cadre blanc (repris de la v2) — 6px sur PC, 4px sur mobile (voir @media max-width:760px) */
+  /* cadre des tirages — 6px sur PC, 4px sur mobile (voir @media max-width:760px)
+     BLANC PUR : sur fond crème, l'ancien #F0EDE6 se confondait avec la page. */
   --frame-w:6px;
-  --frame-c:#F0EDE6;
-  --frame-o:#D8D4CC;
+  --frame-c:#FFFFFF;
+  --frame-o:#E4E0D1;
 
   /* ============================================================
      RYTHME VERTICAL — les 2 seules variables à régler
@@ -79,24 +85,20 @@ section.pad{padding:var(--sec-gap) 0;}
 .nav a:hover,.nav a.current{color:var(--text);}.nav a:hover::after,.nav a.current::after{width:100%;}
 .nav-logo{justify-self:start;text-align:left;cursor:pointer;display:flex;align-items:center;}
 
-/* ===== LOGO AF (image) — noir en mode jour, blanc en mode nuit =====
-   Les deux versions sont dans le HTML ; on affiche celle qui contraste avec le fond.
-   `.on-dark` = navbar posée sur une frame à palette sombre → toujours le logo blanc. */
+/* ===== LOGO AF (image) =====
+   Les deux versions sont dans le HTML ; on affiche celle qui contraste avec le fond. */
 .logo-swap{display:inline-flex;align-items:center;line-height:0;}
-/* NE PAS mettre `display` ici : `.logo-swap img` (0,1,1) écraserait `.logo-night{display:none}`
+/* NE PAS mettre `display` ici : `.logo-swap img` (0,1,1) écraserait `.logo-day{display:none}`
    (0,1,0) et les deux logos s'afficheraient côte à côte. */
 .logo-swap img{width:auto;height:100%;}
-/* Base du site = obsidienne (sombre) → logo AF BLANC par défaut partout (navbar, menu, ornement). */
-.logo-day{display:none;}    /* logo noir : masqué par défaut */
-.logo-night{display:block;} /* logo blanc : visible par défaut */
-/* frames CLAIRES (fond clair : bali, hyde park, wildlife, scotland) → logo NOIR.
-   .on-light est posé par retintNav() quand la frame active n'est PAS en palette sombre.
-   L'ornement « breath » en bas de frame suit la même règle via les sélecteurs #page-… .
-   À compléter si une autre frame passe en fond clair. */
-.nav.on-light .logo-night,.menu.on-light .logo-night{display:none;}
-.nav.on-light .logo-day,.menu.on-light .logo-day{display:block;}
-#page-bali .embro .logo-night,#page-hydepark .embro .logo-night,#page-wildlife .embro .logo-night,#page-scotland .embro .logo-night{display:none;}
-#page-bali .embro .logo-day,#page-hydepark .embro .logo-day,#page-wildlife .embro .logo-day,#page-scotland .embro .logo-day{display:block;}
+/* Le site est ENTIÈREMENT sur fond crème → logo AF NOIR par défaut partout
+   (navbar, menu déroulant, ornement en bas de galerie). */
+.logo-night{display:none;}  /* logo blanc : masqué par défaut */
+.logo-day{display:block;}   /* logo noir : visible par défaut */
+/* Conservé pour un éventuel fond sombre : `.on-dark` est posé par retintNav() si une frame
+   déclare `--fdark:1`. Aucune ne le fait aujourd'hui, la palette étant unique. */
+.nav.on-dark .logo-day,.menu.on-dark .logo-day{display:none;}
+.nav.on-dark .logo-night,.menu.on-dark .logo-night{display:block;}
 .nav-logo .logo-swap{height:38px;transition:height .4s var(--ease);}
 .nav.compact .nav-logo .logo-swap{height:32px;}
 .navchip{display:none;align-items:center;gap:7px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
@@ -194,9 +196,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .banner .bg{position:absolute;inset:0;z-index:0;background-position:center;background-size:cover;}
 .banner .grain{position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:overlay;pointer-events:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.5'/></svg>");}
+/* Voile nettement allégé : il servait à rendre le titre lisible par-dessus la photo. Le titre
+   ayant été retiré, un assombrissement marqué ne ferait que ternir la photo sur un site crème.
+   Il n'en reste qu'un léger vignettage. */
 .banner .veil{position:absolute;inset:0;z-index:1;background:
-   linear-gradient(180deg,rgba(28,20,12,.46),rgba(28,20,12,.32) 45%,rgba(28,20,12,.6)),
-   radial-gradient(ellipse at 50% 50%,transparent 40%,rgba(20,14,8,.42) 100%);}
+   linear-gradient(180deg,rgba(28,20,12,.14),rgba(28,20,12,.05) 45%,rgba(28,20,12,.20)),
+   radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(20,14,8,.18) 100%);}
 .banner-content{position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;width:100%;}
 .banner .kicker{font-size:13px;letter-spacing:.5em;text-transform:uppercase;color:#ECCF92;margin-bottom:30px;text-shadow:0 1px 12px rgba(0,0,0,.4);opacity:0;animation:rise 1.1s var(--ease) .2s forwards;}
 .banner h1{font-family:'Pinyon Script',cursive;font-style:normal;font-weight:400;line-height:1.1;color:#FBF3E6;
@@ -221,7 +226,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .hero-txt .eyebrow{margin-bottom:16px;}
 .hero-txt h2{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(30px,3.6vw,48px);line-height:1.12;color:var(--text);margin-bottom:26px;}
 .hero-intro{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:300;font-size:clamp(18px,2vw,24px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
-.hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#0C0F0E;
+.hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
   box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
 .hero-cta:hover{transform:translateY(-2px);background:var(--accent-d);}
@@ -342,7 +347,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 .pills{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:42px;}
 .pill{font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:10px 22px;border-radius:30px;border:.5px solid var(--line-strong);background:transparent;color:var(--muted);cursor:pointer;transition:.35s var(--ease);}
-.pill:hover{border-color:var(--accent);color:var(--accent);}.pill.active{background:var(--accent);color:#0C0F0E;border-color:var(--accent);}
+.pill:hover{border-color:var(--accent);color:var(--accent);}.pill.active{background:var(--accent);color:var(--bg);border-color:var(--accent);}
 .list-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;position:relative;}
 .list-card{border-radius:14px;overflow:hidden;border:.5px solid var(--line);cursor:pointer;background:var(--bg-soft);transition:transform .5s var(--ease),opacity .45s,box-shadow .5s;box-shadow:0 8px 24px rgba(0,0,0,.28);}
 .list-card:hover{transform:translateY(-5px);box-shadow:0 16px 34px rgba(80,52,26,.16);}
@@ -354,8 +359,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .list-card.show-in{animation:cardIn .38s var(--ease) both;}
 @keyframes cardIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 .list-card .thumb{height:230px;position:relative;overflow:hidden;}.list-card .thumb .img{position:absolute;inset:0;transition:transform 1s var(--ease);}.list-card:hover .thumb .img{transform:scale(1.06);}
-.list-card .narr{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:24px;opacity:0;transition:.5s;background:linear-gradient(to top,rgba(40,28,14,.8),rgba(40,28,14,.48));}.list-card:hover .narr{opacity:1;}
-.list-card .narr p{font-family:'Petit Formal Script',cursive;font-size:21px;line-height:1.45;color:#FFF6EE;}
 .list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:'Libre Baskerville',serif;font-style:italic;font-weight:400;font-size:19px;}.list-card .meta .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;}
 /* message affiché quand un filtre ne contient encore aucun album (évite une page vide) */
 .list-empty{padding:44px 0;text-align:center;font-family:'Libre Baskerville',serif;font-style:italic;
@@ -363,43 +366,21 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .list-empty[hidden]{display:none;}
 
 /* navigation frame précédente / suivante */
-.chap-nav{display:flex;justify-content:space-between;gap:24px;border-top:.5px solid var(--line);margin-top:8px;padding:24px 0 0;}
-.chap-nav a{display:flex;align-items:center;gap:16px;cursor:pointer;color:var(--muted);text-decoration:none;transition:color .3s,transform .35s var(--ease);max-width:48%;}
-.chap-nav a:hover{color:var(--accent);}
-.chap-nav a.prev:hover{transform:translateX(-5px);}.chap-nav a.next:hover{transform:translateX(5px);}
-.chap-nav a.next{flex-direction:row-reverse;text-align:right;}
-.chap-nav a i{font-size:26px;color:var(--accent);flex:none;}
-.chap-nav .lbl{display:block;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:4px;}
-.chap-nav .ttl{font-family:'Libre Baskerville',serif;font-style:italic;font-size:22px;line-height:1.05;}
 
 /* ===================== PALETTES PAR FRAME (un seul mode — plus de jour/nuit) =====================
    thailand & nightmarkets : couleurs SOMBRES conservées (--fdark:1)
    bali & morocco : fonds imposés (#49d1fd / #202785) ; morocco reste sombre (texte clair) */
-.frame-page{--fbg:var(--bg);--ftext:var(--text);--fmuted:var(--muted);--fline:var(--line);--faccent:var(--accent);--faccent2:var(--gold);--fsoft:var(--bg-soft);--fglow:rgba(176,141,87,.45);}
-/* — THAILAND — SOMBRE — */
-#page-thailand    {--fbg:#828700;--ftext:#FFFAE9;--fmuted:#E3DEB8;--fline:rgba(255,250,233,.16);--faccent:#F2D9A4;--faccent2:#D2E5C5;--fsoft:#5E6100;--fglow:rgba(242,217,164,.42);--fdark:1;}
-/* — BALI — clair, fond #49d1fd (cyan ciel) · texte teal foncé · highlights corail — */
-#page-bali        {--fbg:#49d1fd;--ftext:#06344A;--fmuted:#2C6E86;--fline:rgba(6,52,74,.20);--faccent:#FF6B5C;--faccent2:#FFC24C;--fsoft:#BDE9FB;--fglow:rgba(255,107,92,.42);}
-/* — HYDE PARK NOSTALGIA — clair — */
-#page-hydepark    {--fbg:#F3F0E9;--ftext:#101010;--fmuted:#7C766A;--fline:rgba(16,16,16,.12);--faccent:#6F6454;--faccent2:#E3DBCC;--fsoft:#FDFCF8;--fglow:rgba(111,100,84,.28);}
-/* — NIGHT MARKETS — SOMBRE — */
-#page-nightmarkets{--fbg:#12263A;--ftext:#D6F5F2;--fmuted:#7FB2B8;--fline:rgba(38,203,209,.24);--faccent:#26CBD1;--faccent2:#97EECE;--fsoft:#163A52;--fglow:rgba(38,203,209,.42);--fdark:1;}
-/* — ECHOES OF MOROCCO — fond dominant #202785 (indigo) · texte sable · accent orange — */
-#page-morocco     {--fbg:#202785;--ftext:#EFD9C6;--fmuted:#BFC2E6;--fline:rgba(239,217,198,.18);--faccent:#EC5F0D;--faccent2:#EFD9C6;--fsoft:#171C5E;--fglow:rgba(236,95,13,.46);--fdark:1;}
-/* — WILDLIFE — clair — */
-#page-wildlife    {--fbg:#FADF7F;--ftext:#574245;--fmuted:#8A7440;--fline:rgba(121,92,95,.20);--faccent:#795C5F;--faccent2:#A69658;--fsoft:#F5E7A6;--fglow:rgba(121,92,95,.35);}
-/* — SCOTLAND — clair — */
-#page-scotland    {--fbg:#D2EBFF;--ftext:#45290C;--fmuted:#A3683E;--fline:rgba(117,138,209,.20);--faccent:#758AD1;--faccent2:#A3683E;--fsoft:#E1FBDA;--fglow:rgba(117,138,209,.40);}
+/* PALETTE UNIQUE : toutes les frames reprennent le crème du site — plus de couleur propre à
+   chaque album. Les variables --f… restent en place car la navbar, le menu déroulant et
+   l'obturateur s'y réfèrent (voir retintNav()) ; elles pointent simplement vers la palette
+   racine. `--fdark` n'est plus jamais posé : aucune frame n'est sombre, donc la navbar bascule
+   toujours en `on-light` (texte foncé + logo noir). */
+.frame-page{--fbg:var(--bg);--ftext:var(--text);--fmuted:var(--muted);--fline:var(--line);--faccent:var(--accent);--faccent2:var(--gold);--fsoft:var(--bg-soft);--fglow:rgba(154,123,60,.32);}
 .frame-page.active{background:var(--fbg);color:var(--ftext);min-height:100vh;}
 .frame-page .eyebrow{color:var(--faccent);}
 .frame-page .chap-intro p{color:var(--ftext);}
 .frame-page .embro .ln{background:var(--fline);}
 .frame-page .gitem{background:var(--fsoft);}
-.frame-page .chap-nav{border-top-color:var(--fline);}
-.frame-page .chap-nav a{color:var(--fmuted);}
-.frame-page .chap-nav a:hover{color:var(--faccent);}
-.frame-page .chap-nav a i{color:var(--faccent);}
-.frame-page .chap-nav .lbl{color:var(--fmuted);}
 /* intro de frame : centrée, en haut, avant la grille */
 .frame-page .chap-intro{text-align:center;}
 .frame-page .chap-intro p{margin-left:auto;margin-right:auto;}
@@ -488,8 +469,9 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .mail-card{background:linear-gradient(135deg,#D9B36A 0%,#9A6B3F 48%,#5E3A22 100%);
   box-shadow:0 40px 80px -30px rgba(80,52,26,.6);}
 .mail-card .ig-btn{color:#7A4A22;}
-/* l'adresse est bien plus longue qu'un pseudo : on réduit pour éviter tout débordement */
-.mail-card h2{font-size:clamp(19px,2.4vw,27px);word-break:break-word;}
+/* L'adresse est bien plus longue qu'un pseudo : nettement réduite pour tenir en entier, sur une
+   seule ligne, même sur les petits écrans. `break-word` reste un filet de sécurité. */
+.mail-card h2{font-size:clamp(15px,4vw,21px);word-break:break-word;letter-spacing:-.01em;}
 .ig-card::before{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.6'/></svg>");}
 .ig-card .inner{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center;}
@@ -518,15 +500,25 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .lb.open{opacity:1;visibility:visible;}
 .lb .stage{position:relative;width:min(1100px,92vw);height:84vh;border-radius:4px;overflow:visible;transform:scale(.94);opacity:0;transition:transform .5s var(--ease),opacity .4s;}.lb.open .stage{transform:scale(1);opacity:1;}.lb .stage .img{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center;}
 .lb .cap{position:absolute;left:0;right:0;bottom:-34px;text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,245,235,.7);}
-.lb-close{position:absolute;top:28px;right:32px;width:44px;height:44px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:none;transition:background .3s;}.lb-close:hover{background:rgba(255,255,255,.14);}
-.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:none;opacity:0;transition:opacity .3s,background .3s;}.lb:hover .lb-arrow{opacity:1;}.lb-arrow:hover{background:rgba(255,255,255,.14);}.lb-prev{left:34px;}.lb-next{right:34px;}
+/* Les commandes passent AU-DESSUS de la photo.
+   `.stage` porte un transform + un opacity : il crée donc son propre contexte d'empilement et,
+   placé APRÈS les commandes dans le HTML à niveau égal (z-index:auto), il se peignait par-dessus.
+   Comme il occupe min(1100px,92vw), ses bords recouvrent la bande des flèches dès que la fenêtre
+   fait moins de ~1200px : les flèches passaient derrière l'image et n'étaient plus cliquables. */
+.lb-close,.lb-arrow,.lb-count{z-index:3;}
+.lb-close{position:absolute;top:28px;right:32px;width:44px;height:44px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:rgba(20,14,8,.42);transition:background .3s;}.lb-close:hover{background:rgba(20,14,8,.72);}
+/* fond sombre translucide : posées SUR la photo, des flèches blanches sans fond disparaissaient
+   sur les clichés clairs — le repère visuel doit tenir quel que soit l'arrière-plan */
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:rgba(20,14,8,.42);opacity:0;transition:opacity .3s,background .3s;}.lb:hover .lb-arrow{opacity:1;}.lb-arrow:hover{background:rgba(20,14,8,.72);}.lb-prev{left:34px;}.lb-next{right:34px;}
+/* au doigt il n'y a PAS de survol : sans cette règle les flèches restaient invisibles sur mobile */
+@media(hover:none){.lb-arrow{opacity:1;}}
 .lb-count{position:absolute;top:32px;left:34px;font-size:11px;letter-spacing:.14em;color:rgba(255,245,235,.6);}
 
 @media(max-width:980px){.nav{padding:18px 28px;gap:20px;}.nav-links{gap:30px;}.nav-right{gap:18px;}.list-grid{grid-template-columns:repeat(2,1fr);}.s-wide,.s-half,.s-port,.s-tall,.s-sq{grid-column:span 6;}.s-pan{grid-column:span 12;}.about .col{grid-template-columns:1fr;gap:48px;}}
 @media(max-width:760px){
   /* rythme vertical resserré sur mobile (voir --sec-gap / --lead-gap dans :root)
      + cadre photo plus fin sur mobile (6px sur PC) */
-  :root{--sec-gap:26px;--lead-gap:24px;--frame-w:4px;}
+  :root{--sec-gap:26px;--lead-gap:24px;--frame-w:2px;}
   .wrap,.wrap-sm{padding:0 22px;}
   .nav{grid-template-columns:auto 1fr auto;padding:15px 20px;gap:12px;}
   .nav-links{display:none;}
@@ -548,13 +540,14 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .discover{bottom:18px;}
   .chap-photo{height:46vh;min-height:300px;}
   .home-hero,.selection,.frames-section{padding-left:0;padding-right:0;}
-  /* espace sous la bannière mobile avant la description (réglable) */
-  .chap-txt{padding-top:calc(var(--sec-gap) * 1.3);}
-  /* bas de page allégé sur mobile : footer, ornement de fin et nav frame précédente/suivante */
+  /* Espace sous la bannière mobile avant la description — C'EST LA VALEUR À RÉGLER.
+     Plus le multiplicateur est grand, plus la description descend. */
+  .chap-txt{padding-top:calc(var(--sec-gap) * 2.4);}
+  /* bas de page allégé sur mobile : footer et ornement de fin */
   .foot{padding:20px 0;}
   .foot p{font-size:10px;}
   .breath{padding:calc(var(--sec-gap) * .8) 0;}
-  .chap-nav{margin-top:22px;padding-top:24px;}}
+}
 @media(max-width:520px){.frow-pano{aspect-ratio:3/2;}}
 @media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.12s!important;}html{scroll-behavior:auto;}}
 /* ============================================================================
@@ -731,9 +724,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="bg" style="background-image:url('photographies/categories/banner/banner-1.jpeg')"></div>
     <div class="grain"></div>
     <div class="veil"></div>
-    <div class="banner-content">
-      <h1 class="serif">Fragments<span class="of">of my reality</span></h1>
-    </div>
+    <!-- bannière volontairement SANS titre : la photo parle seule -->
   </header>
 
   <!-- HÉRO (introduction) -->
@@ -759,11 +750,11 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <!-- 5 photos : dossier dédié photographies/categories/gallery/gallery-1..5.jpeg — remplace ces
            fichiers (mêmes noms) pour changer la sélection sans toucher au HTML -->
       <div class="sel-grid reveal">
-        <div class="sel-cell c-8"><div class="img" style="--focus:center 58%;background-image:url('photographies/categories/gallery/gallery-1.jpeg')"></div><span class="cap">Thailand — Longtail boat</span></div>
-        <div class="sel-cell c-4"><div class="img" style="--focus:center 42%;background-image:url('photographies/categories/gallery/gallery-2.jpeg')"></div><span class="cap">Morocco — Zellige arch</span></div>
-        <div class="sel-cell c-4"><div class="img" style="--focus:center 45%;background-image:url('photographies/categories/gallery/gallery-3.jpeg')"></div><span class="cap">Wildlife — Capybara</span></div>
-        <div class="sel-cell c-4"><div class="img" style="--focus:center 62%;background-image:url('photographies/categories/gallery/gallery-4.jpeg')"></div><span class="cap">London — The Serpentine</span></div>
-        <div class="sel-cell c-4"><div class="img" style="--focus:center 55%;background-image:url('photographies/categories/gallery/gallery-5.jpeg')"></div><span class="cap">Bali — Cliff path</span></div>
+        <div class="sel-cell c-8"><div class="img" style="--focus:center 58%;background-image:url('photographies/categories/gallery/gallery-1.jpeg')"></div><span class="cap"></span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 42%;background-image:url('photographies/categories/gallery/gallery-2.jpeg')"></div><span class="cap"></span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 45%;background-image:url('photographies/categories/gallery/gallery-3.jpeg')"></div><span class="cap"></span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 62%;background-image:url('photographies/categories/gallery/gallery-4.jpeg')"></div><span class="cap"></span></div>
+        <div class="sel-cell c-4"><div class="img" style="--focus:center 55%;background-image:url('photographies/categories/gallery/gallery-5.jpeg')"></div><span class="cap"></span></div>
       </div>
     </div>
   </section>
@@ -955,13 +946,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <h1 class="sec-h reveal" style="margin-bottom:38px">Frames</h1>
     <div class="pills reveal"><button class="pill active" data-filter="all">All</button><button class="pill" data-filter="travel">Travel</button><button class="pill" data-filter="portraits">Portraits</button><button class="pill" data-filter="wildlife">Wildlife</button><button class="pill" data-filter="sports">Sports</button><button class="pill" data-filter="events">Events</button></div>
     <div class="list-grid" id="listgrid">
-      <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/thailand/thai-1.jpeg')"></div><div class="narr"><p>“I let the film decide.”</p></div></div><div class="meta"><h4>Thailand</h4><span class="tag" style="color:#A43032">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/bali/bali-1.jpeg')"></div><div class="narr"><p>“Bali reveals itself slowly.”</p></div></div><div class="meta"><h4>Bali</h4><span class="tag" style="color:#2584A7">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/hyde-park-nostalgia/hpn-1.jpeg')"></div><div class="narr"><p>“A gentle English melancholy.”</p></div></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag" style="color:#6F6454">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/night-markets/nightmarkets-2.jpeg')"></div><div class="narr"><p>“A theatre of light, at night.”</p></div></div><div class="meta"><h4>Night Markets</h4><span class="tag" style="color:#BE5D3E">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg')"></div><div class="narr"><p>“Earth and skin, one light.”</p></div></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag" style="color:#C24E12">Portraits</span></div></article>
-      <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/wildlife/wild-2.jpeg')"></div><div class="narr"><p>“Patience rewarded.”</p></div></div><div class="meta"><h4>Wildlife</h4><span class="tag" style="color:#795C5F">Wildlife</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="scotland"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/scotland/scotland-2.jpeg')"></div><div class="narr"><p>“The fog keeps its own secrets.”</p></div></div><div class="meta"><h4>Scotland</h4><span class="tag" style="color:#758AD1">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/thailand/banner.jpeg')"></div></div><div class="meta"><h4>Thailand</h4><span class="tag" style="color:#A43032">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/bali/banner.jpeg')"></div></div><div class="meta"><h4>Bali</h4><span class="tag" style="color:#2584A7">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/hyde-park-nostalgia/banner.jpeg')"></div></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag" style="color:#6F6454">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/night-markets/banner.jpeg')"></div></div><div class="meta"><h4>Night Markets</h4><span class="tag" style="color:#BE5D3E">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/portraits/echoes-of-morocco/banner.jpeg')"></div></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag" style="color:#C24E12">Portraits</span></div></article>
+      <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/wildlife/banner.jpeg')"></div></div><div class="meta"><h4>Wildlife</h4><span class="tag" style="color:#795C5F">Wildlife</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="scotland"><div class="thumb"><div class="img" style="background-image:url('photographies/categories/travel/scotland/banner.jpeg')"></div></div><div class="meta"><h4>Scotland</h4><span class="tag" style="color:#758AD1">Travel</span></div></article>
     </div>
     <!-- affiché uniquement quand un filtre ne contient encore aucun album (Sports, Events) -->
     <p class="list-empty" id="listempty" hidden>No album in this category yet — coming soon.</p>
@@ -1047,10 +1038,16 @@ document.documentElement.classList.add('blur-up');
 (function(){const d=document.getElementById('discover');if(d)d.addEventListener('click',()=>document.getElementById('home-hero').scrollIntoView({behavior:'smooth'}));})();
 
 /* ===================== GALERIES (génération auto · toutes les photos · sans vide) ===================== */
-/* ---- ALBUMS : où trouver les photos ---- */
+/* ---- ALBUMS : où trouver les photos ----
+   `order` (facultatif) impose l'ordre d'affichage ; sans lui, les photos sortent par n° croissant.
+   Le n° 0 désigne la BANNIÈRE de l'album (banner.jpeg) : elle ouvre donc la galerie.
+   Toute photo absente de `order` est simplement ajoutée à la suite — ajouter un fichier ne
+   casse jamais l'affichage, même sans toucher à cette liste. */
 const GAL={
   thailand:{dir:'travel/thailand',pre:'thai',label:'Thailand'},
-  bali:{dir:'travel/bali',pre:'bali',label:'Bali'},
+  // Bali : les 6 photos paysage étaient toutes en tête (1→5 et 8), ce qui donnait un gros bloc
+  // horizontal avant tout le reste. On alterne paysages et portraits pour aérer la mosaïque.
+  bali:{dir:'travel/bali',pre:'bali',label:'Bali',order:[0,1,2,9,3,6,11,4,10,5,7,13,12,8,15]},
   hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',label:'Hyde Park Nostalgia'},
   nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',label:'Night Markets'},
   morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',label:'Echoes of Morocco'},
@@ -1074,13 +1071,13 @@ const GAL={
    (le script relit les fichiers du dossier photographies/ et réécrit ce bloc tout seul)         */
 /* >>> PHOTO-DIM-START <<< */
 const DIM={
-  thailand:{1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],12:[1066,1600],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1066,1600],21:[1600,1066],22:[1066,1600],23:[1066,1600],24:[1600,1066]},
-  bali:{1:[1600,1066],2:[1600,1066],3:[1600,1066],4:[1600,1066],5:[1600,1068],6:[1200,1600],7:[1200,1600],8:[1600,1066],9:[1066,1600],10:[1066,1600],11:[1600,1066],12:[1066,1600],13:[1600,1066],15:[1600,1066]},
-  hydepark:{1:[1066,1600],2:[1066,1600],3:[1066,1600],5:[1066,1600],6:[1066,1600]},
-  nightmarkets:{2:[1600,1066],3:[1600,1066]},
-  morocco:{1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1066,1600],13:[1066,1600],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600]},
-  wildlife:{2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600]},
-  scotland:{2:[1066,1600],3:[1200,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1066,1600],8:[1200,1600]},
+  thailand:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],12:[1066,1600],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1066,1600],21:[1600,1066],22:[1066,1600],23:[1066,1600],24:[1600,1066]},
+  bali:{0:[1066,1600],1:[1600,1066],2:[1600,1066],3:[1600,1066],4:[1600,1066],5:[1600,1068],6:[1200,1600],7:[1200,1600],8:[1600,1066],9:[1066,1600],10:[1066,1600],11:[1600,1066],12:[1066,1600],13:[1600,1066],15:[1600,1066]},
+  hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],5:[1066,1600],6:[1066,1600]},
+  nightmarkets:{0:[1600,1066],2:[1600,1066],3:[1600,1066]},
+  morocco:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1066,1600],13:[1066,1600],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600]},
+  wildlife:{0:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600]},
+  scotland:{0:[1066,1600],2:[1066,1600],3:[1200,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1066,1600],8:[1200,1600]},
 };
 /* >>> PHOTO-DIM-END <<< */
 
@@ -1168,12 +1165,19 @@ Object.entries(GAL).forEach(([key,g])=>{
   const host=document.getElementById('gal-'+key);if(!host)return;
   const dim=DIM[key]||{};
   let html='';
-  // on parcourt les photos RÉELLEMENT présentes (clés de DIM), dans l'ordre des numéros
-  Object.keys(dim).map(Number).sort((a,b)=>a-b).forEach(i=>{
+  // Ordre d'affichage : on ne retient que les photos RÉELLEMENT présentes (clés de DIM).
+  // `order` passe en premier, puis tout le reste par n° croissant → une photo ajoutée au dossier
+  // apparaît même si elle n'est pas listée dans `order`.
+  const nums=Object.keys(dim).map(Number);
+  const wanted=(g.order||[]).filter(i=>dim[i]);
+  const seq=wanted.concat(nums.filter(i=>!wanted.includes(i)).sort((a,b)=>a-b));
+  seq.forEach(i=>{
     const w=dim[i][0],h=dim[i][1];
-    const src='photographies/categories/'+g.dir+'/'+g.pre+'-'+i+'.jpeg';
+    const file=(i===0)?'banner.jpeg':g.pre+'-'+i+'.jpeg';   // 0 = bannière de l'album
+    const src='photographies/categories/'+g.dir+'/'+file;
+    const alt=(i===0)?g.label:g.label+' — '+i;
     // width/height sur la balise : le navigateur réserve nativement le bon rapport d'aspect
-    html+='<figure class="gitem" data-r="'+(w/h).toFixed(4)+'"><img class="gimg" width="'+w+'" height="'+h+'" src="'+src+'" alt="'+g.label+' — '+i+'" loading="lazy"><span class="gzoom"><i class="ti ti-zoom-in"></i></span></figure>';
+    html+='<figure class="gitem" data-r="'+(w/h).toFixed(4)+'"><img class="gimg" width="'+w+'" height="'+h+'" src="'+src+'" alt="'+alt+'" loading="lazy"><span class="gzoom"><i class="ti ti-zoom-in"></i></span></figure>';
   });
   host.innerHTML=html;
   host.querySelectorAll('img.gimg').forEach(img=>{
@@ -1369,23 +1373,8 @@ window.addEventListener('popstate',()=>go((location.hash||'#home').slice(1)));
   },{passive:true});
 })();
 
-/* ===================== NAV FRAME PRÉCÉDENTE / SUIVANTE ===================== */
-function navLink(key,label,dir){
-  const a=document.createElement('a');a.className=dir;
-  const ttl=(key==='frames')?'All frames':PAGES[key].label;
-  a.innerHTML='<i class="ti ti-arrow-'+(dir==='prev'?'left':'right')+'"></i><span><span class="lbl">'+label+'</span><span class="ttl serif">'+ttl+'</span></span>';
-  a.addEventListener('click',()=>navTo(key));
-  return a;
-}
-FRAMES.forEach((f,i)=>{
-  const wrap=document.querySelector('#'+f.el+' .pad .wrap');
-  if(!wrap)return;
-  const prev=FRAMES[i-1],next=FRAMES[i+1];
-  const box=document.createElement('div');box.className='chap-nav reveal';
-  box.appendChild(prev?navLink(prev.key,'Previous frame','prev'):navLink('frames','Back','prev'));
-  box.appendChild(next?navLink(next.key,'Next frame','next'):navLink('frames','Back','next'));
-  wrap.appendChild(box);
-});
+/* (bloc « Previous frame / Next frame » en bas de page retiré — on passe d'une frame à l'autre
+   par le sélecteur de la navbar, le balayage horizontal ou le menu) */
 
 /* ===================== FILTRES ===================== */
 document.querySelectorAll('.pills .pill').forEach(b=>b.addEventListener('click',()=>{

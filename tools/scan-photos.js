@@ -75,6 +75,14 @@ function buildManifest(albums) {
     if (!fs.existsSync(dir)) { warnings.push(`dossier absent : ${a.dir}`); continue; }
 
     const found = [];
+    // La BANNIÈRE de l'album est indexée au n° 0 : elle figure ainsi dans la galerie, en tête.
+    const banner = path.join(dir, 'banner.jpeg');
+    if (fs.existsSync(banner)) {
+      const s = jpegSize(fs.readFileSync(banner));
+      if (s) found.push({ n: 0, w: s.w, h: s.h });
+      else warnings.push(`dimensions illisibles : ${a.dir}/banner.jpeg`);
+    } else warnings.push(`bannière absente : ${a.dir}/banner.jpeg`);
+
     for (const f of fs.readdirSync(dir)) {
       const m = f.match(new RegExp('^' + a.pre.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '-(\\d+)\\.jpe?g$', 'i'));
       if (!m) continue;
