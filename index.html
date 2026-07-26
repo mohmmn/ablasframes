@@ -1092,16 +1092,24 @@ function justify(gallery){
   if(!gallery)return;
   const items=[...gallery.children].filter(el=>el.classList&&el.classList.contains('gitem'));
   if(!items.length)return;
-  // Largeur réelle (fractionnaire), arrondie À L'INFÉRIEUR, MOINS UNE MARGE DE SÉCURITÉ.
+  // ⚠ MESURER AVEC clientWidth, JAMAIS AVEC getBoundingClientRect().
   //
-  // Pourquoi la marge (SAFE) : on remplissait chaque rangée à EXACTEMENT la largeur du conteneur
-  // (somme des photos + espaces = W au pixel près). Une rangée flex ainsi remplie n'a AUCUNE
-  // tolérance : la moindre imprécision sous-pixel du navigateur suffit à faire repartir la
-  // dernière photo à la ligne — et comme les suivantes se recalent derrière elle, toute la
-  // mosaïque part de travers (constaté sur iPhone : rangées 2+3 rendues en 1+2+2).
-  // 1px de jeu rend le débordement impossible et reste invisible à l'œil.
-  const SAFE=1;
-  const W=Math.floor(gallery.getBoundingClientRect().width)-SAFE;
+  // À l'ouverture d'une frame, la page joue `frameIn` (voir CSS), qui part de
+  // `transform:scale(1.045)` pendant 850ms. Or getBoundingClientRect() renvoie la taille
+  // VISUELLE, donc AGRANDIE DE 4,5% tant que l'animation tourne : on mesurait 403px au lieu
+  // de 386px sur iPhone. La mosaïque était donc calculée trop large, les rangées débordaient,
+  // et le navigateur renvoyait des photos à la ligne (rangées 2+3 rendues en 1+2+2).
+  // Puis, l'animation finie, le premier recalcul (scroll, rotation…) retrouvait la vraie
+  // largeur et tout se remettait en place — d'où l'effet « ça se range après quelques secondes ».
+  // clientWidth est une valeur de MISE EN PAGE : les transformations ne l'affectent pas.
+  //
+  // SAFE : clientWidth arrondit au pixel le PLUS PROCHE, donc peut MAJORER de 0,5px (une largeur
+  // réelle de 327,6px est lue 328px). Sans marge, une rangée remplie pile à la largeur lue
+  // déborde et la dernière photo repart à la ligne. 2px garantissent au moins 1,5px de jeu réel
+  // quel que soit l'arrondi — imperceptible à l'œil (0,5% de la largeur), mais le débordement
+  // devient impossible.
+  const SAFE=2;
+  const W=gallery.clientWidth-SAFE;
   if(W<=1)return;                              // page masquée : on réessaiera à l'affichage
   const gap=parseFloat(getComputedStyle(gallery).gap)||10;
   // hauteur de rangée cible + nb max d'images par rangée, selon la largeur (mobile → images plus grandes)
@@ -1191,9 +1199,10 @@ Object.entries(GAL).forEach(([key,g])=>{
 /* re-dispose automatiquement dès que la largeur d'une galerie change → vraiment responsive */
 const _lastW=new WeakMap();
 function justifyIfWidthChanged(gallery){
-  // même mesure que justify() (floor de la largeur réelle) : sinon un changement de largeur
-  // sous-pixel pouvait passer inaperçu et laisser une rangée calée sur l'ancienne largeur
-  const w=Math.floor(gallery.getBoundingClientRect().width); if(w<=1)return;
+  // MÊME mesure que justify() (clientWidth, insensible aux transformations) : avec
+  // getBoundingClientRect(), l'animation d'ouverture `frameIn` faisait mémoriser ici une largeur
+  // agrandie de 4,5%, et le recalcul légitime d'après l'animation était ensuite ignoré.
+  const w=gallery.clientWidth; if(w<=1)return;
   if(_lastW.get(gallery)===w)return;            // largeur inchangée → évite une boucle inutile
   _lastW.set(gallery,w); justify(gallery);
 }
