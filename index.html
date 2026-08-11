@@ -6,6 +6,11 @@
 <title>ablas frames — Fragments of my reality · Photographer</title>
 <meta name="description" content="ablas frames — independent film photographer. Fragments of light captured on film across the world: Thailand, Bali, London, Morocco, wildlife.">
 <meta name="theme-color" content="#F6F3E4">
+<!-- Icône de l'onglet. L'espace du nom de fichier est encodé en %20 : écrit tel quel, il reste
+     accepté par la plupart des navigateurs mais casse chez certains hébergeurs et CDN.
+     Aucune icône n'était déclarée jusqu'ici — le navigateur réclamait /favicon.ico et se prenait
+     un 404 à chaque visite. -->
+<link rel="icon" type="image/jpeg" href="Icone%20site.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- La bannière est la plus grande image du premier écran : c'est elle qui détermine la vitesse
@@ -14,12 +19,12 @@
 <link rel="preload" as="image" href="photographies/categories/banner/banner-1.jpeg" fetchpriority="high">
 <!-- Cormorant Garamond = police de TITRAGE (élégante, déliée, très présente sur les portfolios de
      photographes). Libre Baskerville = texte courant et étiquettes, inchangée.
-     Montserrat = NAVBAR SUR PC uniquement (voir .nav dans @media(min-width:761px)) : UNE SEULE
-     graisse, 400 — aucun élément de la barre n'en déclare d'autre, en demander plus ne ferait
-     qu'alourdir la feuille Google Fonts pour rien.
+     Montserrat = NAVBAR SUR PC (voir .nav dans @media(min-width:761px)) et TEXTE DE LA PAGE
+     ABOUT. Trois graisses, et pas une de plus : 300 pour les paragraphes, 400 pour la navbar,
+     600 pour le titre « About me ».
      Les deux cursives d'origine (Pinyon Script, Petit Formal Script) ont été retirées : elles ne
      stylaient plus aucun élément du HTML et se téléchargeaient pour rien. -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
 <!-- La police d'icônes Tabler a été RETIRÉE : servie depuis un CDN tiers, elle imposait une
      feuille de style bloquante + 761 Ko de fichier de police… pour 12 icônes en tout. Elles sont
      désormais dessinées en SVG inline (voir le sprite <svg id="icons"> juste après <body>).
@@ -44,7 +49,7 @@
   --bg-soft:#EDE9D6;       /* crème légèrement plus dense (cases de photo en attente) */
   --bg-intro:#E8E1C8;      /* beige soutenu — réservé à la section « Introduction » */
   --text:#1F1C16;          /* brun-noir */
-  --muted:#6B6455;
+  --muted:#0f0e0c;
   --faint:#706957;         /* 4,9:1 sur crème — l'ancien #6C6B63 clair y tombait à 2,8:1 */
   --line:rgba(31,28,22,.13);
   --line-strong:rgba(31,28,22,.26);
@@ -139,7 +144,17 @@ section.pad{padding:var(--sec-gap) 0;}
    l'ancien mécanisme .logo-day/.logo-night existait pour alterner noir/blanc selon le fond ;
    l'icône marron étant une couleur de marque fixe, il est retiré. */
 .logo-swap{display:inline-flex;align-items:center;line-height:0;}
-.logo-swap img{width:auto;height:100%;}
+/* ===== FACTEUR 2 : COMPENSE LA MARGE TRANSPARENTE DU FICHIER, PAS UN CHOIX ESTHÉTIQUE =====
+   Le PNG a été redessiné sur une toile carrée 1600×1600 où le monogramme n'occupe plus que
+   45,1% de la hauteur, contre 90,4% dans la version précédente (1046×801) — pour un dessin de
+   taille identique (968×721 contre 969×724). À hauteur de boîte égale, il apparaissait donc
+   exactement moitié moins grand : 0,904 / 0,451 = 2,00.
+   Le `transform` agrandit SANS toucher à la mise en page : les hauteurs déclarées plus bas
+   (38px dans la navbar, 32px une fois compactée, 34px pour l'ornement…) restent inchangées, la
+   navbar garde sa hauteur, et seul le débord — entièrement transparent — sort de la boîte.
+   ⚠ Si le logo est un jour réexporté SANS cette marge, il faudra retirer ce scale, sinon il
+   deviendra deux fois trop grand. */
+.logo-swap img{width:auto;height:100%;transform:scale(2);}
 .nav-logo .logo-swap{height:38px;transition:height .4s var(--ease);}
 .nav.compact .nav-logo .logo-swap{height:32px;}
 .navchip{display:none;align-items:center;gap:7px;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);}
@@ -278,8 +293,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .hero-2col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
 .hero-txt{text-align:left;}
 .hero-txt .eyebrow{margin-bottom:16px;}
-.hero-txt h2{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(34px,4.2vw,56px);line-height:1.12;color:var(--text);margin-bottom:26px;}
-.hero-intro{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(20px,2.3vw,28px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
+/* Le titre reprend la police des étiquettes « Gallery » des pages de frame, c'est-à-dire
+   Libre Baskerville — la police de texte courant du site, héritée du <body>. On retire donc
+   simplement la déclaration de police et l'italique du titrage. */
+.hero-txt h2{font-weight:400;font-size:clamp(34px,4.2vw,56px);line-height:1.12;color:var(--text);margin-bottom:26px;}
+/* La description s'aligne sur celles des frames (.chap-intro p) : même Cormorant Garamond,
+   même graisse 300, et surtout SANS italique — c'était la seule différence entre les deux. */
+.hero-intro{font-family:var(--font-display);font-weight:300;font-size:clamp(20px,2.3vw,28px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
   box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
@@ -304,7 +324,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .sel-lead h2{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(30px,4vw,49px);color:var(--text);margin-bottom:10px;}
 .sel-lead p{color:var(--muted);font-size:15px;}
 .sel-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:30px;}
-.sel-cell{position:relative;overflow:hidden;cursor:default;background:var(--frame-c);
+.sel-cell{position:relative;overflow:hidden;cursor:zoom-in;background:var(--frame-c);
   border:var(--frame-w) solid var(--frame-c);outline:1px solid var(--frame-o);
   box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0 rgba(0,0,0,.25);
   transition:box-shadow .5s var(--ease),transform .5s var(--ease);}
@@ -369,9 +389,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .chap-cap .meta .t{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:#FFF6EE;white-space:nowrap;text-shadow:0 1px 10px rgba(0,0,0,.45);}
 .chap-cap .meta .meta-rule{flex:none;height:1px;width:clamp(56px,13vw,168px);background:rgba(255,246,238,.55);}
 .chap-cap h1{font-family:var(--font-display);font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(39px,8vw,67px);line-height:1.02;}
-/* le padding BAS n'est plus nul : le bloc porte désormais le fond coloré du thème (voir
-   « THÈME DE COULEUR PAR FRAME »), le texte ne doit donc pas coller au bord de l'aplat */
-.chap-txt{padding:var(--sec-gap) 22px calc(var(--sec-gap) * 1.15);}
+.chap-txt{padding:var(--sec-gap) 22px 0;}
 .chap-txt>.meta,.chap-txt>h1{display:none;}                 /* méta+titre déjà superposés sur la photo (mobile) */
 .chap-intro{padding:0;}
 .chap-intro p{font-family:var(--font-display);font-size:clamp(20px,2.5vw,28px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;}
@@ -402,13 +420,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0 rgba(0,0,0,.25);}
   .frame-page .chap-photo::after{display:none;}
   .frame-page .chap-cap{display:none;}
-  /* PC : le pavé de texte est un aplat de couleur autonome à droite de la photo — il lui faut
-     donc sa propre marge intérieure (sur mobile il est pleine largeur, réglé plus haut).
-     Colonne flex centrée : comme le bloc s'étire désormais à la hauteur de la photo (voir
-     `stretch` ci-dessus), le texte se retrouverait plaqué en haut avec un vide sous lui —
-     `justify-content:center` le recentre dans l'aplat. */
-  .frame-page .chap-txt{padding:clamp(26px,2.3vw,40px) clamp(28px,2.7vw,46px);border-radius:6px;
-    display:flex;flex-direction:column;justify-content:center;}
+  /* Plus d'aplat coloré, donc plus de marge intérieure ni d'angles arrondis : le texte revient
+     au ras de sa colonne. La colonne flex centrée est conservée — c'est elle qui aligne le bloc
+     de texte sur la hauteur de la photo (voir `stretch` ci-dessus). */
+  .frame-page .chap-txt{padding:0;display:flex;flex-direction:column;justify-content:center;}
   .frame-page .chap-txt>.meta{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
   .frame-page .chap-txt>.meta .t{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--faccent);white-space:nowrap;}
   .frame-page .chap-txt>.meta .meta-rule{flex:1;max-width:160px;height:1px;background:var(--faccent);opacity:.5;}
@@ -421,7 +436,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .gitem{position:relative;overflow:hidden;border-radius:8px;cursor:pointer;background:var(--bg-soft);}
 .gitem .img{position:absolute;inset:0;transition:transform 1.2s var(--ease);}.gitem:hover .img{transform:scale(1.05);}
 .gitem .glow{position:absolute;inset:0;opacity:0;transition:.5s;box-shadow:inset 0 0 70px var(--cglow);}.gitem:hover .glow{opacity:1;}
-.gitem .zoom{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;opacity:0;transition:.4s;color:#fff;font-size:22px;z-index:2;}.gitem:hover .zoom{opacity:.95;}
 .gitem .cap{position:absolute;left:14px;bottom:12px;z-index:2;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,250,245,.92);opacity:0;transform:translateY(6px);transition:.5s var(--ease);text-shadow:0 1px 6px rgba(0,0,0,.5);}.gitem:hover .cap{opacity:1;transform:none;}
 .s-wide{grid-column:span 8;aspect-ratio:16/9;}.s-tall{grid-column:span 4;aspect-ratio:3/4;}.s-sq{grid-column:span 4;aspect-ratio:1;}.s-half{grid-column:span 6;aspect-ratio:3/2;}.s-port{grid-column:span 5;aspect-ratio:4/5;}.s-pan{grid-column:span 12;aspect-ratio:21/9;}
 
@@ -551,19 +565,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 [data-chap="wildlife"],   [data-chapter="wildlife"]   {--ftheme:#FADF7F;--ftheme-ink:#171310;}
 [data-chap="scotland"],   [data-chapter="scotland"]   {--ftheme:#D2EBFF;--ftheme-ink:#171310;}
 
-/* LE PAVÉ DE TEXTE de la frame (méta + titre + description) prend la couleur du thème.
-   Le reste de la page — galerie, ornement, pied — garde le crème du site.
-   Redéfinir --ftext ICI suffit à repeindre tout ce que le pavé contient : le titre et le
-   paragraphe s'y réfèrent déjà (voir plus haut), inutile de les cibler un par un. */
-.frame-page .chap-txt{
-  background:var(--ftheme,var(--bg));
-  color:var(--ftheme-ink,var(--text));
-  --ftext:var(--ftheme-ink,var(--text));
-  --faccent:var(--ftheme-soft,color-mix(in srgb,var(--ftheme-ink,var(--text)) 78%,transparent));
-}
-/* la description était volontairement adoucie (opacity .94) sur le crème ; posée sur un aplat
-   coloré, cette atténuation grignote le contraste — l'encre reprend ici sa pleine densité. */
-.frame-page .chap-txt .chap-intro p{opacity:1;}
+/* LE PAVÉ DE TEXTE NE PORTE PLUS D'APLAT : titre et description reposent sur le crème du site,
+   comme le reste de la page. Le thème ne subsiste que sur le cadre du tirage (règle suivante,
+   sur PC) et sur les cartes de la page Frames.
+   Rien à « annuler » ici : les variables --ftheme… ne sont simplement plus employées par ce
+   bloc, qui retrouve donc --ftext et --faccent de la palette du site. Elles restent définies
+   plus haut pour le cadre et les cartes. */
 
 /* LE CADRE DU TIRAGE prend lui aussi la couleur du thème, au lieu du blanc commun au reste du
    site : le passe-partout et le pavé de texte deviennent une seule pièce colorée qui encadre
@@ -592,17 +599,24 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* survol : léger assombrissement + loupe (l'image ne bouge pas) */
 .frame-page .gitem::after{content:"";position:absolute;inset:0;z-index:1;background:rgba(20,14,8,0);transition:background .35s var(--ease);pointer-events:none;}
 .frame-page .gitem:hover::after{background:rgba(20,14,8,.26);}
-.frame-page .gitem .gzoom{position:absolute;inset:0;z-index:2;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;line-height:1;opacity:0;transition:opacity .35s var(--ease);pointer-events:none;}
-.frame-page .gitem:hover .gzoom{opacity:.95;}
+/* (loupe de survol retirée — seul le léger assombrissement ci-dessus signale que la photo
+   s'agrandit au clic ; le curseur `zoom-in` posé sur .gitem le confirme) */
 @media(max-width:640px){.frame-page .gallery{gap:7px;}}
 
 /* ===================== ABOUT (texte + galerie panoramique · asymétrique) ===================== */
 .wrap.about{padding-top:calc(var(--sec-gap) * 1.3);padding-bottom:calc(var(--sec-gap) * 1.3);}
 .about-col{display:grid;grid-template-columns:0.92fr 1.18fr;gap:80px;align-items:start;}
 .about-txt{text-align:left;}
-.about-h{font-family:'Libre Baskerville',serif;text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
+/* ===== PAGE ABOUT EN LINÉALE GÉOMÉTRIQUE =====
+   Seule page du site à quitter les serifs : Montserrat, déjà chargée pour la navbar, donc
+   aucun téléchargement supplémentaire. Posée sur le conteneur, elle est héritée par les
+   paragraphes ; la signature manuscrite garde son Cormorant, qu'elle déclare elle-même. */
+.about-txt{font-family:'Montserrat','Libre Baskerville',sans-serif;}
+.about-h{text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
   padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
-.about-txt p{font-size:15px;line-height:2.05;color:var(--muted);margin-bottom:22px;}
+/* graisse 300 : une linéale géométrique paraît plus dense qu'un serif à taille égale, le
+   maigre lui rend l'air qu'avait le texte en Libre Baskerville */
+.about-txt p{font-size:15px;font-weight:300;line-height:2.05;color:var(--muted);margin-bottom:22px;}
 .about-txt .sig{font-family:var(--font-display);font-size:34px;color:var(--accent);margin-top:8px;}
 .about-gal{display:flex;flex-direction:column;gap:22px;}
 .pano{position:relative;aspect-ratio:21/9;overflow:hidden;border-radius:4px;background:var(--bg-soft);
@@ -723,7 +737,22 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .lb-close{position:absolute;top:28px;right:32px;width:44px;height:44px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:rgba(20,14,8,.42);transition:background .3s;}.lb-close:hover{background:rgba(20,14,8,.72);}
 /* fond sombre translucide : posées SUR la photo, des flèches blanches sans fond disparaissaient
    sur les clichés clairs — le repère visuel doit tenir quel que soit l'arrière-plan */
-.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border-radius:50%;border:.5px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;background:rgba(20,14,8,.42);opacity:0;transition:opacity .3s,background .3s;}.lb:hover .lb-arrow{opacity:1;}.lb-arrow:hover{background:rgba(20,14,8,.72);}.lb-prev{left:34px;}.lb-next{right:34px;}
+/* Flèches MINIMALISTES : plus de pastille ronde, juste le chevron.
+   Le contour noir ne vient pas d'une bordure mais de deux `drop-shadow` empilés sur le tracé :
+   la première épouse le trait de près et le détoure, la seconde l'assoit d'une ombre plus
+   douce. C'est ce qui garde la flèche lisible aussi bien sur un ciel clair que sur une ombre,
+   là où un simple blanc disparaissait sur les photos claires — la raison d'être de l'ancien
+   fond sombre, désormais inutile.
+   La zone cliquable reste 48×48 : c'est le confort au doigt, indépendant du dessin. */
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;
+  border:none;border-radius:0;background:none;padding:0;
+  display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;
+  font-size:36px;opacity:0;transition:opacity .3s,transform .3s var(--ease);}
+.lb-arrow .ic{stroke-width:2.1;
+  filter:drop-shadow(0 0 1.5px rgba(0,0,0,.95)) drop-shadow(0 1px 4px rgba(0,0,0,.7));}
+.lb:hover .lb-arrow{opacity:1;}
+.lb-arrow:hover{transform:translateY(-50%) scale(1.14);}
+.lb-prev{left:26px;}.lb-next{right:26px;}
 /* au doigt il n'y a PAS de survol : sans cette règle les flèches restaient invisibles sur mobile */
 @media(hover:none){.lb-arrow{opacity:1;}}
 .lb-count{position:absolute;top:32px;left:34px;font-size:11px;letter-spacing:.14em;color:rgba(255,245,235,.6);}
@@ -762,12 +791,11 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .hero-txt .eyebrow{margin-bottom:9px;}
   .hero-txt h2{font-size:26px;line-height:1.2;margin-bottom:13px;}
   .hero-intro{font-size:17px;line-height:1.55;}
-  /* Espace au-dessus de la description mobile — C'EST LA VALEUR À RÉGLER.
+  /* Espace sous la bannière mobile avant la description — C'EST LA VALEUR À RÉGLER.
      Plus le multiplicateur est grand, plus la description descend.
-     Ramené de 2,4 à 1,5 depuis que le bloc porte le fond coloré du thème : cet espace n'est
-     plus un blanc entre la photo et le texte, mais la marge INTÉRIEURE HAUTE de l'aplat.
-     À 2,4 (62px) il écrasait la marge basse (30px) et la bande paraissait déséquilibrée. */
-  .chap-txt{padding-top:calc(var(--sec-gap) * 1.5);}
+     Revenu à 2,4 (sa valeur d'origine) : l'aplat coloré ayant disparu, cet espace redevient un
+     simple blanc entre la photo et le texte, et non la marge intérieure d'une bande. */
+  .chap-txt{padding-top:calc(var(--sec-gap) * 2.4);}
   /* bas de page allégé sur mobile : footer et ornement de fin */
   .foot{padding:20px 0;}
   .foot p{font-size:10px;}
@@ -878,7 +906,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   <symbol id="i-x"            viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></symbol>
   <symbol id="i-mail"         viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7.5 9 6 9-6"/></symbol>
   <symbol id="i-send"         viewBox="0 0 24 24"><path d="M10 14 21 3M21 3l-6.5 18-4-8-8-4z"/></symbol>
-  <symbol id="i-zoom-in"      viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M21 21l-5.9-5.9M7.5 10.5h6M10.5 7.5v6"/></symbol>
   <symbol id="i-instagram"    viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="4.5"/><circle cx="12" cy="12" r="3.6"/><path d="M16.9 7.1v.01"/></symbol>
 </svg>
 
@@ -949,8 +976,8 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="wrap">
       <div class="hero-2col">
         <div class="hero-txt reveal">
-          <p class="eyebrow">Introduction</p>
-          <h2 class="serif">Every frame<br>begins with a feeling</h2>
+          <!-- sur-titre « Introduction » retiré : le titre porte la section à lui seul -->
+          <h2>Every frame<br>begins with a feeling</h2>
           <p class="hero-intro">Photography has never been about documenting reality exactly as it is. It is about preserving the way a moment felt before it disappeared.</p>
         </div>
         <div class="hero-photo reveal">
@@ -981,6 +1008,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="wrap">
       <div class="lead reveal"><h2 class="serif">Albums</h2></div>
       <div class="frames-list">
+        <article class="frame-row reveal" data-chapter="morocco">
+          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/portraits/echoes-of-morocco/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span></div>
+        </article>
         <article class="frame-row reveal" data-chapter="thailand">
           <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/thailand/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Thailand</h3><span class="frow-s">Travel</span></div>
@@ -989,21 +1020,17 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
           <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/bali/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Bali</h3><span class="frow-s">Travel</span></div>
         </article>
-        <article class="frame-row reveal" data-chapter="hydepark">
-          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
-          <div class="frow-meta"><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span></div>
-        </article>
         <article class="frame-row reveal" data-chapter="nightmarkets">
           <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/night-markets/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Night Markets</h3><span class="frow-s">Travel</span></div>
         </article>
-        <article class="frame-row reveal" data-chapter="morocco">
-          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/portraits/echoes-of-morocco/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
-          <div class="frow-meta"><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span></div>
-        </article>
         <article class="frame-row reveal" data-chapter="scotland">
           <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Scotland</h3><span class="frow-s">Travel</span></div>
+        </article>
+        <article class="frame-row reveal" data-chapter="hydepark">
+          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span></div>
         </article>
       </div>
     </div>
@@ -1182,10 +1209,19 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="about-col">
       <div class="about-txt">
         <h2 class="about-h reveal">About me</h2>
-        <p class="reveal">An independent photographer, I work on film and digital alike, driven by one shared obsession: natural light, the unposed moment, the imperfection that rings true.</p>
-        <p class="reveal">Film imposes its own pace: a handful of frames, no screen to check. You wait, you look twice, and the light decides.</p>
-        <p class="reveal">Every journey becomes a gathering of fragments — faces, landscapes, silences the eye usually forgets. I bring them back the way one brings back letters from a distant land.</p>
-        <p class="reveal">Fragments of a reality that is mine, held out to you — a way of looking at the world, at the height of silence.</p>
+        
+
+
+
+
+        <p class="reveal">My art is not about documenting life as it is, but about shaping it through my lens.</p>
+        <p class="reveal">Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.
+</p>
+        <p class="reveal">In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it. With a single click, time could slow down, stretch, or even stop.
+</p>
+        <p class="reveal">I am self-taught, learning through practice and intuition, guided by the internal belief that passions have no fixed rules.
+</p>
+<p class="reveal">Art is simply what we choose to make of it.</p>
       </div>
       <!-- photos PAYSAGE (1600x1066) : mieux adaptées à une bande panoramique que des sources
            portrait, et affichées sans agrandissement.
@@ -1408,7 +1444,7 @@ function buildGallery(key){
     const src='photographies/categories/'+g.dir+'/'+file;
     const alt=(i===0)?g.label:g.label+' — '+i;
     // width/height sur la balise : le navigateur réserve nativement le bon rapport d'aspect
-    html+='<figure class="gitem" data-r="'+(w/h).toFixed(4)+'"><img class="gimg" width="'+w+'" height="'+h+'" src="'+src+'" alt="'+alt+'" loading="lazy"><span class="gzoom"><svg class="ic"><use href="#i-zoom-in"/></svg></span></figure>';
+    html+='<figure class="gitem" data-r="'+(w/h).toFixed(4)+'"><img class="gimg" width="'+w+'" height="'+h+'" src="'+src+'" alt="'+alt+'" loading="lazy"></figure>';
   });
   host.innerHTML=html;
   host.querySelectorAll('img.gimg').forEach(img=>{
@@ -1783,7 +1819,12 @@ function lbRender(){
 }
 function move(d){idx=(idx+d+items.length)%items.length;lbRender();}
 function closeLB(){lb.classList.remove('open');document.body.style.overflow='';window.scrollTo({top:scrollMem});}
-document.addEventListener('click',e=>{const it=e.target.closest('.gitem');if(!it)return;const set=Array.from(document.querySelectorAll('.page.active .gitem'));items=set;idx=set.indexOf(it);scrollMem=window.scrollY;lbRender();lb.classList.add('open');document.body.style.overflow='hidden';});
+/* `.sel-cell` = les tirages de la section « Gallery » de l'accueil, ajoutés ici aux `.gitem`
+   des galeries de frame : mêmes flèches, mêmes raccourcis clavier, même balayage tactile.
+   Le lot parcouru est celui de la PAGE ACTIVE, et les deux sélecteurs ne coexistent jamais sur
+   une même page — l'accueil n'a que des .sel-cell, une frame que des .gitem. */
+const LB_SEL='.gitem,.sel-cell';
+document.addEventListener('click',e=>{const it=e.target.closest(LB_SEL);if(!it)return;const set=Array.from(document.querySelectorAll('.page.active .gitem,.page.active .sel-cell'));items=set;idx=set.indexOf(it);scrollMem=window.scrollY;lbRender();lb.classList.add('open');document.body.style.overflow='hidden';});
 document.getElementById('lb-next').addEventListener('click',e=>{e.stopPropagation();move(1);});
 document.getElementById('lb-prev').addEventListener('click',e=>{e.stopPropagation();move(-1);});
 document.getElementById('lb-close').addEventListener('click',closeLB);
