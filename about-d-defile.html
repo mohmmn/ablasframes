@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — variante D · Défilé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VARIANTE D — « DÉFILÉ »
+   Entre les paragraphes, une rangée de photos qui se FAIT GLISSER AU DOIGT,
+   horizontalement. Le reste de la page défile verticalement : deux gestes,
+   deux axes, et la page paraît deux fois plus courte.
+   Idée : c'est la seule variante qui utilise un geste propre au téléphone.
+   Elle convient si vous voulez montrer BEAUCOUP de photos sans allonger la page.
+   Aucun JavaScript : `scroll-snap` suffit, le doigt fait le reste.
+   ============================================================ */
+:root{
+  --bg:#F6F3E4; --text:#1F1C16; --muted:#5F5949; --line:rgba(31,28,22,.13);
+  --accent:#7E6330;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  /* >>> LARGEUR DES VIGNETTES du défilé — la valeur à régler.
+     72% = on aperçoit la suivante, ce qui invite à faire glisser. 100% = plein écran. */
+  --vignette:72%;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.75;overflow-x:hidden;}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+
+.top{padding:52px 22px 30px;}
+.retour{display:inline-block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;margin-bottom:34px;}
+h1{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:40px;line-height:1.1;}
+.kicker{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+
+p{font-size:15px;font-weight:300;color:var(--muted);padding:0 22px;margin:24px 0 30px;}
+p.lead{font-family:var(--font-display);font-weight:300;font-size:23px;line-height:1.55;color:var(--text);}
+
+/* ---------- le défilé horizontal ---------- */
+.defile{display:flex;gap:10px;overflow-x:auto;margin:0 0 34px;padding:0 22px;
+  scroll-snap-type:x mandatory;
+  /* la barre de défilement est masquée : au doigt elle ne sert à rien et alourdit l'image */
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;}
+.defile::-webkit-scrollbar{display:none;}
+.defile figure{flex:0 0 var(--vignette);scroll-snap-align:center;}
+.defile img{aspect-ratio:4/5;border-radius:2px;}
+.defile figcaption{font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);padding-top:9px;}
+/* variante « bande » : des photos larges et basses, pour un défilé plus calme */
+.defile.bas figure{flex:0 0 86%;}
+.defile.bas img{aspect-ratio:16/10;}
+
+.indice{display:flex;align-items:center;gap:9px;padding:0 22px;margin:-22px 0 32px;
+  font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);}
+.indice::after{content:"";flex:1;height:.5px;background:var(--line);}
+
+.chute{padding:8px 22px 60px;}
+.chute p{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:26px;
+  line-height:1.45;color:var(--text);padding:0;}
+.chute .sig{display:block;margin-top:20px;font-family:var(--font-display);font-size:29px;color:var(--accent);}
+
+@media(min-width:700px){ body{max-width:620px;margin:0 auto;} }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a class="retour" href="index.html#about">← ablas frames</a>
+  <p class="kicker">About</p>
+  <h1>Abla</h1>
+</div>
+
+<p class="lead">My art is not about documenting life as it is, but about shaping it through my lens.</p>
+
+<p>Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.</p>
+
+<div class="indice">Glisser →</div>
+<div class="defile">
+  <figure><img src="photographies/categories/travel/thailand/thai-1.jpeg" alt=""><figcaption>Bangkok</figcaption></figure>
+  <figure><img src="photographies/categories/travel/thailand/thai-7.jpeg" alt=""><figcaption>Chiang Mai</figcaption></figure>
+  <figure><img src="photographies/categories/travel/thailand/thai-16.jpeg" alt=""><figcaption>Ayutthaya</figcaption></figure>
+  <figure><img src="photographies/categories/travel/thailand/thai-10.jpeg" alt=""><figcaption>Krabi</figcaption></figure>
+</div>
+
+<p>In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it. With a single click, time could slow down, stretch, or even stop.</p>
+
+<div class="defile bas">
+  <figure><img src="photographies/categories/travel/thailand/thai-18.jpeg" alt="" style="object-position:center 58%"></figure>
+  <figure><img src="photographies/categories/travel/thailand/thai-3.jpeg" alt="" style="object-position:center 45%"></figure>
+  <figure><img src="photographies/categories/travel/thailand/thai-21.jpeg" alt="" style="object-position:center 40%"></figure>
+</div>
+
+<p>I am self-taught, learning through practice and intuition, guided by the internal belief that passions have no fixed rules.</p>
+
+<div class="chute">
+  <p>Art is simply what we choose to make of it.</p>
+  <span class="sig">ablas frames</span>
+</div>
+
+</body>
+</html>

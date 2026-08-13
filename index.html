@@ -72,7 +72,22 @@
      Sur une même ligne d'album on lit donc « Thailand » en Cormorant et « Travel »
      en Libre Baskerville : c'est ce contraste qui crée la hiérarchie.
      ============================================================ */
+  /* ============================================================
+     LES 4 ZONES TYPOGRAPHIQUES — modifiables par le visiteur
+     Chaque zone est une variable, et une seule règle la pose. C'est ce qui permet au
+     sélecteur de polices (bouton « Aa », en bas à droite) de tout repeindre en écrivant
+     une variable sur <html>, sans toucher à une seule règle.
+       --font-display : TITRES et chapôs
+       --font-body    : TEXTE COURANT (posé sur <body>)
+       --font-about   : la page About, qui a sa propre voix
+       --font-label   : PETITES CAPITALES espacées (étiquettes, boutons, légendes)
+     LA NAVBAR ET LE MENU N'EN DÉPENDENT PAS : ils déclarent leur police en dur, plus bas,
+     et restent donc identiques quel que soit le choix du visiteur.
+     ============================================================ */
   --font-display:'Cormorant Garamond',Georgia,serif;
+  --font-body:'Libre Baskerville',Georgia,serif;
+  --font-about:'Montserrat','Libre Baskerville',sans-serif;
+  --font-label:'Libre Baskerville',Georgia,serif;
   /* cadre des tirages — 6px sur PC, 4px sur mobile (voir @media max-width:760px)
      BLANC PUR : sur fond crème, l'ancien #F0EDE6 se confondait avec la page. */
   --frame-w:6px;
@@ -92,7 +107,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{font-family:'Libre Baskerville',serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);}
 .serif{font-family:var(--font-display);}
 img{display:block;max-width:100%;}
@@ -120,7 +135,11 @@ section.pad{padding:var(--sec-gap) 0;}
 #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:300;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .15s linear;}
 
 /* ===================== NAVBAR (identique v1) ===================== */
-.nav{position:sticky;top:0;z-index:200;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 64px;gap:48px;
+/* POLICE FIGÉE — la navbar est explicitement exclue du sélecteur de polices du visiteur.
+   Sans cette déclaration elle hériterait de --font-body et changerait avec le reste.
+   (Sur PC, Montserrat prend le relais dans @media(min-width:761px) plus bas.) */
+.nav{font-family:'Libre Baskerville',Georgia,serif;
+  position:sticky;top:0;z-index:200;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:22px 64px;gap:48px;
   background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:.5px solid var(--line);
   transition:background .6s var(--ease),border-color .6s;}
 .nav-links{display:flex;gap:46px;align-items:center;justify-self:center;}
@@ -214,7 +233,9 @@ body.menu-open .burger span:nth-child(3){transform:translateY(-6.5px) rotate(-45
    style VISÉ. À l'ouverture, le style visé (`body.menu-open .menu`) porte la transition → le menu
    se déroule. À la fermeture, le style visé (`.menu`) n'en a pas → le menu disparaît net.
    Même principe pour les liens, qui montent en cascade à l'ouverture seulement. */
-.menu{position:fixed;top:0;left:0;right:0;z-index:150;
+/* le menu déroulant est le prolongement de la navbar : sa police est figée elle aussi */
+.menu{font-family:'Libre Baskerville',Georgia,serif;
+  position:fixed;top:0;left:0;right:0;z-index:150;
   background:color-mix(in srgb,var(--bg) 97%,transparent);backdrop-filter:blur(10px);
   border-bottom:.5px solid var(--line);box-shadow:0 24px 44px -26px rgba(60,40,20,.55);
   padding:92px 24px 24px;
@@ -224,7 +245,7 @@ body.menu-open .menu{transform:translateY(0);opacity:1;visibility:visible;
 .menu-inner{max-width:var(--maxw);margin:0 auto;}
 .menu-links{display:flex;flex-direction:column;}
 .menu-links a{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:15px 2px;cursor:pointer;text-decoration:none;color:var(--text);
-  font-family:var(--font-display);font-style:italic;font-weight:300;font-size:31px;line-height:1;
+  font-family:'Cormorant Garamond',Georgia,serif;font-style:italic;font-weight:300;font-size:31px;line-height:1;
   border-bottom:.5px solid var(--line);
   opacity:0;transform:translateY(10px);transition:color .3s;}
 body.menu-open .menu-links a{opacity:1;transform:none;transition:opacity .5s var(--ease),transform .5s var(--ease),color .3s;}
@@ -289,14 +310,26 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .home-hero{padding:calc(var(--sec-gap) * 1.9) 0;background:var(--bg-intro);
   /* Le beige étant plus soutenu que le crème, l'accent et le gris de texte y perdaient du
      contraste (4,3:1 et 4,5:1, sous le seuil lisible). On les fonce d'un cran, UNIQUEMENT ici. */
-  --accent:#71572A;--muted:#5F5949;}
+  --accent:#71572A;--muted:#000000;}
 .hero-2col{display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
 .hero-txt{text-align:left;}
 .hero-txt .eyebrow{margin-bottom:16px;}
-/* Le titre reprend la police des étiquettes « Gallery » des pages de frame, c'est-à-dire
-   Libre Baskerville — la police de texte courant du site, héritée du <body>. On retire donc
-   simplement la déclaration de police et l'italique du titrage. */
-.hero-txt h2{font-weight:400;font-size:clamp(34px,4.2vw,56px);line-height:1.12;color:var(--text);margin-bottom:26px;}
+/* ============================================================
+   TITRE D'INTRODUCTION « Every frame begins with a feeling »
+   >>> LA TAILLE SE RÈGLE ICI, ET NULLE PART AILLEURS SUR PC <<<
+   clamp(mini, taille fluide, maxi) : le 1er chiffre est le plancher sur les écrans étroits,
+   le 3e le plafond sur les grands. Augmenter le 3e agrandit le titre sur grand écran.
+   (Une seconde valeur existe pour le mobile, dans @media(max-width:760px) — cherchez
+   « .hero-txt h2 » plus bas dans la feuille.)
+
+   ⚠ POURQUOI CES CHIFFRES : le titre tient désormais sur UNE SEULE LIGNE (`nowrap`), et
+   Libre Baskerville est une police large — la phrase mesure 17,1 fois le corps employé.
+   La colonne du héros fait la moitié de la page : 560px au maximum, soit 32px de corps
+   avant que la ligne ne déborde ; et seulement 353px à 881px, où la mise en page passe à
+   deux colonnes, soit 20px. D'où le plancher à 20 et le plafond à 32.
+   Monter le plafond au-delà de 32 ferait déborder la ligne sur les écrans moyens.
+   ============================================================ */
+.hero-txt h2{font-weight:400;font-size:clamp(20px,2.3vw,32px);line-height:1.2;color:var(--text);margin-bottom:26px;white-space:nowrap;}
 /* La description s'aligne sur celles des frames (.chap-intro p) : même Cormorant Garamond,
    même graisse 300, et surtout SANS italique — c'était la seule différence entre les deux. */
 .hero-intro{font-family:var(--font-display);font-weight:300;font-size:clamp(20px,2.3vw,28px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
@@ -373,6 +406,15 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    dans les états survolés et les thèmes de frame. */
 .ic{width:1em;height:1em;flex:none;display:inline-block;vertical-align:-.125em;
   fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+/* ===== ZONE « ÉTIQUETTES » — toutes les petites capitales espacées du site =====
+   Regroupées ici plutôt que déclarées une par une : c'est ce qui rend la zone modifiable
+   d'un seul geste par le sélecteur de polices. Les sélecteurs de la navbar et du menu en
+   sont volontairement absents. */
+.eyebrow,.frow-s,.pill,.ig-btn,.fn-k,.fn-all,.lb-count,.contact-alt a,.foot p,
+.banner .kicker,.banner .tagline,.list-card .meta .tag,.ig-card .k,
+.chap-cap .meta .t,.frame-page .chap-txt>.meta .t,.sel-cell .cap,.gitem .cap,.lb .cap{
+  font-family:var(--font-label);}
 .eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
 .sec-h{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(32px,4.6vw,54px);line-height:1.08;color:var(--text);}
 .embro{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto;}.embro .ln{height:.5px;width:50px;background:var(--line-strong);}
@@ -558,7 +600,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    En la déclarant partout, plus aucun héritage n'est possible. */
 [data-chap],[data-chapter]{--ftheme-soft:color-mix(in srgb,var(--ftheme-ink,var(--text)) 78%,transparent);}
 [data-chap="thailand"],   [data-chapter="thailand"]   {--ftheme:#828700;--ftheme-ink:#FFFFFF;--ftheme-soft:#FFFFFF;}
-[data-chap="bali"],       [data-chapter="bali"]       {--ftheme:#24bee5;--ftheme-ink:#FFFFFF;--ftheme-soft:#FFFFFF;}
+[data-chap="bali"],       [data-chapter="bali"]       {--ftheme:#00daaf;--ftheme-ink:#FFFFFF;--ftheme-soft:#FFFFFF;}
 [data-chap="hydepark"],   [data-chapter="hydepark"]   {--ftheme:#F3F0E9;--ftheme-ink:#171310;}
 [data-chap="nightmarkets"],[data-chapter="nightmarkets"]{--ftheme:#12263A;--ftheme-ink:#FFF6EE;}
 [data-chap="morocco"],    [data-chapter="morocco"]    {--ftheme:#012B95;--ftheme-ink:#FFF6EE;}
@@ -611,7 +653,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    Seule page du site à quitter les serifs : Montserrat, déjà chargée pour la navbar, donc
    aucun téléchargement supplémentaire. Posée sur le conteneur, elle est héritée par les
    paragraphes ; la signature manuscrite garde son Cormorant, qu'elle déclare elle-même. */
-.about-txt{font-family:'Montserrat','Libre Baskerville',sans-serif;}
+.about-txt{font-family:var(--font-about);}
 .about-h{text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
   padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
 /* graisse 300 : une linéale géométrique paraît plus dense qu'un serif à taille égale, le
@@ -637,20 +679,61 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .about-gal .pano{aspect-ratio:auto;flex:1 1 0;min-height:0;}
 }
 
-/* ----- MOBILE : TOUT LE TEXTE, PUIS TOUTES LES PHOTOS -----
-   Les photos ne s'intercalent plus entre les paragraphes. `.about-txt` et `.about-gal`
-   restent donc deux blocs distincts, empilés dans l'ordre du HTML — on a retiré le
-   `display:contents` + les `order` qui servaient à les entrelacer. */
+/* ============================================================
+   MOBILE — MISE EN PAGE « BANDES »
+   Le texte est coupé par des bandes photo très fines et pleine largeur : la photo ne
+   raconte pas, elle ponctue. On n'en voit qu'une tranche, et c'est ce cadrage serré qui
+   donne le rythme de lecture.
+
+   COMMENT L'ENTRELACEMENT EST OBTENU SANS TOUCHER AU HTML :
+   le balisage garde ses deux blocs (.about-txt puis .about-gal) parce que le PC en a besoin
+   pour ses deux colonnes. `display:contents` les fait disparaître en tant que boîtes — leurs
+   enfants deviennent alors directement les éléments flex de .about-col — et `order` les
+   réordonne un à un pour alterner paragraphe / bande.
+   L'héritage n'est pas rompu au passage : les propriétés héritées (la police de la zone
+   About, l'alignement) traversent `display:contents` normalement.
+   ============================================================ */
 @media(max-width:880px){
-  /* align-items:stretch est INDISPENSABLE : la règle desktop pose align-items:start, or en
-     colonne flex cela empêche l'étirement et chaque élément prend sa largeur intrinsèque.
-     Un .pano ne contient qu'une image en position:absolute → largeur intrinsèque nulle
-     → les photos disparaissaient en ne laissant qu'un espace vide. */
-  .about-col{display:flex;flex-direction:column;align-items:stretch;gap:30px;}
-  /* hauteur des photos sur mobile : c'est LA valeur à régler.
-     Plus le 1er nombre est grand, plus la bande est fine (3/1 → hauteur = largeur / 3).
-     Repères : 2/1 = 173px · 5/2 = 138px · 3/1 = 115px · 7/2 = 99px */
-  .pano{aspect-ratio:5/2;}
+  .about-col{display:flex;flex-direction:column;align-items:stretch;gap:0;}
+  .about-col>.about-txt,.about-col>.about-gal{display:contents;}
+
+  /* >>> L'ALTERNANCE — l'ordre de lecture sur mobile <<<
+     Impair = paragraphe, pair = bande photo. Pour intervertir deux éléments, il suffit
+     d'échanger leurs numéros ; pour retirer une bande, donner un `order` plus grand que 9. */
+  .about-txt .about-h{order:0;}
+  .about-txt p:nth-of-type(1){order:1;}
+  .about-gal .pano:nth-of-type(1){order:2;}
+  .about-txt p:nth-of-type(2){order:3;}
+  .about-gal .pano:nth-of-type(2){order:4;}
+  .about-txt p:nth-of-type(3){order:5;}
+  .about-gal .pano:nth-of-type(3){order:6;}
+  .about-txt p:nth-of-type(4){order:7;}
+  .about-gal .pano:nth-of-type(4){order:8;}
+  .about-txt p:nth-of-type(5){order:9;}
+
+  .about-txt .about-h{margin-bottom:26px;}
+  .about-txt p{margin:0 0 30px;}
+
+  /* la première phrase porte la voix : plus grande, en serif — c'est l'exergue */
+  .about-txt p:nth-of-type(1){font-family:var(--font-display);font-weight:300;
+    font-size:22px;line-height:1.55;color:var(--text);margin-bottom:34px;}
+  /* la dernière la referme */
+  .about-txt p:nth-of-type(5){font-family:var(--font-display);font-weight:300;
+    font-size:22px;line-height:1.5;color:var(--text);margin:8px 0 0;text-align:center;}
+
+  /* ----- LES BANDES -----
+     Pleine largeur d'écran alors que le conteneur est en retrait : la largeur du retrait
+     change selon la taille (22px sous 760px, 48px au-dessus), on ne peut donc pas la
+     compenser par une marge négative fixe. `100vw` recentré est indépendant du parent.
+     Le débord latéral est absorbé par `overflow-x:hidden` posé sur <body>. */
+  .about-gal .pano{width:100vw;margin-left:50%;transform:translateX(-50%);
+    border-radius:0;box-shadow:none;margin-bottom:30px;
+    /* >>> FINESSE DES BANDES — LA VALEUR À RÉGLER <<<
+       Plus le 1er nombre est grand, plus la bande est fine.
+       Repères sur un écran de 390px : 3/1 = 130px · 4/1 = 98px · 5/1 = 78px · 6/1 = 65px */
+    aspect-ratio:5/1;}
+  /* sur une bande aussi fine, c'est --focus (posé en style inline dans le HTML) qui décide
+     de ce que l'on voit réellement de la photo */
 }
 
 /* ===================== CONTACT (Instagram mis en avant) ===================== */
@@ -721,12 +804,60 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .contact-alt a:hover{color:var(--accent);}
 .contact-alt a .ic{font-size:20px;color:var(--accent);}
 
+/* ===================== SÉLECTEUR DE POLICES (bouton « Aa ») =====================
+   Discret par défaut : une pastille en bas à droite, au-dessus de tout sauf la visionneuse.
+   Le panneau ne charge AUCUNE police tant qu'on n'a rien choisi — les 15 familles proposées
+   ne sont téléchargées qu'à la sélection (voir chargerPolice() dans le script). */
+.fontbtn{position:fixed;right:20px;bottom:20px;z-index:420;width:46px;height:46px;border-radius:50%;
+  border:.5px solid var(--line-strong);background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(8px);color:var(--text);cursor:pointer;
+  font-family:'Libre Baskerville',Georgia,serif;font-size:15px;letter-spacing:.02em;
+  box-shadow:0 10px 26px -12px rgba(60,40,20,.5);transition:transform .3s var(--ease),color .3s;}
+.fontbtn:hover{transform:translateY(-2px);color:var(--accent);}
+.fontpanel{position:fixed;right:20px;bottom:78px;z-index:421;width:min(316px,calc(100vw - 40px));
+  background:color-mix(in srgb,var(--bg) 97%,transparent);backdrop-filter:blur(12px);
+  border:.5px solid var(--line-strong);border-radius:14px;padding:20px 20px 16px;
+  box-shadow:0 26px 60px -24px rgba(60,40,20,.6);
+  font-family:'Libre Baskerville',Georgia,serif;   /* le panneau ne se repeint pas lui-même */
+  display:none;}
+.fontpanel.open{display:block;}
+.fontpanel h3{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
+  font-weight:400;margin-bottom:4px;}
+.fontpanel .sub{font-size:11px;color:var(--faint);line-height:1.55;margin-bottom:16px;}
+.fontrow{margin-bottom:13px;}
+.fontrow label{display:block;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);margin-bottom:5px;}
+.fontrow select{width:100%;padding:9px 10px;border:.5px solid var(--line-strong);border-radius:7px;
+  background:var(--bg);color:var(--text);font-size:13px;font-family:inherit;cursor:pointer;}
+.fontrow select:focus{outline:none;border-color:var(--accent);}
+.fontfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;
+  margin-top:15px;padding-top:12px;border-top:.5px solid var(--line);}
+.fontfoot button{font-family:inherit;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  background:none;border:none;color:var(--muted);cursor:pointer;padding:4px 0;transition:color .3s;}
+.fontfoot button:hover{color:var(--accent);}
+@media(max-width:760px){.fontbtn{right:14px;bottom:14px;width:42px;height:42px;}
+  .fontpanel{right:14px;bottom:64px;}}
+@media print{.fontbtn,.fontpanel{display:none;}}
+
 .foot{padding:50px 0;text-align:center;border-top:.5px solid var(--line);position:relative;z-index:2;}.foot p{font-size:11px;letter-spacing:.12em;color:var(--faint);}
 
 /* ===================== LIGHTBOX ===================== */
 .lb{position:fixed;inset:0;z-index:500;background:rgba(46,30,18,.93);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:60px;opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;}
 .lb.open{opacity:1;visibility:visible;}
-.lb .stage{position:relative;width:min(1100px,92vw);height:84vh;border-radius:4px;overflow:visible;transform:scale(.94);opacity:0;transition:transform .5s var(--ease),opacity .4s;}.lb.open .stage{transform:scale(1);opacity:1;}.lb .stage .img{position:absolute;inset:0;background-size:contain;background-repeat:no-repeat;background-position:center;}
+/* ===== LA SCÈNE ÉPOUSE LA PHOTO, ELLE N'EST PLUS UNE BOÎTE FIXE =====
+   Avant : une boîte de min(1100px,92vw) × 84vh dans laquelle l'image était contenue. Un cliché
+   portrait n'en occupait qu'une bande centrale, le reste étant du vide — et les flèches, calées
+   sur les bords de l'ÉCRAN, se retrouvaient très loin de la photo.
+   Maintenant la scène se contente d'entourer une vraie balise <img> : elle prend donc exactement
+   les dimensions du cliché affiché, quelles que soient ses proportions. Les flèches, placées à
+   l'intérieur, suivent automatiquement ses bords.
+   `inline-flex` est ce qui fait le rétrécissement au contenu ; les deux `max-*` bornent la photo
+   à la fenêtre sans jamais la déformer (l'image garde `width/height:auto`). */
+.lb .stage{position:relative;display:inline-flex;max-width:min(1100px,92vw);max-height:84vh;
+  border-radius:4px;overflow:visible;transform:scale(.94);opacity:0;
+  transition:transform .5s var(--ease),opacity .4s;}
+.lb.open .stage{transform:scale(1);opacity:1;}
+.lb .stage img{display:block;max-width:100%;max-height:84vh;width:auto;height:auto;border-radius:4px;}
 .lb .cap{position:absolute;left:0;right:0;bottom:-34px;text-align:center;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,245,235,.7);}
 /* Les commandes passent AU-DESSUS de la photo.
    `.stage` porte un transform + un opacity : il crée donc son propre contexte d'empilement et,
@@ -743,16 +874,29 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    douce. C'est ce qui garde la flèche lisible aussi bien sur un ciel clair que sur une ombre,
    là où un simple blanc disparaissait sur les photos claires — la raison d'être de l'ancien
    fond sombre, désormais inutile.
-   La zone cliquable reste 48×48 : c'est le confort au doigt, indépendant du dessin. */
-.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;
+   Les flèches sont DANS la scène (voir le HTML) : leur `position:absolute` se règle donc sur la
+   photo elle-même, plus sur l'écran — elles se replacent seules quand on passe d'un cliché
+   portrait à un paysage.
+   La zone cliquable (40×40) reste plus large que le dessin (22px) : c'est le confort au doigt,
+   indépendant de la taille du chevron. */
+.lb-arrow{position:absolute;top:50%;transform:translateY(-50%);width:40px;height:40px;
   border:none;border-radius:0;background:none;padding:0;
   display:flex;align-items:center;justify-content:center;color:#fff;cursor:pointer;
-  font-size:36px;opacity:0;transition:opacity .3s,transform .3s var(--ease);}
-.lb-arrow .ic{stroke-width:2.1;
+  font-size:22px;opacity:0;transition:opacity .3s,transform .3s var(--ease);}
+.lb-arrow .ic{stroke-width:2.2;
   filter:drop-shadow(0 0 1.5px rgba(0,0,0,.95)) drop-shadow(0 1px 4px rgba(0,0,0,.7));}
 .lb:hover .lb-arrow{opacity:1;}
-.lb-arrow:hover{transform:translateY(-50%) scale(1.14);}
-.lb-prev{left:26px;}.lb-next{right:26px;}
+.lb-arrow:hover{transform:translateY(-50%) scale(1.16);}
+/* ===== POSÉES À L'EXTÉRIEUR DU CLICHÉ, DANS LES MARGES =====
+   `right:100%` sur la précédente veut dire « son bord droit touche le bord GAUCHE de la
+   scène » : la flèche se retrouve donc entièrement hors de la photo, dans la bande sombre.
+   `left:100%` fait l'inverse pour la suivante. Comme la scène épouse exactement le cliché
+   (voir plus haut), les flèches se replacent seules quand on passe d'un portrait à un
+   paysage — elles restent toujours collées au bord, jamais dessus.
+   La place ne manque pas : la visionneuse réserve 60px de marge sur les côtés, la flèche
+   et son décalage en occupent 50. */
+.lb-prev{right:100%;margin-right:10px;}
+.lb-next{left:100%;margin-left:10px;}
 /* au doigt il n'y a PAS de survol : sans cette règle les flèches restaient invisibles sur mobile */
 @media(hover:none){.lb-arrow{opacity:1;}}
 .lb-count{position:absolute;top:32px;left:34px;font-size:11px;letter-spacing:.14em;color:rgba(255,245,235,.6);}
@@ -789,7 +933,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
        3. la taille du chapô         4. les marges entre les trois blocs           */
   .home-hero{padding:calc(var(--sec-gap) * .85) 0;}
   .hero-txt .eyebrow{margin-bottom:9px;}
-  .hero-txt h2{font-size:26px;line-height:1.2;margin-bottom:13px;}
+  /* >>> TAILLE DU TITRE D'INTRODUCTION SUR MOBILE — la seconde valeur à régler <<<
+     Le titre revient ici sur DEUX lignes, volontairement : tenir sur une seule sur un écran
+     de 390px imposerait 20px de corps, soit à peine plus que le texte courant — le titre
+     n'aurait plus l'air d'un titre. Passer `white-space:nowrap` et `font-size:min(5.1vw,41px)`
+     si vous préférez malgré tout la ligne unique. */
+  .hero-txt h2{font-size:26px;line-height:1.25;margin-bottom:13px;white-space:normal;}
   .hero-intro{font-size:17px;line-height:1.55;}
   /* Espace sous la bannière mobile avant la description — C'EST LA VALEUR À RÉGLER.
      Plus le multiplicateur est grand, plus la description descend.
@@ -977,7 +1126,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="hero-2col">
         <div class="hero-txt reveal">
           <!-- sur-titre « Introduction » retiré : le titre porte la section à lui seul -->
-          <h2>Every frame<br>begins with a feeling</h2>
+          <h2>Every frame begins with a feeling</h2>
           <p class="hero-intro">Photography has never been about documenting reality exactly as it is. It is about preserving the way a moment felt before it disappeared.</p>
         </div>
         <div class="hero-photo reveal">
@@ -990,7 +1139,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   <!-- APERÇU PHOTOGRAPHIES (deux vues + flèches) -->
   <section class="selection" id="selection">
     <div class="wrap">
-      <div class="sel-lead reveal"><h2 class="serif">Gallery</h2><p>A curated selection of photographs from recent journeys.</p></div>
+      <div class="sel-lead reveal"><h2 class="serif">The Collection</h2><p>A curated selection of photographs from recent journeys.</p></div>
       <!-- 5 photos : dossier dédié photographies/categories/gallery/gallery-1..5.jpeg — remplace ces
            fichiers (mêmes noms) pour changer la sélection sans toucher au HTML -->
       <div class="sel-grid reveal">
@@ -1209,19 +1358,11 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="about-col">
       <div class="about-txt">
         <h2 class="about-h reveal">About me</h2>
-        
-
-
-
-
         <p class="reveal">My art is not about documenting life as it is, but about shaping it through my lens.</p>
-        <p class="reveal">Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.
-</p>
-        <p class="reveal">In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it. With a single click, time could slow down, stretch, or even stop.
-</p>
-        <p class="reveal">I am self-taught, learning through practice and intuition, guided by the internal belief that passions have no fixed rules.
-</p>
-<p class="reveal">Art is simply what we choose to make of it.</p>
+        <p class="reveal">Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.</p>
+        <p class="reveal">In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it. With a single click, time could slow down, stretch, or even stop.</p>
+        <p class="reveal">I am self-taught, learning through practice and intuition, guided by the internal belief that passions have no fixed rules.</p>
+        <p class="reveal"><strong>Art is simply what we choose to make of it.</strong></p>
       </div>
       <!-- photos PAYSAGE (1600x1066) : mieux adaptées à une bande panoramique que des sources
            portrait, et affichées sans agrandissement.
@@ -1276,12 +1417,31 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
 <footer class="foot"><p>© ablas frames — Fragments of my reality</p></footer>
 
+<!-- ===== SÉLECTEUR DE POLICES ===== -->
+<button class="fontbtn" id="fontbtn" aria-expanded="false" aria-controls="fontpanel" title="Typography">Aa</button>
+<div class="fontpanel" id="fontpanel" role="dialog" aria-label="Typography">
+  <h3>Typography</h3>
+  <p class="sub">Choose a typeface for each part of the site. Your choice is saved on this device.</p>
+  <div class="fontrow"><label for="f-display">Headings</label><select id="f-display" data-zone="display"></select></div>
+  <div class="fontrow"><label for="f-body">Body text</label><select id="f-body" data-zone="body"></select></div>
+  <div class="fontrow"><label for="f-about">About page</label><select id="f-about" data-zone="about"></select></div>
+  <div class="fontrow"><label for="f-label">Labels &amp; buttons</label><select id="f-label" data-zone="label"></select></div>
+  <div class="fontfoot">
+    <button type="button" id="font-reset">Reset</button>
+    <button type="button" id="font-close">Close</button>
+  </div>
+</div>
+
 <div class="lb" id="lb">
   <span class="lb-count" id="lb-count"></span>
   <button class="lb-close" id="lb-close"><svg class="ic"><use href="#i-x"/></svg></button>
-  <button class="lb-arrow lb-prev" id="lb-prev"><svg class="ic"><use href="#i-arrow-left"/></svg></button>
-  <button class="lb-arrow lb-next" id="lb-next"><svg class="ic"><use href="#i-arrow-right"/></svg></button>
-  <div class="stage"><div class="img" id="lb-img"></div><span class="cap" id="lb-cap"></span></div>
+  <!-- les flèches sont DANS la scène : elles se calent sur les bords du cliché, pas de l'écran -->
+  <div class="stage">
+    <img id="lb-img" alt="">
+    <button class="lb-arrow lb-prev" id="lb-prev"><svg class="ic"><use href="#i-arrow-left"/></svg></button>
+    <button class="lb-arrow lb-next" id="lb-next"><svg class="ic"><use href="#i-arrow-right"/></svg></button>
+    <span class="cap" id="lb-cap"></span>
+  </div>
 </div>
 
 <script>
@@ -1810,11 +1970,12 @@ const lb=document.getElementById('lb'),lbImg=document.getElementById('lb-img'),l
 let items=[],idx=0,scrollMem=0;
 function lbRender(){
   const it=items[idx];
-  const g=it.querySelector('img.gimg')||it.querySelector('.img');
+  // `.gitem` porte une <img class="gimg">, `.sel-cell` une <img class="img"> : dans les deux cas
+  // c'est une vraie balise, on lit donc simplement son `src`.
+  const g=it.querySelector('img.gimg')||it.querySelector('img.img')||it.querySelector('.img');
   let src='';
   if(g)src=g.tagName==='IMG'?g.getAttribute('src'):(g.style.backgroundImage||'').replace(/^url\(["']?/,'').replace(/["']?\)$/,'');
-  lbImg.className='img';lbImg.style.cssText='';
-  lbImg.style.backgroundImage='url("'+src+'")';lbImg.style.position='absolute';lbImg.style.inset='0';
+  lbImg.src=src;                       // la scène se redimensionne d'elle-même autour de l'image
   const c=it.querySelector('.cap');lbCap.textContent=c?c.textContent:'';lbCount.textContent=(idx+1)+' / '+items.length;
 }
 function move(d){idx=(idx+d+items.length)%items.length;lbRender();}
@@ -1873,6 +2034,101 @@ let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:tr
     document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();},{once:true});
     location.href='googlegmail://co?'+q;
   });
+})();
+
+/* ===================== SÉLECTEUR DE POLICES =====================
+   Quatre zones, quinze familles. Le principe tient en une ligne : chaque zone est une variable
+   CSS posée sur <html>, donc écrire cette variable suffit à repeindre tout le site — aucune
+   règle n'est touchée, aucun élément n'est parcouru.
+
+   LE POINT IMPORTANT, c'est le chargement : les 15 familles ne sont PAS demandées au démarrage.
+   Ce serait ~500 Ko de polices pour un panneau que la plupart des visiteurs n'ouvriront jamais,
+   et cela ruinerait le travail fait sur la vitesse de chargement. Une famille n'est téléchargée
+   qu'au moment où on la choisit, et une seule fois (`chargees`).
+   Les trois polices déjà servies par le site (Cormorant, Libre Baskerville, Montserrat) sont
+   marquées `local:true` : elles sont déjà là, rien à demander. */
+(function(){
+  const POLICES=[
+    // nom affiché                    famille CSS                       poids demandés     déjà chargée ?
+    {n:'Cormorant Garamond (default)',f:"'Cormorant Garamond',Georgia,serif",   g:null,          local:true},
+    {n:'Libre Baskerville',           f:"'Libre Baskerville',Georgia,serif",    g:null,          local:true},
+    {n:'Montserrat',                  f:"'Montserrat',sans-serif",              g:null,          local:true},
+    {n:'EB Garamond',                 f:"'EB Garamond',Georgia,serif",          g:'EB+Garamond:ital,wght@0,300;0,400;1,400'},
+    {n:'Playfair Display',            f:"'Playfair Display',Georgia,serif",     g:'Playfair+Display:ital,wght@0,400;0,600;1,400'},
+    {n:'Lora',                        f:"'Lora',Georgia,serif",                 g:'Lora:ital,wght@0,400;0,600;1,400'},
+    {n:'Spectral',                    f:"'Spectral',Georgia,serif",             g:'Spectral:ital,wght@0,300;0,400;1,300'},
+    {n:'DM Serif Display',            f:"'DM Serif Display',Georgia,serif",     g:'DM+Serif+Display:ital@0;1'},
+    {n:'Marcellus',                   f:"'Marcellus',Georgia,serif",            g:'Marcellus'},
+    {n:'Cinzel',                      f:"'Cinzel',Georgia,serif",               g:'Cinzel:wght@400;600'},
+    {n:'Italiana',                    f:"'Italiana',Georgia,serif",             g:'Italiana'},
+    {n:'Jost',                        f:"'Jost',sans-serif",                    g:'Jost:ital,wght@0,300;0,400;0,500;1,300'},
+    {n:'Poppins',                     f:"'Poppins',sans-serif",                 g:'Poppins:ital,wght@0,300;0,400;0,600;1,300'},
+    {n:'DM Sans',                     f:"'DM Sans',sans-serif",                 g:'DM+Sans:ital,wght@0,300;0,400;0,500;1,300'},
+    {n:'Syne',                        f:"'Syne',sans-serif",                    g:'Syne:wght@400;600;700'},
+  ];
+  const ZONES={display:'--font-display',body:'--font-body',about:'--font-about',label:'--font-label'};
+  const CLE='af-polices';
+  const btn=document.getElementById('fontbtn'),panel=document.getElementById('fontpanel');
+  if(!btn||!panel)return;
+
+  const chargees=new Set();
+  function chargerPolice(p){
+    if(!p.g||p.local||chargees.has(p.g))return;
+    chargees.add(p.g);
+    const l=document.createElement('link');
+    l.rel='stylesheet';
+    l.href='https://fonts.googleapis.com/css2?family='+p.g+'&display=swap';
+    document.head.appendChild(l);
+  }
+
+  function appliquer(zone,famille,memoriser){
+    const p=POLICES.find(x=>x.f===famille);if(!p)return;
+    chargerPolice(p);
+    document.documentElement.style.setProperty(ZONES[zone],p.f);
+    if(memoriser){
+      const etat=lire();etat[zone]=p.f;
+      try{localStorage.setItem(CLE,JSON.stringify(etat));}catch(e){}
+    }
+  }
+  function lire(){
+    try{return JSON.parse(localStorage.getItem(CLE))||{};}catch(e){return {};}
+  }
+
+  // remplissage des quatre listes déroulantes
+  const selects=[...panel.querySelectorAll('select[data-zone]')];
+  selects.forEach(sel=>{
+    POLICES.forEach(p=>{
+      const o=document.createElement('option');o.value=p.f;o.textContent=p.n;sel.appendChild(o);
+    });
+    sel.addEventListener('change',()=>appliquer(sel.dataset.zone,sel.value,true));
+  });
+
+  // restauration du choix précédent — AVANT tout affichage du panneau
+  const etat=lire();
+  const defauts={display:POLICES[0].f,body:POLICES[1].f,about:POLICES[2].f,label:POLICES[1].f};
+  selects.forEach(sel=>{
+    const z=sel.dataset.zone;
+    const v=etat[z]||defauts[z];
+    sel.value=v;
+    if(etat[z])appliquer(z,v,false);        // on ne réécrit pas ce qu'on vient de lire
+  });
+
+  function ouvrir(o){
+    panel.classList.toggle('open',o);
+    btn.setAttribute('aria-expanded',o?'true':'false');
+  }
+  btn.addEventListener('click',e=>{e.stopPropagation();ouvrir(!panel.classList.contains('open'));});
+  document.getElementById('font-close').addEventListener('click',()=>ouvrir(false));
+  document.getElementById('font-reset').addEventListener('click',()=>{
+    try{localStorage.removeItem(CLE);}catch(e){}
+    Object.values(ZONES).forEach(v=>document.documentElement.style.removeProperty(v));
+    selects.forEach(sel=>sel.value=defauts[sel.dataset.zone]);
+  });
+  document.addEventListener('click',e=>{
+    if(!panel.classList.contains('open'))return;
+    if(!e.target.closest('#fontpanel')&&!e.target.closest('#fontbtn'))ouvrir(false);
+  });
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')ouvrir(false);});
 })();
 
 go((location.hash||'#home').slice(1));runReveal();

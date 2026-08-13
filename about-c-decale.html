@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — variante C · Décalé</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   VARIANTE C — « DÉCALÉ »
+   Texte et photos ne partagent jamais le même axe : le texte s'aligne à
+   gauche sur une colonne étroite, les photos se décalent à droite, et
+   chevauchent légèrement le paragraphe suivant.
+   Idée : un accrochage de tirages sur un mur, pas une liste. Le chevauchement
+   crée la profondeur ; les numéros donnent le fil de lecture.
+   C'est la variante la plus « atelier », la plus proche d'un carnet.
+   ============================================================ */
+:root{
+  --bg:#F6F3E4; --text:#1F1C16; --muted:#5F5949; --line:rgba(31,28,22,.13);
+  --accent:#7E6330;
+  --font-display:'Cormorant Garamond',Georgia,serif;
+  /* >>> AMPLEUR DU DÉCALAGE — la valeur à régler. 0 = tout aligné, 60px = très décalé. */
+  --decal:38px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'Montserrat',sans-serif;
+  -webkit-font-smoothing:antialiased;line-height:1.75;overflow-x:hidden;}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+
+.top{padding:52px 22px 34px;}
+.retour{display:inline-block;font-size:10px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--muted);text-decoration:none;margin-bottom:34px;}
+h1{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:40px;line-height:1.1;}
+.kicker{font-size:10px;letter-spacing:.26em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+
+/* une « strate » = un paragraphe + sa photo, décalés l'un par rapport à l'autre */
+.strate{position:relative;padding:0 22px;margin-bottom:12px;}
+.strate .no{font-family:var(--font-display);font-size:13px;letter-spacing:.18em;
+  color:var(--accent);display:block;margin-bottom:9px;}
+.strate p{font-size:15px;font-weight:300;color:var(--muted);
+  /* la colonne de texte est étroite À DESSEIN : c'est le blanc à droite qui laisse
+     la place au décalage de la photo suivante */
+  max-width:min(300px, 78%);}
+
+.tirage{margin:22px 0 34px;}
+.tirage img{aspect-ratio:4/5;border-radius:2px;
+  box-shadow:0 18px 40px -22px rgba(60,40,20,.55);}
+/* décalage à droite, avec un débord hors écran : la photo « sort » du carnet */
+.tirage.d{margin-left:calc(22px + var(--decal));margin-right:-14px;}
+.tirage.g{margin-right:calc(22px + var(--decal));margin-left:-14px;}
+/* la bande large casse le rythme au milieu du texte */
+.tirage.bande{margin:26px 0;}
+.tirage.bande img{aspect-ratio:16/9;border-radius:0;}
+
+/* remontée : la strate suivante mord sur la photo précédente */
+.strate.mord{margin-top:-26px;}
+
+.chute{padding:30px 22px 60px;}
+.chute p{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:26px;
+  line-height:1.45;color:var(--text);max-width:none;}
+.chute .sig{display:block;margin-top:22px;font-family:var(--font-display);font-size:29px;color:var(--accent);}
+
+@media(min-width:700px){ body{max-width:620px;margin:0 auto;} }
+</style>
+</head>
+<body>
+
+<div class="top">
+  <a class="retour" href="index.html#about">← ablas frames</a>
+  <p class="kicker">About</p>
+  <h1>Abla</h1>
+</div>
+
+<section class="strate">
+  <span class="no">01</span>
+  <p>My art is not about documenting life as it is, but about shaping it through my lens.</p>
+</section>
+<div class="tirage d"><img src="photographies/categories/travel/thailand/thai-1.jpeg" alt=""></div>
+
+<section class="strate mord">
+  <span class="no">02</span>
+  <p>Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.</p>
+</section>
+<div class="tirage bande"><img src="photographies/categories/travel/thailand/thai-18.jpeg" alt="" style="object-position:center 58%"></div>
+
+<section class="strate">
+  <span class="no">03</span>
+  <p>In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it. With a single click, time could slow down, stretch, or even stop.</p>
+</section>
+<div class="tirage g"><img src="photographies/categories/travel/thailand/thai-16.jpeg" alt=""></div>
+
+<section class="strate mord">
+  <span class="no">04</span>
+  <p>I am self-taught, learning through practice and intuition, guided by the internal belief that passions have no fixed rules.</p>
+</section>
+<div class="tirage d"><img src="photographies/categories/travel/thailand/thai-7.jpeg" alt=""></div>
+
+<div class="chute">
+  <p>Art is simply what we choose to make of it.</p>
+  <span class="sig">ablas frames</span>
+</div>
+
+</body>
+</html>
