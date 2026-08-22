@@ -7,10 +7,11 @@
        node tools/scan-photos.js
 
    Ce que ça fait :
-     1. lit la liste des albums dans le `const GAL={…}` d'index.html (dossier + préfixe) ;
-     2. parcourt photographies/categories/<dossier>/ et y trouve les <préfixe>-N.jpeg ;
-     3. lit la largeur/hauteur de chaque photo DIRECTEMENT dans l'en-tête JPEG (aucune
-        dépendance à installer) ;
+     1. lit la liste des albums dans le `const GAL={…}` d'index.html (dossier, préfixe, ext) ;
+     2. parcourt photographies/categories/<dossier>/ et y trouve les <préfixe>-N.<ext>
+        (l'extension vaut 'jpeg' sauf si l'album déclare `ext:` — Morocco est en 'webp') ;
+     3. lit la largeur/hauteur de chaque photo DIRECTEMENT dans son en-tête, JPEG ou WebP
+        (aucune dépendance à installer) ;
      4. réécrit le bloc entre les marqueurs PHOTO-DIM-START / PHOTO-DIM-END.
 
    Pourquoi : la mosaïque a besoin du rapport largeur/hauteur pour composer ses rangées. Fourni
@@ -52,14 +53,57 @@ function jpegSize(buf) {
   return null;
 }
 
-/* --- albums déclarés dans index.html ------------------------------------------------------ */
+/* --- dimensions d'un WebP, lues dans son en-tête ------------------------------------------
+   Conteneur RIFF : 'RIFF' (4o) + taille (4o) + 'WEBP' (4o), puis le premier chunk dit dans
+   QUELLE variante le fichier est écrit — et chacune range ses dimensions ailleurs :
+     VP8X (étendu, celui produit par la plupart des exports) : largeur-1 et hauteur-1 sur
+           3 octets petit-boutiste, aux offsets 24 et 27 ;
+     VP8  (avec perte)     : après le code de synchro 9D 01 2A, deux entiers 14 bits ;
+     VP8L (sans perte)     : après la signature 2F, 14 bits de largeur-1 puis 14 de hauteur-1.
+   Les trois sont traitées : un album peut mélanger des exports d'origines différentes. */
+function webpSize(buf) {
+  if (buf.length < 30) return null;
+  if (buf.toString('ascii', 0, 4) !== 'RIFF' || buf.toString('ascii', 8, 12) !== 'WEBP') return null;
+  const chunk = buf.toString('ascii', 12, 16);
+  if (chunk === 'VP8X') return { w: buf.readUIntLE(24, 3) + 1, h: buf.readUIntLE(27, 3) + 1 };
+  if (chunk === 'VP8 ') {
+    if (buf[23] !== 0x9D || buf[24] !== 0x01 || buf[25] !== 0x2A) return null;
+    return { w: buf.readUInt16LE(26) & 0x3FFF, h: buf.readUInt16LE(28) & 0x3FFF };
+  }
+  if (chunk === 'VP8L') {
+    if (buf[20] !== 0x2F) return null;
+    const b = buf.readUInt32LE(21);
+    return { w: (b & 0x3FFF) + 1, h: ((b >>> 14) & 0x3FFF) + 1 };
+  }
+  return null;
+}
+
+/* le bon lecteur selon l'extension de l'album */
+function imageSize(buf, ext) {
+  return ext === 'webp' ? webpSize(buf) : jpegSize(buf);
+}
+
+/* --- albums déclarés dans index.html ------------------------------------------------------
+   Chaque album est découpé d'abord en BLOC `clé:{…}`, puis ses champs sont relus un par un :
+   l'ancienne expression rationnelle exigeait l'ordre exact `dir` puis `pre` collés l'un à
+   l'autre, et un champ intercalé (c'est le cas d'`ext`) suffisait à faire disparaître
+   silencieusement l'album du manifeste. */
 function readAlbums(src) {
   const block = src.match(/const GAL=\{([\s\S]*?)\n\};/);
   if (!block) throw new Error("Bloc `const GAL={…}` introuvable dans index.html");
   const albums = [];
-  const re = /(\w+):\{dir:'([^']+)',pre:'([^']+)'/g;
+  const re = /(\w+):\{([^}]*)\}/g;
   let m;
-  while ((m = re.exec(block[1]))) albums.push({ key: m[1], dir: m[2], pre: m[3] });
+  while ((m = re.exec(block[1]))) {
+    const body = m[2];
+    const champ = (k) => {
+      const x = body.match(new RegExp(k + ":'([^']+)'"));
+      return x ? x[1] : null;
+    };
+    const dir = champ('dir'), pre = champ('pre');
+    if (!dir || !pre) continue;
+    albums.push({ key: m[1], dir, pre, ext: champ('ext') || 'jpeg' });
+  }
   if (!albums.length) throw new Error('Aucun album reconnu dans le bloc GAL');
   return albums;
 }
@@ -76,23 +120,53 @@ function buildManifest(albums) {
 
     const found = [];
     // La BANNIÈRE de l'album est indexée au n° 0 : elle figure ainsi dans la galerie, en tête.
-    const banner = path.join(dir, 'banner.jpeg');
+    // La bannière suit l'EXTENSION DE L'ALBUM, comme ses photos : un album en `ext:'webp'`
+    // attend banner.webp. Si le fichier manque, on regarde s'il traîne sous une AUTRE
+    // extension — c'est le cas le plus probable (bannière remplacée sans changer le reste)
+    // et le message le dit, plutôt que d'annoncer une absence trompeuse.
+    const banner = path.join(dir, 'banner.' + a.ext);
     if (fs.existsSync(banner)) {
-      const s = jpegSize(fs.readFileSync(banner));
+      const s = imageSize(fs.readFileSync(banner), a.ext);
       if (s) found.push({ n: 0, w: s.w, h: s.h });
-      else warnings.push(`dimensions illisibles : ${a.dir}/banner.jpeg`);
-    } else warnings.push(`bannière absente : ${a.dir}/banner.jpeg`);
+      else warnings.push(`dimensions illisibles : ${a.dir}/banner.${a.ext}`);
+    } else {
+      const autre = fs.existsSync(dir)
+        ? fs.readdirSync(dir).find(f => /^banner\.[A-Za-z0-9]+$/i.test(f))
+        : null;
+      warnings.push(autre
+        ? `bannière au mauvais format : ${a.dir}/${autre} — l'album « ${a.key} » est en `
+          + `.${a.ext}, le site demandera banner.${a.ext}. Renommez le fichier.`
+        : `bannière absente : ${a.dir}/banner.${a.ext}`);
+    }
 
+    /* ⚠ L'EXTENSION EST EXIGÉE À L'IDENTIQUE, ET C'EST VOLONTAIRE.
+       buildGallery() ne sait construire qu'UNE seule URL par photo : `<préfixe>-N.<ext>`.
+       Une extension seulement « équivalente » (.jpg là où l'album est en .jpeg) n'est donc
+       jamais demandée par le site. Tolérée ici, elle produisait le pire des cas : la photo
+       entrait dans le manifeste — donc une case lui était réservée dans la mosaïque — puis
+       son URL en .jpeg renvoyait un 404 et le filet de sécurité de buildGallery retirait la
+       vignette. Résultat : le fichier est bien sur le disque, le scan annonce l'avoir compté,
+       et RIEN ne s'affiche, sans le moindre message.
+       On refuse donc la variante, et surtout on le DIT (voir `proches` plus bas) — un renommage
+       en .jpeg suffit à régler le cas. */
+    const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const rxOk = new RegExp('^' + escape(a.pre) + '-(\\d+)\\.' + escape(a.ext) + '$', 'i');
+    const rxProche = new RegExp('^' + escape(a.pre) + '-(\\d+)\\.([A-Za-z0-9]+)$', 'i');
     for (const f of fs.readdirSync(dir)) {
-      const m = f.match(new RegExp('^' + a.pre.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '-(\\d+)\\.jpe?g$', 'i'));
-      if (!m) continue;
-      const size = jpegSize(fs.readFileSync(path.join(dir, f)));
+      const m = f.match(rxOk);
+      if (!m) {
+        const p = f.match(rxProche);
+        if (p) warnings.push(`IGNORÉE — ${a.dir}/${f} : l'album « ${a.key} » est en .${a.ext}, `
+          + `le site demandera ${a.pre}-${p[1]}.${a.ext} et ne trouvera rien. Renommez le fichier.`);
+        continue;
+      }
+      const size = imageSize(fs.readFileSync(path.join(dir, f)), a.ext);
       if (!size) { warnings.push(`dimensions illisibles : ${a.dir}/${f}`); continue; }
       found.push({ n: +m[1], w: size.w, h: size.h });
     }
     found.sort((x, y) => x.n - y.n);
     total += found.length;
-    if (!found.length) warnings.push(`aucune photo trouvée pour « ${a.key} » (${a.dir}/${a.pre}-N.jpeg)`);
+    if (!found.length) warnings.push(`aucune photo trouvée pour « ${a.key} » (${a.dir}/${a.pre}-N.${a.ext})`);
     lines.push(`${a.key}:{${found.map(p => `${p.n}:[${p.w},${p.h}]`).join(',')}},`);
   }
   return { text: 'const DIM={\n' + lines.map(l => '  ' + l).join('\n') + '\n};', total, warnings };

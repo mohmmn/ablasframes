@@ -24,7 +24,7 @@
      600 pour le titre « About me ».
      Les deux cursives d'origine (Pinyon Script, Petit Formal Script) ont été retirées : elles ne
      stylaient plus aucun élément du HTML et se téléchargeaient pour rien. -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Marcellus&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <!-- La police d'icônes Tabler a été RETIRÉE : servie depuis un CDN tiers, elle imposait une
      feuille de style bloquante + 761 Ko de fichier de police… pour 12 icônes en tout. Elles sont
      désormais dessinées en SVG inline (voir le sprite <svg id="icons"> juste après <body>).
@@ -73,21 +73,39 @@
      en Libre Baskerville : c'est ce contraste qui crée la hiérarchie.
      ============================================================ */
   /* ============================================================
-     LES 4 ZONES TYPOGRAPHIQUES — modifiables par le visiteur
-     Chaque zone est une variable, et une seule règle la pose. C'est ce qui permet au
-     sélecteur de polices (bouton « Aa », en bas à droite) de tout repeindre en écrivant
-     une variable sur <html>, sans toucher à une seule règle.
+     LES 4 POLICES GÉNÉRALES DU SITE
        --font-display : TITRES et chapôs
        --font-body    : TEXTE COURANT (posé sur <body>)
        --font-about   : la page About, qui a sa propre voix
        --font-label   : PETITES CAPITALES espacées (étiquettes, boutons, légendes)
-     LA NAVBAR ET LE MENU N'EN DÉPENDENT PAS : ils déclarent leur police en dur, plus bas,
-     et restent donc identiques quel que soit le choix du visiteur.
+     Chacune est posée par UNE seule règle : changer la valeur ici repeint tout le site sans
+     qu'aucune autre règle soit à toucher.
+     LA NAVBAR ET LE MENU N'EN DÉPENDENT PAS : ils déclarent leur police en dur, plus bas.
+     ⚠ CES QUATRE VALEURS SONT CELLES QU'AFFICHE LE SITE. Elles étaient auparavant les
+     valeurs PAR DÉFAUT d'un sélecteur de polices (bouton « Aa », en bas à droite) qui
+     laissait chaque visiteur les remplacer, et mémorisait son choix dans le navigateur.
+     Ce sélecteur a été retiré — panneau, styles, script et les huit familles qu'il seul
+     proposait. La typographie du site est donc exactement celle décrite ici et plus bas.
      ============================================================ */
   --font-display:'Cormorant Garamond',Georgia,serif;
   --font-body:'Libre Baskerville',Georgia,serif;
-  --font-about:'Montserrat','Libre Baskerville',sans-serif;
+  --font-about:'Marcellus',Georgia,serif;
   --font-label:'Libre Baskerville',Georgia,serif;
+  /* ============================================================
+     TYPOGRAPHIES DE BLOC — en plus des 4 polices générales ci-dessus
+     Chacune ne sert qu'à un endroit précis du site, listé en face. Comme les quatre autres,
+     elles restent des variables pour rester modifiables d'un seul geste, ici et nulle part
+     ailleurs.
+       --font-frame-t    : TITRE D'ALBUM (« Echoes of Morocco ») — carte d'accueil, carte de
+                           la page Frames, titre de la page de l'album, boutons préc./suivant
+       --font-frame-p    : DESCRIPTION D'ALBUM (« Faces and ochre walls… »)
+       --font-hero-p     : chapô de l'accueil (« Photography has never been about… »)
+       --font-collection : « The Collection » + sa ligne de sous-titre
+     ============================================================ */
+  --font-frame-t:'Spectral',Georgia,serif;
+  --font-frame-p:'EB Garamond',Georgia,serif;
+  --font-hero-p:'Playfair Display',Georgia,serif;
+  --font-collection:'Lora',Georgia,serif;
   /* cadre des tirages — 6px sur PC, 4px sur mobile (voir @media max-width:760px)
      BLANC PUR : sur fond crème, l'ancien #F0EDE6 se confondait avec la page. */
   --frame-w:6px;
@@ -322,17 +340,35 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    (Une seconde valeur existe pour le mobile, dans @media(max-width:760px) — cherchez
    « .hero-txt h2 » plus bas dans la feuille.)
 
-   ⚠ POURQUOI CES CHIFFRES : le titre tient désormais sur UNE SEULE LIGNE (`nowrap`), et
-   Libre Baskerville est une police large — la phrase mesure 17,1 fois le corps employé.
-   La colonne du héros fait la moitié de la page : 560px au maximum, soit 32px de corps
-   avant que la ligne ne déborde ; et seulement 353px à 881px, où la mise en page passe à
-   deux colonnes, soit 20px. D'où le plancher à 20 et le plafond à 32.
-   Monter le plafond au-delà de 32 ferait déborder la ligne sur les écrans moyens.
+   POLICE : var(--font-label) — exactement celle de la ligne « FRAME —— PORTRAITS » des
+   pages d'album (Libre Baskerville). Les deux restent liées, y compris si le visiteur change
+   la zone « Labels & buttons » dans le sélecteur « Aa ».
+
+   >>> PLAFOND À NE PAS DÉPASSER : le titre tient sur UNE SEULE LIGNE (`nowrap`), et Libre
+   Baskerville est une police large — la phrase mesure 17,1 fois le corps employé. La colonne
+   du héros fait la moitié de la page : 560px au maximum, soit 32px de corps avant que la
+   ligne ne déborde ; et seulement 353px à 881px, où la mise en page passe à deux colonnes,
+   soit 20px. Les valeurs posées ici (17 → 26px) sont VOLONTAIREMENT en dessous : titre
+   réduit, comme demandé. Ne pas remonter le plafond au-delà de 32.
    ============================================================ */
-.hero-txt h2{font-weight:400;font-size:clamp(20px,2.3vw,32px);line-height:1.2;color:var(--text);margin-bottom:26px;white-space:nowrap;}
-/* La description s'aligne sur celles des frames (.chap-intro p) : même Cormorant Garamond,
-   même graisse 300, et surtout SANS italique — c'était la seule différence entre les deux. */
-.hero-intro{font-family:var(--font-display);font-weight:300;font-size:clamp(20px,2.3vw,28px);line-height:1.6;color:var(--muted);margin-bottom:36px;max-width:520px;}
+.hero-txt h2{font-family:var(--font-label);font-weight:400;font-size:clamp(17px,1.9vw,26px);line-height:1.2;color:var(--text);margin-bottom:26px;white-space:nowrap;}
+/* ============================================================
+   CHAPÔ DE L'ACCUEIL « Photography has never been about documenting… » — PLAYFAIR DISPLAY
+   >>> LA TAILLE SE RÈGLE ICI, POUR PC ET TABLETTE <<<
+   clamp(plancher, taille fluide, plafond) : baisser le 3e nombre réduit le texte sur grand
+   écran, le 1er sur écran étroit. LA VALEUR MOBILE EST AILLEURS : `.hero-intro` dans
+   @media(max-width:760px), plus bas dans la feuille (cherchez « TAILLE DU CHAPÔ SUR MOBILE »).
+   >>> POURQUOI CE TEXTE PARAISSAIT GRAS, ET CE QUI LE CORRIGE <<<
+   Il ne l'a jamais été : 400 est la graisse REGULAR, et c'est aussi la plus maigre que
+   Playfair Display possède — la famille ne descend pas plus bas, il n'y a donc rien à
+   alléger côté graisse. Ce qui l'épaississait, c'était la COULEUR : la section .home-hero
+   fonce son --muted jusqu'au NOIR PUR (#000) pour tenir le contraste sur son beige soutenu,
+   et Playfair Display, très contrastée, a des pleins épais que le noir pur fait grossir.
+   Le chapô était donc plus noir que le titre juste au-dessus (#1F1C16).
+   Il reprend ici le --text du site, exactement comme le titre : 12,9:1 sur le beige de la
+   section, très au-dessus du seuil, et les deux blocs pèsent enfin le même poids.
+   ============================================================ */
+.hero-intro{font-family:var(--font-hero-p);font-weight:400;font-size:clamp(15px,1.55vw,21px);line-height:1.6;color:var(--text);margin-bottom:36px;max-width:520px;}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
   box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
@@ -354,8 +390,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* ===================== HOME · SÉLECTION (tirages encadrés — v2) ===================== */
 .selection{padding:var(--sec-gap) 0;}
 .sel-lead{text-align:left;margin-bottom:var(--lead-gap);}
-.sel-lead h2{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(30px,4vw,49px);color:var(--text);margin-bottom:10px;}
-.sel-lead p{color:var(--muted);font-size:15px;}
+/* « The Collection » ET sa ligne de sous-titre : LORA pour les deux.
+   Graisse 400 et non 300 — Lora ne descend pas plus bas. */
+.sel-lead h2{font-family:var(--font-collection);font-style:italic;font-weight:400;font-size:clamp(30px,4vw,49px);color:var(--text);margin-bottom:10px;}
+.sel-lead p{font-family:var(--font-collection);color:var(--muted);font-size:15px;}
 .sel-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:30px;}
 .sel-cell{position:relative;overflow:hidden;cursor:zoom-in;background:var(--frame-c);
   border:var(--frame-w) solid var(--frame-c);outline:1px solid var(--frame-o);
@@ -375,7 +413,9 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .frames-section{padding:var(--sec-gap) 0 calc(var(--sec-gap) * 1.4);}
 .frames-section .lead{text-align:left;margin-bottom:var(--lead-gap);}
 .frames-section .lead .e{font-size:11px;letter-spacing:.3em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
-.frames-section .lead h2{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(30px,4vw,49px);color:var(--text);}
+/* « Albums » : même police et même graisse que « The Collection » — les deux titres de
+   section de l'accueil sont désormais rigoureusement identiques (Lora, italique, 400). */
+.frames-section .lead h2{font-family:var(--font-collection);font-style:italic;font-weight:400;font-size:clamp(30px,4vw,49px);color:var(--text);}
 /* frames en bandes panoramiques fines (façon "À propos") — pas de cadre photo classique
    NOTE cadrage : la plupart des photos sources sont en PORTRAIT (1066x1600). Un ratio trop
    panoramique (l'ancien 32/7 = 4.6:1) n'en montrait qu'une tranche de ~14% prise au centre —
@@ -391,7 +431,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   box-shadow:0 18px 40px -22px rgba(60,40,20,.42),inset 0 0 0 1px var(--line);}
 .frow-pano .img{position:absolute;inset:0;background-position:var(--focus,center);}
 .frow-meta{display:flex;align-items:baseline;gap:22px;padding:16px 4px 24px;border-bottom:.5px solid var(--line);}
-.frow-t{flex:1;font-style:italic;font-weight:300;font-size:24px;color:var(--text);}
+.frow-t{flex:1;font-family:var(--font-frame-t);font-style:italic;font-weight:300;font-size:24px;color:var(--text);}
 .frow-s{flex:none;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
 
 /* mobile : bande encore moins panoramique → on garde davantage de la photo */
@@ -411,7 +451,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    Regroupées ici plutôt que déclarées une par une : c'est ce qui rend la zone modifiable
    d'un seul geste par le sélecteur de polices. Les sélecteurs de la navbar et du menu en
    sont volontairement absents. */
-.eyebrow,.frow-s,.pill,.ig-btn,.fn-k,.fn-all,.lb-count,.contact-alt a,.foot p,
+.eyebrow,.frow-s,.pill,.ig-btn,.fn-k,.fn-all,.lb-count,.contact-alt a,
 .banner .kicker,.banner .tagline,.list-card .meta .tag,.ig-card .k,
 .chap-cap .meta .t,.frame-page .chap-txt>.meta .t,.sel-cell .cap,.gitem .cap,.lb .cap{
   font-family:var(--font-label);}
@@ -430,11 +470,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .chap-cap .meta{display:flex;align-items:center;gap:15px;margin-bottom:12px;}
 .chap-cap .meta .t{font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:#FFF6EE;white-space:nowrap;text-shadow:0 1px 10px rgba(0,0,0,.45);}
 .chap-cap .meta .meta-rule{flex:none;height:1px;width:clamp(56px,13vw,168px);background:rgba(255,246,238,.55);}
-.chap-cap h1{font-family:var(--font-display);font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(39px,8vw,67px);line-height:1.02;}
+.chap-cap h1{font-family:var(--font-frame-t);font-style:italic;font-weight:300;color:#FFF6EE;font-size:clamp(39px,8vw,67px);line-height:1.02;}
 .chap-txt{padding:var(--sec-gap) 22px 0;}
 .chap-txt>.meta,.chap-txt>h1{display:none;}                 /* méta+titre déjà superposés sur la photo (mobile) */
 .chap-intro{padding:0;}
-.chap-intro p{font-family:var(--font-display);font-size:clamp(20px,2.5vw,28px);line-height:1.6;font-weight:300;color:var(--text);max-width:740px;}
+/* DESCRIPTION D'ALBUM — EB Garamond. Graisse 400 : EB Garamond ne descend pas sous le 400. */
+.chap-intro p{font-family:var(--font-frame-p);font-size:clamp(20px,2.5vw,28px);line-height:1.6;font-weight:400;color:var(--text);max-width:740px;}
 /* PC : split photo (gauche) / titre + description (droite) — corrige aussi la netteté (photo en demi-largeur) */
 @media(min-width:881px){
   /* photo PLUS PETITE à gauche (colonne ~300px), pavé de texte à droite :
@@ -469,7 +510,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .frame-page .chap-txt>.meta{display:flex;align-items:center;gap:14px;margin-bottom:22px;}
   .frame-page .chap-txt>.meta .t{font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500;color:var(--faccent);white-space:nowrap;}
   .frame-page .chap-txt>.meta .meta-rule{flex:1;max-width:160px;height:1px;background:var(--faccent);opacity:.5;}
-  .frame-page .chap-txt>h1{display:block;font-family:var(--font-display);font-style:italic;font-weight:300;color:var(--ftext);font-size:clamp(50px,5.8vw,78px);line-height:1.03;margin-bottom:28px;}
+  .frame-page .chap-txt>h1{display:block;font-family:var(--font-frame-t);font-style:italic;font-weight:300;color:var(--ftext);font-size:clamp(50px,5.8vw,78px);line-height:1.03;margin-bottom:28px;}
   .frame-page .chap-txt .chap-intro{text-align:left;}
   .frame-page .chap-txt .chap-intro p{font-size:clamp(21px,1.85vw,29px);line-height:1.7;color:var(--ftext);max-width:56ch;margin:0;text-align:left;opacity:.94;}
 }
@@ -505,7 +546,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .list-card.show-in{animation:cardIn .38s var(--ease) both;}
 @keyframes cardIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 .list-card .thumb{height:230px;position:relative;overflow:hidden;}.list-card .thumb .img{position:absolute;inset:0;transition:transform 1s var(--ease);}.list-card:hover .thumb .img{transform:scale(1.06);}
-.list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:var(--font-display);font-style:italic;font-weight:400;font-size:19px;}/* la catégorie n'a plus de couleur en dur dans le HTML : elle se déduit de l'encre du thème
+.list-card .meta{padding:18px 20px;display:flex;align-items:center;justify-content:space-between;}.list-card .meta h4{font-family:var(--font-frame-t);font-style:italic;font-weight:400;font-size:19px;}/* la catégorie n'a plus de couleur en dur dans le HTML : elle se déduit de l'encre du thème
    (atténuée), donc elle reste lisible sur n'importe quel aplat, clair comme sombre */
 .list-card .meta .tag{font-size:10px;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ftheme-soft,color-mix(in srgb,var(--ftheme-ink,var(--muted)) 78%,transparent));}
@@ -537,7 +578,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     box-shadow:0 0 0 1px rgba(31,28,22,.12);}
   /* le titre rétrécit sur les fenêtres étroites : « Hyde Park Nostalgia » en 27px y passerait
      à la ligne dans une colonne d'à peine 240px */
-  .fn-t{font-family:var(--font-display);font-style:italic;font-weight:300;font-size:clamp(20px,2.1vw,27px);line-height:1.15;}
+  .fn-t{font-family:var(--font-frame-t);font-style:italic;font-weight:300;font-size:clamp(20px,2.1vw,27px);line-height:1.15;}
   /* au survol, le bouton se remplit de la couleur de l'album VISÉ (chaque bouton porte le
      data-chapter de sa destination, donc --ftheme y désigne bien la frame d'arrivée) */
   .fn-btn:hover{background:var(--ftheme,var(--bg-soft));border-color:var(--ftheme,var(--line-strong));color:var(--ftheme-ink,var(--text));}
@@ -600,12 +641,17 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    En la déclarant partout, plus aucun héritage n'est possible. */
 [data-chap],[data-chapter]{--ftheme-soft:color-mix(in srgb,var(--ftheme-ink,var(--text)) 78%,transparent);}
 [data-chap="thailand"],   [data-chapter="thailand"]   {--ftheme:#828700;--ftheme-ink:#FFFFFF;--ftheme-soft:#FFFFFF;}
-[data-chap="bali"],       [data-chapter="bali"]       {--ftheme:#00daaf;--ftheme-ink:#FFFFFF;--ftheme-soft:#FFFFFF;}
+[data-chap="bali"],       [data-chapter="bali"]       {--ftheme:#35bfa4;--ftheme-ink:#FFFFFF;--ftheme-soft:#FFFFFF;}
 [data-chap="hydepark"],   [data-chapter="hydepark"]   {--ftheme:#F3F0E9;--ftheme-ink:#171310;}
 [data-chap="nightmarkets"],[data-chapter="nightmarkets"]{--ftheme:#12263A;--ftheme-ink:#FFF6EE;}
 [data-chap="morocco"],    [data-chapter="morocco"]    {--ftheme:#012B95;--ftheme-ink:#FFF6EE;}
 [data-chap="wildlife"],   [data-chapter="wildlife"]   {--ftheme:#FADF7F;--ftheme-ink:#171310;}
 [data-chap="scotland"],   [data-chapter="scotland"]   {--ftheme:#D2EBFF;--ftheme-ink:#171310;}
+/* Muay Thai — le rouge est RELEVÉ SUR LA PHOTO, pas choisi à l'œil : c'est la teinte la plus
+   fréquente des gants de mt-1 (devenue la bannière), mesurée sur la zone des gants après avoir
+   écarté le halo magenta des projecteurs. Elle donne 6,0:1 avec le blanc — au-dessus du seuil,
+   et mieux que la plupart des thèmes existants. */
+[data-chap="muaythai"],   [data-chapter="muaythai"]   {--ftheme:#a80533;--ftheme-ink:#FFF6EE;}
 
 /* LE PAVÉ DE TEXTE NE PORTE PLUS D'APLAT : titre et description reposent sur le crème du site,
    comme le reste de la page. Le thème ne subsiste que sur le cadre du tirage (règle suivante,
@@ -649,16 +695,25 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .wrap.about{padding-top:calc(var(--sec-gap) * 1.3);padding-bottom:calc(var(--sec-gap) * 1.3);}
 .about-col{display:grid;grid-template-columns:0.92fr 1.18fr;gap:80px;align-items:start;}
 .about-txt{text-align:left;}
-/* ===== PAGE ABOUT EN LINÉALE GÉOMÉTRIQUE =====
-   Seule page du site à quitter les serifs : Montserrat, déjà chargée pour la navbar, donc
-   aucun téléchargement supplémentaire. Posée sur le conteneur, elle est héritée par les
-   paragraphes ; la signature manuscrite garde son Cormorant, qu'elle déclare elle-même. */
+/* ===== PAGE ABOUT EN MARCELLUS =====
+   La police est posée SUR LE CONTENEUR : le titre « About me » et tous les paragraphes en
+   héritent, c'est ce qui met « tout le texte » de la page dans la même voix, sans une seule
+   règle par élément. Une exception, une seule : la phrase de clôture, juste en dessous.
+   ⚠ Marcellus n'existe qu'en UNE graisse (400). Le 600 de `.about-h` est donc un gras
+   SYNTHÉTIQUE dessiné par le navigateur ; passer à 400 si le rendu paraît empâté. */
 .about-txt{font-family:var(--font-about);}
 .about-h{text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
   padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
-/* graisse 300 : une linéale géométrique paraît plus dense qu'un serif à taille égale, le
-   maigre lui rend l'air qu'avait le texte en Libre Baskerville */
-.about-txt p{font-size:15px;font-weight:300;line-height:2.05;color:var(--muted);margin-bottom:22px;}
+/* graisse 400 : Marcellus ne se décline pas, le 300 d'avant (hérité de Montserrat) retombait
+   de toute façon sur l'unique graisse de la famille */
+.about-txt p{font-size:15px;font-weight:400;line-height:2.05;color:var(--muted);margin-bottom:22px;}
+/* >>> LA PHRASE DE CLÔTURE — « Art is simply what we choose to make of it. » <<<
+   SEULE exception au Marcellus de la page : elle reprend la police de la ligne
+   « FRAME —— TRAVEL » des pages d'album, c'est-à-dire var(--font-label). Les deux restent
+   liées, y compris si le visiteur change la zone « Labels & buttons » du sélecteur « Aa ».
+   Ciblée par `:last-of-type` et non par un numéro : ajouter ou retirer un paragraphe au-dessus
+   ne casse rien, c'est toujours le dernier qui referme. */
+.about-txt p:last-of-type{font-family:var(--font-label);}
 .about-txt .sig{font-family:var(--font-display);font-size:34px;color:var(--accent);margin-top:8px;}
 .about-gal{display:flex;flex-direction:column;gap:22px;}
 .pano{position:relative;aspect-ratio:21/9;overflow:hidden;border-radius:4px;background:var(--bg-soft);
@@ -695,30 +750,29 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    ============================================================ */
 @media(max-width:880px){
   .about-col{display:flex;flex-direction:column;align-items:stretch;gap:0;}
-  .about-col>.about-txt,.about-col>.about-gal{display:contents;}
 
-  /* >>> L'ALTERNANCE — l'ordre de lecture sur mobile <<<
-     Impair = paragraphe, pair = bande photo. Pour intervertir deux éléments, il suffit
-     d'échanger leurs numéros ; pour retirer une bande, donner un `order` plus grand que 9. */
-  .about-txt .about-h{order:0;}
-  .about-txt p:nth-of-type(1){order:1;}
-  .about-gal .pano:nth-of-type(1){order:2;}
-  .about-txt p:nth-of-type(2){order:3;}
-  .about-gal .pano:nth-of-type(2){order:4;}
-  .about-txt p:nth-of-type(3){order:5;}
-  .about-gal .pano:nth-of-type(3){order:6;}
-  .about-txt p:nth-of-type(4){order:7;}
-  .about-gal .pano:nth-of-type(4){order:8;}
-  .about-txt p:nth-of-type(5){order:9;}
+  /* >>> ORDRE DE LECTURE SUR MOBILE : TOUT LE TEXTE, PUIS TOUTES LES BANDES <<<
+     Les deux blocs du HTML (.about-txt puis .about-gal) restent des BOÎTES empilées, dans
+     l'ordre du balisage : le texte se lit d'un trait, les quatre bandes photo le suivent.
+     C'est le comportement par défaut d'une colonne flex — il n'y a donc plus une seule règle
+     à écrire pour l'obtenir.
+     (Auparavant `display:contents` effaçait ces deux boîtes pour que leurs enfants deviennent
+     les éléments flex de .about-col, puis une dizaine de règles `order` intercalaient
+     paragraphe / bande / paragraphe. L'entrelacement est abandonné, ces règles avec.) */
 
   .about-txt .about-h{margin-bottom:26px;}
   .about-txt p{margin:0 0 30px;}
 
-  /* la première phrase porte la voix : plus grande, en serif — c'est l'exergue */
-  .about-txt p:nth-of-type(1){font-family:var(--font-display);font-weight:300;
-    font-size:22px;line-height:1.55;color:var(--text);margin-bottom:34px;}
-  /* la dernière la referme */
-  .about-txt p:nth-of-type(5){font-family:var(--font-display);font-weight:300;
+  /* PAS D'EXERGUE : le premier paragraphe se lit EXACTEMENT comme les deux suivants.
+     Il portait ici un traitement à part (22px, couleur --text au lieu de --muted) qui le
+     faisait ressortir d'un bloc sur mobile — il a été retiré, il n'y a donc volontairement
+     aucune règle `.about-txt p:nth-of-type(1)`. Les trois paragraphes sont désormais servis
+     par la seule règle `.about-txt p` ci-dessus. La phrase de clôture, elle, garde sa
+     différence — c'est la seule voulue. */
+  /* la dernière referme le texte — même exception que sur PC : police de « FRAME —— TRAVEL ».
+     Ciblée par `:last-of-type` comme sur PC : le nombre de paragraphes peut changer sans
+     qu'aucun numéro ne soit à corriger ici. */
+  .about-txt p:last-of-type{font-family:var(--font-label);font-weight:400;
     font-size:22px;line-height:1.5;color:var(--text);margin:8px 0 0;text-align:center;}
 
   /* ----- LES BANDES -----
@@ -726,6 +780,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
      change selon la taille (22px sous 760px, 48px au-dessus), on ne peut donc pas la
      compenser par une marge négative fixe. `100vw` recentré est indépendant du parent.
      Le débord latéral est absorbé par `overflow-x:hidden` posé sur <body>. */
+  /* `gap:0` annule l'espacement flex hérité de .about-gal : l'écart entre deux bandes est
+     porté par leur seul `margin-bottom` ci-dessous, sans quoi les deux se cumuleraient.
+     `margin-top` ouvre le blanc entre la phrase de clôture et la première bande. */
+  .about-gal{gap:0;margin-top:38px;}
   .about-gal .pano{width:100vw;margin-left:50%;transform:translateX(-50%);
     border-radius:0;box-shadow:none;margin-bottom:30px;
     /* >>> FINESSE DES BANDES — LA VALEUR À RÉGLER <<<
@@ -754,43 +812,73 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .mail-card{background:linear-gradient(135deg,#D9B36A 0%,#9A6B3F 48%,#5E3A22 100%);
   box-shadow:0 40px 80px -30px rgba(80,52,26,.6);}
 .mail-card .ig-btn{color:#7A4A22;}
-/* L'adresse est bien plus longue qu'un pseudo : nettement réduite pour tenir en entier, sur une
-   seule ligne, même sur les petits écrans. `break-word` reste un filet de sécurité. */
-/* Sélecteur doublé `.ig-card.mail-card` À DESSEIN : la carte porte LES DEUX classes, et
-   `.ig-card h2` (même spécificité, déclarée plus bas) l'emportait — la réduction ne s'appliquait
-   donc pas et l'adresse restait affichée en 39px. */
-.ig-card.mail-card h2{font-size:clamp(20px,6vw,30px);word-break:break-word;letter-spacing:-.01em;}
+/* ============================================================
+   « hello@ablasframes.com » — UNE SEULE LIGNE, TOUJOURS
+   L'adresse est bien plus longue qu'un pseudo : elle est nettement réduite pour tenir en
+   entier sur une ligne, y compris sur les petits écrans.
+
+   >>> LES CHIFFRES ONT ÉTÉ REFAITS POUR LORA <<<
+   Ils avaient été calculés du temps où ce titre était en Cormorant Garamond. LORA EST 27%
+   PLUS LARGE À CORPS ÉGAL : la même phrase mesure 10,42 fois le corps employé contre 8,18
+   auparavant. Les anciennes valeurs débordaient donc, et l'adresse repassait à la ligne.
+   Règle de calcul, si la police change encore : corps maximum = largeur utile ÷ 10,42.
+   La largeur utile est celle de la carte moins ses 34px de marge intérieure de chaque côté.
+
+   `white-space:nowrap` est la GARANTIE, le corps n'est que le moyen : même si un futur
+   réglage se trompait, le retour à la ligne resterait impossible. Il remplace l'ancien
+   `word-break:break-word`, qui autorisait exactement ce qu'on veut interdire.
+
+   Sélecteur doublé `.ig-card.mail-card` À DESSEIN : la carte porte LES DEUX classes, et
+   `.ig-card h2` (même spécificité, déclarée plus bas) l'emportait — la réduction ne
+   s'appliquait donc pas et l'adresse restait affichée en 39px.
+   ============================================================ */
+.ig-card.mail-card h2{font-size:clamp(18px,5.7vw,30px);white-space:nowrap;letter-spacing:-.01em;}
 .ig-card::before{content:"";position:absolute;inset:0;opacity:.16;mix-blend-mode:overlay;pointer-events:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.6'/></svg>");}
 .ig-card .inner{position:relative;z-index:2;width:100%;display:flex;flex-direction:column;align-items:center;}
 .ig-card .ig-btn{margin-top:auto;}   /* les boutons des deux cartes s'alignent en bas */
+/* PASTILLE DES DEUX CARTES : aplat BEIGE, le crème du site (--bg).
+   C'est ce qui permet d'y poser des marques colorées ou sombres — le logo AF marron et le
+   logo Gmail — qui se perdaient sur les dégradés. Le liseré blanc translucide détache la
+   pastille du dégradé ; `backdrop-filter` est retiré : derrière un aplat OPAQUE il ne floute
+   plus rien et ne coûterait qu'une couche de composition. */
 .ig-card .ig-ico{width:78px;height:78px;border-radius:22px;margin:0 auto 26px;display:flex;align-items:center;justify-content:center;
-  font-size:40px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(4px);}
-/* carte Instagram : le logo ablas frames (blanc) remplace l'icône de marque — plus personnel.
-   Sa pastille passe en NOIR PLEIN : le voile blanc translucide commun aux deux cartes laissait
-   passer le dégradé rose/violet derrière, sur lequel un logo blanc se détachait mal.
-   `:not(.mail-card)` est indispensable — les deux cartes partagent la classe .ig-card, et la
-   carte e-mail doit garder sa pastille translucide sur son dégradé chaud.
-   Le backdrop-filter est neutralisé : derrière un fond opaque il ne floute plus rien et ne
-   coûterait qu'une couche de composition. */
-.ig-card:not(.mail-card) .ig-ico{background:#000;backdrop-filter:none;}
-.ig-card .ig-ico img{width:auto;height:42px;}
+  font-size:40px;background:var(--bg);border:1px solid rgba(255,255,255,.55);}
+/* carte Instagram : le logo ablas frames MARRON (af-icone-marron.png, celui du site) sur la
+   pastille beige. `:not(.mail-card)` est indispensable — les deux cartes partagent la classe
+   .ig-card, et seule celle-ci porte une image.
+   LARGEUR 100% ET NON `height:42px` : le fichier est un carré de 1600px dont la marque
+   n'occupe que le centre (env. 61% en largeur, 46% en hauteur). Calé sur sa hauteur, le
+   monogramme serait deux fois trop petit dans la pastille ; calé sur la largeur, la marge
+   transparente du fichier fait elle-même la marge intérieure. */
+.ig-card:not(.mail-card) .ig-ico img{width:100%;height:auto;}
+/* carte e-mail : logo Gmail (SVG multicolore inline, voir le HTML). Il porte ses propres
+   couleurs, donc PAS la classe `.ic` du sprite — d'où cette taille explicite. Le dessin est
+   plus large que haut (52x40) : 34px de haut = 44px de large dans la pastille de 78px. */
+.ig-card .ig-ico .gmail{width:auto;height:34px;}
 .ig-card .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:14px;}
-.ig-card h2{font-family:var(--font-display);font-style:italic;font-weight:400;font-size:clamp(39px,5.8vw,60px);line-height:1;margin-bottom:14px;}
+/* « @ablasframes » ET « hello@ablasframes.com » : LORA pour les deux (la carte e-mail ne
+   redéfinit que la TAILLE de son titre, plus haut — la police vient donc bien d'ici). */
+.ig-card h2{font-family:var(--font-collection);font-style:italic;font-weight:400;font-size:clamp(39px,5.8vw,60px);line-height:1;margin-bottom:14px;}
 .ig-card p{font-size:14.5px;color:rgba(255,255,255,.9);max-width:440px;margin:0 auto 32px;line-height:1.7;}
 /* ===== PC : LES DEUX CARTES AU MÊME CORPS DE TITRE =====
    Côte à côte, elles affichaient 60px à gauche contre 30px à droite — un rapport de 2, la carte
    e-mail paraissait secondaire. L'écart venait de la réduction imposée à l'adresse pour qu'elle
-   tienne sur une ligne : « hello@ablasframes.com » est 1,7× plus long que « @ablasframes »
-   (818px contre 490px pour un corps de 100px).
-   Les deux titres partagent donc ici la MÊME taille. Le plafond de 46px n'est pas arbitraire :
-   dans les 439px utiles de la carte, l'adresse tient sur une ligne jusqu'à 53px — 46px laisse
-   la marge nécessaire, y compris entre 881 et 1100px où les cartes sont plus étroites.
+   tienne sur une ligne : « hello@ablasframes.com » est 1,7× plus long que « @ablasframes ».
+   Les deux titres partagent donc ici la MÊME taille.
+
+   >>> PLAFOND RAMENÉ DE 46 À 40px — POURQUOI <<<
+   46px avait été calculé pour Cormorant Garamond. En LORA, 27% plus large, l'adresse réclame
+   479px alors que la carte n'en offre que 439 : elle repassait à la ligne sur tout écran de
+   1140px et plus. Le point le plus SERRÉ n'est d'ailleurs pas le grand écran mais 881px,
+   juste après le passage en deux colonnes : la carte n'y fait que 380px, soit 312px utiles,
+   soit 29,9px de corps au maximum — d'où le 3,2vw, qui y vaut 28,2px.
+   Marge conservée à chaque bout : ~6% à 881px, ~5% au-delà de 1250px.
    Sur mobile les cartes s'empilent et gardent leurs tailles d'origine (rien ne change).
    Le sélecteur `.ig-card.mail-card h2` est répété À DESSEIN : sans lui, la règle de réduction
    déclarée plus haut, plus spécifique, continuerait de l'emporter sur la carte e-mail. */
 @media(min-width:881px){
-  .ig-card h2,.ig-card.mail-card h2{font-size:clamp(34px,3.4vw,46px);}
+  .ig-card h2,.ig-card.mail-card h2{font-size:clamp(28px,3.2vw,40px);}
 }
 .ig-btn{display:inline-flex;align-items:center;gap:11px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;font-weight:500;
   color:#7a1650;background:#fff;border-radius:40px;padding:17px 40px;text-decoration:none;
@@ -804,42 +892,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .contact-alt a:hover{color:var(--accent);}
 .contact-alt a .ic{font-size:20px;color:var(--accent);}
 
-/* ===================== SÉLECTEUR DE POLICES (bouton « Aa ») =====================
-   Discret par défaut : une pastille en bas à droite, au-dessus de tout sauf la visionneuse.
-   Le panneau ne charge AUCUNE police tant qu'on n'a rien choisi — les 15 familles proposées
-   ne sont téléchargées qu'à la sélection (voir chargerPolice() dans le script). */
-.fontbtn{position:fixed;right:20px;bottom:20px;z-index:420;width:46px;height:46px;border-radius:50%;
-  border:.5px solid var(--line-strong);background:color-mix(in srgb,var(--bg) 92%,transparent);
-  backdrop-filter:blur(8px);color:var(--text);cursor:pointer;
-  font-family:'Libre Baskerville',Georgia,serif;font-size:15px;letter-spacing:.02em;
-  box-shadow:0 10px 26px -12px rgba(60,40,20,.5);transition:transform .3s var(--ease),color .3s;}
-.fontbtn:hover{transform:translateY(-2px);color:var(--accent);}
-.fontpanel{position:fixed;right:20px;bottom:78px;z-index:421;width:min(316px,calc(100vw - 40px));
-  background:color-mix(in srgb,var(--bg) 97%,transparent);backdrop-filter:blur(12px);
-  border:.5px solid var(--line-strong);border-radius:14px;padding:20px 20px 16px;
-  box-shadow:0 26px 60px -24px rgba(60,40,20,.6);
-  font-family:'Libre Baskerville',Georgia,serif;   /* le panneau ne se repeint pas lui-même */
-  display:none;}
-.fontpanel.open{display:block;}
-.fontpanel h3{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--accent);
-  font-weight:400;margin-bottom:4px;}
-.fontpanel .sub{font-size:11px;color:var(--faint);line-height:1.55;margin-bottom:16px;}
-.fontrow{margin-bottom:13px;}
-.fontrow label{display:block;font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:5px;}
-.fontrow select{width:100%;padding:9px 10px;border:.5px solid var(--line-strong);border-radius:7px;
-  background:var(--bg);color:var(--text);font-size:13px;font-family:inherit;cursor:pointer;}
-.fontrow select:focus{outline:none;border-color:var(--accent);}
-.fontfoot{display:flex;justify-content:space-between;align-items:center;gap:10px;
-  margin-top:15px;padding-top:12px;border-top:.5px solid var(--line);}
-.fontfoot button{font-family:inherit;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
-  background:none;border:none;color:var(--muted);cursor:pointer;padding:4px 0;transition:color .3s;}
-.fontfoot button:hover{color:var(--accent);}
-@media(max-width:760px){.fontbtn{right:14px;bottom:14px;width:42px;height:42px;}
-  .fontpanel{right:14px;bottom:64px;}}
-@media print{.fontbtn,.fontpanel{display:none;}}
-
-.foot{padding:50px 0;text-align:center;border-top:.5px solid var(--line);position:relative;z-index:2;}.foot p{font-size:11px;letter-spacing:.12em;color:var(--faint);}
+/* Le « © ablas frames — Fragments of my reality » est en LORA, et n'appartient donc plus au
+   groupe des petites étiquettes (dont il a été retiré, voir la ZONE « ÉTIQUETTES » plus haut) :
+   il ne suit plus la zone « Labels & buttons » du sélecteur « Aa ». */
+.foot{padding:50px 0;text-align:center;border-top:.5px solid var(--line);position:relative;z-index:2;}.foot p{font-family:var(--font-collection);font-size:11px;letter-spacing:.12em;color:var(--faint);}
 
 /* ===================== LIGHTBOX ===================== */
 .lb{position:fixed;inset:0;z-index:500;background:rgba(46,30,18,.93);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:60px;opacity:0;visibility:hidden;transition:opacity .4s var(--ease),visibility .4s;}
@@ -938,8 +994,9 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
      de 390px imposerait 20px de corps, soit à peine plus que le texte courant — le titre
      n'aurait plus l'air d'un titre. Passer `white-space:nowrap` et `font-size:min(5.1vw,41px)`
      si vous préférez malgré tout la ligne unique. */
-  .hero-txt h2{font-size:26px;line-height:1.25;margin-bottom:13px;white-space:normal;}
-  .hero-intro{font-size:17px;line-height:1.55;}
+  .hero-txt h2{font-size:21px;line-height:1.25;margin-bottom:13px;white-space:normal;}
+  /* >>> TAILLE DU CHAPÔ SUR MOBILE — LA VALEUR À RÉGLER <<< (pendant du `.hero-intro` du haut) */
+  .hero-intro{font-size:14.5px;line-height:1.55;}
   /* Espace sous la bannière mobile avant la description — C'EST LA VALEUR À RÉGLER.
      Plus le multiplicateur est grand, plus la description descend.
      Revenu à 2,4 (sa valeur d'origine) : l'aplat coloré ayant disparu, cet espace redevient un
@@ -1130,7 +1187,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
           <p class="hero-intro">Photography has never been about documenting reality exactly as it is. It is about preserving the way a moment felt before it disappeared.</p>
         </div>
         <div class="hero-photo reveal">
-          <div class="hero-frame"><div class="canvas"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/eom-1.jpeg" alt="" loading="lazy" decoding="async"></div></div>
+          <div class="hero-frame"><div class="canvas"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/eom-1.webp" alt="" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
     </div>
@@ -1158,7 +1215,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="lead reveal"><h2 class="serif">Albums</h2></div>
       <div class="frames-list">
         <article class="frame-row reveal" data-chapter="morocco">
-          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/portraits/echoes-of-morocco/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span></div>
         </article>
         <article class="frame-row reveal" data-chapter="thailand">
@@ -1181,6 +1238,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
           <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span></div>
         </article>
+        <article class="frame-row reveal" data-chapter="muaythai">
+          <div class="frow-pano"><img class="img" style="--focus:center 42%" src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Muay Thai</h3><span class="frow-s">Sports</span></div>
+        </article>
       </div>
     </div>
   </section>
@@ -1195,7 +1256,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="chap-txt">
       <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
       <h1 class="serif">Thailand</h1>
-      <div class="chap-intro reveal"><p>In the heart of Bangkok's clamour and the silence of the rice fields, I let the film decide. These images are fragments — imperfect, alive, true.</p></div>
+      <div class="chap-intro reveal"><p>Thailand felt vivid in every sense — in its colours, its movement, and its warmth. These photographs hold the fragments of it that stayed with me.</p></div>
     </div>
   </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
@@ -1216,7 +1277,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="chap-txt">
       <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
       <h1 class="serif">Bali</h1>
-      <div class="chap-intro reveal"><p>An island of terraced rice fields and running water. Between temples and green light, every frame breathes the soft warmth of the tropics.</p></div>
+      <div class="chap-intro reveal"><p>In Bali, everything felt softer — the light, the landscapes, even the passing of time. The colours of the sea and the spirituality embedded in everyday life make the island otherworldly.</p></div>
     </div>
   </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
@@ -1237,7 +1298,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="chap-txt">
       <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
       <h1 class="serif">Hyde Park Nostalgia</h1>
-      <div class="chap-intro reveal"><p>A soft, grey English light between the trees of Hyde Park. Suspended moments, tinged with a gentle melancholy.</p></div>
+      <div class="chap-intro reveal"><p>In black and white, Hyde Park feels suspended in another time — quiet, melancholic, almost Victorian. There is a nostalgia in its stillness, as if the past never fully left.</p></div>
     </div>
   </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
@@ -1258,7 +1319,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="chap-txt">
       <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div>
       <h1 class="serif">Night Markets</h1>
-      <div class="chap-intro reveal"><p>Neon, steam and colour. Night markets are a theatre of light — film captures the raw warmth of the crowd.</p></div>
+      <div class="chap-intro reveal"><p>The buzzing lights, loud voices and endless sea food made Phuket's night markets feel alive at every turn. A beautiful chaos of flavours, colours and energy.</p></div>
     </div>
   </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
@@ -1273,13 +1334,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <!-- ===================== FRAME : ECHOES OF MOROCCO ===================== -->
 <section class="page frame-page" id="page-morocco" data-chap="morocco">
   <div class="chap-head">
-    <div class="chap-photo"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/banner.jpeg" alt="" loading="lazy" decoding="async">
+    <div class="chap-photo"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Portraits</span></div><h1 class="serif">Echoes of Morocco</h1></div>
     </div>
     <div class="chap-txt">
       <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Portraits</span></div>
       <h1 class="serif">Echoes of Morocco</h1>
-      <div class="chap-intro reveal"><p>Faces and ochre walls, the echo of a land of light. A series of portraits where earth and skin share the same warmth.</p></div>
+      <div class="chap-intro reveal"><p>There is a softness to Morocco that lives in its traditions — in shared tea, flowing caftans and quiet moments between the walls of the Oudayas.</p></div>
     </div>
   </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
@@ -1300,7 +1361,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="chap-txt">
       <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Wildlife</span></div>
       <h1 class="serif">Wildlife</h1>
-      <div class="chap-intro reveal"><p>On the lookout, in silence. Wildlife never poses — it barely lets itself be surprised. Every frame is patience rewarded.</p></div>
+      <div class="chap-intro reveal"><p>Wildlife is unpredictable by nature. Every encounter is different, every moment brief — all I can do is be there when it happens.</p></div>
     </div>
   </div>
   <section class="pad" style="padding-top:48px"><div class="wrap">
@@ -1333,6 +1394,30 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   </div></section>
 </section>
 
+<!-- ===================== FRAME : MUAY THAI ===================== -->
+<section class="page frame-page" id="page-muaythai" data-chap="muaythai">
+  <div class="chap-head">
+    <div class="chap-photo"><img class="img" src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async">
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Sports</span></div><h1 class="serif">Muay Thai</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Sports</span></div>
+      <h1 class="serif">Muay Thai</h1>
+      <!-- ⚠ TEXTE PROVISOIRE : aucune description n'a été fournie pour cet album, contrairement
+           aux quatre autres. Celle-ci est écrite dans la même voix que les autres frames, à
+           remplacer par la vôtre. -->
+      <div class="chap-intro reveal"><p>The brutality of the fight contrasts with the deep respect between fighters, while the energy of the crowd and the spectacle surrounding the ring turn every match into a show. From the first bell to the final round, Muay Thai is an experience of its own.</p></div>
+    </div>
+  </div>
+  <section class="pad" style="padding-top:48px"><div class="wrap">
+    <p class="eyebrow reveal">Gallery</p>
+    <div class="gallery" id="gal-muaythai"></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img src="af-icone-marron.png" alt="ablas frames" loading="lazy" decoding="async"></span>
+      <span class="ln"></span></div></div>
+  </div></section>
+</section>
+
 <!-- ===================== FRAMES (listing — ex "Chapitres") ===================== -->
 <section class="page" id="page-frames">
   <section class="pad"><div class="wrap">
@@ -1343,9 +1428,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><img class="img" src="photographies/categories/travel/bali/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Bali</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><img class="img" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><img class="img" src="photographies/categories/travel/night-markets/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Night Markets</h4><span class="tag">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag">Portraits</span></div></article>
+      <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag">Portraits</span></div></article>
       <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><img class="img" src="photographies/categories/wildlife/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Wildlife</h4><span class="tag">Wildlife</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="scotland"><div class="thumb"><img class="img" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Scotland</h4><span class="tag">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="sports" data-chapter="muaythai"><div class="thumb"><img class="img" src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Muay Thai</h4><span class="tag">Sports</span></div></article>
     </div>
     <!-- affiché uniquement quand un filtre ne contient encore aucun album (Sports, Events) -->
     <p class="list-empty" id="listempty" hidden>No album in this category yet — coming soon.</p>
@@ -1358,20 +1444,20 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="about-col">
       <div class="about-txt">
         <h2 class="about-h reveal">About me</h2>
-        <p class="reveal">My art is not about documenting life as it is, but about shaping it through my lens.</p>
-        <p class="reveal">Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.</p>
-        <p class="reveal">In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it. With a single click, time could slow down, stretch, or even stop.</p>
-        <p class="reveal">I am self-taught, learning through practice and intuition, guided by the internal belief that passions have no fixed rules.</p>
+        <p class="reveal">My art is not about documenting life as it is, but about shaping it through my lens. Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.</p>
+        <p class="reveal">In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it — with a single click, time could slow down, stretch, or even stop.</p>
+        <p class="reveal">I am self-taught, learning through practice and intuition, guided by the belief that passions have no fixed rules.</p>
         <p class="reveal"><strong>Art is simply what we choose to make of it.</strong></p>
       </div>
       <!-- photos PAYSAGE (1600x1066) : mieux adaptées à une bande panoramique que des sources
            portrait, et affichées sans agrandissement.
-           4 bandes = 4 paragraphes, identique sur PC et mobile. -->
+           PC : colonne de droite, calée sur la hauteur du texte.
+           MOBILE : les 4 bandes se suivent APRÈS le texte (voir @media max-width:880px). -->
       <div class="about-gal">
-        <div class="pano reveal"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/thailand/thai-3.jpeg" alt="" loading="lazy" decoding="async"></div>
+        <div class="pano reveal"><img class="img" style="--focus:center 68%" src="photographies/categories/travel/bali/bali-11.jpeg" alt="" loading="lazy" decoding="async"></div>
         <div class="pano reveal"><img class="img" style="--focus:center 58%" src="photographies/categories/travel/thailand/thai-18.jpeg" alt="" loading="lazy" decoding="async"></div>
-        <div class="pano reveal"><img class="img" style="--focus:center 58%" src="photographies/categories/travel/thailand/thai-5.jpeg" alt="" loading="lazy" decoding="async"></div>
-        <div class="pano reveal"><img class="img" style="--focus:center 42%" src="photographies/categories/travel/thailand/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+        <div class="pano reveal"><img class="img" style="--focus:center 60%" src="photographies/categories/travel/thailand/thai-13.jpeg" alt="" loading="lazy" decoding="async"></div>
+        <div class="pano reveal"><img class="img" style="--focus:center 68%" src="photographies/categories/travel/thailand/thai-15.jpeg" alt="" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </div>
@@ -1383,23 +1469,33 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="contact-cards">
       <div class="ig-card reveal">
         <div class="inner">
-          <!-- SEULE occurrence du logo BLANC du site : la pastille est posée sur le dégradé
-               Instagram (rose/violet), où l'icône marron se perdait. Partout ailleurs le fond
-               est crème, donc c'est af-icone-marron.png qui est utilisé. -->
-          <div class="ig-ico"><img src="logo-af-blanc.png" alt="ablas frames" loading="lazy" decoding="async"></div>
+          <!-- Le logo MARRON du site (af-icone-marron.png), celui utilisé partout ailleurs,
+               posé sur une pastille beige : la carte parle enfin la langue du site.
+               (logo-af-blanc.png reste employé par la navbar sur fond sombre.) -->
+          <div class="ig-ico"><img src="af-icone-marron.png" alt="ablas frames" loading="lazy" decoding="async"></div>
           <p class="k">Follow me on Instagram</p>
           <h2>@ablasframes</h2>
-          <p>My latest fragments, travel notebooks and new prints — that's where everything happens first. Send me a direct message for any enquiry.</p>
+          <p>Follow my latest work and recent photographs on Instagram. For any enquiries, feel free to send me a direct message.</p>
           <a class="ig-btn" href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><svg class="ic"><use href="#i-instagram"/></svg> Open Instagram</a>
         </div>
       </div>
       <!-- carte e-mail : le bouton ouvre Gmail avec l'objet et le message déjà rédigés -->
       <div class="ig-card mail-card reveal">
         <div class="inner">
-          <div class="ig-ico"><svg class="ic"><use href="#i-mail"/></svg></div>
+          <!-- Logo Gmail — le bouton de cette carte ouvre bien un brouillon Gmail (voir le
+               href plus bas), la marque annonce donc exactement ce qui va se passer.
+               Dessiné inline plutôt que chargé : 5 tracés, aucune requête réseau. Il porte
+               ses propres couleurs, donc pas de classe `.ic` (qui impose currentColor). -->
+          <div class="ig-ico"><svg class="gmail" viewBox="0 0 52 40" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Gmail">
+            <path fill="#4285F4" d="M3.64 40h8.18V20.18L0 10.91v25.45C0 38.37 1.63 40 3.64 40z"/>
+            <path fill="#34A853" d="M40.18 40h8.18c2.01 0 3.64-1.63 3.64-3.64V10.91l-11.82 9.27V40z"/>
+            <path fill="#FBBC04" d="M40.18 3.64v16.54L52 10.91V5.45c0-5.05-5.77-7.94-9.82-4.91l-2 1.5z"/>
+            <path fill="#EA4335" d="M11.82 20.18V3.64L26 14.27 40.18 3.64v16.54L26 30.81z"/>
+            <path fill="#C5221F" d="M0 5.45v5.46l11.82 9.27V3.64l-2-1.5C5.77-1.49 0 1.4 0 5.45z"/>
+          </svg></div>
           <p class="k">Write to me</p>
           <h2>hello@ablasframes.com</h2>
-          <p>For a commission, a print order or a collaboration — tell me about your project and I'll get back to you.</p>
+          <p>For any enquiries or further information, you can also reach me directly by email. I'll get back to you as soon as possible.</p>
           <a class="ig-btn" id="mail-btn"
              href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=hello%40ablasframes.com&amp;su=Photography%20enquiry&amp;body=Hello%20Abla%2C%0A%0AI%20came%20across%20your%20work%20and%20would%20like%20to%20get%20in%20touch.%0A%0A-%20Project%3A%20%0A-%20Dates%3A%20%0A-%20Location%3A%20%0A%0AThank%20you%2C%0A"
              target="_blank" rel="noopener"><svg class="ic"><use href="#i-send"/></svg> Send an email</a>
@@ -1416,21 +1512,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 </main>
 
 <footer class="foot"><p>© ablas frames — Fragments of my reality</p></footer>
-
-<!-- ===== SÉLECTEUR DE POLICES ===== -->
-<button class="fontbtn" id="fontbtn" aria-expanded="false" aria-controls="fontpanel" title="Typography">Aa</button>
-<div class="fontpanel" id="fontpanel" role="dialog" aria-label="Typography">
-  <h3>Typography</h3>
-  <p class="sub">Choose a typeface for each part of the site. Your choice is saved on this device.</p>
-  <div class="fontrow"><label for="f-display">Headings</label><select id="f-display" data-zone="display"></select></div>
-  <div class="fontrow"><label for="f-body">Body text</label><select id="f-body" data-zone="body"></select></div>
-  <div class="fontrow"><label for="f-about">About page</label><select id="f-about" data-zone="about"></select></div>
-  <div class="fontrow"><label for="f-label">Labels &amp; buttons</label><select id="f-label" data-zone="label"></select></div>
-  <div class="fontfoot">
-    <button type="button" id="font-reset">Reset</button>
-    <button type="button" id="font-close">Close</button>
-  </div>
-</div>
 
 <div class="lb" id="lb">
   <span class="lb-count" id="lb-count"></span>
@@ -1456,9 +1537,17 @@ document.documentElement.classList.add('blur-up');
 /* ===================== GALERIES (génération auto · toutes les photos · sans vide) ===================== */
 /* ---- ALBUMS : où trouver les photos ----
    `order` (facultatif) impose l'ordre d'affichage ; sans lui, les photos sortent par n° croissant.
-   Le n° 0 désigne la BANNIÈRE de l'album (banner.jpeg) : elle ouvre donc la galerie.
+   Le n° 0 désigne la BANNIÈRE de l'album (banner.<ext>) : elle ouvre donc la galerie.
    Toute photo absente de `order` est simplement ajoutée à la suite — ajouter un fichier ne
-   casse jamais l'affichage, même sans toucher à cette liste. */
+   casse jamais l'affichage, même sans toucher à cette liste.
+
+   `ext` (facultatif, 'jpeg' par défaut) donne l'EXTENSION des photos de l'album — c'est ce qui
+   permet à un album d'être en WebP pendant que les autres restent en JPEG.
+   ⚠ ELLE VAUT POUR TOUT L'ALBUM, BANNIÈRE COMPRISE : un album en `ext:'webp'` attend
+   `banner.webp`, pas `banner.jpeg`. Un album ne se mélange pas — c'est ce qui permet à
+   buildGallery de composer chaque URL sans avoir à deviner, et au scanner de signaler net un
+   fichier resté dans l'ancien format au lieu de le laisser disparaître en silence.
+   Après avoir touché à `ext`, relancer `node tools/scan-photos.js`. */
 const GAL={
   thailand:{dir:'travel/thailand',pre:'thai',label:'Thailand'},
   // Bali : les 6 photos paysage étaient toutes en tête (1→5 et 8), ce qui donnait un gros bloc
@@ -1466,9 +1555,13 @@ const GAL={
   bali:{dir:'travel/bali',pre:'bali',label:'Bali',order:[0,1,2,9,3,6,11,4,10,5,7,13,12,8,15]},
   hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',label:'Hyde Park Nostalgia'},
   nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',label:'Night Markets'},
-  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',label:'Echoes of Morocco'},
+  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',ext:'webp',label:'Echoes of Morocco'},
   wildlife:{dir:'wildlife',pre:'wild',label:'Wildlife'},
   scotland:{dir:'travel/scotland',pre:'scotland',label:'Scotland'},
+  // Muay Thai : mt-1 est devenue la BANNIÈRE de l'album (banner.jpeg — l'album est en JPEG),
+  // la numérotation des
+  // photos restantes est donc conservée telle quelle et démarre à 2 — le trou en 1 est normal.
+  muaythai:{dir:'sports/muay-thai',pre:'mt',label:'Muay Thai'},
 };
 
 /* ---- DIMENSIONS RÉELLES DE CHAQUE PHOTO ----------------------------------------------------
@@ -1487,13 +1580,14 @@ const GAL={
    (le script relit les fichiers du dossier photographies/ et réécrit ce bloc tout seul)         */
 /* >>> PHOTO-DIM-START <<< */
 const DIM={
-  thailand:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],12:[1066,1600],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1066,1600],21:[1600,1066],22:[1066,1600],23:[1066,1600],24:[1600,1066]},
-  bali:{0:[1066,1600],1:[1600,1066],2:[1600,1066],3:[1600,1066],4:[1600,1066],5:[1600,1068],6:[1200,1600],7:[1200,1600],8:[1600,1066],9:[1066,1600],10:[1066,1600],11:[1600,1066],12:[1066,1600],13:[1600,1066],15:[1600,1066]},
-  hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],5:[1066,1600],6:[1066,1600]},
+  thailand:{0:[1600,1066],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],12:[1066,1600],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1066,1600],21:[1066,1600],22:[1066,1600],23:[1066,1600],24:[1600,1066]},
+  bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1600,1066],5:[1200,1600],6:[1200,1600],7:[1600,1068],8:[1600,1066],9:[1066,1600],10:[1600,1066],11:[1066,1600],12:[1600,1066],13:[1600,1066],14:[1600,1066]},
+  hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600]},
   nightmarkets:{0:[1600,1066],2:[1600,1066],3:[1600,1066]},
-  morocco:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1066,1600],13:[1066,1600],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600]},
-  wildlife:{0:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600]},
+  morocco:{0:[1865,2797],1:[1904,2856],2:[1904,2856],3:[1904,2856],4:[1832,2747],6:[1904,2856],7:[1904,2856],8:[1847,2770],9:[1904,2856],10:[1904,2856],11:[1904,2856],12:[1904,2856],13:[1904,2856],14:[1904,2856],15:[1904,2856],16:[1868,2802],18:[1904,2856],19:[1904,2856]},
+  wildlife:{0:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1600,1066]},
   scotland:{0:[1066,1600],2:[1066,1600],3:[1200,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1066,1600],8:[1200,1600]},
+  muaythai:{0:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1600,1066],7:[1600,1066]},
 };
 /* >>> PHOTO-DIM-END <<< */
 
@@ -1600,7 +1694,8 @@ function buildGallery(key){
   const seq=wanted.concat(nums.filter(i=>!wanted.includes(i)).sort((a,b)=>a-b));
   seq.forEach(i=>{
     const w=dim[i][0],h=dim[i][1];
-    const file=(i===0)?'banner.jpeg':g.pre+'-'+i+'.jpeg';   // 0 = bannière de l'album
+    const ext=g.ext||'jpeg';
+    const file=(i===0)?'banner.'+ext:g.pre+'-'+i+'.'+ext;   // 0 = bannière de l'album
     const src='photographies/categories/'+g.dir+'/'+file;
     const alt=(i===0)?g.label:g.label+' — '+i;
     // width/height sur la balise : le navigateur réserve nativement le bon rapport d'aspect
@@ -1677,6 +1772,7 @@ const FRAMES=[
   {key:'morocco',     el:'page-morocco',     label:'Echoes of Morocco',     dot:'#C62828'},  // rouge
   {key:'wildlife',    el:'page-wildlife',    label:'Wildlife',              dot:'#795C5F'},  // inchangé
   {key:'scotland',    el:'page-scotland',    label:'Scotland',              dot:'#758AD1'},  // inchangé
+  {key:'muaythai',    el:'page-muaythai',    label:'Muay Thai',             dot:'#C80217'},  // rouge des gants
 ];
 const PAGES={home:{el:'page-home'},frames:{el:'page-frames'},about:{el:'page-about'},contact:{el:'page-contact'}};
 FRAMES.forEach(f=>PAGES[f.key]={el:f.el,label:f.label,dot:f.dot});
@@ -2034,101 +2130,6 @@ let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:tr
     document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();},{once:true});
     location.href='googlegmail://co?'+q;
   });
-})();
-
-/* ===================== SÉLECTEUR DE POLICES =====================
-   Quatre zones, quinze familles. Le principe tient en une ligne : chaque zone est une variable
-   CSS posée sur <html>, donc écrire cette variable suffit à repeindre tout le site — aucune
-   règle n'est touchée, aucun élément n'est parcouru.
-
-   LE POINT IMPORTANT, c'est le chargement : les 15 familles ne sont PAS demandées au démarrage.
-   Ce serait ~500 Ko de polices pour un panneau que la plupart des visiteurs n'ouvriront jamais,
-   et cela ruinerait le travail fait sur la vitesse de chargement. Une famille n'est téléchargée
-   qu'au moment où on la choisit, et une seule fois (`chargees`).
-   Les trois polices déjà servies par le site (Cormorant, Libre Baskerville, Montserrat) sont
-   marquées `local:true` : elles sont déjà là, rien à demander. */
-(function(){
-  const POLICES=[
-    // nom affiché                    famille CSS                       poids demandés     déjà chargée ?
-    {n:'Cormorant Garamond (default)',f:"'Cormorant Garamond',Georgia,serif",   g:null,          local:true},
-    {n:'Libre Baskerville',           f:"'Libre Baskerville',Georgia,serif",    g:null,          local:true},
-    {n:'Montserrat',                  f:"'Montserrat',sans-serif",              g:null,          local:true},
-    {n:'EB Garamond',                 f:"'EB Garamond',Georgia,serif",          g:'EB+Garamond:ital,wght@0,300;0,400;1,400'},
-    {n:'Playfair Display',            f:"'Playfair Display',Georgia,serif",     g:'Playfair+Display:ital,wght@0,400;0,600;1,400'},
-    {n:'Lora',                        f:"'Lora',Georgia,serif",                 g:'Lora:ital,wght@0,400;0,600;1,400'},
-    {n:'Spectral',                    f:"'Spectral',Georgia,serif",             g:'Spectral:ital,wght@0,300;0,400;1,300'},
-    {n:'DM Serif Display',            f:"'DM Serif Display',Georgia,serif",     g:'DM+Serif+Display:ital@0;1'},
-    {n:'Marcellus',                   f:"'Marcellus',Georgia,serif",            g:'Marcellus'},
-    {n:'Cinzel',                      f:"'Cinzel',Georgia,serif",               g:'Cinzel:wght@400;600'},
-    {n:'Italiana',                    f:"'Italiana',Georgia,serif",             g:'Italiana'},
-    {n:'Jost',                        f:"'Jost',sans-serif",                    g:'Jost:ital,wght@0,300;0,400;0,500;1,300'},
-    {n:'Poppins',                     f:"'Poppins',sans-serif",                 g:'Poppins:ital,wght@0,300;0,400;0,600;1,300'},
-    {n:'DM Sans',                     f:"'DM Sans',sans-serif",                 g:'DM+Sans:ital,wght@0,300;0,400;0,500;1,300'},
-    {n:'Syne',                        f:"'Syne',sans-serif",                    g:'Syne:wght@400;600;700'},
-  ];
-  const ZONES={display:'--font-display',body:'--font-body',about:'--font-about',label:'--font-label'};
-  const CLE='af-polices';
-  const btn=document.getElementById('fontbtn'),panel=document.getElementById('fontpanel');
-  if(!btn||!panel)return;
-
-  const chargees=new Set();
-  function chargerPolice(p){
-    if(!p.g||p.local||chargees.has(p.g))return;
-    chargees.add(p.g);
-    const l=document.createElement('link');
-    l.rel='stylesheet';
-    l.href='https://fonts.googleapis.com/css2?family='+p.g+'&display=swap';
-    document.head.appendChild(l);
-  }
-
-  function appliquer(zone,famille,memoriser){
-    const p=POLICES.find(x=>x.f===famille);if(!p)return;
-    chargerPolice(p);
-    document.documentElement.style.setProperty(ZONES[zone],p.f);
-    if(memoriser){
-      const etat=lire();etat[zone]=p.f;
-      try{localStorage.setItem(CLE,JSON.stringify(etat));}catch(e){}
-    }
-  }
-  function lire(){
-    try{return JSON.parse(localStorage.getItem(CLE))||{};}catch(e){return {};}
-  }
-
-  // remplissage des quatre listes déroulantes
-  const selects=[...panel.querySelectorAll('select[data-zone]')];
-  selects.forEach(sel=>{
-    POLICES.forEach(p=>{
-      const o=document.createElement('option');o.value=p.f;o.textContent=p.n;sel.appendChild(o);
-    });
-    sel.addEventListener('change',()=>appliquer(sel.dataset.zone,sel.value,true));
-  });
-
-  // restauration du choix précédent — AVANT tout affichage du panneau
-  const etat=lire();
-  const defauts={display:POLICES[0].f,body:POLICES[1].f,about:POLICES[2].f,label:POLICES[1].f};
-  selects.forEach(sel=>{
-    const z=sel.dataset.zone;
-    const v=etat[z]||defauts[z];
-    sel.value=v;
-    if(etat[z])appliquer(z,v,false);        // on ne réécrit pas ce qu'on vient de lire
-  });
-
-  function ouvrir(o){
-    panel.classList.toggle('open',o);
-    btn.setAttribute('aria-expanded',o?'true':'false');
-  }
-  btn.addEventListener('click',e=>{e.stopPropagation();ouvrir(!panel.classList.contains('open'));});
-  document.getElementById('font-close').addEventListener('click',()=>ouvrir(false));
-  document.getElementById('font-reset').addEventListener('click',()=>{
-    try{localStorage.removeItem(CLE);}catch(e){}
-    Object.values(ZONES).forEach(v=>document.documentElement.style.removeProperty(v));
-    selects.forEach(sel=>sel.value=defauts[sel.dataset.zone]);
-  });
-  document.addEventListener('click',e=>{
-    if(!panel.classList.contains('open'))return;
-    if(!e.target.closest('#fontpanel')&&!e.target.closest('#fontbtn'))ouvrir(false);
-  });
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')ouvrir(false);});
 })();
 
 go((location.hash||'#home').slice(1));runReveal();
