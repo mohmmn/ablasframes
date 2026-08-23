@@ -4,8 +4,9 @@
     {
       "name": "site",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["--yes", "http-server", ".", "-p", "3000", "-c-1", "--silent"],
-      "port": 3000
+      "runtimeArgs": ["--yes", "http-server", ".", "-c-1", "--silent"],
+      "port": 3000,
+      "autoPort": true
     }
   ]
 }

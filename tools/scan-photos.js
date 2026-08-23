@@ -8,9 +8,10 @@
 
    Ce que ça fait :
      1. lit la liste des albums dans le `const GAL={…}` d'index.html (dossier, préfixe, ext) ;
-     2. parcourt photographies/categories/<dossier>/ et y trouve les <préfixe>-N.<ext>
-        (l'extension vaut 'jpeg' sauf si l'album déclare `ext:` — Morocco est en 'webp') ;
-     3. lit la largeur/hauteur de chaque photo DIRECTEMENT dans son en-tête, JPEG ou WebP
+     2. parcourt photographies/categories/<dossier>/ et y prend TOUTES les <préfixe>-N.*,
+        quelle que soit l'extension (.jpeg, .jpg, .webp, .png) — celle de chaque fichier est
+        inscrite dans le manifeste quand elle diffère du défaut `ext:` de l'album ;
+     3. lit la largeur/hauteur de chaque photo DIRECTEMENT dans son en-tête, JPEG, WebP ou PNG
         (aucune dépendance à installer) ;
      4. réécrit le bloc entre les marqueurs PHOTO-DIM-START / PHOTO-DIM-END.
 
@@ -78,9 +79,21 @@ function webpSize(buf) {
   return null;
 }
 
-/* le bon lecteur selon l'extension de l'album */
+/* --- dimensions d'un PNG : les 8 octets de l'en-tête IHDR, toujours au même endroit ------- */
+function pngSize(buf) {
+  if (buf.length < 24) return null;
+  if (buf.readUInt32BE(0) !== 0x89504E47) return null;
+  return { w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+}
+
+/* Le bon lecteur selon l'extension DU FICHIER — pas celle de l'album.
+   C'est le pivot de tout ce qui suit : un album peut contenir des .jpeg, des .jpg et des .webp
+   côte à côte, chacun est mesuré avec le lecteur qui convient. */
+const LECTEURS = { jpeg: jpegSize, jpg: jpegSize, webp: webpSize, png: pngSize };
+const EXTENSIONS = Object.keys(LECTEURS);
 function imageSize(buf, ext) {
-  return ext === 'webp' ? webpSize(buf) : jpegSize(buf);
+  const f = LECTEURS[String(ext).toLowerCase()];
+  return f ? f(buf) : null;
 }
 
 /* --- albums déclarés dans index.html ------------------------------------------------------
@@ -118,56 +131,64 @@ function buildManifest(albums) {
     const dir = path.join(PHOTOS, a.dir.split('/').join(path.sep));
     if (!fs.existsSync(dir)) { warnings.push(`dossier absent : ${a.dir}`); continue; }
 
+    /* ⚠ C'EST LE DISQUE QUI DÉCIDE, PLUS `ext`.
+       Toute photo `<préfixe>-N.<quelque chose de connu>` est prise, quelle que soit son
+       extension, et CELLE-CI EST INSCRITE DANS LE MANIFESTE quand elle diffère du défaut de
+       l'album. Un dossier peut donc mélanger .jpeg, .jpg, .webp et .png sans rien casser.
+
+       AVANT, l'extension devait correspondre exactement à `ext`, et c'était la panne la plus
+       vicieuse du site : une photo exportée en .jpg dans un album en .jpeg n'était jamais
+       affichée. Le fichier était bien là, mais le site ne demandait que le .jpeg — 404 — et le
+       filet de sécurité de buildGallery retirait la vignette sans un mot.
+       `ext` sur l'album n'est plus qu'un DÉFAUT d'écriture : il évite de répéter la même
+       extension sur chaque entrée du manifeste. Il ne filtre plus rien. */
+    const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const groupeExt = '(' + EXTENSIONS.join('|') + ')';
+
     const found = [];
     // La BANNIÈRE de l'album est indexée au n° 0 : elle figure ainsi dans la galerie, en tête.
-    // La bannière suit l'EXTENSION DE L'ALBUM, comme ses photos : un album en `ext:'webp'`
-    // attend banner.webp. Si le fichier manque, on regarde s'il traîne sous une AUTRE
-    // extension — c'est le cas le plus probable (bannière remplacée sans changer le reste)
-    // et le message le dit, plutôt que d'annoncer une absence trompeuse.
-    const banner = path.join(dir, 'banner.' + a.ext);
-    if (fs.existsSync(banner)) {
-      const s = imageSize(fs.readFileSync(banner), a.ext);
-      if (s) found.push({ n: 0, w: s.w, h: s.h });
-      else warnings.push(`dimensions illisibles : ${a.dir}/banner.${a.ext}`);
-    } else {
-      const autre = fs.existsSync(dir)
-        ? fs.readdirSync(dir).find(f => /^banner\.[A-Za-z0-9]+$/i.test(f))
-        : null;
-      warnings.push(autre
-        ? `bannière au mauvais format : ${a.dir}/${autre} — l'album « ${a.key} » est en `
-          + `.${a.ext}, le site demandera banner.${a.ext}. Renommez le fichier.`
-        : `bannière absente : ${a.dir}/banner.${a.ext}`);
-    }
+    // Elle suit exactement la même règle : n'importe quelle extension connue est acceptée.
+    const rxBanner = new RegExp('^banner\\.' + groupeExt + '$', 'i');
+    const banner = fs.readdirSync(dir).find(f => rxBanner.test(f));
+    if (banner) {
+      const ext = path.extname(banner).slice(1).toLowerCase();
+      const s = imageSize(fs.readFileSync(path.join(dir, banner)), ext);
+      if (s) found.push({ n: 0, w: s.w, h: s.h, ext });
+      else warnings.push(`dimensions illisibles : ${a.dir}/${banner}`);
+    } else warnings.push(`bannière absente : ${a.dir}/banner.${a.ext}`);
 
-    /* ⚠ L'EXTENSION EST EXIGÉE À L'IDENTIQUE, ET C'EST VOLONTAIRE.
-       buildGallery() ne sait construire qu'UNE seule URL par photo : `<préfixe>-N.<ext>`.
-       Une extension seulement « équivalente » (.jpg là où l'album est en .jpeg) n'est donc
-       jamais demandée par le site. Tolérée ici, elle produisait le pire des cas : la photo
-       entrait dans le manifeste — donc une case lui était réservée dans la mosaïque — puis
-       son URL en .jpeg renvoyait un 404 et le filet de sécurité de buildGallery retirait la
-       vignette. Résultat : le fichier est bien sur le disque, le scan annonce l'avoir compté,
-       et RIEN ne s'affiche, sans le moindre message.
-       On refuse donc la variante, et surtout on le DIT (voir `proches` plus bas) — un renommage
-       en .jpeg suffit à régler le cas. */
-    const escape = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const rxOk = new RegExp('^' + escape(a.pre) + '-(\\d+)\\.' + escape(a.ext) + '$', 'i');
-    const rxProche = new RegExp('^' + escape(a.pre) + '-(\\d+)\\.([A-Za-z0-9]+)$', 'i');
+    const rxPhoto = new RegExp('^' + escape(a.pre) + '-(\\d+)\\.' + groupeExt + '$', 'i');
+    const vus = new Map();
     for (const f of fs.readdirSync(dir)) {
-      const m = f.match(rxOk);
-      if (!m) {
-        const p = f.match(rxProche);
-        if (p) warnings.push(`IGNORÉE — ${a.dir}/${f} : l'album « ${a.key} » est en .${a.ext}, `
-          + `le site demandera ${a.pre}-${p[1]}.${a.ext} et ne trouvera rien. Renommez le fichier.`);
-        continue;
+      const m = f.match(rxPhoto);
+      if (!m) continue;
+      const n = +m[1], ext = m[2].toLowerCase();
+      // Deux fichiers pour le même numéro (photo-3.jpg ET photo-3.jpeg) : un seul peut être
+      // affiché. On garde celui qui correspond au défaut de l'album et on signale l'autre,
+      // sinon le choix dépendrait de l'ordre de lecture du dossier — donc du système.
+      if (vus.has(n)) {
+        const garde = vus.get(n).ext === a.ext ? vus.get(n).f : f;
+        warnings.push(`DOUBLON n°${n} dans ${a.dir} : ${vus.get(n).f} et ${f} — `
+          + `« ${garde} » est retenu, supprimez l'autre.`);
+        if (garde !== f) continue;
       }
-      const size = imageSize(fs.readFileSync(path.join(dir, f)), a.ext);
+      const size = imageSize(fs.readFileSync(path.join(dir, f)), ext);
       if (!size) { warnings.push(`dimensions illisibles : ${a.dir}/${f}`); continue; }
-      found.push({ n: +m[1], w: size.w, h: size.h });
+      vus.set(n, { f, ext });
+      const i = found.findIndex(p => p.n === n);
+      const entree = { n, w: size.w, h: size.h, ext };
+      if (i >= 0) found[i] = entree; else found.push(entree);
     }
     found.sort((x, y) => x.n - y.n);
     total += found.length;
     if (!found.length) warnings.push(`aucune photo trouvée pour « ${a.key} » (${a.dir}/${a.pre}-N.${a.ext})`);
-    lines.push(`${a.key}:{${found.map(p => `${p.n}:[${p.w},${p.h}]`).join(',')}},`);
+    /* Format d'une entrée : `N:[largeur,hauteur]` — et `N:[largeur,hauteur,"ext"]` quand
+       l'extension du fichier n'est PAS celle par défaut de l'album. Le manifeste reste donc
+       aussi court qu'avant dans le cas courant, tout en portant l'information là où elle
+       compte. C'est buildGallery qui la relit (`dim[i][2] || ext par défaut`). */
+    lines.push(`${a.key}:{${found
+      .map(p => `${p.n}:[${p.w},${p.h}${p.ext === a.ext ? '' : `,"${p.ext}"`}]`)
+      .join(',')}},`);
   }
   return { text: 'const DIM={\n' + lines.map(l => '  ' + l).join('\n') + '\n};', total, warnings };
 }

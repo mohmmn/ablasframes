@@ -24,7 +24,7 @@
      600 pour le titre « About me ».
      Les deux cursives d'origine (Pinyon Script, Petit Formal Script) ont été retirées : elles ne
      stylaient plus aucun élément du HTML et se téléchargeaient pour rien. -->
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Marcellus&family=Montserrat:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <!-- La police d'icônes Tabler a été RETIRÉE : servie depuis un CDN tiers, elle imposait une
      feuille de style bloquante + 761 Ko de fichier de police… pour 12 icônes en tout. Elles sont
      désormais dessinées en SVG inline (voir le sprite <svg id="icons"> juste après <body>).
@@ -76,7 +76,7 @@
      LES 4 POLICES GÉNÉRALES DU SITE
        --font-display : TITRES et chapôs
        --font-body    : TEXTE COURANT (posé sur <body>)
-       --font-about   : la page About, qui a sa propre voix
+       --font-about   : le texte de la page About
        --font-label   : PETITES CAPITALES espacées (étiquettes, boutons, légendes)
      Chacune est posée par UNE seule règle : changer la valeur ici repeint tout le site sans
      qu'aucune autre règle soit à toucher.
@@ -89,7 +89,10 @@
      ============================================================ */
   --font-display:'Cormorant Garamond',Georgia,serif;
   --font-body:'Libre Baskerville',Georgia,serif;
-  --font-about:'Marcellus',Georgia,serif;
+  /* Vaut aujourd'hui la MÊME famille que --font-collection. Les deux restent deux variables
+     distinctes à dessein : la page About a toujours eu le droit d'avoir sa propre voix, et
+     c'est ici — et ici seulement — qu'on la lui redonnerait. */
+  --font-about:'Lora',Georgia,serif;
   --font-label:'Libre Baskerville',Georgia,serif;
   /* ============================================================
      TYPOGRAPHIES DE BLOC — en plus des 4 polices générales ci-dessus
@@ -99,12 +102,13 @@
        --font-frame-t    : TITRE D'ALBUM (« Echoes of Morocco ») — carte d'accueil, carte de
                            la page Frames, titre de la page de l'album, boutons préc./suivant
        --font-frame-p    : DESCRIPTION D'ALBUM (« Faces and ochre walls… »)
-       --font-hero-p     : chapô de l'accueil (« Photography has never been about… »)
-       --font-collection : « The Collection » + sa ligne de sous-titre
+       --font-collection : la SECONDE voix du site, après les titres. Elle porte :
+                           « The Collection » et sa ligne de sous-titre, le titre « Albums »,
+                           le chapô de l'accueil (« Photography has never been about… »),
+                           les deux titres des cartes de contact, et la ligne de pied de page.
      ============================================================ */
   --font-frame-t:'Spectral',Georgia,serif;
   --font-frame-p:'EB Garamond',Georgia,serif;
-  --font-hero-p:'Playfair Display',Georgia,serif;
   --font-collection:'Lora',Georgia,serif;
   /* cadre des tirages — 6px sur PC, 4px sur mobile (voir @media max-width:760px)
      BLANC PUR : sur fond crème, l'ancien #F0EDE6 se confondait avec la page. */
@@ -124,7 +128,18 @@
   --lead-gap:34px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-html{scroll-behavior:smooth;}
+/* `overflow-x:clip` EN PLUS du `overflow-x:hidden` de <body>, et ce n'est pas redondant.
+   Un `overflow` posé sur <body> ne se propage à la zone d'affichage que tant que <html> est en
+   `visible` — c'est le cas ici, mais iOS Safari n'en tire pas les mêmes conséquences que les
+   navigateurs de bureau : il continue de calculer la largeur du document sur le contenu NON
+   rogné, puis dézoome la page entière pour la faire tenir. Le symptôme est exactement celui
+   signalé : tout le contenu rétrécit et une bande vide apparaît à droite.
+   `clip` plutôt que `hidden` À DESSEIN : `hidden` ferait de <html> un conteneur de
+   défilement, ce qui casse le `position:sticky` de la navbar. `clip` rogne sans rien rendre
+   défilable. Les Safari antérieurs à la version 16 ignorent la déclaration — aucune
+   régression, ils retombent simplement sur le comportement d'avant. */
+html{scroll-behavior:smooth;overflow-x:clip;}
+html,body{max-width:100%;}
 body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
   -webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);}
 .serif{font-family:var(--font-display);}
@@ -148,6 +163,13 @@ img.img{width:100%;height:100%;object-fit:cover;object-position:var(--focus,cent
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 48px;position:relative;z-index:2;}
 .wrap-sm{max-width:720px;margin:0 auto;padding:0 48px;position:relative;z-index:2;}
 section.pad{padding:var(--sec-gap) 0;}
+/* Bloc « Gallery » d'une page d'album. C'ÉTAIT UN `style="padding-top:48px"` EN DUR sur les
+   huit sections : un style inline l'emporte sur toute feuille de style, la valeur était donc
+   impossible à réduire sur mobile sans `!important`. Devenue une classe, elle se surcharge
+   normalement (voir @media max-width:760px). */
+/* Sélecteur `section.pad.gal-pad` et NON `.gal-pad` seul : `section.pad` compte un élément en
+   plus (0,1,1 contre 0,1,0) et l'emportait, la valeur ci-dessous n'ayant alors aucun effet. */
+section.pad.gal-pad{padding-top:48px;}
 
 /* ===================== (starfield retiré) ===================== */
 #progress{position:fixed;top:0;left:0;height:2px;width:0;z-index:300;background:linear-gradient(90deg,var(--accent),var(--gold));transition:width .15s linear;}
@@ -325,7 +347,16 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    Seule section du site posée sur un beige PLUS SOUTENU que le reste de la page : elle se
    détache ainsi juste sous la bannière. Le padding vertical est renforcé pour que la bande
    de couleur respire au lieu de coller au texte. Tout le reste garde le crème habituel. */
-.home-hero{padding:calc(var(--sec-gap) * 1.9) 0;background:var(--bg-intro);
+/* >>> HAUTEUR DE LA SECTION D'INTRODUCTION (PC) — LES 2 VALEURS A REGLER <<<
+   1. le multiplicateur du padding ci-dessous : c'est le blanc au-dessus ET en dessous ;
+   2. `max-width` de `.hero-photo`, plus bas, qui fixe la hauteur de la photo — et donc celle
+      de toute la section, la photo etant l'element le plus haut des deux colonnes.
+   Repere : 1,9 etait la valeur d'origine (section de 676px sur un ecran de 860px — elle
+   remplissait l'ecran a elle seule et « The Collection » restait entierement hors champ),
+   1,0 la version la plus resserree essayee. 1,25 est le compromis retenu.
+   C'EST LE LEVIER A PRIVILEGIER pour agrandir ou reduire la section : contrairement a la
+   taille de la photo, il ne touche pas au rapport entre la photo et le texte. */
+.home-hero{padding:calc(var(--sec-gap) * 1.25) 0;background:var(--bg-intro);
   /* Le beige étant plus soutenu que le crème, l'accent et le gris de texte y perdaient du
      contraste (4,3:1 et 4,5:1, sous le seuil lisible). On les fonce d'un cran, UNIQUEMENT ici. */
   --accent:#71572A;--muted:#000000;}
@@ -340,18 +371,20 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    (Une seconde valeur existe pour le mobile, dans @media(max-width:760px) — cherchez
    « .hero-txt h2 » plus bas dans la feuille.)
 
-   POLICE : var(--font-label) — exactement celle de la ligne « FRAME —— PORTRAITS » des
-   pages d'album (Libre Baskerville). Les deux restent liées, y compris si le visiteur change
-   la zone « Labels & buttons » dans le sélecteur « Aa ».
+   TRAITEMENT : capitales espacées, repris à l'identique de la ligne « FRAME —— PORTRAITS »
+   des pages d'album — même police (var(--font-label), Libre Baskerville), même
+   `text-transform:uppercase`, même `letter-spacing:.22em`. Le titre parle donc exactement la
+   langue de ces étiquettes, en plus grand.
 
-   >>> PLAFOND À NE PAS DÉPASSER : le titre tient sur UNE SEULE LIGNE (`nowrap`), et Libre
-   Baskerville est une police large — la phrase mesure 17,1 fois le corps employé. La colonne
-   du héros fait la moitié de la page : 560px au maximum, soit 32px de corps avant que la
-   ligne ne déborde ; et seulement 353px à 881px, où la mise en page passe à deux colonnes,
-   soit 20px. Les valeurs posées ici (17 → 26px) sont VOLONTAIREMENT en dessous : titre
-   réduit, comme demandé. Ne pas remonter le plafond au-delà de 32.
+   >>> LE `nowrap` A ÉTÉ RETIRÉ, ET CE N'EST PAS FACULTATIF <<<
+   En capitales espacées la phrase mesure ~27,7 fois le corps employé, contre 17,1 en casse
+   normale : les capitales sont plus larges, et l'interlettrage ajoute à lui seul 32 × 0,22em,
+   soit 7em. Sur une seule ligne il aurait fallu descendre sous 13px dans une colonne de
+   560px — illisible. Le titre tient donc sur DEUX lignes, et c'est la ligne la plus longue
+   (« EVERY FRAME BEGINS », ~16em) qui fixe le plafond.
    ============================================================ */
-.hero-txt h2{font-family:var(--font-label);font-weight:400;font-size:clamp(17px,1.9vw,26px);line-height:1.2;color:var(--text);margin-bottom:26px;white-space:nowrap;}
+.hero-txt h2{font-family:var(--font-label);font-weight:400;font-size:clamp(15px,1.75vw,22px);
+  line-height:1.5;letter-spacing:.22em;text-transform:uppercase;color:var(--text);margin-bottom:26px;}
 /* ============================================================
    CHAPÔ DE L'ACCUEIL « Photography has never been about documenting… » — PLAYFAIR DISPLAY
    >>> LA TAILLE SE RÈGLE ICI, POUR PC ET TABLETTE <<<
@@ -368,12 +401,23 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    Il reprend ici le --text du site, exactement comme le titre : 12,9:1 sur le beige de la
    section, très au-dessus du seuil, et les deux blocs pèsent enfin le même poids.
    ============================================================ */
-.hero-intro{font-family:var(--font-hero-p);font-weight:400;font-size:clamp(15px,1.55vw,21px);line-height:1.6;color:var(--text);margin-bottom:36px;max-width:520px;}
+.hero-intro{font-family:var(--font-collection);font-weight:400;font-size:clamp(15px,1.55vw,21px);line-height:1.6;color:var(--text);margin-bottom:36px;max-width:520px;}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
   box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
 .hero-cta:hover{transform:translateY(-2px);background:var(--accent-d);}
-.hero-photo{justify-self:end;width:100%;max-width:440px;}
+/* >>> TAILLE DE LA PHOTO — LA VALEUR QUI EQUILIBRE LA SECTION <<<
+   Le cadre est en `box-sizing:border-box` et le visuel en 4/5, donc :
+       hauteur = (max-width - 12px de cadre) x 1,25 + 12px
+   soit 447px pour les 360px poses ici, contre 547px avec les 440px d'origine.
+   POURQUOI CE CHIFFRE : le bloc de texte a cote mesure 229px. A 547px la photo faisait 2,4
+   fois sa hauteur — le texte paraissait flotter dans le vide, et c'est ce desequilibre qui se
+   voyait, plus que la taille elle-meme. A 447px le rapport tombe a 1,95.
+   Reperes si vous retouchez : 320px -> photo de 397px, rapport 1,7 (le plus equilibre) ;
+   360px -> 447px, rapport 1,95 ; 440px -> 547px, rapport 2,4 (l'origine, deséquilibre visible).
+   Sous ~280px la photo deviendrait plus petite que le pave de texte et le desequilibre
+   s'inverserait. */
+.hero-photo{justify-self:end;width:100%;max-width:360px;}
 .hero-frame{position:relative;border:var(--frame-w) solid var(--frame-c);outline:1px solid var(--frame-o);background:var(--frame-c);
   box-shadow:4px 4px 12px rgba(0,0,0,.18),8px 8px 32px rgba(0,0,0,.10),1px 1px 0 rgba(0,0,0,.25);}
 .hero-frame .canvas{position:relative;aspect-ratio:4/5;overflow:hidden;background:var(--bg-soft);}
@@ -695,25 +739,48 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .wrap.about{padding-top:calc(var(--sec-gap) * 1.3);padding-bottom:calc(var(--sec-gap) * 1.3);}
 .about-col{display:grid;grid-template-columns:0.92fr 1.18fr;gap:80px;align-items:start;}
 .about-txt{text-align:left;}
-/* ===== PAGE ABOUT EN MARCELLUS =====
-   La police est posée SUR LE CONTENEUR : le titre « About me » et tous les paragraphes en
-   héritent, c'est ce qui met « tout le texte » de la page dans la même voix, sans une seule
-   règle par élément. Une exception, une seule : la phrase de clôture, juste en dessous.
-   ⚠ Marcellus n'existe qu'en UNE graisse (400). Le 600 de `.about-h` est donc un gras
-   SYNTHÉTIQUE dessiné par le navigateur ; passer à 400 si le rendu paraît empâté. */
+/* ===== PAGE ABOUT EN LORA =====
+   La police est posée SUR LE CONTENEUR : les paragraphes en héritent tous, sans une seule
+   règle par élément. DEUX éléments y échappent, chacun en déclarant une lui-même :
+     · le titre « About »       → celui de la page Frames (`.sec-h`, juste en dessous) ;
+     · la phrase de clôture     → celle des étiquettes « FRAME —— TRAVEL » (plus bas).
+   (La page était en Marcellus jusqu'ici ; cette famille n'est plus employée nulle part et a
+   été retirée du chargement Google Fonts, en haut du fichier.) */
 .about-txt{font-family:var(--font-about);}
-.about-h{text-transform:uppercase;font-weight:600;letter-spacing:.14em;font-size:15px;color:var(--text);
-  padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
-/* graisse 400 : Marcellus ne se décline pas, le 300 d'avant (hérité de Montserrat) retombait
-   de toute façon sur l'unique graisse de la famille */
+/* Le titre « About » porte AUSSI la classe `.sec-h` — celle du « Frames » de la page Frames —
+   et lui emprunte donc tout : Cormorant Garamond, italique, graisse 300, et le même corps
+   fluide de 32 à 54px. Les deux pages ont désormais exactement le même titre.
+   ⚠ CETTE RÈGLE NE DOIT PLUS REDÉCLARER CE QUE POSE `.sec-h`. Les deux sélecteurs pèsent
+   exactement pareil (0,1,0) et celui-ci vient APRÈS dans la feuille : la moindre propriété
+   commune redéclarée ici l'emporterait et déferait l'alignement — c'est ainsi que les
+   capitales, le corps de 15px et la graisse 600 vivaient. Il ne reste donc que le filet de
+   séparation, propre à la page About, qu'aucune des deux ne se dispute. */
+.about-h{padding-bottom:18px;border-bottom:1px solid var(--line-strong);margin-bottom:34px;}
+/* graisse 400 : c'est la plus maigre que Lora possède, la famille ne descend pas plus bas */
 .about-txt p{font-size:15px;font-weight:400;line-height:2.05;color:var(--muted);margin-bottom:22px;}
 /* >>> LA PHRASE DE CLÔTURE — « Art is simply what we choose to make of it. » <<<
-   SEULE exception au Marcellus de la page : elle reprend la police de la ligne
-   « FRAME —— TRAVEL » des pages d'album, c'est-à-dire var(--font-label). Les deux restent
-   liées, y compris si le visiteur change la zone « Labels & buttons » du sélecteur « Aa ».
+   Elle NE SUIT PAS le Lora de la page : elle reprend LE TRAITEMENT COMPLET de la ligne
+   « FRAME —— TRAVEL » des pages d'album — même police (var(--font-label)), mêmes capitales,
+   et surtout le même interlettrage de .22em, qui est ce qui la fait lire comme une étiquette
+   et non comme une phrase. C'est le seul contraste voulu au sein du texte de la page.
+   Le corps est réduit en conséquence : capitales + .22em élargissent la ligne d'environ 60%.
+   À 12,5px la phrase occupe DEUX lignes dans la colonne de gauche (449px), et c'est le rendu
+   voulu — la ramener sur une seule imposerait ~8px, illisible. Pour la resserrer davantage,
+   c'est `letter-spacing` qu'il faut baisser, pas le corps ; mais on perdrait l'accord exact
+   avec « FRAME —— TRAVEL », qui est tout l'objet de cette règle.
    Ciblée par `:last-of-type` et non par un numéro : ajouter ou retirer un paragraphe au-dessus
-   ne casse rien, c'est toujours le dernier qui referme. */
-.about-txt p:last-of-type{font-family:var(--font-label);}
+   ne casse rien, c'est toujours le dernier qui referme.
+
+   CENTRÉE SUR PC COMME SUR MOBILE. `margin-right:-.22em` accompagne obligatoirement le
+   centrage : l'interlettrage ajoute un espace APRÈS la dernière lettre, que le centrage
+   compte comme du texte — sans compensation la phrase paraît décalée d'un cran vers la
+   droite. La marge négative reprend exactement la largeur de cet espace. */
+.about-txt p:last-of-type{font-family:var(--font-label);text-transform:uppercase;
+  letter-spacing:.22em;font-size:12.5px;line-height:1.9;color:var(--text);margin-top:30px;
+  text-align:center;margin-right:-.22em;}
+/* Le `<strong>` du HTML donnerait un gras synthétique lourd sous cet interlettrage ; on
+   retombe sur le 500 de l'étiquette d'origine, qui suffit à la détacher. */
+.about-txt p:last-of-type strong{font-weight:500;}
 .about-txt .sig{font-family:var(--font-display);font-size:34px;color:var(--accent);margin-top:8px;}
 .about-gal{display:flex;flex-direction:column;gap:22px;}
 .pano{position:relative;aspect-ratio:21/9;overflow:hidden;border-radius:4px;background:var(--bg-soft);
@@ -772,8 +839,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   /* la dernière referme le texte — même exception que sur PC : police de « FRAME —— TRAVEL ».
      Ciblée par `:last-of-type` comme sur PC : le nombre de paragraphes peut changer sans
      qu'aucun numéro ne soit à corriger ici. */
+  /* `margin-right:-.22em` N'EST PAS UN DÉTAIL : l'interlettrage ajoute un espace APRÈS la
+     dernière lettre, que le centrage compte comme du texte — la ligne paraît décalée d'un
+     cran vers la droite. La marge négative reprend exactement cette largeur. */
   .about-txt p:last-of-type{font-family:var(--font-label);font-weight:400;
-    font-size:22px;line-height:1.5;color:var(--text);margin:8px 0 0;text-align:center;}
+    font-size:13px;line-height:1.9;color:var(--text);margin:26px 0 0;text-align:center;
+    margin-right:-.22em;}
 
   /* ----- LES BANDES -----
      Pleine largeur d'écran alors que le conteneur est en retrait : la largeur du retrait
@@ -989,19 +1060,23 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
        3. la taille du chapô         4. les marges entre les trois blocs           */
   .home-hero{padding:calc(var(--sec-gap) * .85) 0;}
   .hero-txt .eyebrow{margin-bottom:9px;}
-  /* >>> TAILLE DU TITRE D'INTRODUCTION SUR MOBILE — la seconde valeur à régler <<<
-     Le titre revient ici sur DEUX lignes, volontairement : tenir sur une seule sur un écran
-     de 390px imposerait 20px de corps, soit à peine plus que le texte courant — le titre
-     n'aurait plus l'air d'un titre. Passer `white-space:nowrap` et `font-size:min(5.1vw,41px)`
-     si vous préférez malgré tout la ligne unique. */
-  .hero-txt h2{font-size:21px;line-height:1.25;margin-bottom:13px;white-space:normal;}
+  /* >>> TAILLE DU TITRE D'INTRODUCTION SUR MOBILE — LA VALEUR À RÉGLER <<<
+     En capitales espacées le titre occupe ici trois lignes. 13px peut sembler petit en
+     chiffres, mais l'interlettrage de .22em et les capitales lui donnent une présence bien
+     supérieure à sa taille — c'est la raison d'être de ce traitement. */
+  .hero-txt h2{font-size:13px;line-height:1.6;margin-bottom:15px;letter-spacing:.2em;}
   /* >>> TAILLE DU CHAPÔ SUR MOBILE — LA VALEUR À RÉGLER <<< (pendant du `.hero-intro` du haut) */
   .hero-intro{font-size:14.5px;line-height:1.55;}
-  /* Espace sous la bannière mobile avant la description — C'EST LA VALEUR À RÉGLER.
+  /* >>> ESPACE AU-DESSUS DE LA DESCRIPTION (sous la bannière) — LA VALEUR À RÉGLER <<<
      Plus le multiplicateur est grand, plus la description descend.
-     Revenu à 2,4 (sa valeur d'origine) : l'aplat coloré ayant disparu, cet espace redevient un
-     simple blanc entre la photo et le texte, et non la marge intérieure d'une bande. */
-  .chap-txt{padding-top:calc(var(--sec-gap) * 2.4);}
+     Ramené de 2,4 à 1,1 : à 2,4 il ouvrait 82px de blanc sur un écran de téléphone, la
+     description flottait seule au milieu de rien. Son pendant EN DESSOUS est `.gal-pad`,
+     juste après — les deux se règlent ensemble, sinon le texte se retrouve décentré. */
+  .chap-txt{padding-top:calc(var(--sec-gap) * 1.1);}
+  /* >>> ESPACE SOUS LA DESCRIPTION (avant « GALLERY ») — LA VALEUR À RÉGLER <<<
+     48px sur PC (voir `section.pad.gal-pad` plus haut), 18px ici.
+     Même sélecteur doublé, pour la même raison de spécificité. */
+  section.pad.gal-pad{padding-top:18px;}
   /* bas de page allégé sur mobile : footer et ornement de fin */
   .foot{padding:20px 0;}
   .foot p{font-size:10px;}
@@ -1084,8 +1159,9 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .frame-row.in .frow-meta::after{width:100%;}
 
 /* [A14] TITRE de frame qui se teinte au survol */
-.frame-row:hover .frow-t{color:var(--accent);}
-.frow-t{transition:color .35s;}
+/* Le titre d'album NE CHANGE PLUS DE COULEUR AU SURVOL (règle retirée à la demande).
+   La photo garde son propre effet de survol : c'est elle qui signale que la bande est
+   cliquable, le titre n'a plus à le redire. */
 
 /* [A15] LIGHTBOX : l'image arrive depuis la vignette cliquée */
 .lb .stage{transition:transform .5s var(--ease),opacity .4s;}
@@ -1187,7 +1263,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
           <p class="hero-intro">Photography has never been about documenting reality exactly as it is. It is about preserving the way a moment felt before it disappeared.</p>
         </div>
         <div class="hero-photo reveal">
-          <div class="hero-frame"><div class="canvas"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/eom-1.webp" alt="" loading="lazy" decoding="async"></div></div>
+          <div class="hero-frame"><div class="canvas"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/eom-5.webp" alt="" loading="lazy" decoding="async"></div></div>
         </div>
       </div>
     </div>
@@ -1231,15 +1307,15 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
           <div class="frow-meta"><h3 class="frow-t serif">Night Markets</h3><span class="frow-s">Travel</span></div>
         </article>
         <article class="frame-row reveal" data-chapter="scotland">
-          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-pano"><img class="img" style="--focus:center 53%" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Scotland</h3><span class="frow-s">Travel</span></div>
         </article>
         <article class="frame-row reveal" data-chapter="hydepark">
-          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-pano"><img class="img" style="--focus:center 70%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Hyde Park Nostalgia</h3><span class="frow-s">Travel</span></div>
         </article>
         <article class="frame-row reveal" data-chapter="muaythai">
-          <div class="frow-pano"><img class="img" style="--focus:center 42%" src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-pano"><img class="img" style="--focus:center 47%" src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Muay Thai</h3><span class="frow-s">Sports</span></div>
         </article>
       </div>
@@ -1259,7 +1335,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>Thailand felt vivid in every sense — in its colours, its movement, and its warmth. These photographs hold the fragments of it that stayed with me.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-thailand"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1280,7 +1356,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>In Bali, everything felt softer — the light, the landscapes, even the passing of time. The colours of the sea and the spirituality embedded in everyday life make the island otherworldly.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-bali"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1301,7 +1377,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>In black and white, Hyde Park feels suspended in another time — quiet, melancholic, almost Victorian. There is a nostalgia in its stillness, as if the past never fully left.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-hydepark"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1322,7 +1398,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>The buzzing lights, loud voices and endless sea food made Phuket's night markets feel alive at every turn. A beautiful chaos of flavours, colours and energy.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-nightmarkets"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1343,7 +1419,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>There is a softness to Morocco that lives in its traditions — in shared tea, flowing caftans and quiet moments between the walls of the Oudayas.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-morocco"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1364,7 +1440,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>Wildlife is unpredictable by nature. Every encounter is different, every moment brief — all I can do is be there when it happens.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-wildlife"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1385,7 +1461,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>Wind-scoured hills, shaggy highland cattle, and a silence only the fog seems to hold. Scotland unfolds slowly, one grey horizon at a time.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-scotland"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1409,7 +1485,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <div class="chap-intro reveal"><p>The brutality of the fight contrasts with the deep respect between fighters, while the energy of the crowd and the spectacle surrounding the ring turn every match into a show. From the first bell to the final round, Muay Thai is an experience of its own.</p></div>
     </div>
   </div>
-  <section class="pad" style="padding-top:48px"><div class="wrap">
+  <section class="pad gal-pad"><div class="wrap">
     <p class="eyebrow reveal">Gallery</p>
     <div class="gallery" id="gal-muaythai"></div>
     <div class="breath reveal"><div class="embro"><span class="ln"></span>
@@ -1426,7 +1502,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
     <div class="list-grid" id="listgrid">
       <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><img class="img" src="photographies/categories/travel/thailand/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Thailand</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><img class="img" src="photographies/categories/travel/bali/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Bali</h4><span class="tag">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><img class="img" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag">Travel</span></div></article>
+      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><img class="img" style="--focus:center 85%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><img class="img" src="photographies/categories/travel/night-markets/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Night Markets</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag">Portraits</span></div></article>
       <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><img class="img" src="photographies/categories/wildlife/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Wildlife</h4><span class="tag">Wildlife</span></div></article>
@@ -1443,7 +1519,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   <div class="wrap about">
     <div class="about-col">
       <div class="about-txt">
-        <h2 class="about-h reveal">About me</h2>
+        <h2 class="about-h sec-h reveal">About</h2>
         <p class="reveal">My art is not about documenting life as it is, but about shaping it through my lens. Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.</p>
         <p class="reveal">In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it — with a single click, time could slow down, stretch, or even stop.</p>
         <p class="reveal">I am self-taught, learning through practice and intuition, guided by the belief that passions have no fixed rules.</p>
@@ -1580,14 +1656,14 @@ const GAL={
    (le script relit les fichiers du dossier photographies/ et réécrit ce bloc tout seul)         */
 /* >>> PHOTO-DIM-START <<< */
 const DIM={
-  thailand:{0:[1600,1066],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],12:[1066,1600],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1066,1600],21:[1066,1600],22:[1066,1600],23:[1066,1600],24:[1600,1066]},
-  bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1600,1066],5:[1200,1600],6:[1200,1600],7:[1600,1068],8:[1600,1066],9:[1066,1600],10:[1600,1066],11:[1066,1600],12:[1600,1066],13:[1600,1066],14:[1600,1066]},
+  thailand:{0:[1600,1066],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],12:[1066,1600],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1600,1066],21:[1066,1600],22:[1066,1600],23:[1066,1600],24:[1600,1066],25:[1600,1066],26:[1066,1600],27:[1600,1066,"jpg"],28:[1066,1600],29:[1600,1066,"jpg"]},
+  bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1600,1066],5:[1200,1600],6:[1200,1600],7:[1600,1068],8:[1600,1066],9:[1066,1600],10:[1600,1066],11:[1066,1600],13:[1600,1066],14:[1600,1066],15:[1066,1600],16:[1600,1066,"jpg"],17:[1066,1600],18:[1600,1066]},
   hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600]},
   nightmarkets:{0:[1600,1066],2:[1600,1066],3:[1600,1066]},
-  morocco:{0:[1865,2797],1:[1904,2856],2:[1904,2856],3:[1904,2856],4:[1832,2747],6:[1904,2856],7:[1904,2856],8:[1847,2770],9:[1904,2856],10:[1904,2856],11:[1904,2856],12:[1904,2856],13:[1904,2856],14:[1904,2856],15:[1904,2856],16:[1868,2802],18:[1904,2856],19:[1904,2856]},
-  wildlife:{0:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1600,1066]},
+  morocco:{0:[1865,2797],1:[1904,2856],2:[1904,2856],3:[1904,2856],4:[1832,2747],5:[1868,2802],6:[1904,2856],7:[1904,2856],8:[1847,2770],9:[1904,2856],10:[1904,2856],11:[1904,2856],12:[1904,2856],13:[1904,2856],14:[1904,2856],15:[1904,2856],16:[1904,2856],17:[1904,2856]},
+  wildlife:{0:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600]},
   scotland:{0:[1066,1600],2:[1066,1600],3:[1200,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1066,1600],8:[1200,1600]},
-  muaythai:{0:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1600,1066],7:[1600,1066]},
+  muaythai:{0:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1600,1066]},
 };
 /* >>> PHOTO-DIM-END <<< */
 
@@ -1694,7 +1770,9 @@ function buildGallery(key){
   const seq=wanted.concat(nums.filter(i=>!wanted.includes(i)).sort((a,b)=>a-b));
   seq.forEach(i=>{
     const w=dim[i][0],h=dim[i][1];
-    const ext=g.ext||'jpeg';
+    // 3e valeur du manifeste = extension propre à CETTE photo, quand elle sort du défaut de
+    // l'album (un .jpg glissé dans un album en .jpeg, par exemple). Absente = défaut.
+    const ext=dim[i][2]||g.ext||'jpeg';
     const file=(i===0)?'banner.'+ext:g.pre+'-'+i+'.'+ext;   // 0 = bannière de l'album
     const src='photographies/categories/'+g.dir+'/'+file;
     const alt=(i===0)?g.label:g.label+' — '+i;
@@ -2131,6 +2209,50 @@ let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:tr
     location.href='googlegmail://co?'+q;
   });
 })();
+
+/* ===================== DIAGNOSTIC DE DÉBORDEMENT (?diag) =====================
+   N'existe QUE si l'URL contient `?diag` — sur une visite normale, rien de tout ceci ne
+   s'exécute et le coût est nul.
+   À quoi ça sert : un débordement horizontal ne se voit pas dans le code, il dépend de
+   l'appareil, de la police réellement chargée et du moteur. Sur un iPhone il n'y a pas de
+   console pour aller le chercher. Ce bloc affiche donc le résultat À L'ÉCRAN : il suffit
+   d'ouvrir …/?diag#thailand et d'envoyer une capture.
+   À retirer une fois la cause trouvée. */
+if(location.search.indexOf('diag')>=0){
+  const panneau=document.createElement('div');
+  panneau.style.cssText='position:fixed;left:0;right:0;bottom:0;z-index:9999;max-height:45vh;'
+    +'overflow:auto;background:#111;color:#0f0;font:11px/1.45 monospace;padding:10px;white-space:pre-wrap;';
+  document.body.appendChild(panneau);
+  const analyser=()=>{
+    const L=document.documentElement.clientWidth;
+    const fautifs=[];
+    document.querySelectorAll('*').forEach(el=>{
+      const c=getComputedStyle(el);
+      if(c.display==='none'||c.visibility==='hidden'||el===panneau||panneau.contains(el))return;
+      const r=el.getBoundingClientRect();
+      if(!r.width)return;
+      if(r.right>L+1||r.left<-1){
+        let d=0,n=el;while(n.parentElement){d++;n=n.parentElement;}
+        fautifs.push({d,t:el.tagName.toLowerCase()
+          +(el.id?'#'+el.id:'')
+          +(typeof el.className==='string'&&el.className?'.'+el.className.trim().split(/\s+/).slice(0,2).join('.'):'')
+          +' ['+Math.round(r.left)+'→'+Math.round(r.right)+']'});
+      }
+    });
+    fautifs.sort((a,b)=>b.d-a.d);
+    const lignes=[
+      'ecran '+L+'px  |  document '+document.documentElement.scrollWidth+'px'
+        +'  |  ecart '+(document.documentElement.scrollWidth-L)+'px',
+      'devicePixelRatio '+devicePixelRatio+'  |  visualViewport '
+        +(window.visualViewport?Math.round(visualViewport.width)+'x'+Math.round(visualViewport.scale*100)+'%':'n/a')
+    ].concat(fautifs.length?fautifs.slice(0,14).map(f=>'-> '+f.t):['aucun element ne depasse']);
+    panneau.textContent=lignes.join('\n');
+  };
+  addEventListener('load',()=>setTimeout(analyser,900));
+  addEventListener('hashchange',()=>setTimeout(analyser,900));
+  addEventListener('resize',()=>setTimeout(analyser,400));
+  setTimeout(analyser,1500);
+}
 
 go((location.hash||'#home').slice(1));runReveal();
 </script>
