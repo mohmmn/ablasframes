@@ -128,16 +128,24 @@
   --lead-gap:34px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-/* `overflow-x:clip` EN PLUS du `overflow-x:hidden` de <body>, et ce n'est pas redondant.
+/* `overflow-x:clip` SUR <html> ET SUR <body>, et ce n'est pas redondant.
    Un `overflow` posé sur <body> ne se propage à la zone d'affichage que tant que <html> est en
    `visible` — c'est le cas ici, mais iOS Safari n'en tire pas les mêmes conséquences que les
    navigateurs de bureau : il continue de calculer la largeur du document sur le contenu NON
    rogné, puis dézoome la page entière pour la faire tenir. Le symptôme est exactement celui
    signalé : tout le contenu rétrécit et une bande vide apparaît à droite.
-   `clip` plutôt que `hidden` À DESSEIN : `hidden` ferait de <html> un conteneur de
-   défilement, ce qui casse le `position:sticky` de la navbar. `clip` rogne sans rien rendre
-   défilable. Les Safari antérieurs à la version 16 ignorent la déclaration — aucune
-   régression, ils retombent simplement sur le comportement d'avant. */
+   `clip` PLUTÔT QUE `hidden`, SUR LES DEUX, ET C'EST CE QUI REND LA NAVBAR COLLANTE.
+   `hidden` fait de l'élément un CONTENEUR DE DÉFILEMENT. Un `position:sticky` se cale sur le
+   conteneur de défilement le plus proche : tant que <body> était en `overflow-x:hidden`, la
+   navbar se calait sur <body> — qui ne défile jamais, c'est la fenêtre qui défile — et elle
+   remontait donc tout simplement avec la page. Le symptôme : sur une page d'album, on perdait
+   le menu et les flèches ‹ Thailand › dès les premières photos. <html> avait déjà été passé
+   en `clip` pour cette raison exacte ; il manquait <body>, et un seul des deux suffisait à
+   casser l'effet. `clip` rogne le débord horizontal sans rien rendre défilable.
+   Les Safari antérieurs à la version 16 ignorent `clip` : ils retombent sur `visible`, donc
+   sans rognage. Le seul contenu qui déborde volontairement est celui des bandes de la page
+   About (`width:100vw` recentré) et il ne déborde que de la largeur d'une barre de
+   défilement, sur écran large — là où ces bandes ne s'affichent pas. */
 html{scroll-behavior:smooth;overflow-x:clip;}
 html,body{max-width:100%;}
 /* ===== LE PIED DE PAGE RESTE EN BAS, MÊME QUAND LA PAGE EST COURTE =====
@@ -161,7 +169,7 @@ html,body{max-width:100%;}
    ajouterait entre eux deviendrait un quatrième élément de la colonne ; les couches
    existantes (visionneuse, menu, obturateur, barre de progression) n'en font pas partie,
    elles sont en `position:fixed`. */
-body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden;
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.65;overflow-x:clip;
   display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;
   -webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);}
 main{flex:1 0 auto;}
@@ -346,7 +354,18 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* ===================== BANNIÈRE (photo en fond + titre TRÈS grand) — v1 ===================== */
 .banner{position:relative;min-height:calc(100vh - 76px);display:flex;flex-direction:column;align-items:center;justify-content:center;
   text-align:center;padding:80px 24px;overflow:hidden;}
-.banner .bg{position:absolute;inset:0;z-index:0;background-position:center;background-size:cover;}
+/* >>> CADRAGE DE LA PHOTO DE BANNIÈRE — `--focus` (PC) et `--focus-m` (MOBILE) <<<
+   La bannière ne montre pas la même chose selon l'écran : presque tout un écran de haut sur
+   PC, une bande de 40vh sur téléphone. Un seul point de cadrage ne peut pas servir aux deux.
+   Les deux variables se posent en style inline sur le <div class="bg"> (voir le HTML), à
+   côté de l'image de fond :
+     --focus    : le cadrage sur PC — et le repli de mobile si --focus-m n'est pas donné ;
+     --focus-m  : le cadrage sur MOBILE seul (voir @media max-width:760px, plus bas).
+   Valeurs de `background-position` : `center 30%` remonte le cadrage, `center 70%` le
+   descend, `left center` / `right center` le décalent sur les côtés.
+   ⚠ NE PAS PASSER PAR `transform` POUR RECADRER : le défilement s'en sert déjà pour la
+   parallaxe (voir le script en bas de page), il l'écraserait à chaque pixel défilé. */
+.banner .bg{position:absolute;inset:0;z-index:0;background-position:var(--focus,center);background-size:cover;}
 .banner .grain{position:absolute;inset:0;z-index:1;opacity:.5;mix-blend-mode:overlay;pointer-events:none;
   background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='120' height='120' filter='url(%23n)' opacity='0.5'/></svg>");}
 /* Voile nettement allégé : il servait à rendre le titre lisible par-dessus la photo. Le titre
@@ -940,7 +959,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
      Pleine largeur d'écran alors que le conteneur est en retrait : la largeur du retrait
      change selon la taille (22px sous 760px, 48px au-dessus), on ne peut donc pas la
      compenser par une marge négative fixe. `100vw` recentré est indépendant du parent.
-     Le débord latéral est absorbé par `overflow-x:hidden` posé sur <body>. */
+     Le débord latéral est absorbé par `overflow-x:clip` posé sur <body>. */
   /* `gap:0` annule l'espacement flex hérité de .about-gal : l'écart entre deux bandes est
      porté par leur seul `margin-bottom` ci-dessous, sans quoi les deux se cumuleraient.
      `margin-top` ouvre le blanc entre la phrase de clôture et la première bande. */
@@ -1144,6 +1163,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   /* titre de la home remonté sur mobile : on aligne en haut plutôt qu'au centre, puis on règle
      la hauteur avec `padding-top` ci-dessous — plus petit = plus haut, plus grand = plus bas. */
   .banner{min-height:40vh;padding:54px 24px;justify-content:flex-start;padding-top:8vh;}
+  /* >>> CADRAGE DE LA BANNIÈRE SUR TÉLÉPHONE — `--focus-m` <<<
+     Pendant mobile du `--focus` déclaré en haut de la feuille (`.banner .bg`). La bande ne
+     fait plus que 40vh ici contre presque un écran entier sur PC : le même point de cadrage
+     n'y montre pas du tout la même part de la photo. Les deux valeurs se posent côte à côte
+     en style inline sur le <div class="bg">, dans le HTML. */
+  .banner .bg{background-position:var(--focus-m,var(--focus,center));}
   .discover{bottom:18px;}
   .chap-photo{height:46vh;min-height:300px;}
   .home-hero,.selection,.frames-section{padding-left:0;padding-right:0;}
@@ -1158,9 +1183,23 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
      En capitales espacées le titre occupe ici trois lignes. 13px peut sembler petit en
      chiffres, mais l'interlettrage de .22em et les capitales lui donnent une présence bien
      supérieure à sa taille — c'est la raison d'être de ce traitement. */
-  .hero-txt h2{font-size:10px;line-height:1.6;margin-bottom:10px;letter-spacing:.2em;}
-  /* >>> TAILLE DU CHAPÔ SUR MOBILE — LA VALEUR À RÉGLER <<< (pendant du `.hero-intro` du haut) */
-  .hero-intro{font-size:13.5px;line-height:1.4;}
+  /* Le titre est SEUL dans la section sur téléphone (voir `.hero-intro` juste en dessous) :
+     il peut donc grandir un peu sans rien repousser. En capitales espacées, 2px de plus se
+     voient bien davantage que le chiffre ne le laisse croire — c'est l'interlettrage de
+     .2em qui amplifie chaque hausse. `margin-bottom:0` parce qu'il n'y a plus rien à
+     espacer en dessous : c'est le padding de `.home-hero` qui referme la bande. */
+  .hero-txt h2{font-size:12px;line-height:1.6;margin-bottom:0;letter-spacing:.2em;}
+  /* >>> LE CHAPÔ EST MASQUÉ SUR TÉLÉPHONE, ET SEULEMENT LÀ <<<
+     « Photography has never been about documenting reality… » reste affiché sur PC et sur
+     tablette (sa taille se règle en haut de la feuille, `.hero-intro`). Sur un écran de
+     téléphone il occupait trois lignes à redire ce que le titre dit déjà, et repoussait le
+     début de la galerie sous la ligne de flottaison.
+     `display:none` plutôt qu'un texte retiré du HTML : la phrase reste dans la page pour
+     les grands écrans, il n'y a qu'un seul balisage à maintenir.
+     La borne est 760px, celle du mobile pour tout le site. La photo du héro, elle,
+     disparaît dès 880px (voir `.hero-photo{display:none}` plus haut) : entre les deux, le
+     titre et le chapô occupent donc toute la largeur, et c'est voulu. */
+  .hero-intro{display:none;}
   /* >>> ESPACE AU-DESSUS DE LA DESCRIPTION (sous la bannière) — LA VALEUR À RÉGLER <<<
      Plus le multiplicateur est grand, plus la description descend.
      Ramené de 2,4 à 1,1 : à 2,4 il ouvrait 82px de blanc sur un écran de téléphone, la
@@ -1350,7 +1389,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
   <header class="banner">
     <!-- photo de bannière : dossier dédié photographies/categories/banner/ — remplace juste ce fichier pour la changer -->
-    <div class="bg" style="background-image:url('photographies/categories/banner/banner-1.jpeg')"></div>
+    <div class="bg" style="--focus:center 50%;--focus-m:center 50%;background-image:url('photographies/categories/banner/banner-1.jpeg')"></div>
     <div class="grain"></div>
     <div class="veil"></div>
     <!-- bannière volontairement SANS titre : la photo parle seule -->
@@ -1513,7 +1552,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <!-- ===================== FRAME : ECHOES OF MOROCCO ===================== -->
 <section class="page frame-page" id="page-morocco" data-chap="morocco">
   <div class="chap-head">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 75%" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async">
+    <div class="chap-photo"><img class="img" style="--focus-m:center 68%" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Portraits</span></div><h1 class="serif">Echoes of Morocco</h1></div>
     </div>
     <div class="chap-txt">
@@ -1576,7 +1615,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <!-- ===================== FRAME : MUAY THAI ===================== -->
 <section class="page frame-page" id="page-muaythai" data-chap="muaythai">
   <div class="chap-head">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 65%" src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async">
+    <div class="chap-photo"><img class="img" style="--focus-m:center 55%" src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Sports</span></div><h1 class="serif">Muay Thai</h1></div>
     </div>
     <div class="chap-txt">
@@ -1633,7 +1672,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
            PC : colonne de droite, calée sur la hauteur du texte.
            MOBILE : les 4 bandes se suivent APRÈS le texte (voir @media max-width:880px). -->
       <div class="about-gal">
-        <div class="pano reveal"><img class="img" style="--focus:center 68%" src="photographies/categories/travel/bali/bali-11.jpeg" alt="" loading="lazy" decoding="async"></div>
+        <div class="pano reveal"><img class="img" style="--focus:center 68%" src="photographies/categories/travel/bali/bali-6.jpeg" alt="" loading="lazy" decoding="async"></div>
         <div class="pano reveal"><img class="img" style="--focus:center 58%" src="photographies/categories/travel/thailand/thai-18.jpeg" alt="" loading="lazy" decoding="async"></div>
         <div class="pano reveal"><img class="img" style="--focus:center 60%" src="photographies/categories/travel/thailand/thai-13.jpeg" alt="" loading="lazy" decoding="async"></div>
         <div class="pano reveal"><img class="img" style="--focus:center 68%" src="photographies/categories/travel/thailand/thai-15.jpeg" alt="" loading="lazy" decoding="async"></div>
@@ -1730,17 +1769,18 @@ document.documentElement.classList.add('blur-up');
    Après avoir touché à `ext`, relancer `node tools/scan-photos.js`. */
 const GAL={
   thailand:{dir:'travel/thailand',pre:'thai',label:'Thailand'},
-  // Bali : les 6 photos paysage étaient toutes en tête (1→5 et 8), ce qui donnait un gros bloc
-  // horizontal avant tout le reste. On alterne paysages et portraits pour aérer la mosaïque.
-  bali:{dir:'travel/bali',pre:'bali',label:'Bali',order:[0,1,2,9,3,6,11,4,10,5,7,13,12,8,15]},
+  // Bali n'a plus de liste `order`, et c'est un choix de rangement : l'alternance
+  // paysage / portrait qu'elle imposait (les 6 photos horizontales étaient toutes en tête,
+  // ce qui donnait un gros bloc avant tout le reste) est maintenant INSCRITE DANS LES NOMS —
+  // bali-1, bali-2, bali-3… se suivent déjà dans le bon ordre. L'ordre du dossier et l'ordre
+  // du site sont donc le même, ce qui n'était pas le cas tant que la liste les faisait
+  // diverger. Pour réordonner : renommer les fichiers, puis `node tools/scan-photos.js`.
+  bali:{dir:'travel/bali',pre:'bali',label:'Bali'},
   hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',label:'Hyde Park Nostalgia'},
   nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',label:'Night Markets'},
   morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',ext:'webp',label:'Echoes of Morocco'},
   wildlife:{dir:'wildlife',pre:'wild',label:'Wildlife'},
   scotland:{dir:'travel/scotland',pre:'scotland',label:'Scotland'},
-  // Muay Thai : mt-1 est devenue la BANNIÈRE de l'album (banner.jpeg — l'album est en JPEG),
-  // la numérotation des
-  // photos restantes est donc conservée telle quelle et démarre à 2 — le trou en 1 est normal.
   muaythai:{dir:'sports/muay-thai',pre:'mt',label:'Muay Thai'},
 };
 
@@ -1760,14 +1800,14 @@ const GAL={
    (le script relit les fichiers du dossier photographies/ et réécrit ce bloc tout seul)         */
 /* >>> PHOTO-DIM-START <<< */
 const DIM={
-  thailand:{0:[1600,1066],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1600,1066,"jpg"],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1600,1066],21:[1066,1600],22:[1066,1600],23:[1066,1600],24:[1600,1066],25:[1600,1066],26:[1066,1600],28:[1066,1600],29:[1600,1066,"jpg"]},
-  bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1600,1066],5:[1200,1600],6:[1200,1600],7:[1600,1068],8:[1600,1066],9:[1066,1600],10:[1600,1066],11:[1066,1600],13:[1600,1066],14:[1600,1066],15:[1066,1600],16:[1600,1066,"jpg"],17:[1066,1600],18:[1600,1066]},
+  thailand:{0:[1600,1066],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1600,1066,"jpg"],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1600,1066],21:[1066,1600],22:[1066,1600],23:[1066,1600],24:[1600,1066],25:[1600,1066],26:[1066,1600],27:[1066,1600],28:[1600,1066,"jpg"]},
+  bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1600,1066],8:[1600,1066],9:[1200,1600],10:[1600,1068],11:[1600,1066],12:[1600,1066],13:[1066,1600],14:[1600,1066],15:[1600,1066,"jpg"],16:[1066,1600],17:[1600,1066]},
   hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600]},
-  nightmarkets:{0:[1600,1066],2:[1600,1066],3:[1600,1066]},
+  nightmarkets:{0:[1600,1066],1:[1600,1066],2:[1600,1066]},
   morocco:{0:[1865,2797],1:[1904,2856],2:[1904,2856],3:[1904,2856],4:[1832,2747],5:[1868,2802],6:[1904,2856],7:[1904,2856],8:[1847,2770],9:[1904,2856],10:[1904,2856],11:[1904,2856],12:[1904,2856],13:[1904,2856],14:[1904,2856],15:[1904,2856],16:[1904,2856],17:[1904,2856]},
-  wildlife:{0:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600]},
-  scotland:{0:[1066,1600],2:[1066,1600],3:[1200,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1066,1600],8:[1200,1600]},
-  muaythai:{0:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1600,1066]},
+  wildlife:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600]},
+  scotland:{0:[1066,1600],1:[1066,1600],2:[1200,1600],3:[1066,1600],4:[1200,1600],5:[1066,1600],6:[1066,1600],7:[1200,1600],8:[3413,5120]},
+  muaythai:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1600,1066]},
 };
 /* >>> PHOTO-DIM-END <<< */
 
