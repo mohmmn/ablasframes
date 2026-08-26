@@ -173,7 +173,6 @@ body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-he
   display:flex;flex-direction:column;min-height:100vh;min-height:100dvh;
   -webkit-font-smoothing:antialiased;transition:background .6s var(--ease),color .6s var(--ease);}
 main{flex:1 0 auto;}
-main{flex:1 0 auto;}
 .serif{font-family:var(--font-display);}
 img{display:block;max-width:100%;}
 /* toutes les couches image : recadrage propre.
@@ -201,10 +200,6 @@ section.pad{padding:var(--sec-gap) 0;}
    normalement (voir @media max-width:760px). */
 /* Sélecteur `section.pad.gal-pad` et NON `.gal-pad` seul : `section.pad` compte un élément en
    plus (0,1,1 contre 0,1,0) et l'emportait, la valeur ci-dessous n'ayant alors aucun effet. */
-/* Le `padding-bottom` ferme l'album SOUS l'ornement au logo : c'est la moitié de l'écart
-   habituel entre deux sections, parce qu'il n'y a plus rien à séparer en dessous — juste le
-   pied de page. Le laisser à `var(--sec-gap)` plein rallongeait le bas de chaque album. */
-section.pad.gal-pad{padding-top:48px;padding-bottom:calc(var(--sec-gap) * .5);}
 /* Le `padding-bottom` ferme l'album SOUS l'ornement au logo : c'est la moitié de l'écart
    habituel entre deux sections, parce qu'il n'y a plus rien à séparer en dessous — juste le
    pied de page. Le laisser à `var(--sec-gap)` plein rallongeait le bas de chaque album. */
@@ -487,7 +482,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* « The Collection » ET sa ligne de sous-titre : LORA pour les deux.
    Graisse 400 et non 300 — Lora ne descend pas plus bas. */
 .sel-lead h2{font-family:var(--font-collection);font-style:italic;font-weight:400;font-size:clamp(25px,4vw,49px);color:var(--text);margin-bottom:10px;}
-.sel-lead h2{font-family:var(--font-collection);font-style:italic;font-weight:400;font-size:clamp(25px,4vw,49px);color:var(--text);margin-bottom:10px;}
 .sel-lead p{font-family:var(--font-collection);color:var(--muted);font-size:15px;}
 .sel-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:30px;}
 .sel-cell{position:relative;overflow:hidden;cursor:zoom-in;background:var(--frame-c);
@@ -560,14 +554,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    près), chacune le déclare donc de son côté : `.about-h` plus bas pour About, le
    `style="margin-bottom:…"` du <h1> pour Frames. */
 .sec-rule{padding-bottom:18px;border-bottom:1px solid var(--line-strong);}
-/* ===== LE FILET SOUS UN TITRE DE PAGE =====
-   Le trait fin qui ferme le titre. Il n'appartient plus à la seule page About : « About » et
-   « Frames » le portent tous les deux, les deux pages s'ouvrent donc exactement pareil.
-   LA CLASSE NE POSE QUE LE TRAIT — pas l'écart en dessous. Cet écart n'est pas le même d'une
-   page à l'autre (le texte de About respire, les pastilles de filtre de Frames suivent de
-   près), chacune le déclare donc de son côté : `.about-h` plus bas pour About, le
-   `style="margin-bottom:…"` du <h1> pour Frames. */
-.sec-rule{padding-bottom:18px;border-bottom:1px solid var(--line-strong);}
 .embro{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 auto;}.embro .ln{height:.5px;width:50px;background:var(--line-strong);}
 
 /* ===== EN-TÊTE DE FRAME =====
@@ -586,7 +572,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .chap-txt>.meta,.chap-txt>h1{display:none;}                 /* méta+titre déjà superposés sur la photo (mobile) */
 .chap-intro{padding:0;}
 /* DESCRIPTION D'ALBUM — EB Garamond. Graisse 400 : EB Garamond ne descend pas sous le 400. */
-.chap-intro p{font-family:var(--font-frame-p);font-size:clamp(18px,2.5vw,20px);line-height:1.4;font-weight:400;color:var(--text);max-width:740px;}
 .chap-intro p{font-family:var(--font-frame-p);font-size:clamp(18px,2.5vw,20px);line-height:1.4;font-weight:400;color:var(--text);max-width:740px;}
 /* PC : split photo (gauche) / titre + description (droite) — corrige aussi la netteté (photo en demi-largeur) */
 @media(min-width:881px){
@@ -625,23 +610,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .frame-page .chap-txt>h1{display:block;font-family:var(--font-frame-t);font-style:italic;font-weight:300;color:var(--ftext);font-size:clamp(50px,5.8vw,78px);line-height:1.03;margin-bottom:28px;}
   .frame-page .chap-txt .chap-intro{text-align:left;}
   .frame-page .chap-txt .chap-intro p{font-size:clamp(21px,1.85vw,29px);line-height:1.7;color:var(--ftext);max-width:56ch;margin:0;text-align:left;opacity:.94;}
-}
-/* ===== CADRAGE DE LA BANNIÈRE D'ALBUM SUR MOBILE — `--focus-m` =====
-   La photo d'en-tête ne montre PAS la même chose selon la taille d'écran : sur PC c'est un
-   portrait 4/5 dans une colonne étroite (bloc ci-dessus), sur mobile une bannière pleine
-   largeur de 46vh. Un seul point de cadrage ne peut pas servir aux deux — ce qui centre bien
-   un sujet dans le portrait lui coupe la tête dans la bande large, et inversement.
-   D'OÙ DEUX VARIABLES, posées en style inline sur l'<img class="img"> de .chap-photo :
-     --focus    : le cadrage sur PC — et le repli de mobile si --focus-m n'est pas donné ;
-     --focus-m  : le cadrage sur MOBILE seul, prioritaire ici.
-   Les valeurs sont celles de `object-position` : `center 30%` remonte le cadrage (on voit
-   plus le haut de la photo), `center 70%` le descend, `left center` / `right center` le
-   décalent sur les côtés. Une seule valeur (`center`, `top`…) vaut pour l'horizontale.
-   Le sélecteur compte `.chap-photo` EXPRÈS : sans lui il pèserait pareil que le `img.img`
-   général (tout en haut de la feuille) sans forcément passer après, et --focus-m serait
-   ignorée un jour sur deux. */
-@media(max-width:880px){
-  .chap-photo img.img{object-position:var(--focus-m,var(--focus,center));}
 }
 /* ===== CADRAGE DE LA BANNIÈRE D'ALBUM SUR MOBILE — `--focus-m` =====
    La photo d'en-tête ne montre PAS la même chose selon la taille d'écran : sur PC c'est un
@@ -851,20 +819,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    grandir à nouveau — mais avec `main{display:flex;flex-direction:column}` et
    `.page.active{flex:1 0 auto}`, PAS avec un `100vh` qui ignore ce qui l'entoure. */
 .frame-page.active{background:var(--fbg);color:var(--ftext);}
-/* PLUS DE `min-height:100vh` ICI, ET C'EST CE QUI RAMÈNE LE PIED DE PAGE EN BAS DE L'ÉCRAN
-   SUR LES ALBUMS COURTS. Cette hauteur plancher ne comptait ni la navbar ni le pied de
-   page : sur Night Markets et ses trois photos, la page mesurait un écran plein PUIS
-   ajoutait les deux, et il fallait faire défiler 160px de crème pour trouver le « © ablas
-   frames » — sur une page qui tenait pourtant à l'écran.
-   Elle protégeait autrefois un fond de page COLORÉ, qui devait couvrir l'écran entier même
-   sur un album bref. Ce fond n'existe plus : `--fbg` vaut `var(--bg)` pour les huit albums
-   (voir la palette unique en haut du fichier), donc exactement le crème de <body>. Rien à
-   couvrir, aucune couture possible — et c'est désormais le `flex:1 0 auto` de <main> qui
-   remplit l'écran, en tenant compte, lui, de la navbar et du pied de page.
-   ⚠ SI UN ALBUM REDEVENAIT UN JOUR COLORÉ (en redéclarant `--fbg`), il faudrait le faire
-   grandir à nouveau — mais avec `main{display:flex;flex-direction:column}` et
-   `.page.active{flex:1 0 auto}`, PAS avec un `100vh` qui ignore ce qui l'entoure. */
-.frame-page.active{background:var(--fbg);color:var(--ftext);}
 .frame-page .eyebrow{color:var(--faccent);}
 .frame-page .chap-intro p{color:var(--ftext);}
 .frame-page .embro .ln{background:var(--fline);}
@@ -891,11 +845,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    page — et la dernière bande photo est déjà bord à bord : la même valeur y ouvrait un
    grand blanc qui faisait paraître la page inachevée. */
 .wrap.about{padding-top:calc(var(--sec-gap) * 1.3);padding-bottom:calc(var(--sec-gap) * .7);}
-/* HAUT ET BAS DÉLIBÉRÉMENT DISSYMÉTRIQUES. En haut, 1,3 × l'écart de section détache le
-   titre « About » de la navbar. En bas il n'y a plus rien à détacher — juste le pied de
-   page — et la dernière bande photo est déjà bord à bord : la même valeur y ouvrait un
-   grand blanc qui faisait paraître la page inachevée. */
-.wrap.about{padding-top:calc(var(--sec-gap) * 1.3);padding-bottom:calc(var(--sec-gap) * .7);}
 .about-col{display:grid;grid-template-columns:0.92fr 1.18fr;gap:80px;align-items:start;}
 .about-txt{text-align:left;}
 /* ===== PAGE ABOUT EN LORA =====
@@ -912,10 +861,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    ⚠ CETTE RÈGLE NE DOIT PLUS REDÉCLARER CE QUE POSE `.sec-h`. Les deux sélecteurs pèsent
    exactement pareil (0,1,0) et celui-ci vient APRÈS dans la feuille : la moindre propriété
    commune redéclarée ici l'emporterait et déferait l'alignement — c'est ainsi que les
-   capitales, le corps de 15px et la graisse 600 vivaient. Il ne reste donc que l'écart sous
-   le filet, qu'aucune des deux ne se dispute — le filet lui-même est passé dans `.sec-rule`
-   (voir plus haut), désormais partagé avec le titre « Frames ». */
-.about-h{margin-bottom:34px;}
    capitales, le corps de 15px et la graisse 600 vivaient. Il ne reste donc que l'écart sous
    le filet, qu'aucune des deux ne se dispute — le filet lui-même est passé dans `.sec-rule`
    (voir plus haut), désormais partagé avec le titre « Frames ». */
@@ -1022,16 +967,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   /* Le `margin-bottom` est l'écart ENTRE DEUX bandes ; la dernière n'a rien à espacer et
      le sien s'ajoutait au padding de la section, d'où le grand vide avant le pied de page
      (voir `.about-gal .pano:last-child` juste après). */
-  /* Le `margin-bottom` est l'écart ENTRE DEUX bandes ; la dernière n'a rien à espacer et
-     le sien s'ajoutait au padding de la section, d'où le grand vide avant le pied de page
-     (voir `.about-gal .pano:last-child` juste après). */
   .about-gal .pano{width:100vw;margin-left:50%;transform:translateX(-50%);
     border-radius:0;box-shadow:none;margin-bottom:30px;
     /* >>> FINESSE DES BANDES — LA VALEUR À RÉGLER <<<
        Plus le 1er nombre est grand, plus la bande est fine.
        Repères sur un écran de 390px : 3/1 = 130px · 4/1 = 98px · 5/1 = 78px · 6/1 = 65px */
     aspect-ratio:5/1;}
-  .about-gal .pano:last-child{margin-bottom:0;}
   .about-gal .pano:last-child{margin-bottom:0;}
   /* sur une bande aussi fine, c'est --focus (posé en style inline dans le HTML) qui décide
      de ce que l'on voit réellement de la photo */
@@ -1056,7 +997,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   box-shadow:0 40px 80px -30px rgba(80,52,26,.6);}
 .mail-card .ig-btn{color:#7A4A22;}
 /* ============================================================
-   « ablasframes@gmail.com » — UNE SEULE LIGNE, TOUJOURS
    « ablasframes@gmail.com » — UNE SEULE LIGNE, TOUJOURS
    L'adresse est bien plus longue qu'un pseudo : elle est nettement réduite pour tenir en
    entier sur une ligne, y compris sur les petits écrans.
@@ -1102,14 +1042,12 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .ig-card .ig-ico .gmail{width:auto;height:34px;}
 .ig-card .k{font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:14px;}
 /* « @ablasframes » ET « ablasframes@gmail.com » : LORA pour les deux (la carte e-mail ne
-/* « @ablasframes » ET « ablasframes@gmail.com » : LORA pour les deux (la carte e-mail ne
    redéfinit que la TAILLE de son titre, plus haut — la police vient donc bien d'ici). */
 .ig-card h2{font-family:var(--font-collection);font-style:italic;font-weight:400;font-size:clamp(39px,5.8vw,60px);line-height:1;margin-bottom:14px;}
 .ig-card p{font-size:14.5px;color:rgba(255,255,255,.9);max-width:440px;margin:0 auto 32px;line-height:1.7;}
 /* ===== PC : LES DEUX CARTES AU MÊME CORPS DE TITRE =====
    Côte à côte, elles affichaient 60px à gauche contre 30px à droite — un rapport de 2, la carte
    e-mail paraissait secondaire. L'écart venait de la réduction imposée à l'adresse pour qu'elle
-   tienne sur une ligne : « ablasframes@gmail.com » est 1,7× plus long que « @ablasframes ».
    tienne sur une ligne : « ablasframes@gmail.com » est 1,7× plus long que « @ablasframes ».
    Les deux titres partagent donc ici la MÊME taille.
 
@@ -1141,7 +1079,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 /* Le « © ablas frames — Fragments of my reality » est en LORA, et n'appartient donc plus au
    groupe des petites étiquettes (dont il a été retiré, voir la ZONE « ÉTIQUETTES » plus haut) :
    il ne suit plus la zone « Labels & buttons » du sélecteur « Aa ». */
-.foot{padding:30px 0;text-align:center;border-top:.5px solid var(--line);position:relative;z-index:2;}.foot p{font-family:var(--font-collection);font-size:11px;letter-spacing:.12em;color:var(--faint);}
 .foot{padding:30px 0;text-align:center;border-top:.5px solid var(--line);position:relative;z-index:2;}.foot p{font-family:var(--font-collection);font-size:11px;letter-spacing:.12em;color:var(--faint);}
 
 /* ===================== LIGHTBOX ===================== */
@@ -1273,9 +1210,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
      48px sur PC (voir `section.pad.gal-pad` plus haut), 18px ici.
      Même sélecteur doublé, pour la même raison de spécificité. */
   section.pad.gal-pad{padding-top:18px;}
-  /* bas de page allégé sur mobile : footer et ornement de fin — mêmes leviers que sur PC
-     (voir `.breath` et `.foot` plus haut), valeurs simplement resserrées. */
-  .foot{padding:14px 0;}
   /* bas de page allégé sur mobile : footer et ornement de fin — mêmes leviers que sur PC
      (voir `.breath` et `.foot` plus haut), valeurs simplement resserrées. */
   .foot{padding:14px 0;}
@@ -1535,7 +1469,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <section class="page frame-page" id="page-thailand" data-chap="thailand">
   <div class="chap-head">
     <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/thailand/banner.jpeg" alt="" loading="lazy" decoding="async">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/thailand/banner.jpeg" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Thailand</h1></div>
     </div>
     <div class="chap-txt">
@@ -1556,7 +1489,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <!-- ===================== FRAME : BALI ===================== -->
 <section class="page frame-page" id="page-bali" data-chap="bali">
   <div class="chap-head">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/bali/banner.jpeg" alt="" loading="lazy" decoding="async">
     <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/bali/banner.jpeg" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Bali</h1></div>
     </div>
@@ -1579,7 +1511,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <section class="page frame-page" id="page-hydepark" data-chap="hydepark">
   <div class="chap-head">
     <div class="chap-photo"><img class="img" style="--focus-m:center 85%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 85%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Hyde Park Nostalgia</h1></div>
     </div>
     <div class="chap-txt">
@@ -1600,7 +1531,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <!-- ===================== FRAME : NIGHT MARKETS ===================== -->
 <section class="page frame-page" id="page-nightmarkets" data-chap="nightmarkets">
   <div class="chap-head">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/night-markets/banner.jpeg" alt="" loading="lazy" decoding="async">
     <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/night-markets/banner.jpeg" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Night Markets</h1></div>
     </div>
@@ -1644,7 +1574,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <section class="page frame-page" id="page-wildlife" data-chap="wildlife">
   <div class="chap-head">
     <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/wildlife/banner.jpeg" alt="" loading="lazy" decoding="async">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/wildlife/banner.jpeg" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Wildlife</span></div><h1 class="serif">Wildlife</h1></div>
     </div>
     <div class="chap-txt">
@@ -1665,7 +1594,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <!-- ===================== FRAME : SCOTLAND ===================== -->
 <section class="page frame-page" id="page-scotland" data-chap="scotland">
   <div class="chap-head">
-    <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async">
     <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async">
       <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Travel</span></div><h1 class="serif">Scotland</h1></div>
     </div>
@@ -1697,7 +1625,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
            aux quatre autres. Celle-ci est écrite dans la même voix que les autres frames, à
            remplacer par la vôtre. -->
       <div class="chap-intro reveal"><p>The brutality of the fight contrasts with the deep respect between fighters, while the energy of the crowd surrounding the ring turn every match into a show.<br/> From the first bell to the final round, Muay Thai is an experience of its own.</p></div>
-      <div class="chap-intro reveal"><p>The brutality of the fight contrasts with the deep respect between fighters, while the energy of the crowd surrounding the ring turn every match into a show.<br/> From the first bell to the final round, Muay Thai is an experience of its own.</p></div>
     </div>
   </div>
   <section class="pad gal-pad"><div class="wrap">
@@ -1713,18 +1640,15 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 <section class="page" id="page-frames">
   <section class="pad"><div class="wrap">
     <h1 class="sec-h sec-rule reveal" style="margin-bottom:18px">Frames</h1>
-    <h1 class="sec-h sec-rule reveal" style="margin-bottom:18px">Frames</h1>
     <div class="pills reveal"><button class="pill active" data-filter="all">All</button><button class="pill" data-filter="travel">Travel</button><button class="pill" data-filter="portraits">Portraits</button><button class="pill" data-filter="wildlife">Wildlife</button><button class="pill" data-filter="sports">Sports</button><button class="pill" data-filter="events">Events</button></div>
     <div class="list-grid" id="listgrid">
       <article class="list-card reveal" data-cat="travel" data-chapter="thailand"><div class="thumb"><img class="img" src="photographies/categories/travel/thailand/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Thailand</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="bali"><div class="thumb"><img class="img" src="photographies/categories/travel/bali/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Bali</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><img class="img" style="--focus:center 75%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><img class="img" style="--focus:center 75%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><img class="img" src="photographies/categories/travel/night-markets/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Night Markets</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag">Portraits</span></div></article>
       <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><img class="img" src="photographies/categories/wildlife/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Wildlife</h4><span class="tag">Wildlife</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="scotland"><div class="thumb"><img class="img" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Scotland</h4><span class="tag">Travel</span></div></article>
-      <article class="list-card reveal" data-cat="sports" data-chapter="muaythai"><div class="thumb"><img class="img" style="--focus:center 48%"  src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Muay Thai</h4><span class="tag">Sports</span></div></article>
       <article class="list-card reveal" data-cat="sports" data-chapter="muaythai"><div class="thumb"><img class="img" style="--focus:center 48%"  src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Muay Thai</h4><span class="tag">Sports</span></div></article>
     </div>
     <!-- affiché uniquement quand un filtre ne contient encore aucun album (Sports, Events) -->
@@ -1737,7 +1661,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   <div class="wrap about">
     <div class="about-col">
       <div class="about-txt">
-        <h2 class="about-h sec-h sec-rule reveal">About</h2>
         <h2 class="about-h sec-h sec-rule reveal">About</h2>
         <p class="reveal">My art is not about documenting life as it is, but about shaping it through my lens. Photography is the medium through which I reinterpret reality, transforming what I see into something unique, infinite, and deeply mine.</p>
         <p class="reveal">In a world where we constantly feel like we are running out of time, photography gave me the impression that, for once, I could catch it — with a single click, time could slow down, stretch, or even stop.</p>
@@ -1776,8 +1699,6 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       </div>
       <!-- carte e-mail : le bouton ouvre un brouillon Gmail VIDE, adressé à Abla — ni objet ni
            message pré-écrits, le visiteur écrit ce qu'il veut. -->
-      <!-- carte e-mail : le bouton ouvre un brouillon Gmail VIDE, adressé à Abla — ni objet ni
-           message pré-écrits, le visiteur écrit ce qu'il veut. -->
       <div class="ig-card mail-card reveal">
         <div class="inner">
           <!-- Logo Gmail — le bouton de cette carte ouvre bien un brouillon Gmail (voir le
@@ -1793,17 +1714,14 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
           </svg></div>
           <p class="k">Write to me</p>
           <h2>ablasframes@gmail.com</h2>
-          <h2>ablasframes@gmail.com</h2>
           <p>For any enquiries or further information, you can also reach me directly by email. I'll get back to you as soon as possible.</p>
           <a class="ig-btn" id="mail-btn"
-             href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ablasframes%40gmail.com"
              href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=ablasframes%40gmail.com"
              target="_blank" rel="noopener"><svg class="ic"><use href="#i-send"/></svg> Send an email</a>
         </div>
       </div>
     </div>
     <div class="contact-alt reveal">
-      <a href="mailto:ablasframes@gmail.com"><svg class="ic"><use href="#i-mail"/></svg> ablasframes@gmail.com</a>
       <a href="mailto:ablasframes@gmail.com"><svg class="ic"><use href="#i-mail"/></svg> ablasframes@gmail.com</a>
       <a href="https://instagram.com/ablasframes" target="_blank" rel="noopener"><svg class="ic"><use href="#i-instagram"/></svg> @ablasframes</a>
     </div>
@@ -2410,11 +2328,6 @@ let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:tr
    il est lu dans le href du bouton, qui reste l'unique endroit où l'adresse est écrite.
    (Pour re-pré-remplir un jour : ajouter `&su=…` / `&body=…` au href, puis les relire ici
    sous les noms `subject` / `body` — c'est ainsi que les applications les nomment.) */
-   LE BROUILLON EST VIDE, ET C'EST VOULU : ni objet ni corps pré-écrits, sur aucune des trois
-   plateformes — le visiteur écrit son message lui-même. Seul le DESTINATAIRE est repris, et
-   il est lu dans le href du bouton, qui reste l'unique endroit où l'adresse est écrite.
-   (Pour re-pré-remplir un jour : ajouter `&su=…` / `&body=…` au href, puis les relire ici
-   sous les noms `subject` / `body` — c'est ainsi que les applications les nomment.) */
 (function(){
   const btn=document.getElementById('mail-btn');if(!btn)return;
   const WEB=btn.href;                                   // repli commun : Gmail dans le navigateur
@@ -2424,7 +2337,6 @@ let sx=0;lb.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:tr
   const ios=/iPad|iPhone|iPod/.test(ua)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
   if(!android&&!ios)return;                             // PC : le lien du HTML fait déjà le travail
   const p=new URL(WEB).searchParams;
-  const q='to='+encodeURIComponent(p.get('to')||'');
   const q='to='+encodeURIComponent(p.get('to')||'');
   btn.addEventListener('click',e=>{
     e.preventDefault();
