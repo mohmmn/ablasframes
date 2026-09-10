@@ -16,7 +16,7 @@
 <!-- La bannière est la plus grande image du premier écran : c'est elle qui détermine la vitesse
      RESSENTIE au chargement. Déclarée en fond CSS, elle n'était découverte qu'une fois la
      feuille de style analysée ; ce preload la met en file d'attente dès la lecture du <head>. -->
-<link rel="preload" as="image" href="photographies/categories/banner/banner-1.jpeg" fetchpriority="high">
+<link rel="preload" as="image" href="photographies/categories/banner/banner-1.webp" fetchpriority="high">
 <!-- Cormorant Garamond = police de TITRAGE (élégante, déliée, très présente sur les portfolios de
      photographes). Libre Baskerville = texte courant et étiquettes, inchangée.
      Montserrat = NAVBAR SUR PC (voir .nav dans @media(min-width:761px)) et TEXTE DE LA PAGE
@@ -780,6 +780,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 [data-chap="hydepark"],   [data-chapter="hydepark"]   {--ftheme:#F3F0E9;--ftheme-ink:#171310;}
 [data-chap="nightmarkets"],[data-chapter="nightmarkets"]{--ftheme:#12263A;--ftheme-ink:#FFF6EE;}
 [data-chap="morocco"],    [data-chapter="morocco"]    {--ftheme:#012B95;--ftheme-ink:#FFF6EE;}
+/* Children of the Coast — le vert-de-mer est RELEVÉ SUR LA PHOTO : moyenne de l'Atlantique
+   derrière le premier plan de la bannière. 5,6:1 avec l'encre claire ; atténuée à 78% elle
+   tomberait à 4,1:1, sous le seuil — d'où `--ftheme-soft` ramené à l'encre pleine. */
+[data-chap="coast"],      [data-chapter="coast"]      {--ftheme:#516867;--ftheme-ink:#FFF6EE;--ftheme-soft:#FFF6EE;}
 [data-chap="wildlife"],   [data-chapter="wildlife"]   {--ftheme:#FADF7F;--ftheme-ink:#171310;}
 [data-chap="scotland"],   [data-chapter="scotland"]   {--ftheme:#D2EBFF;--ftheme-ink:#171310;}
 /* Muay Thai — le rouge est RELEVÉ SUR LA PHOTO, pas choisi à l'œil : c'est la teinte la plus
@@ -1189,17 +1193,11 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
      .2em qui amplifie chaque hausse. `margin-bottom:0` parce qu'il n'y a plus rien à
      espacer en dessous : c'est le padding de `.home-hero` qui referme la bande. */
   .hero-txt h2{font-size:12px;line-height:1.6;margin-bottom:0;letter-spacing:.2em;}
-  /* >>> LE CHAPÔ EST MASQUÉ SUR TÉLÉPHONE, ET SEULEMENT LÀ <<<
-     « Photography has never been about documenting reality… » reste affiché sur PC et sur
-     tablette (sa taille se règle en haut de la feuille, `.hero-intro`). Sur un écran de
-     téléphone il occupait trois lignes à redire ce que le titre dit déjà, et repoussait le
-     début de la galerie sous la ligne de flottaison.
-     `display:none` plutôt qu'un texte retiré du HTML : la phrase reste dans la page pour
-     les grands écrans, il n'y a qu'un seul balisage à maintenir.
-     La borne est 760px, celle du mobile pour tout le site. La photo du héro, elle,
-     disparaît dès 880px (voir `.hero-photo{display:none}` plus haut) : entre les deux, le
-     titre et le chapô occupent donc toute la largeur, et c'est voulu. */
-  .hero-intro{display:none;}
+  /* >>> LE TITRE EST MASQUÉ SUR TÉLÉPHONE, ET SEULEMENT LÀ <<<
+     Il reste affiché sur PC et sur tablette. `display:none` plutôt qu'un titre retiré du HTML :
+     effacer cette ligne suffit à le faire revenir, avec ses réglages mobiles juste au-dessus. */
+  .hero-txt h2{display:none;}
+  
   /* >>> ESPACE AU-DESSUS DE LA DESCRIPTION (sous la bannière) — LA VALEUR À RÉGLER <<<
      Plus le multiplicateur est grand, plus la description descend.
      Ramené de 2,4 à 1,1 : à 2,4 il ouvrait 82px de blanc sur un écran de téléphone, la
@@ -1389,7 +1387,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 
   <header class="banner">
     <!-- photo de bannière : dossier dédié photographies/categories/banner/ — remplace juste ce fichier pour la changer -->
-    <div class="bg" style="--focus:center 70%;--focus-m:center 80%;background-image:url('photographies/categories/banner/banner-1.jpeg')"></div>
+    <div class="bg" style="--focus:center 70%;--focus-m:center 75%;background-image:url('photographies/categories/banner/banner-1.webp')"></div>
     <div class="grain"></div>
     <div class="veil"></div>
     <!-- bannière volontairement SANS titre : la photo parle seule -->
@@ -1402,7 +1400,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
         <div class="hero-txt reveal">
           <!-- sur-titre « Introduction » retiré : le titre porte la section à lui seul -->
           <h2>Every frame begins with a feeling</h2>
-          <p class="hero-intro">Photography has never been about documenting reality exactly as it is. It is about preserving the way a moment felt before it disappeared.</p>
+          <p class="hero-intro">« Photography isn't about capturing reality exactly as it is, but about holding onto how a moment felt before it faded away »</p>
         </div>
         <div class="hero-photo reveal">
           <div class="hero-frame"><div class="canvas"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/eom-5.webp" alt="" loading="lazy" decoding="async"></div></div>
@@ -1435,6 +1433,10 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
         <article class="frame-row reveal" data-chapter="morocco">
           <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async"></div>
           <div class="frow-meta"><h3 class="frow-t serif">Echoes of Morocco</h3><span class="frow-s">Portraits</span></div>
+        </article>
+        <article class="frame-row reveal" data-chapter="coast">
+          <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/portraits/children-of-the-coast/banner.webp" alt="" loading="lazy" decoding="async"></div>
+          <div class="frow-meta"><h3 class="frow-t serif">Children of the Coast</h3><span class="frow-s">Portraits</span></div>
         </article>
         <article class="frame-row reveal" data-chapter="thailand">
           <div class="frow-pano"><img class="img" style="--focus:center 50%" src="photographies/categories/travel/thailand/banner.jpeg" alt="" loading="lazy" decoding="async"></div>
@@ -1570,6 +1572,27 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   </div></section>
 </section>
 
+<!-- ===================== FRAME : CHILDREN OF THE COAST ===================== -->
+<section class="page frame-page" id="page-coast" data-chap="coast">
+  <div class="chap-head">
+    <div class="chap-photo"><img class="img" style="--focus-m:center 50%" src="photographies/categories/portraits/children-of-the-coast/banner.webp" alt="" loading="lazy" decoding="async">
+      <div class="chap-cap"><div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Portraits</span></div><h1 class="serif">Children of the Coast</h1></div>
+    </div>
+    <div class="chap-txt">
+      <div class="meta"><span class="t">Frame</span><span class="meta-rule"></span><span class="t">Portraits</span></div>
+      <h1 class="serif">Children of the Coast</h1>
+      <div class="chap-intro reveal"><p>On the rocks where the Atlantic breaks, white djellabas catch the golden light. Prayer beads between the fingers, eyes on the horizon — a quiet devotion carried by the sea wind.</p></div>
+    </div>
+  </div>
+  <section class="pad gal-pad"><div class="wrap">
+    <p class="eyebrow reveal">Gallery</p>
+    <div class="gallery" id="gal-coast"></div>
+    <div class="breath reveal"><div class="embro"><span class="ln"></span>
+      <span class="logo-swap"><img src="af-icone-marron.png" alt="ablas frames" loading="lazy" decoding="async"></span>
+      <span class="ln"></span></div></div>
+  </div></section>
+</section>
+
 <!-- ===================== FRAME : WILDLIFE ===================== -->
 <section class="page frame-page" id="page-wildlife" data-chap="wildlife">
   <div class="chap-head">
@@ -1647,6 +1670,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
       <article class="list-card reveal" data-cat="travel" data-chapter="hydepark"><div class="thumb"><img class="img" style="--focus:center 75%" src="photographies/categories/travel/hyde-park-nostalgia/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Hyde Park Nostalgia</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="nightmarkets"><div class="thumb"><img class="img" src="photographies/categories/travel/night-markets/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Night Markets</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="portraits" data-chapter="morocco"><div class="thumb"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/banner.webp" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Echoes of Morocco</h4><span class="tag">Portraits</span></div></article>
+      <article class="list-card reveal" data-cat="portraits" data-chapter="coast"><div class="thumb"><img class="img" src="photographies/categories/portraits/children-of-the-coast/banner.webp" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Children of the Coast</h4><span class="tag">Portraits</span></div></article>
       <article class="list-card reveal" data-cat="wildlife" data-chapter="wildlife"><div class="thumb"><img class="img" src="photographies/categories/wildlife/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Wildlife</h4><span class="tag">Wildlife</span></div></article>
       <article class="list-card reveal" data-cat="travel" data-chapter="scotland"><div class="thumb"><img class="img" src="photographies/categories/travel/scotland/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Scotland</h4><span class="tag">Travel</span></div></article>
       <article class="list-card reveal" data-cat="sports" data-chapter="muaythai"><div class="thumb"><img class="img" style="--focus:center 48%"  src="photographies/categories/sports/muay-thai/banner.jpeg" alt="" loading="lazy" decoding="async"></div><div class="meta"><h4>Muay Thai</h4><span class="tag">Sports</span></div></article>
@@ -1779,6 +1803,7 @@ const GAL={
   hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',label:'Hyde Park Nostalgia'},
   nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',label:'Night Markets'},
   morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',ext:'webp',label:'Echoes of Morocco'},
+  coast:{dir:'portraits/children-of-the-coast',pre:'cotc',ext:'webp',label:'Children of the Coast'},
   wildlife:{dir:'wildlife',pre:'wild',label:'Wildlife'},
   scotland:{dir:'travel/scotland',pre:'scotland',label:'Scotland'},
   muaythai:{dir:'sports/muay-thai',pre:'mt',label:'Muay Thai'},
@@ -1805,6 +1830,7 @@ const DIM={
   hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600]},
   nightmarkets:{0:[1600,1066],1:[1600,1066],2:[1600,1066]},
   morocco:{0:[1865,2797],1:[1904,2856],2:[1904,2856],3:[1904,2856],4:[1832,2747],5:[1868,2802],6:[1904,2856],7:[1904,2856],8:[1847,2770],9:[1904,2856],10:[1904,2856],11:[1904,2856],12:[1904,2856],13:[1904,2856],14:[1904,2856],15:[1904,2856],16:[1904,2856],17:[1904,2856]},
+  coast:{0:[1080,1440],1:[1080,1440],2:[1080,1440],3:[1080,1440],4:[1080,1440],5:[1080,1440],6:[1080,1440],7:[1080,1440],8:[1080,1440],9:[1080,1440],10:[1080,1620],11:[1080,1440],12:[1080,1441],13:[1080,1440],14:[1080,1440]},
   wildlife:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600]},
   scotland:{0:[1066,1600],1:[1066,1600],2:[1200,1600],3:[1066,1600],4:[1200,1600],5:[1066,1600],6:[1066,1600],7:[1200,1600],8:[3413,5120]},
   muaythai:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1600,1066]},
@@ -1992,6 +2018,7 @@ const FRAMES=[
   {key:'hydepark',    el:'page-hydepark',    label:'Hyde Park Nostalgia',   dot:'#4A4A4A'},  // gris foncé
   {key:'nightmarkets',el:'page-nightmarkets',label:'Night Markets',         dot:'#000000'},  // noir
   {key:'morocco',     el:'page-morocco',     label:'Echoes of Morocco',     dot:'#C62828'},  // rouge
+  {key:'coast',       el:'page-coast',       label:'Children of the Coast', dot:'#A97B50'},  // ocre de la roche
   {key:'wildlife',    el:'page-wildlife',    label:'Wildlife',              dot:'#795C5F'},  // inchangé
   {key:'scotland',    el:'page-scotland',    label:'Scotland',              dot:'#758AD1'},  // inchangé
   {key:'muaythai',    el:'page-muaythai',    label:'Muay Thai',             dot:'#C80217'},  // rouge des gants
