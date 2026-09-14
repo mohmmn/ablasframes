@@ -443,10 +443,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    fonce son --muted jusqu'au NOIR PUR (#000) pour tenir le contraste sur son beige soutenu,
    et Playfair Display, très contrastée, a des pleins épais que le noir pur fait grossir.
    Le chapô était donc plus noir que le titre juste au-dessus (#1F1C16).
-   Il reprend ici le --text du site, exactement comme le titre : 12,9:1 sur le beige de la
-   section, très au-dessus du seuil, et les deux blocs pèsent enfin le même poids.
+   >>> COULEUR ÉCLAIRCIE : #5E574A, un brun-gris chaud, plus clair que le --text du titre
+   (#1F1C16, 13:1). Le chapô passe ainsi derrière le titre au lieu de peser autant que lui.
+   5,5:1 sur le beige de la section : encore au-dessus du seuil de 4,5:1 du texte courant.
+   Pour l'éclaircir encore sans passer sous ce seuil : #665F52 (4,8:1) ; au-delà, #706957
+   tombe à 4,2:1. Pour revenir au plus foncé : var(--text).
    ============================================================ */
-.hero-intro{font-family:var(--font-collection);font-weight:400;font-size:clamp(15px,1.55vw,21px);line-height:1.6;color:var(--text);margin-bottom:36px;max-width:520px;}
+.hero-intro{font-family:var(--font-collection);font-weight:400;font-size:clamp(15px,1.55vw,21px);line-height:1.6;color:#3a362e;margin-bottom:36px;max-width:520px;}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
   box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
@@ -1192,11 +1195,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
      voient bien davantage que le chiffre ne le laisse croire — c'est l'interlettrage de
      .2em qui amplifie chaque hausse. `margin-bottom:0` parce qu'il n'y a plus rien à
      espacer en dessous : c'est le padding de `.home-hero` qui referme la bande. */
-  .hero-txt h2{font-size:12px;line-height:1.6;margin-bottom:0;letter-spacing:.2em;}
-  /* >>> LE TITRE EST MASQUÉ SUR TÉLÉPHONE, ET SEULEMENT LÀ <<<
-     Il reste affiché sur PC et sur tablette. `display:none` plutôt qu'un titre retiré du HTML :
-     effacer cette ligne suffit à le faire revenir, avec ses réglages mobiles juste au-dessus. */
-  .hero-txt h2{display:none;}
+  .hero-txt h2{font-size:8px;line-height:1.6;margin-bottom:10px;letter-spacing:.2em;}
   
   /* >>> ESPACE AU-DESSUS DE LA DESCRIPTION (sous la bannière) — LA VALEUR À RÉGLER <<<
      Plus le multiplicateur est grand, plus la description descend.
@@ -1400,7 +1399,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
         <div class="hero-txt reveal">
           <!-- sur-titre « Introduction » retiré : le titre porte la section à lui seul -->
           <h2>Every frame begins with a feeling</h2>
-          <p class="hero-intro">« Photography isn't about capturing reality exactly as it is, but about holding onto how a moment felt before it faded away »</p>
+          <p class="hero-intro">Photography has never been about documenting reality exactly as it is. It is about preserving the way a moment felt before it disappeared.</p>
         </div>
         <div class="hero-photo reveal">
           <div class="hero-frame"><div class="canvas"><img class="img" src="photographies/categories/portraits/echoes-of-morocco/eom-5.webp" alt="" loading="lazy" decoding="async"></div></div>
