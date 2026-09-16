@@ -1,0 +1,13 @@
+{
+  "name": "ablasframes",
+  "private": true,
+  "description": "Site ablas frames — site statique. Ce package.json n'est là que pour les outils de tools/ : le site, lui, ne dépend de rien et s'ouvre en double-cliquant index.html.",
+  "scripts": {
+    "photos": "node tools/optimiser-photos.js && node tools/scan-photos.js",
+    "photos:check": "node tools/optimiser-photos.js --check && node tools/scan-photos.js --check",
+    "scan": "node tools/scan-photos.js"
+  },
+  "devDependencies": {
+    "sharp": "^0.34.5"
+  }
+}

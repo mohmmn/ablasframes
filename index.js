@@ -22,10 +22,11 @@ document.documentElement.classList.add('blur-up');
    Toute photo absente de `order` est simplement ajoutée à la suite — ajouter un fichier ne
    casse jamais l'affichage, même sans toucher à cette liste.
 
-   `ext` (facultatif, 'jpeg' par défaut) donne l'EXTENSION des photos de l'album — c'est ce qui
-   permet à un album d'être en WebP pendant que les autres restent en JPEG.
-   ⚠ ELLE VAUT POUR TOUT L'ALBUM, BANNIÈRE COMPRISE : un album en `ext:'webp'` attend
-   `banner.webp`, pas `banner.jpeg`. Un album ne se mélange pas — c'est ce qui permet à
+   `ext` (facultatif, 'webp' par défaut) donne l'EXTENSION des photos de l'album. Plus aucun
+   album ne la précise : TOUT le site est en WebP (voir tools/optimiser-photos.js). Elle n'est
+   là que pour le jour où un album arriverait dans un autre format — `ext:'jpeg'` suffirait.
+   ⚠ ELLE VAUT POUR TOUT L'ALBUM, BANNIÈRE COMPRISE : un album en `ext:'jpeg'` attend
+   `banner.jpeg`, pas `banner.webp`. Un album ne se mélange pas — c'est ce qui permet à
    buildGallery de composer chaque URL sans avoir à deviner, et au scanner de signaler net un
    fichier resté dans l'ancien format au lieu de le laisser disparaître en silence.
    Après avoir touché à `ext`, relancer `node tools/scan-photos.js`. */
@@ -40,8 +41,8 @@ const GAL={
   bali:{dir:'travel/bali',pre:'bali',label:'Bali'},
   hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',label:'Hyde Park Nostalgia'},
   nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',label:'Night Markets'},
-  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',ext:'webp',label:'Echoes of Morocco'},
-  coast:{dir:'portraits/children-of-the-coast',pre:'cotc',ext:'webp',label:'Children of the Coast'},
+  morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',label:'Echoes of Morocco'},
+  coast:{dir:'portraits/children-of-the-coast',pre:'cotc',label:'Children of the Coast'},
   wildlife:{dir:'wildlife',pre:'wild',label:'Wildlife'},
   scotland:{dir:'travel/scotland',pre:'scotland',label:'Scotland'},
   muaythai:{dir:'sports/muay-thai',pre:'mt',label:'Muay Thai'},
@@ -63,14 +64,14 @@ const GAL={
    (le script relit les fichiers du dossier photographies/ et réécrit ce bloc tout seul)         */
 /* >>> PHOTO-DIM-START <<< */
 const DIM={
-  thailand:{0:[1600,1066],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1600,1066,"jpg"],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1600,1066],21:[1066,1600],22:[1066,1600],23:[1066,1600],24:[1600,1066],25:[1600,1066],26:[1066,1600],27:[1066,1600],28:[1600,1066,"jpg"]},
-  bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1200,1600],6:[1066,1600],7:[1600,1066],8:[1600,1066],9:[1200,1600],10:[1600,1068],11:[1600,1066],12:[1600,1066],13:[1066,1600],14:[1600,1066],15:[1600,1066,"jpg"],16:[1066,1600],17:[1600,1066]},
+  thailand:{0:[1600,1066],1:[1066,1600],2:[1066,1600],3:[1600,1066],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600],8:[1066,1600],9:[1066,1600],10:[1066,1600],11:[1066,1600],12:[1600,1066],13:[1600,1066],14:[1066,1600],15:[1066,1600],16:[1066,1600],17:[1066,1600],18:[1600,1066],19:[1066,1600],20:[1600,1066],21:[1066,1600],22:[1066,1600],23:[1066,1600],24:[1600,1066],25:[1600,1066],26:[1066,1600],27:[1066,1600],28:[1600,1066]},
+  bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1080,1440],6:[1066,1600],7:[1600,1066],8:[1600,1066],9:[1080,1440],10:[1600,1068],11:[1600,1066],12:[1600,1066],13:[1066,1600],14:[1600,1066],15:[1600,1066],16:[1066,1600],17:[1600,1066]},
   hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600]},
   nightmarkets:{0:[1600,1066],1:[1600,1066],2:[1600,1066]},
-  morocco:{0:[1865,2797],1:[1904,2856],2:[1904,2856],3:[1904,2856],4:[1832,2747],5:[1868,2802],6:[1904,2856],7:[1904,2856],8:[1847,2770],9:[1904,2856],10:[1904,2856],11:[1904,2856],12:[1904,2856],13:[1904,2856],14:[1904,2856],15:[1904,2856],16:[1904,2856],17:[1904,2856]},
+  morocco:{0:[1080,1620],1:[1080,1620],2:[1080,1620],3:[1080,1620],4:[1080,1620],5:[1080,1620],6:[1080,1620],7:[1080,1620],8:[1080,1621],9:[1080,1621],10:[1080,1621],11:[1080,1620],12:[1080,1620],13:[1080,1620],14:[1080,1620],15:[1080,1620],16:[1080,1620],17:[1080,1620]},
   coast:{0:[1080,1440],1:[1080,1440],2:[1080,1440],3:[1080,1440],4:[1080,1440],5:[1080,1440],6:[1080,1440],7:[1080,1440],8:[1080,1440],9:[1080,1440],10:[1080,1620],11:[1080,1440],12:[1080,1441],13:[1080,1440],14:[1080,1440]},
   wildlife:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600]},
-  scotland:{0:[1066,1600],1:[1066,1600],2:[1200,1600],3:[1066,1600],4:[1200,1600],5:[1066,1600],6:[1066,1600],7:[1200,1600],8:[3413,5120]},
+  scotland:{0:[1066,1600],1:[1066,1600],2:[1080,1440],3:[1066,1600],4:[1080,1440],5:[1066,1600],6:[1066,1600],7:[1080,1440],8:[1080,1621]},
   muaythai:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1600,1066]},
 };
 /* >>> PHOTO-DIM-END <<< */
@@ -179,8 +180,11 @@ function buildGallery(key){
   seq.forEach(i=>{
     const w=dim[i][0],h=dim[i][1];
     // 3e valeur du manifeste = extension propre à CETTE photo, quand elle sort du défaut de
-    // l'album (un .jpg glissé dans un album en .jpeg, par exemple). Absente = défaut.
-    const ext=dim[i][2]||g.ext||'jpeg';
+    // l'album (un .jpg glissé dans un album en .webp, par exemple). Absente = défaut.
+    // ⚠ Ce 'webp' est LE défaut du site, le même que celui de tools/scan-photos.js. Les deux
+    // doivent bouger ensemble : le scanner n'écrit la 3e valeur que pour les photos qui SORTENT
+    // du défaut, donc un défaut différent ici ferait demander des fichiers qui n'existent pas.
+    const ext=dim[i][2]||g.ext||'webp';
     const file=(i===0)?'banner.'+ext:g.pre+'-'+i+'.'+ext;   // 0 = bannière de l'album
     const src='photographies/categories/'+g.dir+'/'+file;
     const alt=(i===0)?g.label:g.label+' — '+i;

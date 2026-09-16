@@ -1,0 +1,8 @@
+# Dépendances des outils de tools/ (sharp). Le site n'en a pas besoin pour tourner.
+node_modules/
+
+# Photos d'origine mises de côté par tools/optimiser-photos.js.
+# Elles restent sur le disque mais ne partent pas sur le dépôt : ce sont des fichiers lourds
+# que personne ne télécharge. Elles sont de toute façon aussi dans l'historique git,
+# au commit qui précède la conversion en WebP.
+_originaux/

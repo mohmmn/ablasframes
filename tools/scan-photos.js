@@ -1,13 +1,13 @@
 #!/usr/bin/env node
 /* =============================================================================================
-   scan-photos.js — relit les photos du site et réécrit le manifeste DIM dans index.html
+   scan-photos.js — relit les photos du site et réécrit le manifeste DIM dans index.js
    ---------------------------------------------------------------------------------------------
    À LANCER APRÈS TOUT AJOUT / SUPPRESSION / REMPLACEMENT DE PHOTO :
 
        node tools/scan-photos.js
 
    Ce que ça fait :
-     1. lit la liste des albums dans le `const GAL={…}` d'index.html (dossier, préfixe, ext) ;
+     1. lit la liste des albums dans le `const GAL={…}` d'index.js (dossier, préfixe, ext) ;
      2. parcourt photographies/categories/<dossier>/ et y prend TOUTES les <préfixe>-N.*,
         quelle que soit l'extension (.jpeg, .jpg, .webp, .png) — celle de chaque fichier est
         inscrite dans le manifeste quand elle diffère du défaut `ext:` de l'album ;
@@ -27,7 +27,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
-const INDEX = path.join(ROOT, 'index.html');
+const INDEX = path.join(ROOT, 'index.js');   // le script du site a quitté index.html (découpage html/css/js)
 const PHOTOS = path.join(ROOT, 'photographies', 'categories');
 const START = '/* >>> PHOTO-DIM-START <<< */';
 const END = '/* >>> PHOTO-DIM-END <<< */';
@@ -96,14 +96,14 @@ function imageSize(buf, ext) {
   return f ? f(buf) : null;
 }
 
-/* --- albums déclarés dans index.html ------------------------------------------------------
+/* --- albums déclarés dans index.js ------------------------------------------------------
    Chaque album est découpé d'abord en BLOC `clé:{…}`, puis ses champs sont relus un par un :
    l'ancienne expression rationnelle exigeait l'ordre exact `dir` puis `pre` collés l'un à
    l'autre, et un champ intercalé (c'est le cas d'`ext`) suffisait à faire disparaître
    silencieusement l'album du manifeste. */
 function readAlbums(src) {
   const block = src.match(/const GAL=\{([\s\S]*?)\n\};/);
-  if (!block) throw new Error("Bloc `const GAL={…}` introuvable dans index.html");
+  if (!block) throw new Error("Bloc `const GAL={…}` introuvable dans index.js");
   const albums = [];
   const re = /(\w+):\{([^}]*)\}/g;
   let m;
@@ -115,7 +115,7 @@ function readAlbums(src) {
     };
     const dir = champ('dir'), pre = champ('pre');
     if (!dir || !pre) continue;
-    albums.push({ key: m[1], dir, pre, ext: champ('ext') || 'jpeg' });
+    albums.push({ key: m[1], dir, pre, ext: champ('ext') || 'webp' });
   }
   if (!albums.length) throw new Error('Aucun album reconnu dans le bloc GAL');
   return albums;
@@ -196,10 +196,15 @@ function buildManifest(albums) {
 /* --- écriture ----------------------------------------------------------------------------- */
 const src = fs.readFileSync(INDEX, 'utf8');
 const i0 = src.indexOf(START), i1 = src.indexOf(END);
-if (i0 < 0 || i1 < 0) { console.error('Marqueurs PHOTO-DIM-START / PHOTO-DIM-END introuvables dans index.html'); process.exit(2); }
+if (i0 < 0 || i1 < 0) { console.error('Marqueurs PHOTO-DIM-START / PHOTO-DIM-END introuvables dans index.js'); process.exit(2); }
 
 const { text, total, warnings } = buildManifest(readAlbums(src));
-const next = src.slice(0, i0 + START.length) + '\n' + text + '\n' + src.slice(i1);
+/* Le bloc est réécrit avec la MÊME fin de ligne que le fichier qui l'accueille. Sans ça il
+   repartait toujours en \n dans un index.js en \r\n : le fichier finissait panaché, et
+   `--check` annonçait un manifeste « périmé » à chaque passage alors que rien n'avait bougé. */
+const NL = src.includes('\r\n') ? '\r\n' : '\n';
+const bloc = text.split('\n').join(NL);
+const next = src.slice(0, i0 + START.length) + NL + bloc + NL + src.slice(i1);
 
 for (const w of warnings) console.warn('  ! ' + w);
 
@@ -212,4 +217,4 @@ if (CHECK) {
   process.exit(1);
 }
 fs.writeFileSync(INDEX, next);
-console.log(`index.html mis à jour — ${total} photos indexées.`);
+console.log(`index.js mis à jour — ${total} photos indexées.`);
