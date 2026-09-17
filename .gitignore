@@ -6,3 +6,9 @@ node_modules/
 # que personne ne télécharge. Elles sont de toute façon aussi dans l'historique git,
 # au commit qui précède la conversion en WebP.
 _originaux/
+
+# Ancien code sorti du dépôt le 2026-09-17 (maquettes v0/v1/v2, refonte ablas-frames/,
+# variantes de page About, feuilles de style de juillet). Rien de tout ça n'était chargé
+# par le site. Les fichiers restent sur le disque le temps que tu confirmes, et sont de
+# toute façon dans l'historique git au commit qui précède.
+_archive/
