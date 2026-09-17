@@ -70,24 +70,19 @@ const SOURCES = [
 ];
 
 /* Même idée, mais fichier par fichier, quand la source est un voisin de palier.
-   La bannière d'accueil vient de banner-1-lumi.jpeg — vérifié sur le contenu ET sur la
-   luminosité moyenne (203,1/187,7/157,9 des deux côtés) : le WebP servi est bien l'export de
-   la version éclaircie, pas de banner-1.jpeg qui, malgré son nom, est une TOUTE AUTRE photo. */
-const SOURCE_FICHIER = {
-  'banner/banner-1.webp': 'photographies/categories/banner/banner-1-lumi.jpeg',
-};
+   Vide aujourd'hui : la bannière d'accueil venait de banner-1-lumi.jpeg, supprimé au
+   nettoyage du 2026-09-17 avec les trois autres variantes du dossier banner/. Il ne reste
+   donc plus que le banner-1.webp servi, déjà au format. ⚠ Pour RÉEXPORTER la bannière un
+   jour, il faudra repartir de ce WebP 2000 px ou d'un original repris ailleurs — la source
+   pleine résolution n'est plus dans le projet (elle est dans l'historique git, au commit
+   qui précède le nettoyage). */
+const SOURCE_FICHIER = {};
 
-/* Fichiers qu'on laisse strictement tranquilles : des variantes de bannière qu'aucune page
-   n'affiche (banner-1.jpeg, banner-2.jpeg, banner-11.jpeg sont trois photos différentes mises
-   de côté, et banner-1-lumi.jpeg est la source de la bannière servie). Les convertir ne ferait
-   gagner aucun octet AU CHARGEMENT — personne ne les télécharge — et banner-1.jpeg viendrait
-   même écraser la bannière du site en devenant « banner-1.webp ». */
-const IGNORER = new Set([
-  'banner/banner-1.jpeg',
-  'banner/banner-1-lumi.jpeg',
-  'banner/banner-2.jpeg',
-  'banner/banner-11.jpeg',
-]);
+/* Fichiers qu'on laisse strictement tranquilles. Vide aujourd'hui : cette liste protégeait
+   les quatre variantes de banner/, qui ne sont plus là. Elle reste en place parce que le
+   cas se reposera — deux fichiers de même nom et d'extensions différentes se rejoindraient
+   sur le même .webp, et c'est exactement ce que le garde-fou plus bas refuse de faire. */
+const IGNORER = new Set([]);
 
 /* --------------------------------------------------------------------------------------------
    Appariement par empreinte : on réduit les deux images à 24×32 en gris et on compare pixel à

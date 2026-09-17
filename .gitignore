@@ -12,3 +12,9 @@ _originaux/
 # par le site. Les fichiers restent sur le disque le temps que tu confirmes, et sont de
 # toute façon dans l'historique git au commit qui précède.
 _archive/
+
+# Originaux pleine resolution d'Echoes of Morocco (137 Mo, 3808x5712).
+# Sortis du depot le 2026-09-17 : le site ne les sert pas, mais ce sont les masters —
+# c'est d'eux que tools/optimiser-photos.js repart pour regenerer l'album.
+# Ils restent sur le disque, ils ne partent simplement plus sur GitHub.
+maroc bonne qualité/
