@@ -809,8 +809,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .frame-page .chap-intro{text-align:center;}
 .frame-page .chap-intro p{margin-left:auto;margin-right:auto;}
 /* galerie « mosaïque justifiée » : chaque image entière, à ses vraies proportions,
-   imbriquée en rangées qui remplissent toute la largeur (façon Tetris) — aucun recadrage
-   (seule exception : un album qui impose son format de vignette, voir `tile` dans index.js) */
+   imbriquée en rangées qui remplissent toute la largeur (façon Tetris) — aucun recadrage */
 .frame-page .gallery{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;--cglow:var(--fglow);}
 .frame-page .gitem{position:relative;flex:0 0 auto;overflow:hidden;border-radius:0;margin:0;line-height:0;
   background:var(--fsoft);cursor:zoom-in;width:220px;height:150px;}

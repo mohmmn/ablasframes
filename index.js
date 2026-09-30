@@ -29,18 +29,7 @@ document.documentElement.classList.add('blur-up');
    `banner.jpeg`, pas `banner.webp`. Un album ne se mélange pas — c'est ce qui permet à
    buildGallery de composer chaque URL sans avoir à deviner, et au scanner de signaler net un
    fichier resté dans l'ancien format au lieu de le laisser disparaître en silence.
-   Après avoir touché à `ext`, relancer `node tools/scan-photos.js`.
-
-   `tile` (facultatif) impose le FORMAT DES VIGNETTES VERTICALES de l'album dans la mosaïque,
-   en largeur/hauteur. Sans lui, chaque vignette garde les proportions de sa photo.
-   Children of the Coast est le seul album à s'en servir : ses photos sont en 3:4 là où Echoes
-   of Morocco — et presque tout le reste du site — est en 2:3. Sur téléphone, à deux photos
-   par rangée, ça donnait des vignettes de 161×215 d'un côté et de 161×241 de l'autre : deux
-   albums voisins, deux formats. `tile:2/3` les aligne.
-   ⚠ C'EST UN CADRAGE D'AFFICHAGE, PAS UN RECADRAGE DES FICHIERS : la vignette rogne 5,5 % de
-   chaque côté (object-fit:cover), la photo entière reste celle qu'ouvre la lightbox. Retirer
-   `tile` rend l'album à ses proportions d'origine, sans rien avoir à régénérer.
-   Les photos HORIZONTALES ne sont jamais concernées. */
+   Après avoir touché à `ext`, relancer `node tools/scan-photos.js`. */
 const GAL={
   thailand:{dir:'travel/thailand',pre:'thai',label:'Thailand'},
   // Bali n'a plus de liste `order`, et c'est un choix de rangement : l'alternance
@@ -53,7 +42,7 @@ const GAL={
   hydepark:{dir:'travel/hyde-park-nostalgia',pre:'hpn',label:'Hyde Park Nostalgia'},
   nightmarkets:{dir:'travel/night-markets',pre:'nightmarkets',label:'Night Markets'},
   morocco:{dir:'portraits/echoes-of-morocco',pre:'eom',label:'Echoes of Morocco'},
-  coast:{dir:'portraits/children-of-the-coast',pre:'cotc',label:'Children of the Coast',tile:2/3},
+  coast:{dir:'portraits/children-of-the-coast',pre:'cotc',label:'Children of the Coast'},
   wildlife:{dir:'wildlife',pre:'wild',label:'Wildlife'},
   scotland:{dir:'travel/scotland',pre:'scotland',label:'Scotland'},
   muaythai:{dir:'sports/muay-thai',pre:'mt',label:'Muay Thai'},
@@ -79,8 +68,8 @@ const DIM={
   bali:{0:[1600,1066],1:[1600,1066],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1080,1440],6:[1066,1600],7:[1600,1066],8:[1600,1066],9:[1080,1440],10:[1600,1068],11:[1600,1066],12:[1600,1066],13:[1066,1600],14:[1600,1066],15:[1600,1066],16:[1066,1600],17:[1600,1066]},
   hydepark:{0:[1066,1600],1:[1066,1600],2:[1066,1600],3:[1066,1600],4:[1066,1600],5:[1066,1600]},
   nightmarkets:{0:[1600,1066],1:[1600,1066],2:[1600,1066]},
-  morocco:{0:[1080,1620],1:[1080,1620],2:[1080,1620],3:[1080,1620],4:[1080,1620],5:[1080,1620],6:[1080,1620],7:[1080,1620],8:[1080,1621],9:[1080,1621],10:[1080,1621],11:[1080,1620],12:[1080,1620],13:[1080,1620],14:[1080,1620],15:[1080,1620],16:[1080,1620],17:[1080,1620]},
-  coast:{0:[1080,1440],1:[1080,1440],2:[1080,1440],3:[1080,1440],4:[1080,1440],5:[1080,1440],6:[1080,1440],7:[1080,1440],8:[1080,1440],9:[1080,1440],10:[1080,1620],11:[1080,1440],12:[1080,1441],13:[1080,1440],14:[1080,1440]},
+  morocco:{0:[1080,1620],1:[1080,1620],2:[1080,1620],3:[1080,1620],4:[1080,1620],5:[1080,1620],6:[1080,1620],7:[1080,1620],8:[1080,1620],9:[1080,1620],10:[1080,1620],11:[1080,1620],12:[1080,1620],13:[1080,1620],14:[1080,1620],15:[1080,1620],16:[1080,1620],17:[1080,1620]},
+  coast:{0:[1080,1620],1:[1080,1620],2:[1080,1620],3:[1080,1620],4:[1080,1620],5:[1080,1620],6:[1080,1620],7:[1080,1620],8:[1080,1620],9:[1080,1620],10:[1080,1620],11:[1080,1620],12:[1080,1620],13:[1080,1620],14:[1080,1620]},
   wildlife:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1066,1600],7:[1066,1600]},
   scotland:{0:[1066,1600],1:[1066,1600],2:[1080,1440],3:[1066,1600],4:[1080,1440],5:[1066,1600],6:[1066,1600],7:[1080,1440],8:[1080,1621]},
   muaythai:{0:[1066,1600],1:[1066,1600],2:[1600,1066],3:[1066,1600],4:[1066,1600],5:[1066,1600],6:[1600,1066]},
@@ -199,10 +188,8 @@ function buildGallery(key){
     const file=(i===0)?'banner.'+ext:g.pre+'-'+i+'.'+ext;   // 0 = bannière de l'album
     const src='photographies/categories/'+g.dir+'/'+file;
     const alt=(i===0)?g.label:g.label+' — '+i;
-    // `tile` : format de vignette imposé par l'album (voir GAL) — verticales seulement.
-    const fixed=!!g.tile&&w<h;
     // width/height sur la balise : le navigateur réserve nativement le bon rapport d'aspect
-    html+='<figure class="gitem" data-r="'+(fixed?g.tile:w/h).toFixed(4)+'"'+(fixed?' data-fixed':'')+'><img class="gimg" width="'+w+'" height="'+h+'" src="'+src+'" alt="'+alt+'" loading="lazy"></figure>';
+    html+='<figure class="gitem" data-r="'+(w/h).toFixed(4)+'"><img class="gimg" width="'+w+'" height="'+h+'" src="'+src+'" alt="'+alt+'" loading="lazy"></figure>';
   });
   host.innerHTML=html;
   host.querySelectorAll('img.gimg').forEach(img=>{
@@ -215,7 +202,6 @@ function buildGallery(key){
     const done=()=>{
       img.classList.add('ready');
       if(!img.naturalWidth||!img.naturalHeight)return;
-      if('fixed' in fig.dataset)return;   // format imposé par `tile` : la photo ne le redéfinit pas
       const r=img.naturalWidth/img.naturalHeight;
       // conforme au format déclaré → on NE retouche PAS la mise en page (plus aucun réagencement)
       if(Math.abs(r-fig._ratio)<0.01)return;
