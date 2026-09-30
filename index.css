@@ -424,7 +424,7 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
    Pour l'éclaircir encore sans passer sous ce seuil : #665F52 (4,8:1) ; au-delà, #706957
    tombe à 4,2:1. Pour revenir au plus foncé : var(--text).
    ============================================================ */
-.hero-intro{font-family:var(--font-collection);font-weight:400;font-size:clamp(15px,1.55vw,21px);line-height:1.6;color:#3a362e;margin-bottom:36px;max-width:520px;}
+.hero-intro{font-family:var(--font-collection);font-weight:400;font-size:clamp(12px,1.55vw,21px);line-height:1.6;color:#3a362e;margin-bottom:36px;max-width:520px;}
 .hero-cta{display:inline-flex;align-items:center;gap:10px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--bg);
   background:var(--accent);border:none;border-radius:40px;padding:16px 44px;cursor:pointer;text-decoration:none;
   box-shadow:0 14px 30px rgba(201,168,106,.24);transition:transform .35s var(--ease),background .3s;}
@@ -809,7 +809,8 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
 .frame-page .chap-intro{text-align:center;}
 .frame-page .chap-intro p{margin-left:auto;margin-right:auto;}
 /* galerie « mosaïque justifiée » : chaque image entière, à ses vraies proportions,
-   imbriquée en rangées qui remplissent toute la largeur (façon Tetris) — aucun recadrage */
+   imbriquée en rangées qui remplissent toute la largeur (façon Tetris) — aucun recadrage
+   (seule exception : un album qui impose son format de vignette, voir `tile` dans index.js) */
 .frame-page .gallery{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-start;--cglow:var(--fglow);}
 .frame-page .gitem{position:relative;flex:0 0 auto;overflow:hidden;border-radius:0;margin:0;line-height:0;
   background:var(--fsoft);cursor:zoom-in;width:220px;height:150px;}
