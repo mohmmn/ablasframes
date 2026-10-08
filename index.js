@@ -257,8 +257,8 @@ window.addEventListener('orientationchange',()=>setTimeout(justifyActive,220));
 const FRAMES=[
   {key:'thailand',    el:'page-thailand',    label:'Thailand',      dot:'#A43032'},   // inchangé
   {key:'bali',        el:'page-bali',        label:'Bali',                  dot:'#C2B280'},  // sable
-  {key:'hydepark',    el:'page-hydepark',    label:'Hyde Park Nostalgia',   dot:'#4A4A4A'},  // gris foncé
   {key:'nightmarkets',el:'page-nightmarkets',label:'Night Markets',         dot:'#000000'},  // noir
+  {key:'hydepark',    el:'page-hydepark',    label:'Hyde Park Nostalgia',   dot:'#4A4A4A'},  // gris foncé
   {key:'morocco',     el:'page-morocco',     label:'Echoes of Morocco',     dot:'#C62828'},  // rouge
   {key:'coast',       el:'page-coast',       label:'Children of the Coast', dot:'#A97B50'},  // ocre de la roche
   {key:'wildlife',    el:'page-wildlife',    label:'Wildlife',              dot:'#795C5F'},  // inchangé
