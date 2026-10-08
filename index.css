@@ -1141,6 +1141,13 @@ body.menu-open .menu-links a:nth-child(4){transition-delay:.20s;}
   .nav.is-frame .nav-frameswitch{display:flex;}
   .navchip{display:none!important;}
   .list-grid{grid-template-columns:1fr;}
+  /* >>> CADRAGE DES VIGNETTES DE LA PAGE FRAMES SUR TÉLÉPHONE — `--focus-m` <<<
+     Sur mobile la grille passe à une colonne : la vignette (230px de haut) s'étire sur toute
+     la largeur et ne montre plus la même part de la photo que sur PC. Même principe que la
+     bannière : --focus pour le PC (et repli), --focus-m pour le mobile seul, posés côte à côte
+     en style inline sur l'<img class="img"> de chaque .list-card, dans le HTML.
+     `center 30%` remonte le cadrage, `center 70%` le descend. */
+  .list-card .thumb img.img{object-position:var(--focus-m,var(--focus,center));}
   /* bannière raccourcie sur mobile (avant : plein écran) — régler ici la hauteur */
   /* titre de la home remonté sur mobile : on aligne en haut plutôt qu'au centre, puis on règle
      la hauteur avec `padding-top` ci-dessous — plus petit = plus haut, plus grand = plus bas. */
